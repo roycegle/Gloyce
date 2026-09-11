@@ -28,6 +28,42 @@ function avatarUrl(name: string, bg = "C9960C", fg = "06091A") {
   return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=${bg}&color=${fg}&bold=true&size=96&format=svg`;
 }
 
+/* ─── Globe SVG (hero right) ─────────────────────────── */
+function GlobeVisual() {
+  return (
+    <svg viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      <circle cx="160" cy="160" r="155" stroke="rgba(201,150,12,0.08)" strokeWidth="1" />
+      <g className="animate-spin-slow" style={{transformOrigin:"160px 160px"}}>
+        <ellipse cx="160" cy="160" rx="145" ry="50" stroke="rgba(201,150,12,0.15)" strokeWidth="1" strokeDasharray="6 4"/>
+      </g>
+      <g className="animate-spin-reverse" style={{transformOrigin:"160px 160px"}}>
+        <ellipse cx="160" cy="160" rx="100" ry="35" stroke="rgba(201,150,12,0.12)" strokeWidth="1" strokeDasharray="4 6"/>
+      </g>
+      <circle cx="160" cy="160" r="90" fill="rgba(13,21,40,0.95)" stroke="rgba(201,150,12,0.25)" strokeWidth="1.5"/>
+      <ellipse cx="160" cy="160" rx="90" ry="30" stroke="rgba(201,150,12,0.12)" strokeWidth="1"/>
+      <ellipse cx="160" cy="160" rx="90" ry="65" stroke="rgba(201,150,12,0.08)" strokeWidth="1"/>
+      <line x1="160" y1="70" x2="160" y2="250" stroke="rgba(201,150,12,0.12)" strokeWidth="1"/>
+      <line x1="70" y1="160" x2="250" y2="160" stroke="rgba(201,150,12,0.12)" strokeWidth="1"/>
+      <path d="M160 70 Q200 160 160 250" stroke="rgba(201,150,12,0.08)" strokeWidth="1" fill="none"/>
+      <path d="M160 70 Q120 160 160 250" stroke="rgba(201,150,12,0.08)" strokeWidth="1" fill="none"/>
+      <path d="M120 130 Q135 118 155 125 Q168 130 165 145 Q158 155 140 153 Q118 148 120 130Z" fill="rgba(201,150,12,0.18)" />
+      <path d="M165 148 Q178 140 192 146 Q200 154 195 165 Q185 172 172 168 Q162 160 165 148Z" fill="rgba(201,150,12,0.14)" />
+      <path d="M130 165 Q140 158 152 163 Q158 170 153 180 Q142 185 132 180 Q124 172 130 165Z" fill="rgba(201,150,12,0.12)" />
+      <path d="M180 130 Q190 122 200 128 Q206 135 202 144 Q192 149 182 144 Q175 136 180 130Z" fill="rgba(201,150,12,0.10)" />
+      <circle cx="160" cy="160" r="4" fill="#C9960C" opacity="0.8"/>
+      <circle cx="160" cy="160" r="8" fill="rgba(201,150,12,0.2)"/>
+      <circle cx="130" cy="138" r="3" fill="#C9960C"/>
+      <circle cx="130" cy="138" r="6" fill="rgba(201,150,12,0.25)"/>
+      <circle cx="182" cy="152" r="2.5" fill="#E8B82A"/>
+      <circle cx="182" cy="152" r="5" fill="rgba(232,184,42,0.25)"/>
+      <circle cx="148" cy="172" r="2" fill="#C9960C" opacity="0.8"/>
+      <circle cx="148" cy="172" r="5" fill="rgba(201,150,12,0.2)"/>
+      <line x1="130" y1="138" x2="182" y2="152" stroke="rgba(201,150,12,0.4)" strokeWidth="0.8" strokeDasharray="3 2"/>
+      <line x1="182" y1="152" x2="148" y2="172" stroke="rgba(201,150,12,0.3)" strokeWidth="0.8" strokeDasharray="3 2"/>
+    </svg>
+  );
+}
+
 export default async function HomePage() {
   const locale = await getLocale();
   const isVi = locale === "vi";
@@ -93,57 +129,43 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* Right — photo collage */}
-          <div className="hidden lg:block relative h-[500px]">
-            {/* Main large photo */}
-            <div className="absolute top-0 left-0 right-16 h-72 rounded-2xl overflow-hidden border border-ink-600 shadow-[0_20px_60px_rgba(0,0,0,0.5)] rotate-1 group">
-              <Image src={PHOTOS.teamMeeting} alt="International team collaboration" fill className="object-cover scale-105 group-hover:scale-100 transition-transform duration-700" />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink-900/70 via-ink-900/20 to-transparent" />
-              <div className="absolute bottom-4 left-4 right-4">
-                <span className="text-xs font-semibold text-foreground/80 bg-ink-900/60 backdrop-blur-sm px-2.5 py-1 rounded-full border border-ink-600">
-                  {isVi ? "🌏 Đội ngũ làm việc toàn cầu" : "🌏 Global working team"}
-                </span>
+          {/* Right — Globe + floating cards */}
+          <div className="hidden lg:flex flex-col items-center gap-6">
+            <div className="relative w-72 h-72 animate-float">
+              <div className="absolute inset-0 bg-gold/5 rounded-full blur-3xl" />
+              <GlobeVisual />
+
+              {/* Floating card — top left */}
+              <div className="absolute -top-4 -left-8 bg-ink-800/95 backdrop-blur-sm border border-gold/25 rounded-2xl px-4 py-3 shadow-2xl z-10">
+                <p className="text-[10px] text-ink-400 mb-0.5">{isVi ? "Thành lập tại" : "Incorporated in"}</p>
+                <div className="flex items-center gap-2">
+                  <span className="text-base">🇺🇸</span>
+                  <p className="text-sm font-bold text-foreground">Irvine, CA</p>
+                </div>
+              </div>
+
+              {/* Floating card — right */}
+              <div className="absolute top-1/2 -right-14 -translate-y-1/2 bg-ink-800/95 backdrop-blur-sm border border-gold/20 rounded-xl px-3 py-2.5 shadow-xl z-10">
+                <div className="flex items-center gap-2">
+                  <BadgeCheck size={14} className="text-emerald-400 shrink-0" />
+                  <p className="text-xs font-semibold text-foreground">ODI Compliant</p>
+                </div>
+              </div>
+
+              {/* Floating card — bottom right */}
+              <div className="absolute -bottom-4 -right-4 bg-ink-800/95 backdrop-blur-sm border border-gold/20 rounded-2xl px-4 py-3 shadow-2xl z-10">
+                <p className="text-[10px] text-ink-400 mb-0.5">{isVi ? "Xử lý trong" : "Done in"}</p>
+                <p className="text-sm font-bold text-gold">7–14 {isVi ? "ngày" : "days"}</p>
               </div>
             </div>
 
-            {/* Secondary photo — bottom right */}
-            <div className="absolute bottom-0 right-0 w-52 h-52 rounded-2xl overflow-hidden border border-gold/25 shadow-[0_20px_40px_rgba(0,0,0,0.5)] -rotate-2 group">
-              <Image src={PHOTOS.modernOffice} alt="Luxury modern office" fill className="object-cover scale-105 group-hover:scale-100 transition-transform duration-700" />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink-900/60 to-transparent" />
-              <div className="absolute bottom-3 left-3">
-                <span className="text-[10px] font-semibold text-foreground/80 bg-ink-900/60 backdrop-blur-sm px-2 py-0.5 rounded-full">
-                  {isVi ? "Văn phòng Singapore" : "Singapore Office"}
-                </span>
-              </div>
-            </div>
-
-            {/* Third small photo — bottom left */}
-            <div className="absolute bottom-6 left-4 w-40 h-40 rounded-xl overflow-hidden border border-ink-600 shadow-xl rotate-1 group">
-              <Image src={PHOTOS.womanWorking} alt="Professional accountant working" fill className="object-cover object-top scale-105 group-hover:scale-100 transition-transform duration-700" />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink-900/50 to-transparent" />
-            </div>
-
-            {/* Floating badge — top right */}
-            <div className="absolute -top-3 right-8 bg-ink-800/95 backdrop-blur-sm border border-gold/25 rounded-2xl px-4 py-3 shadow-2xl z-10">
-              <p className="text-[10px] text-ink-400 mb-0.5">{isVi ? "Thành lập tại" : "Incorporated in"}</p>
-              <div className="flex items-center gap-2">
-                <span className="text-base">🇺🇸</span>
-                <p className="text-sm font-bold text-foreground">Delaware, USA</p>
-              </div>
-            </div>
-
-            {/* Floating badge — middle right */}
-            <div className="absolute top-1/2 -right-4 -translate-y-1/2 bg-ink-800/95 backdrop-blur-sm border border-gold/20 rounded-xl px-3 py-2.5 shadow-xl z-10">
-              <div className="flex items-center gap-2">
-                <BadgeCheck size={14} className="text-emerald-400 shrink-0" />
-                <p className="text-xs font-semibold text-foreground">ODI Compliant</p>
-              </div>
-            </div>
-
-            {/* Floating badge — bottom metric */}
-            <div className="absolute -bottom-3 right-14 bg-ink-800/95 backdrop-blur-sm border border-gold/20 rounded-xl px-4 py-2.5 shadow-xl z-10">
-              <p className="text-[10px] text-ink-400">{isVi ? "Xử lý trong" : "Done in"}</p>
-              <p className="text-sm font-bold text-gold">7–14 {isVi ? "ngày" : "days"}</p>
+            {/* Jurisdiction row */}
+            <div className="flex gap-3">
+              {[{flag:"🇺🇸",label:"US LLC"},{flag:"🇸🇬",label:"Singapore"},{flag:"🇭🇰",label:"Hong Kong"}].map(j => (
+                <div key={j.label} className="flex items-center gap-2 px-3 py-2 bg-ink-800 border border-ink-600 rounded-xl text-xs font-medium text-ink-200 hover:border-gold/30 hover:text-gold transition-all cursor-default">
+                  <span className="text-base">{j.flag}</span>{j.label}
+                </div>
+              ))}
             </div>
           </div>
         </div>
