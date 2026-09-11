@@ -1,0 +1,365 @@
+{
+  "meta": {
+    "siteName": "Gloyce",
+    "defaultTitle": "Gloyce — Go Global, Operate Globally",
+    "defaultDescription": "Gloyce helps Vietnamese businesses incorporate, operate, and move money globally in the US, Singapore, and Hong Kong."
+  },
+  "nav": {
+    "services": "Services",
+    "servicesExecute": "Company Formation",
+    "servicesOperate": "Operations & Compliance",
+    "servicesStrategize": "Strategic Advisory",
+    "pricing": "Pricing",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Sign In",
+    "getStarted": "Get Started",
+    "dashboard": "Dashboard",
+    "logout": "Sign Out"
+  },
+  "home": {
+    "hero": {
+      "label": "For Vietnamese businesses going global",
+      "title": "Go global.",
+      "titleAccent": "Operate globally.",
+      "subtitle": "One platform to incorporate in the US, Singapore, and Hong Kong — with accounting, compliance, and advisory built for Vietnamese SMEs.",
+      "cta": "Get Started",
+      "ctaSecondary": "Explore Services",
+      "trust": "Trusted by 200+ Vietnamese businesses",
+      "trustPartners": "Infrastructure partners:"
+    },
+    "stats": {
+      "companies": "Companies formed",
+      "countries": "Countries served",
+      "clients": "Satisfied clients",
+      "experts": "Compliance experts"
+    },
+    "services": {
+      "title": "Everything you need to operate globally",
+      "subtitle": "Three tiers built to grow with your business"
+    },
+    "testimonials": {
+      "title": "Trusted by Vietnamese sellers worldwide",
+      "subtitle": "Hear from businesses like yours"
+    },
+    "cta": {
+      "title": "Ready to go global?",
+      "subtitle": "Book a free 30-minute consultation with our expert team.",
+      "button": "Book Free Consultation"
+    }
+  },
+  "services": {
+    "execute": {
+      "name": "EXECUTE",
+      "tagline": "Company Formation & Initial Setup",
+      "description": "Register your US LLC, obtain your EIN, open a business bank account, and configure payment gateways — all in one coordinated process.",
+      "features": [
+        "US LLC / Delaware / Wyoming registration",
+        "EIN (Employer Identification Number)",
+        "Business bank account opening (Mercury / Relay)",
+        "Payment gateway setup (Stripe / PayPal)",
+        "Form 5472 initial compliance",
+        "Registered agent (12 months)"
+      ],
+      "price": "From $350 USD",
+      "cta": "Start with EXECUTE",
+      "timeline": "14–21 business days"
+    },
+    "operate": {
+      "name": "OPERATE",
+      "tagline": "Monthly Accounting, Tax & Compliance",
+      "description": "Keep your global entity compliant month after month. Our team handles bookkeeping, tax filings, payroll, and ODI reporting.",
+      "features": [
+        "Monthly bookkeeping (US GAAP)",
+        "Annual tax return (Form 1120 / 5472)",
+        "Quarterly estimated tax payments",
+        "Payroll administration",
+        "ODI registration & annual reporting",
+        "Dedicated compliance manager"
+      ],
+      "price": "From $120/month",
+      "cta": "Start with OPERATE",
+      "badge": "Most Popular"
+    },
+    "strategize": {
+      "name": "STRATEGIZE",
+      "tagline": "International Tax Structure & Advisory",
+      "description": "For businesses ready to optimize their global structure. Our fractional CFOs and tax strategists help you scale intelligently.",
+      "features": [
+        "International tax structure design",
+        "Transfer pricing strategy",
+        "M&A advisory and due diligence",
+        "Fractional CFO engagement",
+        "Cross-border investment planning",
+        "Custom treasury & settlement strategy"
+      ],
+      "price": "Custom pricing",
+      "cta": "Book a Consultation"
+    }
+  },
+  "pricing": {
+    "title": "Transparent, predictable pricing",
+    "subtitle": "No hidden fees. Choose the tier that matches your stage.",
+    "execute": {
+      "name": "EXECUTE",
+      "price": "$350",
+      "period": "one-time setup",
+      "description": "Complete company formation and initial setup"
+    },
+    "operate": {
+      "name": "OPERATE",
+      "price": "$120",
+      "period": "per month",
+      "badge": "Most Popular",
+      "description": "Monthly accounting, tax, and compliance"
+    },
+    "strategize": {
+      "name": "STRATEGIZE",
+      "price": "Custom",
+      "period": "contact us",
+      "description": "Tailored strategic advisory to your needs"
+    },
+    "faq": {
+      "title": "Frequently asked questions"
+    },
+    "includes": "Includes:",
+    "getStarted": "Get Started",
+    "contactUs": "Contact Us",
+    "allPlansNote": "All plans are structured in compliance with Vietnamese ODI regulations."
+  },
+  "about": {
+    "hero": {
+      "label": "About Us",
+      "title": "Built for Vietnamese businesses going global"
+    },
+    "mission": {
+      "title": "Our Mission",
+      "body": "Gloyce helps Vietnamese entrepreneurs and businesses incorporate, operate, and expand across borders — without stitching together dozens of providers in each country."
+    },
+    "compliance": {
+      "title": "Our Commitment to Compliance",
+      "body": "All services are structured to comply with Vietnamese ODI (Overseas Direct Investment) regulations. We help clients register properly with the State Bank of Vietnam and meet profit repatriation requirements on schedule."
+    },
+    "values": {
+      "title": "Our Values",
+      "transparency": {
+        "title": "Transparency",
+        "description": "No hidden fees, no confusing terms. You know exactly what you pay and what you get."
+      },
+      "compliance": {
+        "title": "Compliance",
+        "description": "Every solution is designed to comply with Vietnamese and international law."
+      },
+      "expertise": {
+        "title": "Expertise",
+        "description": "A team of accountants, lawyers, and financial advisors with deep international experience."
+      },
+      "partnership": {
+        "title": "Partnership",
+        "description": "We're not just a service provider — we're your long-term growth partner."
+      }
+    }
+  },
+  "contact": {
+    "title": "Talk to our team",
+    "subtitle": "We speak Vietnamese and English. Book a free 30-minute call or send us a message.",
+    "info": {
+      "email": "hello@gloyce.co",
+      "phone": "+84 28 xxxx xxxx",
+      "address": "Ho Chi Minh City, Vietnam",
+      "hours": "Monday – Friday, 9:00 AM – 6:00 PM (GMT+7)"
+    },
+    "form": {
+      "title": "Send a message",
+      "name": "Full name",
+      "email": "Email address",
+      "phone": "Phone number",
+      "company": "Company name",
+      "service": "Service you're interested in",
+      "message": "Tell us about your business and needs",
+      "submit": "Send Message",
+      "success": "Message sent! We'll respond within 1 business day.",
+      "serviceOptions": {
+        "execute": "Company Formation (EXECUTE)",
+        "operate": "Ongoing Compliance (OPERATE)",
+        "strategize": "Strategic Advisory (STRATEGIZE)",
+        "unsure": "Not sure yet, need advice"
+      },
+      "required": "Required"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in to your account",
+      "subtitle": "Welcome back",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign In",
+      "forgotPassword": "Forgot password?",
+      "noAccount": "Don't have an account?",
+      "register": "Create account",
+      "orContinueWith": "Or continue with",
+      "google": "Continue with Google",
+      "error": "Invalid email or password"
+    },
+    "register": {
+      "title": "Create your account",
+      "subtitle": "Start your global journey",
+      "name": "Full name",
+      "company": "Company name",
+      "email": "Email address",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "phone": "Phone number",
+      "terms": "I agree to the Terms of Service and Privacy Policy",
+      "submit": "Create Account",
+      "hasAccount": "Already have an account?",
+      "login": "Sign in"
+    },
+    "forgotPassword": {
+      "title": "Reset your password",
+      "subtitle": "Enter your email to receive a reset link",
+      "email": "Email address",
+      "submit": "Send reset link",
+      "back": "Back to sign in",
+      "success": "Password reset email sent. Please check your inbox."
+    }
+  },
+  "dashboard": {
+    "nav": {
+      "overview": "Overview",
+      "services": "My Services",
+      "documents": "Documents",
+      "messages": "Messages",
+      "billing": "Billing",
+      "settings": "Settings"
+    },
+    "overview": {
+      "title": "Overview",
+      "greeting": "Good morning, {name}",
+      "activeServices": "Active Services",
+      "pendingDocuments": "Pending Documents",
+      "unreadMessages": "Unread Messages",
+      "nextBilling": "Next Billing",
+      "recentActivity": "Recent Activity",
+      "yourServices": "Your Services",
+      "viewAll": "View all"
+    },
+    "services": {
+      "title": "My Services",
+      "noServices": "You have no active services. Contact us to get started.",
+      "status": {
+        "active": "Active",
+        "pending": "Pending Review",
+        "action_required": "Action Required",
+        "complete": "Complete"
+      },
+      "step": "Step {current} of {total}",
+      "nextAction": "Next action:",
+      "attachedDocuments": "Attached documents"
+    },
+    "documents": {
+      "title": "Documents",
+      "categories": {
+        "company": "Company Documents",
+        "tax": "Tax Documents",
+        "banking": "Banking Documents",
+        "all": "All"
+      },
+      "upload": "Upload Document",
+      "download": "Download",
+      "noDocuments": "No documents yet",
+      "uploadedAt": "Uploaded"
+    },
+    "messages": {
+      "title": "Messages",
+      "newMessage": "New Message",
+      "placeholder": "Type your message...",
+      "send": "Send",
+      "team": "Gloyce Team",
+      "noMessages": "No messages yet"
+    },
+    "billing": {
+      "title": "Billing",
+      "currentPlan": "Current Plan",
+      "nextCharge": "Next charge",
+      "invoices": "Invoice History",
+      "downloadInvoice": "Download Invoice",
+      "noInvoices": "No invoices yet",
+      "status": {
+        "paid": "Paid",
+        "pending": "Pending",
+        "overdue": "Overdue"
+      }
+    },
+    "settings": {
+      "title": "Account Settings",
+      "tabs": {
+        "profile": "Profile",
+        "notifications": "Notifications",
+        "security": "Security"
+      },
+      "profile": {
+        "name": "Full name",
+        "email": "Email",
+        "phone": "Phone number",
+        "company": "Company name",
+        "saveChanges": "Save Changes"
+      },
+      "notifications": {
+        "emailNotifications": "Email Notifications",
+        "serviceUpdates": "Service updates",
+        "documentAlerts": "Document alerts",
+        "billingReminders": "Billing reminders",
+        "marketingEmails": "Marketing emails"
+      },
+      "security": {
+        "changePassword": "Change Password",
+        "currentPassword": "Current password",
+        "newPassword": "New password",
+        "confirmPassword": "Confirm new password",
+        "twoFactor": "Two-factor authentication",
+        "twoFactorDesc": "Add an extra layer of security to your account"
+      },
+      "save": "Save Changes",
+      "saved": "Saved successfully!"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "tryAgain": "Try again",
+    "learnMore": "Learn more",
+    "getStarted": "Get Started",
+    "bookConsultation": "Book Free Consultation",
+    "viewAll": "View all",
+    "back": "Back",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "edit": "Edit",
+    "save": "Save",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "yes": "Yes",
+    "no": "No",
+    "or": "or"
+  },
+  "footer": {
+    "tagline": "Go global. Operate globally. Move money globally.",
+    "servicesTitle": "Services",
+    "companyTitle": "Company",
+    "legalTitle": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "complianceNote": "All services are structured in compliance with Vietnamese ODI regulations and applicable international laws.",
+    "copyright": "© {year} Gloyce. All rights reserved.",
+    "companyLinks": {
+      "about": "About Gloyce",
+      "blog": "Blog",
+      "contact": "Contact",
+      "careers": "Careers"
+    }
+  }
+}

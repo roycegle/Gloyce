@@ -1,0 +1,365 @@
+{
+  "meta": {
+    "siteName": "Gloyce",
+    "defaultTitle": "Gloyce — Kinh doanh toàn cầu, dễ dàng hơn",
+    "defaultDescription": "Gloyce giúp doanh nghiệp Việt Nam thành lập công ty, vận hành và quản lý dòng tiền xuyên biên giới tại Mỹ, Singapore và Hong Kong."
+  },
+  "nav": {
+    "services": "Dịch vụ",
+    "servicesExecute": "Thành lập công ty",
+    "servicesOperate": "Vận hành & Tuân thủ",
+    "servicesStrategize": "Tư vấn chiến lược",
+    "pricing": "Bảng giá",
+    "about": "Về Gloyce",
+    "contact": "Liên hệ",
+    "login": "Đăng nhập",
+    "getStarted": "Bắt đầu ngay",
+    "dashboard": "Bảng điều khiển",
+    "logout": "Đăng xuất"
+  },
+  "home": {
+    "hero": {
+      "label": "Dành cho doanh nhân Việt Nam vươn ra thế giới",
+      "title": "Kinh doanh toàn cầu.",
+      "titleAccent": "Dễ dàng hơn bao giờ hết.",
+      "subtitle": "Một nền tảng để thành lập công ty tại Mỹ, Singapore và Hong Kong — kèm kế toán, tuân thủ và tư vấn chuyên sâu cho doanh nghiệp Việt Nam.",
+      "cta": "Bắt đầu ngay",
+      "ctaSecondary": "Xem dịch vụ",
+      "trust": "Hơn 200 doanh nghiệp Việt Nam tin tưởng",
+      "trustPartners": "Đối tác hạ tầng:"
+    },
+    "stats": {
+      "companies": "Công ty đã thành lập",
+      "countries": "Quốc gia hỗ trợ",
+      "clients": "Khách hàng hài lòng",
+      "experts": "Chuyên gia compliance"
+    },
+    "services": {
+      "title": "Mọi thứ bạn cần để vận hành toàn cầu",
+      "subtitle": "Ba tầng dịch vụ được thiết kế để phát triển cùng doanh nghiệp của bạn"
+    },
+    "testimonials": {
+      "title": "Được tin tưởng bởi seller Việt Nam trên toàn thế giới",
+      "subtitle": "Nghe từ những doanh nghiệp giống như bạn"
+    },
+    "cta": {
+      "title": "Sẵn sàng vươn ra thế giới?",
+      "subtitle": "Đặt lịch tư vấn miễn phí 30 phút với đội ngũ chuyên gia của chúng tôi.",
+      "button": "Đặt lịch tư vấn miễn phí"
+    }
+  },
+  "services": {
+    "execute": {
+      "name": "EXECUTE",
+      "tagline": "Thành lập công ty & Cài đặt ban đầu",
+      "description": "Đăng ký LLC tại Mỹ, lấy EIN, mở tài khoản ngân hàng và thiết lập cổng thanh toán — tất cả trong một quy trình điều phối liền mạch.",
+      "features": [
+        "Đăng ký LLC / Delaware / Wyoming",
+        "EIN (Mã số thuế doanh nghiệp Mỹ)",
+        "Mở tài khoản ngân hàng doanh nghiệp (Mercury / Relay)",
+        "Thiết lập cổng thanh toán (Stripe / PayPal)",
+        "Form 5472 compliance ban đầu",
+        "Registered agent (12 tháng)"
+      ],
+      "price": "Từ 8 triệu VNĐ",
+      "cta": "Bắt đầu với EXECUTE",
+      "timeline": "14–21 ngày làm việc"
+    },
+    "operate": {
+      "name": "OPERATE",
+      "tagline": "Kế toán, Thuế & Tuân thủ hàng tháng",
+      "description": "Duy trì tuân thủ cho pháp nhân nước ngoài của bạn từng tháng. Đội ngũ của chúng tôi xử lý sổ sách, khai thuế, lương và báo cáo ODI.",
+      "features": [
+        "Sổ sách kế toán hàng tháng (US GAAP)",
+        "Khai thuế hàng năm (Form 1120 / 5472)",
+        "Nộp thuế ước tính hàng quý",
+        "Quản lý lương",
+        "Đăng ký ODI & báo cáo hàng năm",
+        "Chuyên viên compliance chuyên trách"
+      ],
+      "price": "Từ 3 triệu VNĐ/tháng",
+      "cta": "Bắt đầu với OPERATE",
+      "badge": "Phổ biến nhất"
+    },
+    "strategize": {
+      "name": "STRATEGIZE",
+      "tagline": "Cấu trúc thuế quốc tế & Tư vấn chiến lược",
+      "description": "Dành cho doanh nghiệp sẵn sàng tối ưu cấu trúc toàn cầu. CFO bán thời gian và chiến lược gia thuế giúp bạn mở rộng thông minh.",
+      "features": [
+        "Thiết kế cấu trúc thuế quốc tế",
+        "Chiến lược transfer pricing",
+        "Tư vấn M&A và thẩm định",
+        "Dịch vụ CFO bán thời gian",
+        "Lập kế hoạch đầu tư xuyên biên giới",
+        "Chiến lược treasury & settlement tùy chỉnh"
+      ],
+      "price": "Báo giá theo yêu cầu",
+      "cta": "Đặt lịch tư vấn"
+    }
+  },
+  "pricing": {
+    "title": "Giá cả minh bạch, không phí ẩn",
+    "subtitle": "Chọn gói phù hợp với giai đoạn phát triển của doanh nghiệp bạn",
+    "execute": {
+      "name": "EXECUTE",
+      "price": "8.000.000 VNĐ",
+      "period": "Phí một lần",
+      "description": "Thành lập công ty và cài đặt ban đầu hoàn chỉnh"
+    },
+    "operate": {
+      "name": "OPERATE",
+      "price": "3.000.000 VNĐ",
+      "period": "mỗi tháng",
+      "badge": "Phổ biến nhất",
+      "description": "Kế toán, thuế và tuân thủ hàng tháng"
+    },
+    "strategize": {
+      "name": "STRATEGIZE",
+      "price": "Liên hệ",
+      "period": "báo giá riêng",
+      "description": "Tư vấn chiến lược tùy chỉnh theo nhu cầu"
+    },
+    "faq": {
+      "title": "Câu hỏi thường gặp"
+    },
+    "includes": "Bao gồm:",
+    "getStarted": "Bắt đầu ngay",
+    "contactUs": "Liên hệ chúng tôi",
+    "allPlansNote": "Tất cả gói dịch vụ đều tuân thủ quy định ODI của Ngân hàng Nhà nước Việt Nam."
+  },
+  "about": {
+    "hero": {
+      "label": "Về chúng tôi",
+      "title": "Được xây dựng cho doanh nhân Việt Nam vươn ra toàn cầu"
+    },
+    "mission": {
+      "title": "Sứ mệnh",
+      "body": "Gloyce giúp doanh nhân và doanh nghiệp Việt Nam thành lập, vận hành và mở rộng kinh doanh xuyên biên giới — mà không phải tự ghép nối hàng loạt nhà cung cấp ở từng quốc gia."
+    },
+    "compliance": {
+      "title": "Cam kết tuân thủ",
+      "body": "Tất cả dịch vụ được cấu trúc tuân thủ quy định đầu tư ra nước ngoài (ODI) của Ngân hàng Nhà nước Việt Nam. Chúng tôi giúp khách hàng đăng ký đúng quy định và thực hiện hồi hương lợi nhuận đúng hạn theo quy định pháp luật."
+    },
+    "values": {
+      "title": "Giá trị cốt lõi",
+      "transparency": {
+        "title": "Minh bạch",
+        "description": "Không phí ẩn, không điều khoản khó hiểu. Bạn biết chính xác những gì bạn trả và nhận được."
+      },
+      "compliance": {
+        "title": "Tuân thủ",
+        "description": "Mọi giải pháp đều được thiết kế để tuân thủ pháp luật Việt Nam và quốc tế."
+      },
+      "expertise": {
+        "title": "Chuyên môn",
+        "description": "Đội ngũ chuyên gia kế toán, luật sư và cố vấn tài chính dày dạn kinh nghiệm quốc tế."
+      },
+      "partnership": {
+        "title": "Đồng hành",
+        "description": "Chúng tôi không chỉ là nhà cung cấp dịch vụ — chúng tôi là đối tác tăng trưởng lâu dài."
+      }
+    }
+  },
+  "contact": {
+    "title": "Nói chuyện với đội ngũ của chúng tôi",
+    "subtitle": "Chúng tôi nói tiếng Việt và tiếng Anh. Đặt lịch gọi miễn phí 30 phút hoặc gửi tin nhắn.",
+    "info": {
+      "email": "hello@gloyce.co",
+      "phone": "+84 28 xxxx xxxx",
+      "address": "TP. Hồ Chí Minh, Việt Nam",
+      "hours": "Thứ 2 – Thứ 6, 9:00 – 18:00 (GMT+7)"
+    },
+    "form": {
+      "title": "Gửi tin nhắn",
+      "name": "Họ và tên",
+      "email": "Email",
+      "phone": "Số điện thoại",
+      "company": "Tên công ty",
+      "service": "Dịch vụ quan tâm",
+      "message": "Mô tả ngắn về doanh nghiệp và nhu cầu của bạn",
+      "submit": "Gửi tin nhắn",
+      "success": "Tin nhắn đã được gửi! Chúng tôi sẽ phản hồi trong vòng 1 ngày làm việc.",
+      "serviceOptions": {
+        "execute": "Thành lập công ty (EXECUTE)",
+        "operate": "Tuân thủ hàng tháng (OPERATE)",
+        "strategize": "Tư vấn chiến lược (STRATEGIZE)",
+        "unsure": "Chưa chắc, cần tư vấn"
+      },
+      "required": "Bắt buộc"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Đăng nhập vào tài khoản",
+      "subtitle": "Chào mừng trở lại",
+      "email": "Email",
+      "password": "Mật khẩu",
+      "submit": "Đăng nhập",
+      "forgotPassword": "Quên mật khẩu?",
+      "noAccount": "Chưa có tài khoản?",
+      "register": "Tạo tài khoản",
+      "orContinueWith": "Hoặc tiếp tục với",
+      "google": "Tiếp tục với Google",
+      "error": "Email hoặc mật khẩu không đúng"
+    },
+    "register": {
+      "title": "Tạo tài khoản",
+      "subtitle": "Bắt đầu hành trình toàn cầu của bạn",
+      "name": "Họ và tên",
+      "company": "Tên công ty",
+      "email": "Email",
+      "password": "Mật khẩu",
+      "confirmPassword": "Xác nhận mật khẩu",
+      "phone": "Số điện thoại",
+      "terms": "Tôi đồng ý với Điều khoản dịch vụ và Chính sách bảo mật",
+      "submit": "Tạo tài khoản",
+      "hasAccount": "Đã có tài khoản?",
+      "login": "Đăng nhập"
+    },
+    "forgotPassword": {
+      "title": "Đặt lại mật khẩu",
+      "subtitle": "Nhập email để nhận liên kết đặt lại mật khẩu",
+      "email": "Địa chỉ email",
+      "submit": "Gửi liên kết đặt lại",
+      "back": "Quay lại đăng nhập",
+      "success": "Email đặt lại mật khẩu đã được gửi. Vui lòng kiểm tra hộp thư của bạn."
+    }
+  },
+  "dashboard": {
+    "nav": {
+      "overview": "Tổng quan",
+      "services": "Dịch vụ của tôi",
+      "documents": "Tài liệu",
+      "messages": "Tin nhắn",
+      "billing": "Thanh toán",
+      "settings": "Cài đặt"
+    },
+    "overview": {
+      "title": "Tổng quan",
+      "greeting": "Xin chào, {name}",
+      "activeServices": "Dịch vụ đang hoạt động",
+      "pendingDocuments": "Tài liệu chờ xử lý",
+      "unreadMessages": "Tin nhắn chưa đọc",
+      "nextBilling": "Thanh toán tiếp theo",
+      "recentActivity": "Hoạt động gần đây",
+      "yourServices": "Dịch vụ của bạn",
+      "viewAll": "Xem tất cả"
+    },
+    "services": {
+      "title": "Dịch vụ của tôi",
+      "noServices": "Bạn chưa có dịch vụ nào. Liên hệ chúng tôi để bắt đầu.",
+      "status": {
+        "active": "Đang hoạt động",
+        "pending": "Chờ xem xét",
+        "action_required": "Cần hành động",
+        "complete": "Hoàn thành"
+      },
+      "step": "Bước {current} / {total}",
+      "nextAction": "Hành động tiếp theo:",
+      "attachedDocuments": "Tài liệu đính kèm"
+    },
+    "documents": {
+      "title": "Tài liệu",
+      "categories": {
+        "company": "Tài liệu công ty",
+        "tax": "Tài liệu thuế",
+        "banking": "Tài liệu ngân hàng",
+        "all": "Tất cả"
+      },
+      "upload": "Tải lên tài liệu",
+      "download": "Tải xuống",
+      "noDocuments": "Chưa có tài liệu nào",
+      "uploadedAt": "Tải lên lúc"
+    },
+    "messages": {
+      "title": "Tin nhắn",
+      "newMessage": "Tin nhắn mới",
+      "placeholder": "Nhập tin nhắn...",
+      "send": "Gửi",
+      "team": "Đội ngũ Gloyce",
+      "noMessages": "Chưa có tin nhắn nào"
+    },
+    "billing": {
+      "title": "Thanh toán",
+      "currentPlan": "Gói hiện tại",
+      "nextCharge": "Thanh toán tiếp theo",
+      "invoices": "Lịch sử hóa đơn",
+      "downloadInvoice": "Tải hóa đơn",
+      "noInvoices": "Chưa có hóa đơn nào",
+      "status": {
+        "paid": "Đã thanh toán",
+        "pending": "Chờ thanh toán",
+        "overdue": "Quá hạn"
+      }
+    },
+    "settings": {
+      "title": "Cài đặt tài khoản",
+      "tabs": {
+        "profile": "Hồ sơ",
+        "notifications": "Thông báo",
+        "security": "Bảo mật"
+      },
+      "profile": {
+        "name": "Họ và tên",
+        "email": "Email",
+        "phone": "Số điện thoại",
+        "company": "Tên công ty",
+        "saveChanges": "Lưu thay đổi"
+      },
+      "notifications": {
+        "emailNotifications": "Thông báo email",
+        "serviceUpdates": "Cập nhật dịch vụ",
+        "documentAlerts": "Cảnh báo tài liệu",
+        "billingReminders": "Nhắc nhở thanh toán",
+        "marketingEmails": "Email marketing"
+      },
+      "security": {
+        "changePassword": "Đổi mật khẩu",
+        "currentPassword": "Mật khẩu hiện tại",
+        "newPassword": "Mật khẩu mới",
+        "confirmPassword": "Xác nhận mật khẩu mới",
+        "twoFactor": "Xác thực hai yếu tố",
+        "twoFactorDesc": "Thêm lớp bảo mật cho tài khoản của bạn"
+      },
+      "save": "Lưu thay đổi",
+      "saved": "Đã lưu thành công!"
+    }
+  },
+  "common": {
+    "loading": "Đang tải...",
+    "error": "Đã xảy ra lỗi",
+    "tryAgain": "Thử lại",
+    "learnMore": "Tìm hiểu thêm",
+    "getStarted": "Bắt đầu ngay",
+    "bookConsultation": "Đặt lịch tư vấn miễn phí",
+    "viewAll": "Xem tất cả",
+    "back": "Quay lại",
+    "cancel": "Hủy",
+    "confirm": "Xác nhận",
+    "delete": "Xóa",
+    "edit": "Chỉnh sửa",
+    "save": "Lưu",
+    "close": "Đóng",
+    "search": "Tìm kiếm",
+    "filter": "Lọc",
+    "yes": "Có",
+    "no": "Không",
+    "or": "hoặc"
+  },
+  "footer": {
+    "tagline": "Kinh doanh toàn cầu. Vận hành toàn cầu. Quản lý dòng tiền toàn cầu.",
+    "servicesTitle": "Dịch vụ",
+    "companyTitle": "Công ty",
+    "legalTitle": "Pháp lý",
+    "privacyPolicy": "Chính sách bảo mật",
+    "termsOfService": "Điều khoản dịch vụ",
+    "complianceNote": "Tất cả dịch vụ được cấu trúc tuân thủ quy định ODI của Ngân hàng Nhà nước Việt Nam và luật pháp quốc tế hiện hành.",
+    "copyright": "© {year} Gloyce. Tất cả quyền được bảo lưu.",
+    "companyLinks": {
+      "about": "Về Gloyce",
+      "blog": "Blog",
+      "contact": "Liên hệ",
+      "careers": "Tuyển dụng"
+    }
+  }
+}

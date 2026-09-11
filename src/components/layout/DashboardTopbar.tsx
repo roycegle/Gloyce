@@ -1,0 +1,39 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+import { usePathname } from "@/i18n/routing";
+import { Bell } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+
+const PATH_LABELS: Record<string, string> = {
+  "/dashboard": "overview",
+  "/dashboard/services": "services",
+  "/dashboard/documents": "documents",
+  "/dashboard/messages": "messages",
+  "/dashboard/billing": "billing",
+  "/dashboard/settings": "settings",
+};
+
+export function DashboardTopbar() {
+  const t = useTranslations("dashboard");
+  const pathname = usePathname();
+
+  const titleKey = PATH_LABELS[pathname] || "overview";
+  const title = t(`nav.${titleKey}` as Parameters<typeof t>[0]);
+
+  return (
+    <header className="h-16 border-b border-navy-800 bg-navy-900 flex items-center justify-between px-6 sticky top-0 z-10">
+      <h1 className="text-base font-semibold text-foreground">{title}</h1>
+
+      <div className="flex items-center gap-3">
+        <button className="relative p-2 text-navy-400 hover:text-foreground rounded-lg hover:bg-navy-800 transition-colors">
+          <Bell size={18} />
+          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-gold rounded-full" />
+        </button>
+        <Badge variant="gold" className="text-xs hidden sm:flex">
+          Demo Account
+        </Badge>
+      </div>
+    </header>
+  );
+}
