@@ -1,52 +1,52 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* Sapphire Navy palette — saturated, luxury dark */
-  --color-ink-950: #020A1E;
-  --color-ink-900: #05102E;
-  --color-ink-800: #0C1C48;
-  --color-ink-700: #142460;
-  --color-ink-600: #1C3472;
-  --color-ink-500: #2A4888;
-  --color-ink-400: #4060A0;
-  --color-ink-300: #6088C0;
-  --color-ink-200: #7AAAD0;
-  --color-ink-100: #A8C4E0;
-  --color-ink-50:  #EFF4FF;
+  /* Light mode palette — premium fintech */
+  --color-ink-950: #060C30;    /* darkest text / near-black navy */
+  --color-ink-900: #F5F8FF;    /* page background */
+  --color-ink-800: #FFFFFF;    /* card background */
+  --color-ink-700: #EBF0FF;    /* section alt bg */
+  --color-ink-600: #CDD8F8;    /* borders */
+  --color-ink-500: #7888C0;    /* placeholder / disabled */
+  --color-ink-400: #4560A8;    /* secondary text */
+  --color-ink-300: #2A3E90;    /* body muted text */
+  --color-ink-200: #162878;    /* stronger text */
+  --color-ink-100: #0C1E5A;    /* headings */
+  --color-ink-50:  #060C30;    /* darkest heading */
 
-  /* Gold accent — warm, bright */
-  --color-gold:       #E0A818;
-  --color-gold-light: #F5C840;
-  --color-gold-dark:  #A87810;
-  --color-gold-dim:   #806008;
-  --color-gold-bg:    rgba(224, 168, 24, 0.08);
+  /* Gold accent — slightly deeper for contrast on light bg */
+  --color-gold:       #B87C10;
+  --color-gold-light: #D8A020;
+  --color-gold-dark:  #8A5C08;
+  --color-gold-dim:   #6A4606;
+  --color-gold-bg:    rgba(184, 124, 16, 0.08);
   --color-gold-50:    #FFF8E6;
 
   /* Semantic tokens */
-  --color-background:         #05102E;
-  --color-background-alt:     #0C1C48;
-  --color-foreground:         #EFF4FF;
-  --color-foreground-muted:   #7AAAD0;
-  --color-surface:            #0C1C48;
-  --color-surface-raised:     #142460;
-  --color-border:             #1C3472;
-  --color-border-subtle:      #142460;
-  --color-primary:            #E0A818;
-  --color-primary-foreground: #05102E;
-  --color-accent-blue:        #3B7DD8;
+  --color-background:         #F5F8FF;
+  --color-background-alt:     #FFFFFF;
+  --color-foreground:         #0C1E5A;
+  --color-foreground-muted:   #4560A8;
+  --color-surface:            #FFFFFF;
+  --color-surface-raised:     #EBF0FF;
+  --color-border:             #CDD8F8;
+  --color-border-subtle:      #DDE6FF;
+  --color-primary:            #B87C10;
+  --color-primary-foreground: #FFFFFF;
+  --color-accent-blue:        #1A60D0;
 
   /* Legacy navy aliases — dashboard uses these */
-  --color-navy-950: #020A1E;
-  --color-navy-900: #05102E;
-  --color-navy-800: #0C1C48;
-  --color-navy-750: #102040;
-  --color-navy-700: #142460;
-  --color-navy-600: #1C3472;
-  --color-navy-500: #4060A0;
-  --color-navy-400: #6088C0;
-  --color-navy-300: #7AAAD0;
-  --color-navy-200: #A8C4E0;
-  --color-navy-100: #EFF4FF;
+  --color-navy-950: #060C30;
+  --color-navy-900: #F5F8FF;
+  --color-navy-800: #FFFFFF;
+  --color-navy-750: #EBF0FF;
+  --color-navy-700: #EBF0FF;
+  --color-navy-600: #CDD8F8;
+  --color-navy-500: #4560A8;
+  --color-navy-400: #2A3E90;
+  --color-navy-300: #162878;
+  --color-navy-200: #0C1E5A;
+  --color-navy-100: #060C30;
 
   /* Font */
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
@@ -62,8 +62,8 @@
 }
 
 :root {
-  --background: #05102E;
-  --foreground: #EFF4FF;
+  --background: #F5F8FF;
+  --foreground: #0C1E5A;
 }
 
 * { border-color: var(--color-border); }
@@ -78,7 +78,7 @@ body {
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track  { background: var(--color-ink-800); }
+::-webkit-scrollbar-track  { background: var(--color-ink-700); }
 ::-webkit-scrollbar-thumb  { background: var(--color-ink-600); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--color-ink-500); }
 
@@ -87,7 +87,7 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
   pointer-events: none;
   border-radius: inherit;
 }
@@ -95,9 +95,9 @@ body {
 /* Display font utility */
 .font-display { font-family: var(--font-display); }
 
-/* Gold shimmer text */
+/* Gold shimmer text — richer amber for light bg */
 .text-gold-gradient {
-  background: linear-gradient(135deg, #E0A818 0%, #F5C840 50%, #E0A818 100%);
+  background: linear-gradient(135deg, #9A6C08 0%, #C8900A 50%, #9A6C08 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -105,7 +105,7 @@ body {
 
 /* Gold shimmer animated */
 .text-gold-shimmer {
-  background: linear-gradient(90deg, #E0A818 0%, #F5C840 30%, #FDE68A 50%, #F5C840 70%, #E0A818 100%);
+  background: linear-gradient(90deg, #9A6C08 0%, #C8900A 30%, #E0B030 50%, #C8900A 70%, #9A6C08 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -120,24 +120,24 @@ body {
 /* Section divider line */
 .divider-gold {
   height: 1px;
-  background: linear-gradient(90deg, transparent, #E0A81840, transparent);
+  background: linear-gradient(90deg, transparent, #B87C1040, transparent);
 }
 
-/* Glow card effect */
+/* Glow card effect — subtle on light bg */
 .card-glow {
-  box-shadow: 0 0 0 1px rgba(224,168,24,0.15), 0 8px 32px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 0 0 1px rgba(184,124,16,0.12), 0 8px 32px rgba(0,20,80,0.07), 0 2px 8px rgba(0,20,80,0.04);
 }
 
 /* Avatar gradient ring */
 .avatar-ring {
-  background: linear-gradient(135deg, #E0A818, #F5C840, #E0A818);
+  background: linear-gradient(135deg, #B87C10, #D8A020, #B87C10);
   padding: 2px;
   border-radius: 9999px;
 }
 
 /* Dot grid pattern */
 .bg-dot-grid {
-  background-image: radial-gradient(rgba(224,168,24,0.2) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(184,124,16,0.15) 1px, transparent 1px);
   background-size: 28px 28px;
 }
 
@@ -167,12 +167,12 @@ body {
   gap: 6px;
   padding: 6px 14px;
   border-radius: 9999px;
-  border: 1px solid rgba(30,46,72,0.8);
-  background: rgba(13,21,40,0.6);
+  border: 1px solid rgba(0, 40, 130, 0.12);
+  background: rgba(235, 240, 255, 0.8);
   font-size: 0.75rem;
   font-weight: 600;
-  color: #9AADC8;
+  color: #3A5098;
   white-space: nowrap;
   transition: border-color 0.2s, color 0.2s;
 }
-.logo-pill:hover { border-color: rgba(224,168,24,0.4); color: #F5C840; }
+.logo-pill:hover { border-color: rgba(184,124,16,0.4); color: #9A6C08; }
