@@ -144,7 +144,7 @@ const GUIDES: Guide[] = [
     },
     desc: {
       vi: "Yêu cầu hồ sơ, quy trình nộp đơn và tỷ lệ phê duyệt cho chủ LLC Việt Nam.",
-      en: "Document requirements, application process and approval tips for Vietnamese LLC owners.",
+      en: "Document requirements, application process and approval tips for Asian LLC owners.",
       zh: "越南LLC所有者的文件要求、申请流程和审批技巧。",
       es: "Requisitos de documentos, proceso de solicitud y consejos de aprobación para propietarios de LLC vietnamitas.",
       id: "Persyaratan dokumen, proses aplikasi, dan tips persetujuan untuk pemilik LLC Vietnam.",
@@ -157,7 +157,7 @@ const GUIDES: Guide[] = [
     tag: { vi: "Kế toán", en: "Accounting", zh: "会计", es: "Contabilidad", id: "Akuntansi" },
     title: {
       vi: "Thuế doanh nghiệp Mỹ cho người Việt — Những điều cần biết",
-      en: "US Business Tax for Vietnamese Owners — Key Things to Know",
+      en: "US Business Tax for Asian Business Owners — Key Things to Know",
       zh: "越南业主的美国企业税——需要了解的关键事项",
       es: "Impuesto Empresarial en EE.UU. para Propietarios Vietnamitas — Aspectos Clave",
       id: "Pajak Bisnis AS untuk Pemilik Vietnam — Hal-hal Penting yang Perlu Diketahui",

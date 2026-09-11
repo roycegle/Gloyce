@@ -21,11 +21,11 @@ const CATEGORIES: Category[] = [
     faqs: [
       {
         q: {
-          vi: "Người Việt Nam có thể mở LLC tại Mỹ không?",
-          en: "Can Vietnamese nationals open a US LLC?",
-          zh: "越南人可以在美国开设LLC吗？",
-          es: "¿Los ciudadanos vietnamitas pueden abrir una LLC en EE.UU.?",
-          id: "Apakah warga negara Vietnam bisa membuka LLC AS?",
+          vi: "Người châu Á có thể mở LLC tại Mỹ không?",
+          en: "Can Asian nationals open a US LLC?",
+          zh: "亚洲人可以在美国开设LLC吗？",
+          es: "¿Los ciudadanos asiáticos pueden abrir una LLC en EE.UU.?",
+          id: "Apakah warga negara Asia bisa membuka LLC AS?",
         },
         a: {
           vi: "Có. Không cần quốc tịch Mỹ hay visa để thành lập LLC. Bất kỳ cá nhân hoặc tổ chức nước ngoài nào cũng có thể là thành viên (member) của một LLC Mỹ. Bạn chỉ cần có hộ chiếu và địa chỉ liên lạc hợp lệ.",
@@ -324,11 +324,11 @@ const CATEGORIES: Category[] = [
           id: "Metode pembayaran apa yang diterima?",
         },
         a: {
-          vi: "Gloyce chấp nhận thanh toán qua chuyển khoản ngân hàng (VND hoặc USD), Wise, PayPal và thẻ tín dụng quốc tế. Hóa đơn được gửi trước 5 ngày, thanh toán được xử lý trong 1–2 ngày làm việc.",
-          en: "Gloyce accepts bank transfers (VND or USD), Wise, PayPal, and international credit cards. Invoices are sent 5 days in advance and payments are processed within 1–2 business days.",
+          vi: "Gloyce chấp nhận thanh toán qua chuyển khoản ngân hàng (USD), Wise, PayPal và thẻ tín dụng quốc tế. Hóa đơn được gửi trước 5 ngày, thanh toán được xử lý trong 1–2 ngày làm việc.",
+          en: "Gloyce accepts bank transfers (USD), Wise, PayPal, and international credit cards. Invoices are sent 5 days in advance and payments are processed within 1–2 business days.",
           zh: "Gloyce接受银行转账（越南盾或美元）、Wise、PayPal和国际信用卡付款。发票提前5天发送，付款在1-2个工作日内处理。",
-          es: "Gloyce acepta transferencias bancarias (VND o USD), Wise, PayPal y tarjetas de crédito internacionales. Las facturas se envían con 5 días de anticipación y los pagos se procesan en 1–2 días hábiles.",
-          id: "Gloyce menerima transfer bank (VND atau USD), Wise, PayPal, dan kartu kredit internasional. Faktur dikirim 5 hari sebelumnya dan pembayaran diproses dalam 1–2 hari kerja.",
+          es: "Gloyce acepta transferencias bancarias (USD), Wise, PayPal y tarjetas de crédito internacionales. Las facturas se envían con 5 días de anticipación y los pagos se procesan en 1–2 días hábiles.",
+          id: "Gloyce menerima transfer bank (USD), Wise, PayPal, dan kartu kredit internasional. Faktur dikirim 5 hari sebelumnya dan pembayaran diproses dalam 1–2 hari kerja.",
         },
       },
       {
@@ -362,11 +362,11 @@ const CATEGORIES: Category[] = [
           id: "Apa itu Gloyce?",
         },
         a: {
-          vi: "Gloyce LLC là công ty tư vấn doanh nghiệp đăng ký tại California, Hoa Kỳ. Chúng tôi chuyên giúp doanh nhân và doanh nghiệp Việt Nam thành lập, vận hành và mở rộng kinh doanh tại Mỹ, Singapore và Hồng Kông.",
-          en: "Gloyce LLC is a business consulting firm registered in California, USA. We specialize in helping Vietnamese entrepreneurs and businesses establish, operate, and expand in the US, Singapore, and Hong Kong.",
-          zh: "Gloyce LLC是一家在美国加利福尼亚州注册的商业咨询公司。我们专门帮助越南企业家和企业在美国、新加坡和香港建立、运营和扩展业务。",
-          es: "Gloyce LLC es una firma de consultoría empresarial registrada en California, EE.UU. Nos especializamos en ayudar a emprendedores y empresas vietnamitas a establecer, operar y expandirse en EE.UU., Singapur y Hong Kong.",
-          id: "Gloyce LLC adalah perusahaan konsultansi bisnis yang terdaftar di California, AS. Kami berspesialisasi dalam membantu pengusaha dan bisnis Vietnam untuk mendirikan, menjalankan, dan berkembang di AS, Singapura, dan Hong Kong.",
+          vi: "Gloyce LLC là công ty tư vấn doanh nghiệp đăng ký tại California, Hoa Kỳ. Chúng tôi chuyên giúp doanh nhân và doanh nghiệp châu Á thành lập, vận hành và mở rộng kinh doanh tại Mỹ, Singapore và Hồng Kông.",
+          en: "Gloyce LLC is a business consulting firm registered in California, USA. We specialize in helping Asian entrepreneurs and businesses establish, operate, and expand in the US, Singapore, and Hong Kong.",
+          zh: "Gloyce LLC是一家在美国加利福尼亚州注册的商业咨询公司。我们专门帮助亚洲企业家和企业在美国、新加坡和香港建立、运营和扩展业务。",
+          es: "Gloyce LLC es una firma de consultoría empresarial registrada en California, EE.UU. Nos especializamos en ayudar a emprendedores y empresas asiáticas a establecer, operar y expandirse en EE.UU., Singapur y Hong Kong.",
+          id: "Gloyce LLC adalah perusahaan konsultansi bisnis yang terdaftar di California, AS. Kami berspesialisasi dalam membantu pengusaha dan bisnis Asia untuk mendirikan, menjalankan, dan berkembang di AS, Singapura, dan Hong Kong.",
         },
       },
       {
@@ -387,18 +387,18 @@ const CATEGORIES: Category[] = [
       },
       {
         q: {
-          vi: "Gloyce hỗ trợ tiếng Việt không?",
-          en: "Does Gloyce support Vietnamese?",
-          zh: "Gloyce支持越南语吗？",
-          es: "¿Gloyce ofrece soporte en vietnamita?",
-          id: "Apakah Gloyce mendukung bahasa Vietnam?",
+          vi: "Gloyce hỗ trợ đa ngôn ngữ không?",
+          en: "Does Gloyce offer multilingual support?",
+          zh: "Gloyce提供多语言支持吗？",
+          es: "¿Gloyce ofrece soporte multilingüe?",
+          id: "Apakah Gloyce menawarkan dukungan multibahasa?",
         },
         a: {
-          vi: "Có. Toàn bộ đội ngũ Gloyce giao tiếp bằng tiếng Việt. Email, cuộc gọi, tài liệu hướng dẫn và dashboard đều có phiên bản tiếng Việt. Đây là lợi thế lớn so với các dịch vụ Mỹ hay Singapore không có hỗ trợ tiếng Việt.",
-          en: "Yes. The entire Gloyce team communicates in Vietnamese. Emails, calls, guides, and the dashboard all have Vietnamese versions. This is a major advantage over US or Singapore services that lack Vietnamese support.",
-          zh: "是的。整个Gloyce团队用越南语交流。电子邮件、电话、指南和仪表板都有越南语版本。这相较于没有越南语支持的美国或新加坡服务是一大优势。",
-          es: "Sí. Todo el equipo de Gloyce se comunica en vietnamita. Los correos electrónicos, llamadas, guías y el panel tienen versiones en vietnamita. Esta es una gran ventaja sobre los servicios de EE.UU. o Singapur que carecen de soporte en vietnamita.",
-          id: "Ya. Seluruh tim Gloyce berkomunikasi dalam bahasa Vietnam. Email, panggilan, panduan, dan dasbor semuanya memiliki versi bahasa Vietnam. Ini adalah keunggulan besar dibandingkan layanan AS atau Singapura yang tidak memiliki dukungan bahasa Vietnam.",
+          vi: "Có. Gloyce hỗ trợ đa ngôn ngữ — tiếng Việt, tiếng Anh, tiếng Trung, tiếng Tây Ban Nha và tiếng Indonesia. Email, cuộc gọi, tài liệu hướng dẫn và dashboard đều có phiên bản đa ngôn ngữ. Đây là lợi thế lớn so với các dịch vụ Mỹ hay Singapore không có hỗ trợ đa ngôn ngữ.",
+          en: "Yes. Gloyce offers multilingual support — Vietnamese, English, Chinese, Spanish, and Indonesian. Emails, calls, guides, and the dashboard are available in multiple languages. This is a major advantage over US or Singapore services that lack multilingual support.",
+          zh: "是的。Gloyce提供多语言支持——越南语、英语、中文、西班牙语和印度尼西亚语。电子邮件、电话、指南和仪表板均有多语言版本。这相较于没有多语言支持的美国或新加坡服务是一大优势。",
+          es: "Sí. Gloyce ofrece soporte multilingüe — vietnamita, inglés, chino, español e indonesio. Los correos electrónicos, llamadas, guías y el panel están disponibles en varios idiomas. Esta es una gran ventaja sobre los servicios de EE.UU. o Singapur que carecen de soporte multilingüe.",
+          id: "Ya. Gloyce menawarkan dukungan multibahasa — Vietnam, Inggris, Mandarin, Spanyol, dan Indonesia. Email, panggilan, panduan, dan dasbor tersedia dalam berbagai bahasa. Ini adalah keunggulan besar dibandingkan layanan AS atau Singapura yang tidak memiliki dukungan multibahasa.",
         },
       },
       {
@@ -411,7 +411,7 @@ const CATEGORIES: Category[] = [
         },
         a: {
           vi: "Có, về mặt kỹ thuật bạn có thể tự làm qua các dịch vụ như Stripe Atlas ($500) hay doola ($297). Tuy nhiên các dịch vụ này không có hỗ trợ tiếng Việt, không tư vấn chọn bang phù hợp, không hỗ trợ mở tài khoản ngân hàng và không nhắc deadline Form 5472/BOI Report. Gloyce không chỉ mở LLC — chúng tôi đồng hành toàn hành trình.",
-          en: "Yes, technically you can do it yourself through services like Stripe Atlas ($500) or doola ($297). However, these services have no Vietnamese support, no advice on choosing the right state, no bank account opening support, and no Form 5472/BOI Report deadline reminders. Gloyce doesn't just open LLCs — we accompany you the entire way.",
+          en: "Yes, technically you can do it yourself through services like Stripe Atlas ($500) or doola ($297). However, these services have no multilingual support, no advice on choosing the right state, no bank account opening support, and no Form 5472/BOI Report deadline reminders. Gloyce doesn't just open LLCs — we accompany you the entire way.",
           zh: "可以，从技术上讲，您可以通过Stripe Atlas（$500）或doola（$297）等服务自己操作。但这些服务没有越南语支持、没有选州建议、没有开户支持，也没有5472表/BOI报告截止日期提醒。Gloyce不只是开设LLC——我们全程陪伴您。",
           es: "Sí, técnicamente puede hacerlo usted mismo a través de servicios como Stripe Atlas ($500) o doola ($297). Sin embargo, estos servicios no tienen soporte en vietnamita, no asesoran sobre la elección del estado correcto, no ayudan con la apertura de cuentas bancarias y no recuerdan los plazos del Formulario 5472/Reporte BOI. Gloyce no solo abre LLCs — le acompañamos en todo el camino.",
           id: "Ya, secara teknis Anda bisa melakukannya sendiri melalui layanan seperti Stripe Atlas ($500) atau doola ($297). Namun layanan-layanan ini tidak memiliki dukungan bahasa Vietnam, tidak ada saran pemilihan negara bagian, tidak ada dukungan pembukaan rekening bank, dan tidak ada pengingat tenggat Form 5472/BOI Report. Gloyce tidak hanya membuka LLC — kami mendampingi Anda sepanjang perjalanan.",

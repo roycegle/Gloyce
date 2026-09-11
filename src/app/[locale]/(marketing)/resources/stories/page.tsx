@@ -98,20 +98,20 @@ const STORIES: Story[] = [
     href: "/resources/stories/techexport",
   },
   {
-    name: "Trần Thị Hoa",
+    name: "Ahmad Rizki",
     role: {
-      vi: "Amazon Seller — 6 năm kinh nghiệm",
-      en: "Amazon Seller — 6 years",
-      zh: "亚马逊卖家 — 6年经验",
-      es: "Vendedora Amazon — 6 años",
-      id: "Penjual Amazon — 6 tahun",
+      vi: "Amazon Seller · Jakarta, Indonesia",
+      en: "Amazon Seller · Jakarta, Indonesia",
+      zh: "亚马逊卖家 · 雅加达，印度尼西亚",
+      es: "Vendedor Amazon · Yakarta, Indonesia",
+      id: "Penjual Amazon · Jakarta, Indonesia",
     },
     company: {
-      vi: "HoaShop Global",
-      en: "HoaShop Global",
-      zh: "HoaShop Global",
-      es: "HoaShop Global",
-      id: "HoaShop Global",
+      vi: "RizkiShop Global",
+      en: "RizkiShop Global",
+      zh: "RizkiShop Global",
+      es: "RizkiShop Global",
+      id: "RizkiShop Global",
     },
     service: {
       vi: "Kế toán & Thuế Mỹ",
@@ -121,11 +121,11 @@ const STORIES: Story[] = [
       id: "Akuntansi & Pajak AS",
     },
     quote: {
-      vi: "Tôi bán hàng trên Amazon từ 2020 nhưng không hiểu gì về khai báo thuế Mỹ. Sau khi bị audit nhẹ từ Amazon, tôi tìm đến Gloyce. Họ sắp xếp lại toàn bộ sổ sách 3 năm và nộp Form 5472 đúng hạn.",
-      en: "I've been selling on Amazon since 2020 but didn't understand US tax filings. After a minor Amazon audit, I found Gloyce. They reorganized 3 years of books and filed Form 5472 on time.",
-      zh: "我从2020年开始在亚马逊销售，但不了解美国税务申报。在一次轻微的亚马逊审计后，我找到了Gloyce。他们重新整理了3年的账目，并按时提交了5472表。",
-      es: "He estado vendiendo en Amazon desde 2020 pero no entendía las declaraciones fiscales de EE.UU. Después de una pequeña auditoría de Amazon, encontré Gloyce. Reorganizaron 3 años de libros y presentaron el Formulario 5472 a tiempo.",
-      id: "Saya telah berjualan di Amazon sejak 2020 tetapi tidak memahami pengajuan pajak AS. Setelah audit kecil dari Amazon, saya menemukan Gloyce. Mereka mereorganisasi 3 tahun pembukuan dan mengajukan Form 5472 tepat waktu.",
+      vi: "Tôi bán hàng trên Amazon từ Indonesia từ 2020 nhưng không hiểu gì về khai báo thuế Mỹ. Sau khi bị audit nhẹ từ Amazon, tôi tìm đến Gloyce. Họ sắp xếp lại toàn bộ sổ sách 3 năm và nộp Form 5472 đúng hạn.",
+      en: "I've been selling on Amazon from Indonesia since 2020 but didn't understand US tax filings. After a minor Amazon audit, I found Gloyce. They reorganized 3 years of books and filed Form 5472 on time.",
+      zh: "我从2020年开始在印度尼西亚通过亚马逊销售，但不了解美国税务申报。在一次轻微的亚马逊审计后，我找到了Gloyce。他们重新整理了3年的账目，并按时提交了5472表。",
+      es: "He estado vendiendo en Amazon desde Indonesia desde 2020 pero no entendía las declaraciones fiscales de EE.UU. Después de una pequeña auditoría de Amazon, encontré Gloyce. Reorganizaron 3 años de libros y presentaron el Formulario 5472 a tiempo.",
+      id: "Saya telah berjualan di Amazon dari Indonesia sejak 2020 tetapi tidak memahami pengajuan pajak AS. Setelah audit kecil dari Amazon, saya menemukan Gloyce. Mereka mereorganisasi 3 tahun pembukuan dan mengajukan Form 5472 tepat waktu.",
     },
     result: {
       vi: "Sổ sách 3 năm được chỉnh lý, không phát sinh phạt.",
@@ -170,20 +170,20 @@ const STORIES: Story[] = [
     href: "/resources/stories/hoashop",
   },
   {
-    name: "Lê Quốc Hùng",
+    name: "Kevin Tan",
     role: {
-      vi: "CEO",
-      en: "CEO",
-      zh: "CEO",
-      es: "CEO",
-      id: "CEO",
+      vi: "CEO · Kuala Lumpur, Malaysia",
+      en: "CEO · Kuala Lumpur, Malaysia",
+      zh: "CEO · 吉隆坡，马来西亚",
+      es: "CEO · Kuala Lumpur, Malasia",
+      id: "CEO · Kuala Lumpur, Malaysia",
     },
     company: {
-      vi: "Cross-border Payment Startup",
-      en: "Cross-border Payment Startup",
-      zh: "跨境支付初创公司",
-      es: "Startup de Pagos Transfronterizos",
-      id: "Startup Pembayaran Lintas Batas",
+      vi: "KL Digital",
+      en: "KL Digital",
+      zh: "KL Digital",
+      es: "KL Digital",
+      id: "KL Digital",
     },
     service: {
       vi: "US LLC + Form 5472 + BOI",
@@ -269,11 +269,11 @@ export default async function StoriesPage() {
             </h1>
             <p className="text-ink-300 text-lg max-w-xl mx-auto">
               {t(
-                "Câu chuyện thực tế từ các doanh nghiệp Việt Nam đã dùng Gloyce để thành lập, vận hành và tuân thủ tại Mỹ.",
-                "Real stories from Vietnamese businesses that used Gloyce to incorporate, operate, and stay compliant in the US.",
-                "越南企业使用Gloyce在美国成立、运营并保持合规的真实案例。",
-                "Historias reales de empresas vietnamitas que usaron Gloyce para incorporarse, operar y mantenerse en cumplimiento en EE.UU.",
-                "Kisah nyata dari bisnis Vietnam yang menggunakan Gloyce untuk mendirikan, beroperasi, dan tetap patuh di AS."
+                "Câu chuyện thực tế từ các doanh nghiệp châu Á đã dùng Gloyce để thành lập, vận hành và tuân thủ tại Mỹ, Singapore và Hồng Kông.",
+                "Real stories from businesses across Asia that used Gloyce to incorporate, operate, and stay compliant in the US, Singapore and Hong Kong.",
+                "来自亚洲各地企业使用Gloyce在美国、新加坡和香港成立、运营并保持合规的真实案例。",
+                "Historias reales de empresas de toda Asia que usaron Gloyce para incorporarse, operar y mantenerse en cumplimiento en EE.UU., Singapur y Hong Kong.",
+                "Kisah nyata dari bisnis di seluruh Asia yang menggunakan Gloyce untuk mendirikan, beroperasi, dan tetap patuh di AS, Singapura, dan Hong Kong."
               )}
             </p>
           </div>

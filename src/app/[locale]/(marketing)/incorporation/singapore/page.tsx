@@ -20,7 +20,7 @@ export default async function SingaporePage() {
             </div>
             <h1 className="text-4xl sm:text-5xl font-bold leading-tight mb-5">
               <span className="text-gold-gradient">Singapore Pte Ltd</span>{" "}
-              {t("cho doanh nghiệp Việt Nam", "for Vietnamese businesses", "面向越南企业", "para empresas vietnamitas", "untuk bisnis Vietnam")}
+              {t("cho doanh nghiệp châu Á", "for Asian businesses", "面向亚洲企业", "para empresas asiáticas", "untuk bisnis Asia")}
             </h1>
             <p className="text-ink-300 text-lg leading-relaxed mb-8">
               {t(

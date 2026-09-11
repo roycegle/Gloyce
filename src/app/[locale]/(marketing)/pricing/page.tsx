@@ -54,7 +54,7 @@ export default async function PricingPage() {
   const accountingPlans = [
     {
       name: "Starter",
-      price: locale === "vi" ? "3.000.000đ" : "$149",
+      price: "$149",
       period: t("/tháng", "/mo", "/月", "/mes", "/bulan"),
       desc: t("Doanh thu dưới $50K/năm", "Under $50K annual revenue", "年营收低于$50K", "Ingresos anuales menores a $50K", "Pendapatan tahunan di bawah $50K"),
       features: ta({
@@ -67,7 +67,7 @@ export default async function PricingPage() {
     },
     {
       name: "Growth",
-      price: locale === "vi" ? "6.000.000đ" : "$299",
+      price: "$299",
       period: t("/tháng", "/mo", "/月", "/mes", "/bulan"),
       desc: t("Doanh thu $50K–$500K/năm", "$50K–$500K annual revenue", "年营收$50K–$500K", "Ingresos anuales $50K–$500K", "Pendapatan tahunan $50K–$500K"),
       features: ta({
@@ -81,7 +81,7 @@ export default async function PricingPage() {
     },
     {
       name: "Scale",
-      price: locale === "vi" ? "12.000.000đ" : "$599",
+      price: "$599",
       period: t("/tháng", "/mo", "/月", "/mes", "/bulan"),
       desc: t("Doanh thu trên $500K/năm", "Over $500K annual revenue", "年营收超过$500K", "Ingresos anuales mayores a $500K", "Pendapatan tahunan di atas $500K"),
       features: ta({
@@ -97,7 +97,7 @@ export default async function PricingPage() {
   const compliancePlans = [
     {
       name: t("Thư ký công ty", "Company Secretary", "公司秘书", "Secretaría corporativa", "Sekretaris Perusahaan"),
-      price: locale === "vi" ? "1.500.000đ" : "$75",
+      price: "$75",
       period: t("/tháng", "/mo", "/月", "/mes", "/bulan"),
       desc: t("Dành cho LLC Mỹ đang hoạt động", "For active US LLC", "适用于活跃的美国LLC", "Para LLC en EE.UU. activa", "Untuk LLC AS yang aktif"),
       features: ta({
@@ -110,7 +110,7 @@ export default async function PricingPage() {
     },
     {
       name: t("Khai báo thuế & Báo cáo", "US Tax Filing & Reporting", "美国税务申报与报告", "Declaración fiscal en EE.UU.", "Pengajuan Pajak & Pelaporan AS"),
-      price: locale === "vi" ? "3.000.000đ" : "$150",
+      price: "$150",
       period: t("một lần", "one-time", "一次性", "pago único", "sekali bayar"),
       desc: t("Form 5472, BOI Report và khai báo liên bang hàng năm", "Form 5472, BOI Report and annual federal filings", "Form 5472、BOI报告和年度联邦申报", "Form 5472, BOI Report y declaraciones federales anuales", "Form 5472, BOI Report dan pengajuan federal tahunan"),
       features: ta({
@@ -159,11 +159,11 @@ export default async function PricingPage() {
             </h1>
             <p className="text-ink-300 text-lg">
               {t(
-                "Tất cả gói bao gồm hỗ trợ tiếng Việt và tư vấn không giới hạn.",
-                "All plans include Vietnamese-language support and unlimited consultations.",
-                "所有套餐包含越南语支持和无限次咨询。",
-                "Todos los planes incluyen soporte en vietnamita y consultas ilimitadas.",
-                "Semua paket termasuk dukungan bahasa Vietnam dan konsultasi tak terbatas."
+                "Tất cả gói bao gồm hỗ trợ đa ngôn ngữ và tư vấn không giới hạn.",
+                "All plans include multilingual support and unlimited consultations.",
+                "所有套餐包含多语言支持和无限次咨询。",
+                "Todos los planes incluyen soporte multilingüe y consultas ilimitadas.",
+                "Semua paket termasuk dukungan multibahasa dan konsultasi tak terbatas."
               )}
             </p>
           </div>

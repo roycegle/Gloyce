@@ -43,8 +43,8 @@ export default async function IncorporationPage() {
       href: "/incorporation/hong-kong",
       featured: false,
       perks: isVi
-        ? ["Tài khoản ngân hàng HK", "Company secretary", "Annual Return filing", "Hỗ trợ tiếng Việt"]
-        : ["HK bank account", "Company secretary", "Annual Return filing", "Vietnamese support"],
+        ? ["Tài khoản ngân hàng HK", "Company secretary", "Annual Return filing", "Hỗ trợ đa ngôn ngữ"]
+        : ["HK bank account", "Company secretary", "Annual Return filing", "Multilingual support"],
     },
     {
       icon: CreditCard, flag: "🏦",
@@ -77,8 +77,8 @@ export default async function IncorporationPage() {
             </h1>
             <p className="text-ink-300 text-lg leading-relaxed">
               {isVi
-                ? "Gloyce lo toàn bộ quy trình — từ đặt tên, nộp hồ sơ, lấy EIN đến mở tài khoản ngân hàng. Hỗ trợ tiếng Việt và tuân thủ pháp lý Mỹ đầy đủ."
-                : "Gloyce handles the entire process — from name check, filing, EIN to bank account opening. Vietnamese support and full US compliance included."}
+                ? "Gloyce lo toàn bộ quy trình — từ đặt tên, nộp hồ sơ, lấy EIN đến mở tài khoản ngân hàng. Hỗ trợ đa ngôn ngữ và tuân thủ pháp lý Mỹ đầy đủ."
+                : "Gloyce handles the entire process — from name check, filing, EIN to bank account opening. Multilingual support and full US compliance included."}
             </p>
           </div>
 

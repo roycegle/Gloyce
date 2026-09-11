@@ -23,7 +23,7 @@ export default async function ResourcesPage() {
     {
       icon: Users,
       title: t("Câu chuyện khách hàng", "Customer stories", "客户案例", "Casos de éxito", "Kisah pelanggan"),
-      desc: t("Cách các doanh nghiệp Việt Nam mở rộng ra toàn cầu với Gloyce.", "How Vietnamese businesses expanded globally with Gloyce.", "越南企业如何借助Gloyce走向全球。", "Cómo empresas vietnamitas se expandieron globalmente con Gloyce.", "Bagaimana bisnis Vietnam berkembang secara global dengan Gloyce."),
+      desc: t("Cách các doanh nghiệp châu Á mở rộng ra toàn cầu với Gloyce.", "How businesses across Asia expanded globally with Gloyce.", "亚洲企业如何借助Gloyce走向全球。", "Cómo empresas asiáticas se expandieron globalmente con Gloyce.", "Bagaimana bisnis Asia berkembang secara global dengan Gloyce."),
       href: "/resources/stories",
     },
     {

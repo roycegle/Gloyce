@@ -10,8 +10,8 @@ const POSTS: {
   {
     tag: { vi: "LLC Mỹ", en: "US LLC", zh: "美国LLC", es: "LLC EE.UU.", id: "LLC AS" },
     title: {
-      vi: "Delaware vs Wyoming — Chọn bang nào khi mở LLC cho doanh nghiệp Việt Nam?",
-      en: "Delaware vs Wyoming — Which state for your Vietnamese-owned LLC?",
+      vi: "Delaware vs Wyoming — Chọn bang nào khi mở LLC cho doanh nghiệp châu Á?",
+      en: "Delaware vs Wyoming — Which state for your Asian-owned LLC?",
       zh: "特拉华州vs怀俄明州——越南企业LLC选择哪个州？",
       es: "Delaware vs Wyoming — ¿Qué estado para su LLC de propiedad vietnamita?",
       id: "Delaware vs Wyoming — Negara bagian mana untuk LLC milik Vietnam Anda?",
@@ -72,14 +72,14 @@ const POSTS: {
     tag: { vi: "Tài khoản ngân hàng", en: "Bank account", zh: "银行账户", es: "Cuenta bancaria", id: "Rekening bank" },
     title: {
       vi: "Mercury vs Relay vs Wise Business — Ngân hàng nào tốt nhất cho LLC Việt?",
-      en: "Mercury vs Relay vs Wise Business — Best bank for Vietnamese LLCs?",
+      en: "Mercury vs Relay vs Wise Business — Best bank for Asian-owned LLCs?",
       zh: "Mercury vs Relay vs Wise Business——越南LLC的最佳银行？",
       es: "Mercury vs Relay vs Wise Business — ¿El mejor banco para LLC vietnamitas?",
       id: "Mercury vs Relay vs Wise Business — Bank terbaik untuk LLC Vietnam?",
     },
     excerpt: {
       vi: "Review thực tế từ góc độ seller Việt Nam: phí, giới hạn chuyển tiền, tích hợp Stripe/PayPal.",
-      en: "A real-world review for Vietnamese sellers: fees, transfer limits, Stripe/PayPal integrations.",
+      en: "A real-world review for Asian sellers: fees, transfer limits, Stripe/PayPal integrations.",
       zh: "从越南卖家角度的实际评测：费用、转账限额、Stripe/PayPal集成。",
       es: "Una reseña del mundo real para vendedores vietnamitas: comisiones, límites de transferencia, integraciones con Stripe/PayPal.",
       id: "Ulasan dunia nyata untuk penjual Vietnam: biaya, batas transfer, integrasi Stripe/PayPal.",

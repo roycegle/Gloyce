@@ -23,11 +23,11 @@ export default async function AboutPage() {
       icon: Users,
       title: t("Am hiểu ngôn ngữ & văn hóa", "Language & culture fluency", "语言与文化精通", "Fluidez cultural e idiomática", "Fasih bahasa & budaya"),
       desc: t(
-        "Đội ngũ Gloyce nói tiếng Việt, hiểu bối cảnh kinh doanh Việt Nam và kết nối với đối tác quốc tế.",
-        "The Gloyce team speaks Vietnamese, understands Vietnamese business context and connects with international partners.",
-        "Gloyce团队会说越南语，了解越南商业背景并与国际合作伙伴保持联系。",
-        "El equipo de Gloyce habla vietnamita, entiende el contexto empresarial vietnamita y conecta con socios internacionales.",
-        "Tim Gloyce berbahasa Vietnam, memahami konteks bisnis Vietnam dan terhubung dengan mitra internasional."
+        "Đội ngũ Gloyce đa ngôn ngữ, am hiểu bối cảnh kinh doanh châu Á và kết nối với đối tác quốc tế trên toàn cầu.",
+        "The Gloyce team is multilingual, understands Asian business contexts, and connects with international partners worldwide.",
+        "Gloyce团队精通多种语言，了解亚洲商业背景并与全球国际合作伙伴保持联系。",
+        "El equipo de Gloyce es multilingüe, entiende los contextos empresariales asiáticos y conecta con socios internacionales en todo el mundo.",
+        "Tim Gloyce multibahasa, memahami konteks bisnis Asia dan terhubung dengan mitra internasional di seluruh dunia."
       ),
     },
     {
@@ -45,11 +45,11 @@ export default async function AboutPage() {
       icon: Globe,
       title: t("Mạng lưới đối tác toàn cầu", "Global partner network", "全球合作伙伴网络", "Red de socios globales", "Jaringan mitra global"),
       desc: t(
-        "Gloyce kết nối với luật sư, kế toán, ngân hàng và fintech tại Mỹ, Singapore, Hồng Kông và Việt Nam.",
-        "Gloyce connects with lawyers, accountants, banks and fintechs in the US, Singapore, Hong Kong and Vietnam.",
-        "Gloyce与美国、新加坡、香港和越南的律师、会计师、银行和金融科技公司保持联系。",
-        "Gloyce conecta con abogados, contadores, bancos y fintechs en EE.UU., Singapur, Hong Kong y Vietnam.",
-        "Gloyce terhubung dengan pengacara, akuntan, bank, dan fintech di AS, Singapura, Hong Kong, dan Vietnam."
+        "Gloyce kết nối với luật sư, kế toán, ngân hàng và fintech hàng đầu tại Mỹ, Singapore, Hồng Kông và các thị trường châu Á.",
+        "Gloyce connects with top lawyers, accountants, banks and fintechs in the US, Singapore, Hong Kong and across Asian markets.",
+        "Gloyce与美国、新加坡、香港及整个亚洲市场的顶级律师、会计师、银行和金融科技公司保持联系。",
+        "Gloyce conecta con los mejores abogados, contadores, bancos y fintechs en EE.UU., Singapur, Hong Kong y los mercados asiáticos.",
+        "Gloyce terhubung dengan pengacara, akuntan, bank, dan fintech terkemuka di AS, Singapura, Hong Kong, dan pasar-pasar Asia."
       ),
     },
   ];
@@ -64,27 +64,27 @@ export default async function AboutPage() {
               {t("VỀ CHÚNG TÔI", "ABOUT US", "关于我们", "ACERCA DE NOSOTROS", "TENTANG KAMI")}
             </p>
             <h1 className="text-4xl sm:text-5xl font-bold leading-tight mb-6">
-              {t("Giúp doanh nghiệp Việt Nam ", "Helping Vietnamese businesses ", "帮助越南企业", "Ayudando a empresas vietnamitas ", "Membantu bisnis Vietnam ")}
+              {t("Giúp doanh nghiệp châu Á ", "Helping Asian businesses ", "帮助亚洲企业", "Ayudando a empresas asiáticas ", "Membantu bisnis Asia ")}
               <span className="text-gold-gradient">
                 {t("chinh phục thị trường toàn cầu", "conquer global markets", "征服全球市场", "conquistar mercados globales", "menaklukkan pasar global")}
               </span>
             </h1>
             <p className="text-ink-300 text-lg leading-relaxed mb-6">
               {t(
-                "Gloyce được thành lập với một mục tiêu rõ ràng: loại bỏ những rào cản phức tạp khi doanh nghiệp Việt Nam muốn vươn ra thế giới. Chúng tôi không chỉ là nhà cung cấp dịch vụ — chúng tôi là đối tác chiến lược đồng hành từ ngày đầu thành lập đến khi doanh nghiệp vận hành ổn định xuyên biên giới.",
-                "Gloyce was founded with a clear goal: removing the complex barriers for Vietnamese businesses looking to go global. We're not just a service provider — we're a strategic partner from day one of incorporation to full cross-border operations.",
-                "Gloyce的创立有一个明确目标：消除越南企业走向全球的复杂障碍。我们不仅仅是服务提供商——我们是从成立第一天到全面跨境运营的战略合作伙伴。",
-                "Gloyce fue fundada con un objetivo claro: eliminar las barreras complejas para las empresas vietnamitas que desean globalizarse. No somos solo un proveedor de servicios — somos un socio estratégico desde el primer día.",
-                "Gloyce didirikan dengan tujuan yang jelas: menghilangkan hambatan kompleks bagi bisnis Vietnam yang ingin go global. Kami bukan sekadar penyedia layanan — kami adalah mitra strategis dari hari pertama pendirian hingga operasi lintas negara yang stabil."
+                "Gloyce được thành lập với một mục tiêu rõ ràng: loại bỏ những rào cản phức tạp khi doanh nghiệp châu Á muốn vươn ra thế giới. Chúng tôi không chỉ là nhà cung cấp dịch vụ — chúng tôi là đối tác chiến lược đồng hành từ ngày đầu thành lập đến khi doanh nghiệp vận hành ổn định xuyên biên giới.",
+                "Gloyce was founded with a clear goal: removing the complex barriers for Asian businesses looking to go global. We're not just a service provider — we're a strategic partner from day one of incorporation to full cross-border operations.",
+                "Gloyce的创立有一个明确目标：消除亚洲企业走向全球的复杂障碍。我们不仅仅是服务提供商——我们是从成立第一天到全面跨境运营的战略合作伙伴。",
+                "Gloyce fue fundada con un objetivo claro: eliminar las barreras complejas para las empresas asiáticas que desean globalizarse. No somos solo un proveedor de servicios — somos un socio estratégico desde el primer día.",
+                "Gloyce didirikan dengan tujuan yang jelas: menghilangkan hambatan kompleks bagi bisnis Asia yang ingin go global. Kami bukan sekadar penyedia layanan — kami adalah mitra strategis dari hari pertama pendirian hingga operasi lintas negara yang stabil."
               )}
             </p>
             <p className="text-ink-300 leading-relaxed">
               {t(
-                "Mô hình của Gloyce tập trung vào hành lang Việt Nam ↔ Mỹ trước, sau đó mở rộng sang Singapore và Hồng Kông. Chúng tôi tự vận hành đội kế toán và compliance in-house — không thuần môi giới — để đảm bảo chất lượng dịch vụ và biên lợi nhuận đủ để tái đầu tư vào sản phẩm.",
-                "Gloyce's model focuses on the Vietnam ↔ US corridor first, then expands to Singapore and Hong Kong. We operate our own in-house accounting and compliance team — not pure brokerage — to ensure service quality and margins sufficient to reinvest in the product.",
-                "Gloyce的模式首先专注于越南↔美国通道，然后扩展到新加坡和香港。我们运营自己的内部会计和合规团队——而非纯粹的经纪业务——以确保服务质量和足够的利润率以再投资于产品。",
-                "El modelo de Gloyce se enfoca primero en el corredor Vietnam ↔ EE.UU., luego se expande a Singapur y Hong Kong. Operamos nuestro propio equipo interno de contabilidad y cumplimiento — no puro corretaje — para garantizar calidad y márgenes suficientes para reinvertir en el producto.",
-                "Model Gloyce berfokus pada koridor Vietnam ↔ AS terlebih dahulu, kemudian berkembang ke Singapura dan Hong Kong. Kami menjalankan tim akuntansi dan kepatuhan internal sendiri — bukan perantara murni — untuk memastikan kualitas layanan dan margin yang cukup untuk diinvestasikan kembali."
+                "Gloyce phục vụ các doanh nghiệp trên khắp châu Á — từ Đông Nam Á đến Đông Bắc Á — muốn thành lập tại Mỹ, Singapore hoặc Hồng Kông. Chúng tôi tự vận hành đội kế toán và compliance in-house — không thuần môi giới — để đảm bảo chất lượng dịch vụ nhất quán.",
+                "Gloyce serves businesses across Asia — from Southeast Asia to Northeast Asia — looking to incorporate in the US, Singapore or Hong Kong. We operate our own in-house accounting and compliance team — not pure brokerage — to ensure consistent service quality.",
+                "Gloyce服务于整个亚洲的企业——从东南亚到东北亚——希望在美国、新加坡或香港成立公司。我们运营自己的内部会计和合规团队——而非纯粹经纪业务——以确保一致的服务质量。",
+                "Gloyce atiende a empresas de toda Asia — desde el Sudeste Asiático hasta el Noreste Asiático — que desean incorporarse en EE.UU., Singapur o Hong Kong. Operamos nuestro propio equipo interno de contabilidad y cumplimiento para garantizar una calidad de servicio consistente.",
+                "Gloyce melayani bisnis di seluruh Asia — dari Asia Tenggara hingga Asia Timur Laut — yang ingin mendirikan perusahaan di AS, Singapura, atau Hong Kong. Kami menjalankan tim akuntansi dan kepatuhan internal sendiri untuk memastikan kualitas layanan yang konsisten."
               )}
             </p>
           </div>

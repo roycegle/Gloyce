@@ -102,7 +102,7 @@ export default function ContactPage() {
                 {t("Thứ 2 – Thứ 6: 9:00 – 18:00 (PST)", "Mon – Fri: 9:00 AM – 6:00 PM (PST)", "周一至周五：9:00 – 18:00 (PST)", "Lun – Vie: 9:00 AM – 6:00 PM (PST)", "Sen – Jum: 9:00 – 18:00 (PST)")}
               </p>
               <p className="text-xs text-ink-500">
-                {t("Hỗ trợ tiếng Việt trong giờ làm việc", "Vietnamese support during business hours", "工作时间内提供越南语支持", "Soporte en vietnamita durante horario de atención", "Dukungan bahasa Vietnam dalam jam kerja")}
+                {t("Hỗ trợ đa ngôn ngữ trong giờ làm việc", "Multilingual support during business hours", "工作时间内提供多语言支持", "Soporte multilingüe durante horario de atención", "Dukungan multibahasa dalam jam kerja")}
               </p>
             </div>
           </div>

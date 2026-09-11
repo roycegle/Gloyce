@@ -99,11 +99,11 @@ export default async function HomePage() {
 
             <p className="text-base sm:text-lg text-ink-300 leading-relaxed mb-8 max-w-lg">
               {t(
-                "Gloyce giúp doanh nghiệp Việt Nam thành lập công ty, vận hành kế toán và mở rộng ra thị trường quốc tế — trọn gói tuân thủ từ một nơi.",
-                "Gloyce helps Vietnamese businesses incorporate, run accounting, and expand globally — fully compliant, all from one place.",
-                "Gloyce帮助越南企业成立公司、管理会计并拓展全球市场——合规完整，一站式服务。",
-                "Gloyce ayuda a empresas vietnamitas a constituirse, gestionar su contabilidad y expandirse globalmente — totalmente conforme, todo en un solo lugar.",
-                "Gloyce membantu bisnis Vietnam mendirikan perusahaan, menjalankan akuntansi, dan berkembang ke pasar global — patuh penuh, semua dari satu tempat."
+                "Gloyce giúp doanh nghiệp châu Á thành lập công ty, vận hành kế toán và mở rộng ra thị trường quốc tế — trọn gói tuân thủ từ một nơi.",
+                "Gloyce helps businesses across Asia incorporate, run accounting, and expand globally — fully compliant, all from one place.",
+                "Gloyce帮助亚洲企业成立公司、管理会计并拓展全球市场——合规完整，一站式服务。",
+                "Gloyce ayuda a empresas de toda Asia a constituirse, gestionar su contabilidad y expandirse globalmente — totalmente conforme, todo en un solo lugar.",
+                "Gloyce membantu bisnis di seluruh Asia mendirikan perusahaan, menjalankan akuntansi, dan berkembang ke pasar global — patuh penuh, semua dari satu tempat."
               )}
             </p>
 
@@ -480,11 +480,11 @@ export default async function HomePage() {
               { icon: Users2,
                 title: t("Chuyên gia ngôn ngữ & thị trường","Language & market experts","语言与市场专家","Expertos en idioma y mercado","Ahli bahasa & pasar"),
                 body: t(
-                  "Đội ngũ nói tiếng Việt, am hiểu bối cảnh kinh doanh Việt Nam và luật pháp Mỹ. Giao tiếp hoàn toàn bằng tiếng Việt, không cần dịch thuật.",
-                  "Our team speaks Vietnamese and understands both Vietnamese business context and US law. Communicate entirely in your language.",
-                  "我们的团队会说越南语，了解越南商业背景和美国法律。完全用您的语言沟通，无需翻译。",
-                  "Nuestro equipo habla vietnamita y entiende el contexto empresarial vietnamita y la ley de EE.UU. Comuníquese completamente en su idioma.",
-                  "Tim kami berbahasa Vietnam dan memahami konteks bisnis Vietnam serta hukum AS. Berkomunikasi sepenuhnya dalam bahasa Anda."
+                  "Đội ngũ đa ngôn ngữ, am hiểu bối cảnh kinh doanh châu Á và luật pháp quốc tế. Giao tiếp hoàn toàn bằng ngôn ngữ của bạn, không cần dịch thuật.",
+                  "Our multilingual team understands Asian business contexts and international law. Communicate entirely in your own language — no translation needed.",
+                  "我们的多语言团队了解亚洲商业背景和国际法律。完全用您的语言沟通，无需翻译。",
+                  "Nuestro equipo multilingüe entiende los contextos empresariales asiáticos y la ley internacional. Comuníquese completamente en su propio idioma.",
+                  "Tim multibahasa kami memahami konteks bisnis Asia dan hukum internasional. Berkomunikasi sepenuhnya dalam bahasa Anda sendiri — tanpa terjemahan."
                 ) },
               { icon: FileCheck,
                 title: t("Tuân thủ pháp luật Mỹ từ đầu","US-compliant from day one","从第一天起遵守美国法律","Cumplimiento en EE.UU. desde el primer día","Patuh hukum AS sejak hari pertama"),
@@ -559,29 +559,29 @@ export default async function HomePage() {
 
           <div className="grid md:grid-cols-3 gap-5">
             {[
-              { name:"Nguyễn Minh Tuấn", role: t("Founder, TechExport JSC","Founder, TechExport JSC","TechExport JSC创始人","Fundador, TechExport JSC","Pendiri, TechExport JSC"),
+              { name:"Nguyễn Minh Tuấn", role: t("Founder, TechExport JSC · Vietnam","Founder, TechExport JSC · Vietnam","TechExport JSC创始人 · 越南","Fundador, TechExport JSC · Vietnam","Pendiri, TechExport JSC · Vietnam"),
                 service:"US LLC", avatarBg:"C9960C",
                 quote: t(
-                  "Gloyce đã giúp chúng tôi thành lập LLC Delaware trong vòng 10 ngày. Toàn bộ quy trình rõ ràng, đội ngũ hỗ trợ bằng tiếng Việt rất chuyên nghiệp.",
-                  "Gloyce set up our Delaware LLC in 10 days. The whole process was crystal clear and the Vietnamese-speaking team was incredibly professional.",
-                  "Gloyce在10天内帮我们设立了特拉华州LLC。整个流程清晰透明，越南语团队非常专业。",
-                  "Gloyce configuró nuestra LLC de Delaware en 10 días. Todo el proceso fue muy claro y el equipo de habla vietnamita fue increíblemente profesional.",
-                  "Gloyce mendirikan LLC Delaware kami dalam 10 hari. Seluruh proses sangat jelas dan tim berbahasa Vietnam sangat profesional."
+                  "Gloyce đã giúp chúng tôi thành lập LLC Delaware trong vòng 10 ngày. Toàn bộ quy trình rõ ràng, đội ngũ hỗ trợ chuyên nghiệp và phản hồi rất nhanh.",
+                  "Gloyce set up our Delaware LLC in 10 days. The whole process was crystal clear and the team was incredibly professional and responsive.",
+                  "Gloyce在10天内帮我们设立了特拉华州LLC。整个流程清晰透明，团队非常专业，响应迅速。",
+                  "Gloyce configuró nuestra LLC de Delaware en 10 días. Todo el proceso fue muy claro y el equipo fue increíblemente profesional.",
+                  "Gloyce mendirikan LLC Delaware kami dalam 10 hari. Seluruh proses sangat jelas dan timnya sangat profesional serta responsif."
                 ) },
-              { name:"Trần Thị Hoa", role: t("Amazon Seller, TP.HCM","Amazon Seller, HCMC","亚马逊卖家，胡志明市","Amazon Seller, Ciudad Ho Chi Minh","Amazon Seller, HCMC"),
+              { name:"Ahmad Rizki", role: t("Amazon Seller · Jakarta, Indonesia","Amazon Seller · Jakarta, Indonesia","亚马逊卖家 · 雅加达，印度尼西亚","Amazon Seller · Yakarta, Indonesia","Amazon Seller · Jakarta, Indonesia"),
                 service: t("Kế toán","Accounting","会计","Contabilidad","Akuntansi"), avatarBg:"3B7DD8",
                 quote: t(
-                  "Tôi bán hàng trên Amazon và không hiểu gì về khai báo thuế Mỹ. Gloyce đã lo hết — từ EIN, Form 5472 đến kế toán hàng tháng. Rất đáng tin.",
-                  "I sell on Amazon and knew nothing about US tax filings. Gloyce handled everything — EIN, Form 5472, and monthly accounting. Extremely trustworthy.",
-                  "我在Amazon上销售，对美国税务申报一无所知。Gloyce处理了一切——EIN、Form 5472和每月会计。非常值得信赖。",
-                  "Vendo en Amazon y no sabía nada sobre declaraciones de impuestos en EE.UU. Gloyce lo manejó todo — EIN, Form 5472 y contabilidad mensual. Extremadamente confiable.",
-                  "Saya berjualan di Amazon dan tidak tahu apa-apa tentang pengajuan pajak AS. Gloyce menangani semuanya — EIN, Form 5472, dan akuntansi bulanan. Sangat terpercaya."
+                  "Tôi bán hàng trên Amazon từ Indonesia và không hiểu gì về khai báo thuế Mỹ. Gloyce đã lo hết — từ EIN, Form 5472 đến kế toán hàng tháng. Rất đáng tin.",
+                  "I sell on Amazon from Indonesia and knew nothing about US tax filings. Gloyce handled everything — EIN, Form 5472, and monthly accounting. Extremely trustworthy.",
+                  "我在印度尼西亚通过Amazon销售，对美国税务申报一无所知。Gloyce处理了一切——EIN、Form 5472和每月会计。非常值得信赖。",
+                  "Vendo en Amazon desde Indonesia y no sabía nada sobre declaraciones de impuestos en EE.UU. Gloyce lo manejó todo — EIN, Form 5472 y contabilidad mensual. Extremadamente confiable.",
+                  "Saya berjualan di Amazon dari Indonesia dan tidak tahu apa-apa tentang pengajuan pajak AS. Gloyce menangani semuanya — EIN, Form 5472, dan akuntansi bulanan. Sangat terpercaya."
                 ) },
-              { name:"Lê Quốc Hùng", role:"CEO, Global Trade VN",
+              { name:"Kevin Tan", role: t("CEO, KL Digital · Malaysia","CEO, KL Digital · Malaysia","CEO，KL Digital · 马来西亚","CEO, KL Digital · Malasia","CEO, KL Digital · Malaysia"),
                 service: t("Khai báo thuế Mỹ","US Tax Filing","美国税务申报","Declaración fiscal en EE.UU.","Pengajuan pajak AS"), avatarBg:"10B981",
                 quote: t(
                   "Gloyce giải thích rõ ràng Form 5472 và các nghĩa vụ thuế liên bang cho LLC nước ngoài. Rất nhiều đơn vị không am hiểu phần này — Gloyce hướng dẫn cụ thể từng bước.",
-                  "Gloyce clearly explained Form 5472 and federal tax obligations for a foreign-owned LLC. Very few providers understand this — Gloyce guided me step by step.",
+                  "Gloyce clearly explained Form 5472 and federal tax obligations for a foreign-owned LLC. Very few providers understand this part — Gloyce guided me step by step.",
                   "Gloyce清楚地解释了外资LLC的Form 5472和联邦税务义务。很少有服务商了解这部分——Gloyce一步一步指导我。",
                   "Gloyce explicó claramente Form 5472 y las obligaciones fiscales federales para una LLC de propiedad extranjera. Muy pocos proveedores entienden esto — Gloyce me guió paso a paso.",
                   "Gloyce menjelaskan dengan jelas Form 5472 dan kewajiban pajak federal untuk LLC milik asing. Sangat sedikit penyedia yang memahami ini — Gloyce membimbing saya langkah demi langkah."
@@ -687,11 +687,11 @@ export default async function HomePage() {
               </h2>
               <p className="text-ink-300 mb-10 max-w-xl mx-auto">
                 {t(
-                  "Hơn 200 doanh nghiệp Việt Nam đã tin tưởng Gloyce. Đặt lịch tư vấn miễn phí ngay hôm nay — không cam kết, không ràng buộc.",
-                  "Over 200 Vietnamese businesses already trust Gloyce. Book a free consultation today — no commitment, no strings attached.",
-                  "超过200家越南企业已经信任Gloyce。立即预约免费咨询——无需承诺，无附加条件。",
-                  "Más de 200 empresas vietnamitas ya confían en Gloyce. Reserva una consulta gratuita hoy — sin compromisos.",
-                  "Lebih dari 200 bisnis Vietnam telah mempercayai Gloyce. Pesan konsultasi gratis hari ini — tanpa komitmen, tanpa syarat."
+                  "Hơn 200 doanh nghiệp châu Á đã tin tưởng Gloyce. Đặt lịch tư vấn miễn phí ngay hôm nay — không cam kết, không ràng buộc.",
+                  "Over 200 businesses across Asia already trust Gloyce. Book a free consultation today — no commitment, no strings attached.",
+                  "超过200家亚洲企业已经信任Gloyce。立即预约免费咨询——无需承诺，无附加条件。",
+                  "Más de 200 empresas de toda Asia ya confían en Gloyce. Reserva una consulta gratuita hoy — sin compromisos.",
+                  "Lebih dari 200 bisnis di seluruh Asia telah mempercayai Gloyce. Pesan konsultasi gratis hari ini — tanpa komitmen, tanpa syarat."
                 )}
               </p>
               <div className="flex flex-wrap gap-3 justify-center mb-10">
@@ -707,7 +707,7 @@ export default async function HomePage() {
               <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-ink-400">
                 {[
                   t("✓ Không phí ẩn","✓ No hidden fees","✓ 无隐藏费用","✓ Sin tarifas ocultas","✓ Tanpa biaya tersembunyi"),
-                  t("✓ Hỗ trợ tiếng Việt","✓ Vietnamese support","✓ 越南语支持","✓ Soporte en vietnamita","✓ Dukungan bahasa Vietnam"),
+                  t("✓ Hỗ trợ đa ngôn ngữ","✓ Multilingual support","✓ 多语言支持","✓ Soporte multilingüe","✓ Dukungan multibahasa"),
                   "✓ IRS & State compliant",
                   t("✓ Bảo mật tài liệu","✓ Document security","✓ 文件安全","✓ Seguridad de documentos","✓ Keamanan dokumen"),
                 ].map(b => <span key={b} className="font-medium">{b}</span>)}
