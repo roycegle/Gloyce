@@ -28,8 +28,8 @@ const FOOTER_LINKS = {
     titleEn: "Compliance",
     links: [
       { label: "Thư ký công ty", labelEn: "Company secretary", href: "/compliance/secretary" },
-      { label: "Khai báo ODI", labelEn: "ODI reporting", href: "/compliance/odi" },
-      { label: "Hồi hương lợi nhuận", labelEn: "Profit repatriation", href: "/compliance/repatriation" },
+      { label: "Khai báo thuế & báo cáo", labelEn: "US Filing & Reporting", href: "/compliance/odi" },
+      { label: "Chuyển tiền quốc tế", labelEn: "International transfers", href: "/compliance/repatriation" },
     ],
   },
   resources: {
@@ -115,8 +115,8 @@ export async function Footer({ locale }: { locale: string }) {
           <p>© 2024–2026 Gloyce. {isVi ? "Bảo lưu mọi quyền." : "All rights reserved."}</p>
           <p className="text-center max-w-xl leading-relaxed">
             {isVi
-              ? "Gloyce cung cấp dịch vụ tư vấn và điều phối — không phải văn phòng luật hay tổ chức tài chính được cấp phép. Dịch vụ đầu tư ra nước ngoài (ODI) tuân thủ theo Luật Đầu tư 2020 và quy định của NHNN Việt Nam."
-              : "Gloyce provides advisory and coordination services — not a licensed law firm or financial institution. Outward investment (ODI) services comply with Vietnam Investment Law 2020 and SBV regulations."}
+              ? "Gloyce LLC là công ty tư vấn doanh nghiệp đăng ký tại California, Hoa Kỳ — không phải văn phòng luật hay tổ chức tài chính được cấp phép. Dịch vụ giúp khách hàng tuân thủ quy định liên bang và tiểu bang Mỹ."
+              : "Gloyce LLC is a business consulting firm registered in California, USA — not a licensed law firm or financial institution. Our services help clients comply with applicable US federal and state regulations."}
           </p>
           <div className="flex gap-4">
             <Link href="/privacy" className="hover:text-foreground transition-colors">{isVi ? "Bảo mật" : "Privacy"}</Link>

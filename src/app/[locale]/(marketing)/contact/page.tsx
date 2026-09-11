@@ -9,8 +9,8 @@ const SERVICES = [
   { vi: "Hong Kong Limited", en: "Hong Kong Limited" },
   { vi: "Mở tài khoản ngân hàng", en: "Business bank account" },
   { vi: "Dịch vụ kế toán", en: "Accounting services" },
-  { vi: "Khai báo ODI", en: "ODI reporting" },
-  { vi: "Hồi hương lợi nhuận", en: "Profit repatriation" },
+  { vi: "Khai báo thuế & Báo cáo", en: "US Tax Filing & Reporting" },
+  { vi: "Chuyển tiền quốc tế", en: "International transfers" },
   { vi: "Khác", en: "Other" },
 ];
 

@@ -32,8 +32,8 @@ export default async function SingaporePage() {
             </div>
             <div className="space-y-2">
               {(isVi
-                ? ["Xử lý 3–7 ngày làm việc","Company Secretary (năm đầu)","Registered address tại Singapore","Mở tài khoản DBS/OCBC/Wise","Hỗ trợ GST registration","Hướng dẫn ODI theo quy định NHNN"]
-                : ["3–7 business day processing","First-year Company Secretary","Registered Singapore address","DBS/OCBC/Wise bank account","GST registration support","SBV ODI compliance guidance"]
+                ? ["Xử lý 3–7 ngày làm việc","Company Secretary (năm đầu)","Registered address tại Singapore","Mở tài khoản DBS/OCBC/Wise","Hỗ trợ GST registration","Tư vấn tuân thủ pháp lý quốc tế"]
+                : ["3–7 business day processing","First-year Company Secretary","Registered Singapore address","DBS/OCBC/Wise bank account","GST registration support","International compliance guidance"]
               ).map(f => (
                 <div key={f} className="flex items-center gap-2 text-sm text-ink-200">
                   <Check size={14} className="text-gold shrink-0" /> {f}

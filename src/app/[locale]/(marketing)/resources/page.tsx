@@ -14,7 +14,7 @@ export default async function ResourcesPage() {
   const featuredGuides = isVi
     ? [
         { title: "Hướng dẫn mở LLC Mỹ 2026 — Từ A đến Z", href: "/resources/guides/us-llc", tag: "LLC Mỹ" },
-        { title: "ODI là gì? Hướng dẫn đầy đủ cho doanh nghiệp Việt Nam", href: "/resources/guides/odi", tag: "Tuân thủ" },
+        { title: "Form 5472 là gì? Hướng dẫn đầy đủ cho LLC nước ngoài tại Mỹ", href: "/resources/guides/form-5472", tag: "Tuân thủ" },
         { title: "Delaware vs Wyoming — Chọn bang nào khi mở LLC?", href: "/resources/guides/compare", tag: "LLC Mỹ" },
         { title: "Form 5472 là gì và khi nào cần nộp?", href: "/resources/guides/form-5472", tag: "Kế toán" },
         { title: "10 sai lầm phổ biến khi mở công ty ở Mỹ", href: "/resources/guides/mistakes", tag: "LLC Mỹ" },
@@ -22,7 +22,7 @@ export default async function ResourcesPage() {
       ]
     : [
         { title: "Complete Guide to Opening a US LLC in 2026", href: "/resources/guides/us-llc", tag: "US LLC" },
-        { title: "What is ODI? Full guide for Vietnamese businesses", href: "/resources/guides/odi", tag: "Compliance" },
+        { title: "What is Form 5472? Complete guide for foreign-owned US LLCs", href: "/resources/guides/form-5472", tag: "Compliance" },
         { title: "Delaware vs Wyoming — Which state for your LLC?", href: "/resources/guides/compare", tag: "US LLC" },
         { title: "What is Form 5472 and when must you file it?", href: "/resources/guides/form-5472", tag: "Accounting" },
         { title: "10 common mistakes when incorporating in the US", href: "/resources/guides/mistakes", tag: "US LLC" },

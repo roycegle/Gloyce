@@ -17,8 +17,8 @@ export default async function IncorporationPage() {
       href: "/incorporation/us-llc",
       featured: true,
       perks: isVi
-        ? ["Delaware hoặc Wyoming", "EIN từ IRS", "Mở tài khoản Mercury/Relay", "Hướng dẫn ODI"]
-        : ["Delaware or Wyoming", "EIN from IRS", "Mercury/Relay bank account", "ODI guidance"],
+        ? ["Delaware hoặc Wyoming", "EIN từ IRS", "Mở tài khoản Mercury/Relay", "Form 5472 & BOI Report"]
+        : ["Delaware or Wyoming", "EIN from IRS", "Mercury/Relay bank account", "Form 5472 & BOI Report"],
     },
     {
       icon: Globe, flag: "🇸🇬",
@@ -77,8 +77,8 @@ export default async function IncorporationPage() {
             </h1>
             <p className="text-ink-300 text-lg leading-relaxed">
               {isVi
-                ? "Gloyce lo toàn bộ quy trình — từ đặt tên, nộp hồ sơ, lấy EIN đến mở tài khoản ngân hàng. Hỗ trợ tiếng Việt và hướng dẫn ODI đầy đủ."
-                : "Gloyce handles the entire process — from name check, filing, EIN to bank account opening. Vietnamese support and full ODI guidance included."}
+                ? "Gloyce lo toàn bộ quy trình — từ đặt tên, nộp hồ sơ, lấy EIN đến mở tài khoản ngân hàng. Hỗ trợ tiếng Việt và tuân thủ pháp lý Mỹ đầy đủ."
+                : "Gloyce handles the entire process — from name check, filing, EIN to bank account opening. Vietnamese support and full US compliance included."}
             </p>
           </div>
 

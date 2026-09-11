@@ -27,7 +27,7 @@ export default async function USLLCPage() {
         { icon: Clock, title: "7–14 ngày", desc: "Thời gian xử lý trung bình từ khi đặt hàng đến khi nhận hồ sơ" },
         { icon: DollarSign, title: "Giá trọn gói rõ ràng", desc: "Không phí ẩn. Bao gồm phí bang, Registered Agent năm đầu và EIN" },
         { icon: Shield, title: "100% online", desc: "Không cần đến Mỹ, không cần SSN/ITIN — hoàn toàn từ xa" },
-        { icon: FileText, title: "Hướng dẫn ODI", desc: "Gloyce hướng dẫn khai báo đầu tư ra nước ngoài theo quy định NHNN" },
+        { icon: FileText, title: "Form 5472 & BOI Report", desc: "Gloyce lo toàn bộ nghĩa vụ báo cáo IRS bắt buộc cho LLC nước ngoài" },
         { icon: Zap, title: "Tiếng Việt toàn trình", desc: "Hỗ trợ bằng tiếng Việt từ tư vấn đến nhận hồ sơ" },
         { icon: Check, title: "Tuân thủ từ ngày đầu", desc: "Operating Agreement, Registered Agent và filing cơ bản được setup đúng từ đầu" },
       ]
@@ -35,20 +35,20 @@ export default async function USLLCPage() {
         { icon: Clock, title: "7–14 days", desc: "Average processing time from order to document delivery" },
         { icon: DollarSign, title: "Transparent flat fee", desc: "No hidden charges. Includes state fee, first-year Registered Agent and EIN" },
         { icon: Shield, title: "100% remote", desc: "No US visit required, no SSN/ITIN needed" },
-        { icon: FileText, title: "ODI guidance", desc: "Gloyce guides you through Vietnam outward investment declaration (SBV)" },
+        { icon: FileText, title: "Form 5472 & BOI Report", desc: "Gloyce handles all mandatory IRS reporting obligations for foreign-owned LLCs" },
         { icon: Zap, title: "Vietnamese support", desc: "Full Vietnamese-language support from consultation to document delivery" },
         { icon: Check, title: "Compliant from day one", desc: "Operating Agreement, Registered Agent and core filings set up correctly from the start" },
       ];
 
   const faqs = isVi
     ? [
-        { q: "Người Việt Nam có thể mở LLC Mỹ không?", a: "Có. Người nước ngoài được phép thành lập và sở hữu 100% LLC tại Mỹ mà không cần visa, thẻ xanh hay SSN. Tuy nhiên, nếu bạn là cá nhân/tổ chức Việt Nam, bạn cần khai báo ODI theo quy định của Ngân hàng Nhà nước Việt Nam." },
+        { q: "Người Việt Nam có thể mở LLC Mỹ không?", a: "Có. Người nước ngoài được phép thành lập và sở hữu 100% LLC tại Mỹ mà không cần visa, thẻ xanh hay SSN. LLC thuộc sở hữu nước ngoài cần nộp Form 5472 hàng năm với IRS — Gloyce lo toàn bộ phần này." },
         { q: "Delaware và Wyoming khác nhau thế nào?", a: "Delaware được ưu tiên nếu bạn muốn huy động vốn VC/angel investor — hệ thống luật công ty phát triển nhất Mỹ. Wyoming rẻ hơn (phí bang thấp), bảo mật thông tin tốt hơn, phù hợp cho công ty gia đình hoặc không có kế hoạch gọi vốn." },
         { q: "EIN là gì và tôi có cần không?", a: "EIN (Employer Identification Number) là mã số thuế liên bang Mỹ, tương đương mã số thuế doanh nghiệp tại Việt Nam. Bạn cần EIN để mở tài khoản ngân hàng Mỹ, khai báo thuế, và ký hợp đồng với Amazon/Stripe/PayPal." },
         { q: "Sau khi thành lập tôi cần làm gì hàng năm?", a: "LLC Delaware cần nộp Annual Franchise Tax (~$300/năm) trước ngày 1/6. Nếu có doanh thu, bạn cần nộp Form 1065 hoặc khai báo thuế cá nhân. Gloyce cung cấp dịch vụ kế toán & compliance hàng năm để lo phần này cho bạn." },
       ]
     : [
-        { q: "Can Vietnamese nationals open a US LLC?", a: "Yes. Non-US residents can own 100% of a US LLC without a visa, green card or SSN. However, Vietnamese individuals/entities must declare outward investment (ODI) as required by the State Bank of Vietnam." },
+        { q: "Can Vietnamese nationals open a US LLC?", a: "Yes. Non-US residents can own 100% of a US LLC without a visa, green card or SSN. Foreign-owned LLCs must file Form 5472 annually with the IRS — Gloyce handles all of this for you." },
         { q: "Delaware vs Wyoming — what's the difference?", a: "Delaware is preferred for VC/angel fundraising — it has the most developed corporate law in the US. Wyoming is cheaper (lower state fees), more private, and better suited for family businesses or those without fundraising plans." },
         { q: "What is an EIN and do I need one?", a: "An EIN (Employer Identification Number) is the US federal tax ID — equivalent to a Vietnamese business tax code. You need it to open a US bank account, file taxes, and sign contracts with Amazon/Stripe/PayPal." },
         { q: "What annual obligations does an LLC have?", a: "Delaware LLCs must pay the Annual Franchise Tax (~$300/year) by June 1. If you have revenue, you need to file Form 1065 or include it in personal tax returns. Gloyce's accounting & compliance service handles all of this for you." },
@@ -71,8 +71,8 @@ export default async function USLLCPage() {
             </h1>
             <p className="text-ink-300 text-lg leading-relaxed mb-8">
               {isVi
-                ? "Delaware hoặc Wyoming LLC — trọn gói từ hồ sơ thành lập, EIN, tài khoản ngân hàng đến hướng dẫn khai báo ODI. 100% online, không cần đến Mỹ."
-                : "Delaware or Wyoming LLC — complete package including formation documents, EIN, bank account and ODI guidance. 100% remote, no US visit required."}
+                ? "Delaware hoặc Wyoming LLC — trọn gói từ hồ sơ thành lập, EIN, tài khoản ngân hàng đến Form 5472 & BOI Report. 100% online, không cần đến Mỹ."
+                : "Delaware or Wyoming LLC — complete package including formation documents, EIN, bank account and Form 5472 & BOI Report. 100% remote, no US visit required."}
             </p>
             <div className="flex flex-wrap gap-3 mb-8">
               <Link href="/contact" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gold text-ink-900 font-semibold text-sm hover:bg-gold-light transition-all shadow-[0_0_24px_rgba(201,150,12,0.25)]">
@@ -95,8 +95,8 @@ export default async function USLLCPage() {
             <p className="text-sm text-ink-400 mb-6">USD · {isVi ? "thanh toán một lần" : "one-time payment"}</p>
             <div className="space-y-3 mb-6">
               {(isVi
-                ? ["Phí bang Delaware/Wyoming","Registered Agent (năm đầu)","EIN từ IRS","Operating Agreement chuẩn","Certificate of Formation","Hỗ trợ tiếng Việt trọn trình","Hướng dẫn khai báo ODI cơ bản"]
-                : ["State filing fee (Delaware/Wyoming)","First-year Registered Agent","EIN from IRS","Standard Operating Agreement","Certificate of Formation","Full Vietnamese-language support","Basic ODI declaration guidance"]
+                ? ["Phí bang Delaware/Wyoming","Registered Agent (năm đầu)","EIN từ IRS","Operating Agreement chuẩn","Certificate of Formation","Hỗ trợ tiếng Việt trọn trình","Form 5472 & BOI Report cơ bản"]
+                : ["State filing fee (Delaware/Wyoming)","First-year Registered Agent","EIN from IRS","Standard Operating Agreement","Certificate of Formation","Full Vietnamese-language support","Form 5472 & BOI Report basics"]
               ).map(f => (
                 <div key={f} className="flex items-center gap-2.5 text-sm text-ink-200">
                   <Check size={15} className="text-emerald-400 shrink-0" /> {f}

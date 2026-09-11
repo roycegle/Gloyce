@@ -12,16 +12,16 @@ export default async function PricingPage() {
       price: "$499", period: isVi ? "một lần" : "one-time",
       desc: isVi ? "Delaware hoặc Wyoming LLC — trọn gói cơ bản" : "Delaware or Wyoming LLC — basic complete package",
       features: isVi
-        ? ["Phí bang + Registered Agent năm đầu","EIN từ IRS","Operating Agreement","Certificate of Formation","Hỗ trợ ODI cơ bản"]
-        : ["State fee + first-year Registered Agent","IRS EIN","Operating Agreement","Certificate of Formation","Basic ODI guidance"],
+        ? ["Phí bang + Registered Agent năm đầu","EIN từ IRS","Operating Agreement","Certificate of Formation","Form 5472 & BOI Report cơ bản"]
+        : ["State fee + first-year Registered Agent","IRS EIN","Operating Agreement","Certificate of Formation","Form 5472 & BOI Report basics"],
     },
     {
       name: isVi ? "LLC Mỹ — Gói Premium" : "US LLC — Premium",
       price: "$799", period: isVi ? "một lần" : "one-time",
-      desc: isVi ? "Đầy đủ Standard + tài khoản ngân hàng + ODI đầy đủ" : "Everything Standard + bank account + full ODI",
+      desc: isVi ? "Đầy đủ Standard + tài khoản ngân hàng + khai báo liên bang đầy đủ" : "Everything Standard + bank account + full US federal filing",
       features: isVi
-        ? ["Tất cả Gói Standard","Hỗ trợ mở Mercury/Relay/Wise","Hướng dẫn ODI đầy đủ + chứng từ NHNN","Business address (1 năm)","30 phút tư vấn chiến lược"]
-        : ["Everything Standard","Mercury/Relay/Wise account setup","Full ODI guidance + SBV documents","Business address (1 year)","30-min strategy consultation"],
+        ? ["Tất cả Gói Standard","Hỗ trợ mở Mercury/Relay/Wise","Form 5472 & BOI Report đầy đủ","Business address (1 năm)","30 phút tư vấn chiến lược"]
+        : ["Everything Standard","Mercury/Relay/Wise account setup","Full Form 5472 & BOI Report filing","Business address (1 year)","30-min strategy consultation"],
       featured: true,
     },
     {
@@ -69,18 +69,18 @@ export default async function PricingPage() {
       features: isVi ? ["Duy trì sổ đăng ký","Soạn thảo nghị quyết","Annual filing","Nhắc deadline"] : ["Maintain registers","Draft resolutions","Annual filing","Deadline reminders"],
     },
     {
-      name: isVi ? "Khai báo ODI" : "ODI Reporting",
+      name: isVi ? "Khai báo thuế & Báo cáo" : "US Tax Filing & Reporting",
       price: isVi ? "3.000.000đ" : "$150",
       period: isVi ? "một lần" : "one-time",
-      desc: isVi ? "Đăng ký đầu tư ra nước ngoài với NHNN" : "Register outward investment with SBV",
-      features: isVi ? ["Đánh giá nghĩa vụ","Chuẩn bị hồ sơ NHNN","Mở tài khoản vốn ODI","Báo cáo định kỳ"] : ["Obligation assessment","SBV filing preparation","ODI capital account","Periodic reporting"],
+      desc: isVi ? "Form 5472, BOI Report và khai báo liên bang hàng năm" : "Form 5472, BOI Report and annual federal filings",
+      features: isVi ? ["Đánh giá nghĩa vụ khai báo","Chuẩn bị & nộp Form 5472","BOI Report theo FinCEN","Nhắc nhở deadline hàng năm"] : ["Filing obligation assessment","Prepare & file Form 5472","BOI Report with FinCEN","Annual deadline reminders"],
     },
     {
-      name: isVi ? "Hồi hương lợi nhuận" : "Profit Repatriation",
+      name: isVi ? "Chuyển tiền quốc tế" : "International Transfers",
       price: isVi ? "Liên hệ" : "Contact",
       period: "",
       desc: isVi ? "Tuỳ theo giá trị giao dịch" : "Depends on transaction value",
-      features: isVi ? ["Lập kế hoạch hồi hương","Phối hợp ngân hàng","Chứng từ NHNN","Tư vấn thuế TNCN"] : ["Repatriation planning","Bank coordination","SBV documentation","Personal income tax advice"],
+      features: isVi ? ["Wire transfer từ tài khoản Mỹ","Phân phối lợi nhuận cho cổ đông","Kết nối Wise, Airwallex, Payoneer","Tư vấn tỷ giá tối ưu"] : ["Wire transfer from US account","Profit distribution to shareholders","Connect Wise, Airwallex, Payoneer","Exchange rate optimization advice"],
     },
   ];
 

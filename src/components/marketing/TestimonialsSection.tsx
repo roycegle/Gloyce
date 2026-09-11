@@ -21,7 +21,7 @@ const TESTIMONIALS = [
   },
   {
     quote:
-      "Mình đặc biệt ấn tượng với cách Gloyce xử lý phần ODI — họ hướng dẫn mình đăng ký đúng với NHNN từ đầu, không phải lo rủi ro pháp lý về sau.",
+      "Mình đặc biệt ấn tượng với cách Gloyce xử lý phần Form 5472 và BOI Report — họ chuẩn bị hồ sơ đúng hạn, mình không phải lo rủi ro pháp lý với IRS.",
     name: "Đức Anh Lê",
     role: "Director",
     company: "Cross-border Payment Startup",

@@ -148,7 +148,7 @@ export default async function HomePage() {
               <div className="absolute top-1/2 -right-14 -translate-y-1/2 bg-ink-800/95 backdrop-blur-sm border border-gold/20 rounded-xl px-3 py-2.5 shadow-xl z-10">
                 <div className="flex items-center gap-2">
                   <BadgeCheck size={14} className="text-emerald-400 shrink-0" />
-                  <p className="text-xs font-semibold text-foreground">ODI Compliant</p>
+                  <p className="text-xs font-semibold text-foreground">IRS Registered</p>
                 </div>
               </div>
 
@@ -291,16 +291,16 @@ export default async function HomePage() {
                 </div>
                 <p className="text-ink-300 leading-relaxed mb-5 text-sm">
                   {isVi
-                    ? "Dịch vụ kế toán chuyên gia và thư ký công ty. Tuân thủ ODI hoàn toàn theo quy định NHNN."
-                    : "Expert accounting and corporate secretarial services alongside easy-to-use software. Fully ODI-compliant per SBV regulations."}
+                    ? "Dịch vụ kế toán chuyên gia và thư ký công ty. Đầy đủ từ sổ sách hàng tháng đến báo cáo liên bang Mỹ."
+                    : "Expert accounting and corporate secretarial services. From monthly bookkeeping to US federal reporting requirements."}
                 </p>
                 <div className="grid grid-cols-2 gap-2 mb-5">
-                  {(isVi ? ["Sổ sách hàng tháng","Khai báo thuế","Khai báo ODI","Hồi hương lợi nhuận"] : ["Monthly bookkeeping","Tax filing","ODI reporting","Profit repatriation"]).map(f => (
+                  {(isVi ? ["Sổ sách hàng tháng","Khai báo thuế Mỹ","Form 5472","Chuyển tiền quốc tế"] : ["Monthly bookkeeping","US tax filing","Form 5472","International transfers"]).map(f => (
                     <div key={f} className="flex items-center gap-1.5 text-xs text-ink-200"><Check size={11} className="text-blue-400 shrink-0" />{f}</div>
                   ))}
                 </div>
                 <div className="flex flex-wrap gap-2 mb-5">
-                  {[{label:isVi?"Kế toán":"Accounting",href:"/accounting"},{label:isVi?"Thư ký":"Secretary",href:"/compliance/secretary"},{label:"ODI",href:"/compliance/odi"}].map(item => (
+                  {[{label:isVi?"Kế toán":"Accounting",href:"/accounting"},{label:isVi?"Thư ký":"Secretary",href:"/compliance/secretary"},{label:isVi?"Báo cáo":"Filings",href:"/compliance/odi"}].map(item => (
                     <Link key={item.label} href={item.href} className="px-3 py-1.5 rounded-lg border border-ink-600 text-xs text-ink-200 hover:border-blue-500/40 hover:text-blue-400 transition-all">{item.label}</Link>
                   ))}
                 </div>
@@ -369,8 +369,8 @@ export default async function HomePage() {
                 href:"/accounting", tags:["Stripe","PayPal","Wise"] },
               { icon: TrendingUp, emoji:"📈", img: UX("1542744173-8e7e53415bb0",600,400),
                 title: isVi ? "Doanh nghiệp xuất khẩu" : "Export businesses",
-                desc: isVi ? "Doanh nghiệp có giao dịch với đối tác nước ngoài, muốn quản lý dòng tiền quốc tế tuân thủ ODI." : "Businesses with foreign partners managing international cash flow in full ODI compliance.",
-                href:"/compliance/odi", tags:["ODI","SBV Compliant"] },
+                desc: isVi ? "Doanh nghiệp có giao dịch với đối tác nước ngoài, muốn nhận thanh toán quốc tế và quản lý dòng tiền hiệu quả qua tài khoản Mỹ." : "Businesses with foreign trade partners looking to receive international payments and manage cash flow through a US account.",
+                href:"/compliance/odi", tags:["Mercury","Wise","Airwallex"] },
             ].map((seg) => {
               const Icon = seg.icon;
               return (
@@ -425,7 +425,7 @@ export default async function HomePage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
               { icon: Users2,    title: isVi ? "Chuyên gia Việt Nam" : "Vietnamese experts",       body: isVi ? "Đội ngũ hiểu luật Việt Nam và quốc tế. Giao tiếp hoàn toàn bằng tiếng Việt, không cần dịch thuật." : "Team fluent in Vietnamese and international law. Communicate entirely in Vietnamese." },
-              { icon: FileCheck, title: isVi ? "Tuân thủ ODI từ đầu" : "ODI-compliant from day one", body: isVi ? "Hướng dẫn khai báo ODI, mở tài khoản vốn và hồi hương lợi nhuận đúng hạn theo quy định NHNN." : "ODI registration, outward investment accounts, and timely profit repatriation per SBV regulations." },
+              { icon: FileCheck, title: isVi ? "Tuân thủ pháp luật Mỹ từ đầu" : "US-compliant from day one", body: isVi ? "Setup đúng Operating Agreement, Registered Agent và nghĩa vụ liên bang ngay từ đầu — Form 5472, BOI Report, Annual Tax — không để gặp rủi ro pháp lý Mỹ." : "Set up Operating Agreement, Registered Agent, and federal obligations correctly — Form 5472, BOI Report, Annual Tax — keeping you out of US legal risk." },
               { icon: Clock,     title: isVi ? "Xử lý nhanh 7–14 ngày" : "Fast 7–14 day processing",  body: isVi ? "Quy trình tối ưu giúp doanh nghiệp hoạt động nhanh hơn — không chờ hàng tháng như dịch vụ truyền thống." : "Optimized process gets you operating faster — no waiting months like traditional services." },
               { icon: Shield,    title: isVi ? "Bảo mật & Minh bạch" : "Secure & transparent",       body: isVi ? "Toàn bộ tài liệu được bảo mật. Không có phí ẩn — bạn biết chính xác mình đang trả tiền cho gì." : "All documents are secure. No hidden fees — you know exactly what you're paying for." },
               { icon: Globe2,    title: isVi ? "Mạng lưới đối tác toàn cầu" : "Global partner network",  body: isVi ? "Kết nối với ngân hàng, cổng thanh toán và đối tác pháp lý hàng đầu tại Mỹ, Singapore, Hồng Kông." : "Connected with top banks, payment gateways, and legal partners in the US, Singapore, and HK." },
@@ -471,10 +471,10 @@ export default async function HomePage() {
                   ? "Tôi bán hàng trên Amazon và không hiểu gì về khai báo thuế Mỹ. Gloyce đã lo hết — từ EIN, Form 5472 đến kế toán hàng tháng. Rất đáng tin."
                   : "I sell on Amazon and knew nothing about US tax filings. Gloyce handled everything — EIN, Form 5472, and monthly accounting. Extremely trustworthy." },
               { name:"Lê Quốc Hùng", role:"CEO, Global Trade VN",
-                service:"ODI Compliance", avatarBg:"10B981",
+                service: isVi ? "Khai báo thuế Mỹ" : "US Tax Filing", avatarBg:"10B981",
                 quote: isVi
-                  ? "Phần tôi thích nhất là Gloyce giải thích rõ về ODI và hồi hương lợi nhuận. Nhiều đối thủ tránh chủ đề này, Gloyce thì hướng dẫn cụ thể từng bước."
-                  : "What I loved most was how clearly Gloyce explained ODI and profit repatriation. Other providers dodge this topic — Gloyce guides you step by step." },
+                  ? "Gloyce giải thích rõ ràng Form 5472 và các nghĩa vụ thuế liên bang cho LLC nước ngoài. Rất nhiều đơn vị không am hiểu phần này — Gloyce hướng dẫn cụ thể từng bước."
+                  : "Gloyce clearly explained Form 5472 and federal tax obligations for a foreign-owned LLC. Very few providers understand this — Gloyce guided me step by step." },
             ].map((t, i) => (
               <div key={i} className="group bg-ink-800 border border-ink-600 rounded-3xl p-7 hover:border-gold/30 transition-all flex flex-col">
                 <div className="flex gap-0.5 mb-5">
@@ -602,7 +602,7 @@ export default async function HomePage() {
                 {[
                   isVi ? "✓ Không phí ẩn" : "✓ No hidden fees",
                   isVi ? "✓ Hỗ trợ tiếng Việt" : "✓ Vietnamese support",
-                  isVi ? "✓ ODI tuân thủ" : "✓ ODI compliant",
+                  isVi ? "✓ IRS & State compliant" : "✓ IRS & State compliant",
                   isVi ? "✓ Bảo mật tài liệu" : "✓ Document security",
                 ].map(b => <span key={b} className="font-medium">{b}</span>)}
               </div>

@@ -80,15 +80,15 @@ const NAV = [
         title: "Dịch vụ",
         titleEn: "Services",
         items: [
-          { icon: ShieldCheck, label: "Thư ký công ty", labelEn: "Company secretary",   desc: "Hồ sơ, nghị quyết, đăng ký", descEn: "Filings, resolutions, registers", href: "/compliance/secretary" },
-          { icon: FileCheck,   label: "Khai báo ODI", labelEn: "ODI reporting",         desc: "Đăng ký đầu tư ra nước ngoài", descEn: "Outward direct investment reg.", href: "/compliance/odi" },
-          { icon: TrendingUp,  label: "Hồi hương lợi nhuận", labelEn: "Profit repatriation", desc: "Tuân thủ quy định NHNN", descEn: "SBV-compliant profit return",    href: "/compliance/repatriation" },
+          { icon: ShieldCheck, label: "Thư ký công ty", labelEn: "Company secretary",     desc: "Hồ sơ, nghị quyết, đăng ký", descEn: "Filings, resolutions, registers",         href: "/compliance/secretary" },
+          { icon: FileCheck,   label: "Khai báo thuế & báo cáo", labelEn: "US Filing & Reporting", desc: "Form 5472, BOI Report, Annual Tax", descEn: "Form 5472, BOI Report, Annual Tax", href: "/compliance/odi" },
+          { icon: TrendingUp,  label: "Chuyển tiền quốc tế", labelEn: "International transfers", desc: "Wire transfer, phân phối lợi nhuận", descEn: "Wire transfers, profit distribution", href: "/compliance/repatriation" },
         ],
       },
     ],
     guides: [
-      { label: "ODI là gì? Hướng dẫn đầy đủ", labelEn: "What is ODI? Full guide", href: "/resources/guides/odi" },
-      { label: "Rủi ro pháp lý khi mở LLC tại Mỹ", labelEn: "Legal risks of US LLC", href: "/resources/guides/legal-risk" },
+      { label: "Rủi ro pháp lý khi mở LLC tại Mỹ", labelEn: "Legal risks of a US LLC", href: "/resources/guides/legal-risk" },
+      { label: "Form 5472 là gì?", labelEn: "What is Form 5472?", href: "/resources/guides/form-5472" },
     ],
   },
 ];
