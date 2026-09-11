@@ -1,43 +1,59 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* Navy palette */
-  --color-navy-950: #0A1020;
-  --color-navy-900: #0F172A;
-  --color-navy-800: #1E293B;
-  --color-navy-700: #334155;
-  --color-navy-600: #475569;
-  --color-navy-500: #64748B;
-  --color-navy-400: #94A3B8;
-  --color-navy-300: #CBD5E1;
-  --color-navy-200: #E2E8F0;
-  --color-navy-100: #F1F5F9;
+  /* Deep navy-black palette — luxury dark */
+  --color-ink-950: #03060F;
+  --color-ink-900: #06091A;
+  --color-ink-800: #0D1528;
+  --color-ink-700: #152038;
+  --color-ink-600: #1E2E48;
+  --color-ink-500: #2D4060;
+  --color-ink-400: #435978;
+  --color-ink-300: #6B7FA8;
+  --color-ink-200: #9AADC8;
+  --color-ink-100: #C8D5E8;
+  --color-ink-50:  #EFF4FF;
 
-  /* Gold accent */
-  --color-gold: #F59E0B;
-  --color-gold-light: #FCD34D;
-  --color-gold-dark: #D97706;
-  --color-gold-50: #FFFBEB;
-  --color-gold-100: #FEF3C7;
+  /* Gold accent — rich, not yellow */
+  --color-gold:       #C9960C;
+  --color-gold-light: #E8B82A;
+  --color-gold-dark:  #9A7008;
+  --color-gold-dim:   #7A5A08;
+  --color-gold-bg:    rgba(201, 150, 12, 0.08);
+  --color-gold-50:    #FFF8E6;
 
   /* Semantic tokens */
-  --color-background: #0F172A;
-  --color-foreground: #F8FAFC;
-  --color-surface: #1E293B;
-  --color-surface-light: #F8FAFC;
-  --color-border: #334155;
-  --color-muted: #475569;
-  --color-muted-foreground: #94A3B8;
-  --color-primary: #F59E0B;
-  --color-primary-foreground: #0F172A;
-  --color-accent: #3B82F6;
+  --color-background:         #06091A;
+  --color-background-alt:     #0D1528;
+  --color-foreground:         #EFF4FF;
+  --color-foreground-muted:   #9AADC8;
+  --color-surface:            #0D1528;
+  --color-surface-raised:     #152038;
+  --color-border:             #1E2E48;
+  --color-border-subtle:      #152038;
+  --color-primary:            #C9960C;
+  --color-primary-foreground: #06091A;
+  --color-accent-blue:        #3B7DD8;
+
+  /* Legacy navy aliases — dashboard uses these */
+  --color-navy-950: #03060F;
+  --color-navy-900: #06091A;
+  --color-navy-800: #0D1528;
+  --color-navy-750: #111E32;
+  --color-navy-700: #152038;
+  --color-navy-600: #1E2E48;
+  --color-navy-500: #435978;
+  --color-navy-400: #6B7FA8;
+  --color-navy-300: #9AADC8;
+  --color-navy-200: #C8D5E8;
+  --color-navy-100: #EFF4FF;
 
   /* Font */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'Geist Mono', ui-monospace, monospace;
 
   /* Border radius */
-  --radius: 0.5rem;
+  --radius:    0.5rem;
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
@@ -45,13 +61,11 @@
 }
 
 :root {
-  --background: #0F172A;
-  --foreground: #F8FAFC;
+  --background: #06091A;
+  --foreground: #EFF4FF;
 }
 
-* {
-  border-color: var(--color-border);
-}
+* { border-color: var(--color-border); }
 
 body {
   background: var(--background);
@@ -61,27 +75,32 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Dashboard light surface override */
-.bg-light {
-  --background: #F8FAFC;
-  --foreground: #0F172A;
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track  { background: var(--color-ink-800); }
+::-webkit-scrollbar-thumb  { background: var(--color-ink-600); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-ink-500); }
+
+/* Noise texture overlay for depth */
+.bg-noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  border-radius: inherit;
 }
 
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+/* Gold shimmer text */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #C9960C 0%, #E8B82A 50%, #C9960C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-::-webkit-scrollbar-track {
-  background: var(--color-navy-800);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-navy-600);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-navy-500);
+/* Section divider line */
+.divider-gold {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #C9960C40, transparent);
 }

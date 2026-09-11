@@ -1,106 +1,126 @@
-import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
-import { Globe } from "lucide-react";
+import { Globe, Mail, Phone } from "lucide-react";
 
-export function Footer() {
-  const t = useTranslations("footer");
-  const tNav = useTranslations("nav");
-  const year = new Date().getFullYear();
+const FOOTER_LINKS = {
+  incorporate: {
+    title: "Thành lập",
+    titleEn: "Incorporate",
+    links: [
+      { label: "LLC tại Mỹ", labelEn: "US LLC", href: "/incorporation/us-llc" },
+      { label: "Singapore Pte Ltd", labelEn: "Singapore Pte Ltd", href: "/incorporation/singapore" },
+      { label: "Hong Kong Limited", labelEn: "Hong Kong Limited", href: "/incorporation/hong-kong" },
+      { label: "Mở tài khoản ngân hàng", labelEn: "Business bank account", href: "/incorporation/bank-account" },
+    ],
+  },
+  accounting: {
+    title: "Kế toán",
+    titleEn: "Accounting",
+    links: [
+      { label: "Dịch vụ kế toán", labelEn: "Accounting services", href: "/accounting" },
+      { label: "Kế toán cho Seller TMĐT", labelEn: "Ecommerce accounting", href: "/accounting/ecommerce" },
+      { label: "Sổ sách kế toán", labelEn: "Bookkeeping", href: "/accounting/bookkeeping" },
+      { label: "Hóa đơn", labelEn: "Invoicing", href: "/accounting/invoicing" },
+      { label: "Báo cáo tài chính", labelEn: "Financial reporting", href: "/accounting/reporting" },
+    ],
+  },
+  compliance: {
+    title: "Tuân thủ",
+    titleEn: "Compliance",
+    links: [
+      { label: "Thư ký công ty", labelEn: "Company secretary", href: "/compliance/secretary" },
+      { label: "Khai báo ODI", labelEn: "ODI reporting", href: "/compliance/odi" },
+      { label: "Hồi hương lợi nhuận", labelEn: "Profit repatriation", href: "/compliance/repatriation" },
+    ],
+  },
+  resources: {
+    title: "Tài nguyên",
+    titleEn: "Resources",
+    links: [
+      { label: "Blog", labelEn: "Blog", href: "/resources/blog" },
+      { label: "Hướng dẫn", labelEn: "Guides", href: "/resources/guides" },
+      { label: "Câu chuyện khách hàng", labelEn: "Customer stories", href: "/resources/stories" },
+      { label: "FAQ", labelEn: "FAQ", href: "/resources/faq" },
+      { label: "Bảng giá", labelEn: "Pricing", href: "/pricing" },
+    ],
+  },
+  company: {
+    title: "Công ty",
+    titleEn: "Company",
+    links: [
+      { label: "Về Gloyce", labelEn: "About Gloyce", href: "/about" },
+      { label: "Đội ngũ", labelEn: "Our team", href: "/about#team" },
+      { label: "Đối tác", labelEn: "Partners", href: "/about#partners" },
+      { label: "Liên hệ", labelEn: "Contact us", href: "/contact" },
+    ],
+  },
+};
 
+export async function Footer({ locale }: { locale: string }) {
+  const isVi = locale === "vi";
   return (
-    <footer className="bg-navy-950 border-t border-navy-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="border-t border-ink-700 bg-ink-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
           {/* Brand */}
-          <div className="md:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-gold rounded-lg flex items-center justify-center">
-                <Globe className="w-5 h-5 text-navy-900" />
+          <div className="col-span-2 md:col-span-3 lg:col-span-1">
+            <Link href="/" className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 rounded-lg bg-gold flex items-center justify-center">
+                <Globe className="w-4 h-4 text-ink-900" />
               </div>
-              <span className="text-xl font-bold text-foreground">Gloyce</span>
-            </div>
-            <p className="text-sm text-navy-400 leading-relaxed max-w-xs">
-              {t("tagline")}
+              <span className="font-bold text-lg text-foreground">Gloyce</span>
+            </Link>
+            <p className="text-sm text-ink-300 leading-relaxed mb-4">
+              {isVi
+                ? "Nền tảng giúp doanh nghiệp Việt Nam thành lập, vận hành và mở rộng kinh doanh toàn cầu."
+                : "Helping Vietnamese businesses incorporate, operate, and expand globally."}
             </p>
+            <div className="space-y-2">
+              <a href="mailto:hello@gloyce.co" className="flex items-center gap-2 text-xs text-ink-400 hover:text-gold transition-colors">
+                <Mail size={13} /> hello@gloyce.co
+              </a>
+              <a href="tel:+84903000000" className="flex items-center gap-2 text-xs text-ink-400 hover:text-gold transition-colors">
+                <Phone size={13} /> +84 903 000 000
+              </a>
+            </div>
           </div>
 
-          {/* Services */}
-          <div>
-            <h4 className="text-sm font-semibold text-foreground mb-4 uppercase tracking-wider">
-              {t("servicesTitle")}
-            </h4>
-            <ul className="flex flex-col gap-2">
-              {[
-                { label: tNav("servicesExecute"), href: "/services/execute" },
-                { label: tNav("servicesOperate"), href: "/services/operate" },
-                { label: tNav("servicesStrategize"), href: "/services/strategize" },
-                { label: tNav("pricing"), href: "/pricing" },
-              ].map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="text-sm text-navy-400 hover:text-gold transition-colors"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h4 className="text-sm font-semibold text-foreground mb-4 uppercase tracking-wider">
-              {t("companyTitle")}
-            </h4>
-            <ul className="flex flex-col gap-2">
-              {[
-                { label: t("companyLinks.about"), href: "/about" },
-                { label: t("companyLinks.blog"), href: "/blog" },
-                { label: t("companyLinks.contact"), href: "/contact" },
-                { label: t("companyLinks.careers"), href: "/careers" },
-              ].map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="text-sm text-navy-400 hover:text-gold transition-colors"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Legal */}
-          <div>
-            <h4 className="text-sm font-semibold text-foreground mb-4 uppercase tracking-wider">
-              {t("legalTitle")}
-            </h4>
-            <ul className="flex flex-col gap-2">
-              {[
-                { label: t("privacyPolicy"), href: "/privacy" },
-                { label: t("termsOfService"), href: "/terms" },
-              ].map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="text-sm text-navy-400 hover:text-gold transition-colors"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {/* Link columns */}
+          {Object.values(FOOTER_LINKS).map((col) => (
+            <div key={col.title}>
+              <h4 className="text-xs font-semibold uppercase tracking-widest text-ink-400 mb-4">
+                {isVi ? col.title : col.titleEn}
+              </h4>
+              <ul className="space-y-2">
+                {col.links.map((l) => (
+                  <li key={l.href}>
+                    <Link
+                      href={l.href}
+                      className="text-sm text-ink-300 hover:text-foreground transition-colors"
+                    >
+                      {isVi ? l.label : l.labelEn}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
+        {/* Divider */}
+        <div className="divider-gold my-10" />
+
         {/* Bottom bar */}
-        <div className="border-t border-navy-800 mt-10 pt-8 flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
-          <p className="text-xs text-navy-500 max-w-xl">{t("complianceNote")}</p>
-          <p className="text-xs text-navy-500 shrink-0">
-            {t("copyright", { year })}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-ink-400">
+          <p>© 2024–2026 Gloyce. {isVi ? "Bảo lưu mọi quyền." : "All rights reserved."}</p>
+          <p className="text-center max-w-xl leading-relaxed">
+            {isVi
+              ? "Gloyce cung cấp dịch vụ tư vấn và điều phối — không phải văn phòng luật hay tổ chức tài chính được cấp phép. Dịch vụ đầu tư ra nước ngoài (ODI) tuân thủ theo Luật Đầu tư 2020 và quy định của NHNN Việt Nam."
+              : "Gloyce provides advisory and coordination services — not a licensed law firm or financial institution. Outward investment (ODI) services comply with Vietnam Investment Law 2020 and SBV regulations."}
           </p>
+          <div className="flex gap-4">
+            <Link href="/privacy" className="hover:text-foreground transition-colors">{isVi ? "Bảo mật" : "Privacy"}</Link>
+            <Link href="/terms" className="hover:text-foreground transition-colors">{isVi ? "Điều khoản" : "Terms"}</Link>
+          </div>
         </div>
       </div>
     </footer>
