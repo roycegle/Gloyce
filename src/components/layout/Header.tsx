@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+type L = { vi: string; en: string; zh: string; es: string; id: string };
+
 const LANGUAGES = [
   { code: "vi", label: "Tiếng Việt", flag: "🇻🇳" },
   { code: "en", label: "English",    flag: "🇺🇸" },
@@ -22,90 +24,82 @@ const LANGUAGES = [
 
 const NAV = [
   {
-    label: "Thành lập",
-    labelEn: "Incorporate",
+    label: { vi: "Thành lập", en: "Incorporate", zh: "成立公司", es: "Incorporación", id: "Pembentukan" } as L,
     icon: Building2,
     groups: [
       {
-        title: "Theo quốc gia",
-        titleEn: "By jurisdiction",
+        title: { vi: "Theo quốc gia", en: "By jurisdiction", zh: "按司法管辖区", es: "Por jurisdicción", id: "Berdasarkan yurisdiksi" } as L,
         items: [
-          { icon: Landmark, label: "LLC tại Mỹ", labelEn: "US LLC", desc: "Thành lập LLC Delaware/Wyoming", descEn: "Delaware or Wyoming LLC formation", href: "/incorporation/us-llc" },
-          { icon: Globe,    label: "Singapore Pte Ltd", labelEn: "Singapore Pte Ltd", desc: "Công ty tư nhân tại Singapore", descEn: "Private limited company in Singapore", href: "/incorporation/singapore" },
-          { icon: Building2,label: "Hong Kong Limited", labelEn: "Hong Kong Limited", desc: "Công ty TNHH tại Hồng Kông", descEn: "Limited company in Hong Kong", href: "/incorporation/hong-kong" },
+          { icon: Landmark,  label: { vi: "LLC tại Mỹ", en: "US LLC", zh: "美国LLC", es: "LLC en EE.UU.", id: "LLC di AS" } as L, desc: { vi: "Thành lập LLC Delaware/Wyoming", en: "Delaware or Wyoming LLC formation", zh: "特拉华州或怀俄明州LLC", es: "LLC en Delaware o Wyoming", id: "LLC Delaware atau Wyoming" } as L, href: "/incorporation/us-llc" },
+          { icon: Globe,     label: { vi: "Singapore Pte Ltd", en: "Singapore Pte Ltd", zh: "新加坡私人有限公司", es: "Singapore Pte Ltd", id: "Singapore Pte Ltd" } as L, desc: { vi: "Công ty tư nhân tại Singapore", en: "Private limited company in Singapore", zh: "新加坡私人有限公司", es: "Sociedad privada en Singapur", id: "Perusahaan swasta di Singapura" } as L, href: "/incorporation/singapore" },
+          { icon: Building2, label: { vi: "Hong Kong Limited", en: "Hong Kong Limited", zh: "香港有限公司", es: "Hong Kong Limited", id: "Hong Kong Limited" } as L, desc: { vi: "Công ty TNHH tại Hồng Kông", en: "Limited company in Hong Kong", zh: "香港有限公司", es: "Empresa limitada en Hong Kong", id: "Perusahaan terbatas di Hong Kong" } as L, href: "/incorporation/hong-kong" },
         ],
       },
       {
-        title: "Dịch vụ liên quan",
-        titleEn: "Related services",
+        title: { vi: "Dịch vụ liên quan", en: "Related services", zh: "相关服务", es: "Servicios relacionados", id: "Layanan terkait" } as L,
         items: [
-          { icon: CreditCard, label: "Mở tài khoản ngân hàng", labelEn: "Business bank account", desc: "Mercury, Wise, Airwallex", descEn: "Mercury, Wise, Airwallex", href: "/incorporation/bank-account" },
+          { icon: CreditCard, label: { vi: "Mở tài khoản ngân hàng", en: "Business bank account", zh: "开设企业银行账户", es: "Cuenta bancaria empresarial", id: "Rekening bank bisnis" } as L, desc: { vi: "Mercury, Wise, Airwallex", en: "Mercury, Wise, Airwallex", zh: "Mercury, Wise, Airwallex", es: "Mercury, Wise, Airwallex", id: "Mercury, Wise, Airwallex" } as L, href: "/incorporation/bank-account" },
         ],
       },
     ],
     guides: [
-      { label: "Hướng dẫn mở LLC Mỹ 2026", labelEn: "How to open a US LLC 2026", href: "/resources/guides/us-llc" },
-      { label: "So sánh 3 jurisdictions", labelEn: "Compare 3 jurisdictions", href: "/resources/guides/compare" },
-      { label: "Checklist trước khi thành lập", labelEn: "Pre-incorporation checklist", href: "/resources/guides/checklist" },
+      { label: { vi: "Hướng dẫn mở LLC Mỹ 2026", en: "How to open a US LLC 2026", zh: "如何在美国开设LLC 2026", es: "Cómo abrir una LLC en EE.UU. 2026", id: "Cara membuka LLC di AS 2026" } as L, href: "/resources/guides/us-llc" },
+      { label: { vi: "So sánh 3 jurisdictions", en: "Compare 3 jurisdictions", zh: "比较3个司法管辖区", es: "Comparar 3 jurisdicciones", id: "Bandingkan 3 yurisdiksi" } as L, href: "/resources/guides/compare" },
+      { label: { vi: "Checklist trước khi thành lập", en: "Pre-incorporation checklist", zh: "成立前检查清单", es: "Lista de verificación previa", id: "Daftar periksa pra-pendirian" } as L, href: "/resources/guides/checklist" },
     ],
   },
   {
-    label: "Kế toán",
-    labelEn: "Accounting",
+    label: { vi: "Kế toán", en: "Accounting", zh: "会计", es: "Contabilidad", id: "Akuntansi" } as L,
     icon: Calculator,
     groups: [
       {
-        title: "Dịch vụ",
-        titleEn: "Services",
+        title: { vi: "Dịch vụ", en: "Services", zh: "服务", es: "Servicios", id: "Layanan" } as L,
         items: [
-          { icon: Calculator,  label: "Dịch vụ kế toán", labelEn: "Accounting services",    desc: "Kế toán chuyên gia + phần mềm", descEn: "Expert accountants + software", href: "/accounting" },
-          { icon: Zap,         label: "Kế toán cho Seller TMĐT", labelEn: "Ecommerce accounting", desc: "Amazon, Shopee, TikTok Shop", descEn: "Amazon, Shopee, TikTok Shop",  href: "/accounting/ecommerce" },
-          { icon: BookOpen,    label: "Sổ sách kế toán", labelEn: "Bookkeeping",             desc: "Ghi chép đầy đủ hàng tháng", descEn: "Full monthly bookkeeping",        href: "/accounting/bookkeeping" },
-          { icon: Receipt,     label: "Hóa đơn", labelEn: "Invoicing",                       desc: "Tạo & gửi hóa đơn nhanh chóng", descEn: "Create & send invoices fast",   href: "/accounting/invoicing" },
+          { icon: Calculator, label: { vi: "Dịch vụ kế toán", en: "Accounting services", zh: "会计服务", es: "Servicios contables", id: "Layanan akuntansi" } as L, desc: { vi: "Kế toán chuyên gia + phần mềm", en: "Expert accountants + software", zh: "专业会计师+软件", es: "Contadores expertos + software", id: "Akuntan ahli + perangkat lunak" } as L, href: "/accounting" },
+          { icon: Zap,        label: { vi: "Kế toán cho Seller TMĐT", en: "Ecommerce accounting", zh: "电商会计", es: "Contabilidad ecommerce", id: "Akuntansi ecommerce" } as L, desc: { vi: "Amazon, Shopee, TikTok Shop", en: "Amazon, Shopee, TikTok Shop", zh: "Amazon, Shopee, TikTok Shop", es: "Amazon, Shopee, TikTok Shop", id: "Amazon, Shopee, TikTok Shop" } as L, href: "/accounting/ecommerce" },
+          { icon: BookOpen,   label: { vi: "Sổ sách kế toán", en: "Bookkeeping", zh: "簿记", es: "Teneduría de libros", id: "Pembukuan" } as L, desc: { vi: "Ghi chép đầy đủ hàng tháng", en: "Full monthly bookkeeping", zh: "完整每月簿记", es: "Teneduría mensual completa", id: "Pembukuan bulanan lengkap" } as L, href: "/accounting/bookkeeping" },
+          { icon: Receipt,    label: { vi: "Hóa đơn", en: "Invoicing", zh: "发票", es: "Facturación", id: "Faktur" } as L, desc: { vi: "Tạo & gửi hóa đơn nhanh chóng", en: "Create & send invoices fast", zh: "快速创建和发送发票", es: "Crea y envía facturas rápido", id: "Buat & kirim faktur cepat" } as L, href: "/accounting/invoicing" },
         ],
       },
       {
-        title: "Tích hợp & Công cụ",
-        titleEn: "Integrations & Tools",
+        title: { vi: "Tích hợp & Công cụ", en: "Integrations & Tools", zh: "集成与工具", es: "Integraciones y Herramientas", id: "Integrasi & Alat" } as L,
         items: [
-          { icon: BarChart3,   label: "Báo cáo tài chính", labelEn: "Financial reporting", desc: "Theo dõi hiệu quả kinh doanh", descEn: "Monitor business performance", href: "/accounting/reporting" },
-          { icon: FileText,    label: "Tích hợp ngân hàng", labelEn: "Bank integration",  desc: "Kết nối tự động mọi tài khoản", descEn: "Auto-sync all bank accounts",  href: "/accounting/bank-integration" },
+          { icon: BarChart3, label: { vi: "Báo cáo tài chính", en: "Financial reporting", zh: "财务报告", es: "Informes financieros", id: "Laporan keuangan" } as L, desc: { vi: "Theo dõi hiệu quả kinh doanh", en: "Monitor business performance", zh: "监控业务绩效", es: "Monitorea el rendimiento", id: "Pantau kinerja bisnis" } as L, href: "/accounting/reporting" },
+          { icon: FileText,  label: { vi: "Tích hợp ngân hàng", en: "Bank integration", zh: "银行集成", es: "Integración bancaria", id: "Integrasi bank" } as L, desc: { vi: "Kết nối tự động mọi tài khoản", en: "Auto-sync all bank accounts", zh: "自动同步所有银行账户", es: "Sincroniza todas las cuentas", id: "Sinkronisasi semua rekening" } as L, href: "/accounting/bank-integration" },
         ],
       },
     ],
     guides: [
-      { label: "Thuế doanh nghiệp Mỹ cho người Việt", labelEn: "US business tax for Vietnamese", href: "/resources/guides/us-tax" },
-      { label: "Form 5472 là gì?", labelEn: "What is Form 5472?", href: "/resources/guides/form-5472" },
-      { label: "10 phần mềm kế toán tốt nhất", labelEn: "10 best accounting tools", href: "/resources/guides/tools" },
+      { label: { vi: "Thuế doanh nghiệp Mỹ cho người Việt", en: "US business tax for Vietnamese", zh: "面向越南人的美国企业税", es: "Impuestos empresariales en EE.UU.", id: "Pajak bisnis AS untuk Vietnam" } as L, href: "/resources/guides/us-tax" },
+      { label: { vi: "Form 5472 là gì?", en: "What is Form 5472?", zh: "什么是表格5472?", es: "¿Qué es el Formulario 5472?", id: "Apa itu Form 5472?" } as L, href: "/resources/guides/form-5472" },
+      { label: { vi: "10 phần mềm kế toán tốt nhất", en: "10 best accounting tools", zh: "10款最佳会计工具", es: "10 mejores herramientas contables", id: "10 alat akuntansi terbaik" } as L, href: "/resources/guides/tools" },
     ],
   },
   {
-    label: "Tuân thủ",
-    labelEn: "Compliance",
+    label: { vi: "Tuân thủ", en: "Compliance", zh: "合规", es: "Cumplimiento", id: "Kepatuhan" } as L,
     icon: FileCheck,
     groups: [
       {
-        title: "Dịch vụ",
-        titleEn: "Services",
+        title: { vi: "Dịch vụ", en: "Services", zh: "服务", es: "Servicios", id: "Layanan" } as L,
         items: [
-          { icon: ShieldCheck, label: "Thư ký công ty", labelEn: "Company secretary",     desc: "Hồ sơ, nghị quyết, đăng ký", descEn: "Filings, resolutions, registers",         href: "/compliance/secretary" },
-          { icon: FileCheck,   label: "Khai báo thuế & báo cáo", labelEn: "US Filing & Reporting", desc: "Form 5472, BOI Report, Annual Tax", descEn: "Form 5472, BOI Report, Annual Tax", href: "/compliance/odi" },
-          { icon: TrendingUp,  label: "Chuyển tiền quốc tế", labelEn: "International transfers", desc: "Wire transfer, phân phối lợi nhuận", descEn: "Wire transfers, profit distribution", href: "/compliance/repatriation" },
+          { icon: ShieldCheck, label: { vi: "Thư ký công ty", en: "Company secretary", zh: "公司秘书", es: "Secretaría corporativa", id: "Sekretaris perusahaan" } as L, desc: { vi: "Hồ sơ, nghị quyết, đăng ký", en: "Filings, resolutions, registers", zh: "文件、决议、登记", es: "Expedientes, resoluciones, registros", id: "Arsip, resolusi, daftar" } as L, href: "/compliance/secretary" },
+          { icon: FileCheck,   label: { vi: "Khai báo thuế & báo cáo", en: "US Filing & Reporting", zh: "美国申报与报告", es: "Declaraciones en EE.UU.", id: "Pelaporan di AS" } as L, desc: { vi: "Form 5472, BOI Report, Annual Tax", en: "Form 5472, BOI Report, Annual Tax", zh: "Form 5472, BOI报告, 年度税务", es: "Form 5472, BOI Report, Impuesto anual", id: "Form 5472, BOI Report, Pajak tahunan" } as L, href: "/compliance/odi" },
+          { icon: TrendingUp,  label: { vi: "Chuyển tiền quốc tế", en: "International transfers", zh: "国际汇款", es: "Transferencias internacionales", id: "Transfer internasional" } as L, desc: { vi: "Wire transfer, phân phối lợi nhuận", en: "Wire transfers, profit distribution", zh: "电汇、利润分配", es: "Transferencias, distribución de beneficios", id: "Transfer kawat, distribusi laba" } as L, href: "/compliance/repatriation" },
         ],
       },
     ],
     guides: [
-      { label: "Rủi ro pháp lý khi mở LLC tại Mỹ", labelEn: "Legal risks of a US LLC", href: "/resources/guides/legal-risk" },
-      { label: "Form 5472 là gì?", labelEn: "What is Form 5472?", href: "/resources/guides/form-5472" },
+      { label: { vi: "Rủi ro pháp lý khi mở LLC tại Mỹ", en: "Legal risks of a US LLC", zh: "美国LLC的法律风险", es: "Riesgos legales de una LLC en EE.UU.", id: "Risiko hukum LLC di AS" } as L, href: "/resources/guides/legal-risk" },
+      { label: { vi: "Form 5472 là gì?", en: "What is Form 5472?", zh: "什么是表格5472?", es: "¿Qué es el Formulario 5472?", id: "Apa itu Form 5472?" } as L, href: "/resources/guides/form-5472" },
     ],
   },
 ];
 
 const RESOURCES_ITEMS = [
-  { icon: Newspaper, label: "Blog", labelEn: "Blog", href: "/resources/blog" },
-  { icon: BookOpen,  label: "Hướng dẫn", labelEn: "Guides", href: "/resources/guides" },
-  { icon: Users,     label: "Câu chuyện khách hàng", labelEn: "Customer stories", href: "/resources/stories" },
-  { icon: HelpCircle,label: "Câu hỏi thường gặp", labelEn: "FAQ", href: "/resources/faq" },
+  { icon: Newspaper, label: { vi: "Blog", en: "Blog", zh: "博客", es: "Blog", id: "Blog" } as L, href: "/resources/blog" },
+  { icon: BookOpen,  label: { vi: "Hướng dẫn", en: "Guides", zh: "指南", es: "Guías", id: "Panduan" } as L, href: "/resources/guides" },
+  { icon: Users,     label: { vi: "Câu chuyện khách hàng", en: "Customer stories", zh: "客户案例", es: "Historias de clientes", id: "Kisah pelanggan" } as L, href: "/resources/stories" },
+  { icon: HelpCircle,label: { vi: "Câu hỏi thường gặp", en: "FAQ", zh: "常见问题", es: "Preguntas frecuentes", id: "FAQ" } as L, href: "/resources/faq" },
 ];
 
 export function Header() {
@@ -120,8 +114,8 @@ export function Header() {
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const langRef = useRef<HTMLDivElement>(null);
 
-  const isVi = locale === "vi";
   const currentLang = LANGUAGES.find(l => l.code === locale) ?? LANGUAGES[0];
+  const t = (l: L) => (l as Record<string, string>)[locale] ?? l.en;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -163,11 +157,9 @@ export function Header() {
     <>
       {/* Announcement bar */}
       <div className="bg-gold/10 border-b border-gold/20 text-center py-2 px-4 text-xs text-gold">
-        {isVi
-          ? "🌟 Gloyce được vinh danh Top Fintech Việt Nam 2026 — "
-          : "🌟 Gloyce named Top Vietnam Fintech 2026 — "}
+        {t({ vi: "🌟 Gloyce được vinh danh Top Fintech Việt Nam 2026 — ", en: "🌟 Gloyce named Top Vietnam Fintech 2026 — ", zh: "🌟 Gloyce荣获2026年越南顶级金融科技奖 — ", es: "🌟 Gloyce premiado Top Fintech Vietnam 2026 — ", id: "🌟 Gloyce dinobatkan Top Fintech Vietnam 2026 — " })}
         <Link href="/about" className="underline underline-offset-2 hover:text-gold-light transition-colors">
-          {isVi ? "Đọc thêm" : "Read more"}
+          {t({ vi: "Đọc thêm", en: "Read more", zh: "了解更多", es: "Leer más", id: "Baca selengkapnya" })}
         </Link>
       </div>
 
@@ -192,12 +184,13 @@ export function Header() {
           <nav className="hidden lg:flex items-center gap-1 flex-1">
             {NAV.map((item) => {
               const Icon = item.icon;
-              const isActive = open === item.label;
+              const itemKey = item.label.en;
+              const isActive = open === itemKey;
               return (
                 <div
-                  key={item.label}
+                  key={itemKey}
                   className="relative"
-                  onMouseEnter={() => handleMouseEnter(item.label)}
+                  onMouseEnter={() => handleMouseEnter(itemKey)}
                   onMouseLeave={handleMouseLeave}
                 >
                   <button
@@ -209,7 +202,7 @@ export function Header() {
                     )}
                   >
                     <Icon size={15} />
-                    {isVi ? item.label : item.labelEn}
+                    {t(item.label)}
                     <ChevronDown
                       size={13}
                       className={cn("transition-transform duration-200 text-ink-400", isActive && "rotate-180")}
@@ -221,15 +214,15 @@ export function Header() {
                     <div
                       className="absolute top-full left-0 mt-2 w-max min-w-[520px] bg-ink-800 border border-ink-600 rounded-2xl shadow-2xl shadow-black/60 p-5 grid gap-4"
                       style={{ gridTemplateColumns: item.groups.length > 1 ? "1fr 1fr" : "1fr" }}
-                      onMouseEnter={() => handleMouseEnter(item.label)}
+                      onMouseEnter={() => handleMouseEnter(itemKey)}
                       onMouseLeave={handleMouseLeave}
                     >
                       {/* Service groups */}
-                      <div className={cn("space-y-4", item.groups.length > 1 ? "col-span-1" : "col-span-1")}>
+                      <div className="space-y-4">
                         {item.groups.map((group) => (
-                          <div key={group.title}>
+                          <div key={group.title.en}>
                             <p className="text-[10px] font-semibold uppercase tracking-widest text-ink-400 mb-2 px-2">
-                              {isVi ? group.title : group.titleEn}
+                              {t(group.title)}
                             </p>
                             <div className="space-y-0.5">
                               {group.items.map((navItem) => {
@@ -245,10 +238,10 @@ export function Header() {
                                     </div>
                                     <div>
                                       <p className="text-sm font-medium text-foreground group-hover:text-gold transition-colors">
-                                        {isVi ? navItem.label : navItem.labelEn}
+                                        {t(navItem.label)}
                                       </p>
                                       <p className="text-xs text-ink-300 mt-0.5">
-                                        {isVi ? navItem.desc : navItem.descEn}
+                                        {t(navItem.desc)}
                                       </p>
                                     </div>
                                   </Link>
@@ -263,7 +256,7 @@ export function Header() {
                       {item.guides && (
                         <div className="border-l border-ink-600 pl-4">
                           <p className="text-[10px] font-semibold uppercase tracking-widest text-ink-400 mb-2 px-2">
-                            {isVi ? "Hướng dẫn chuyên gia" : "Expert guides"}
+                            {t({ vi: "Hướng dẫn chuyên gia", en: "Expert guides", zh: "专家指南", es: "Guías de expertos", id: "Panduan ahli" })}
                           </p>
                           <div className="space-y-1">
                             {item.guides.map((g) => (
@@ -273,7 +266,7 @@ export function Header() {
                                 className="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-ink-700 text-sm text-ink-200 hover:text-foreground transition-colors group"
                               >
                                 <ArrowRight size={13} className="text-gold shrink-0 group-hover:translate-x-0.5 transition-transform" />
-                                {isVi ? g.label : g.labelEn}
+                                {t(g.label)}
                               </Link>
                             ))}
                           </div>
@@ -281,7 +274,7 @@ export function Header() {
                             href="/resources/guides"
                             className="mt-3 flex items-center gap-1 px-2 text-xs text-gold hover:text-gold-light font-medium transition-colors"
                           >
-                            {isVi ? "Xem tất cả hướng dẫn" : "Explore all guides"}
+                            {t({ vi: "Xem tất cả hướng dẫn", en: "Explore all guides", zh: "查看所有指南", es: "Ver todas las guías", id: "Lihat semua panduan" })}
                             <ArrowRight size={11} />
                           </Link>
                         </div>
@@ -297,7 +290,7 @@ export function Header() {
               href="/pricing"
               className="px-3 py-2 rounded-lg text-sm font-medium text-ink-200 hover:text-foreground hover:bg-ink-800 transition-all"
             >
-              {isVi ? "Bảng giá" : "Pricing"}
+              {t({ vi: "Bảng giá", en: "Pricing", zh: "价格", es: "Precios", id: "Harga" })}
             </Link>
 
             {/* Resources */}
@@ -314,7 +307,7 @@ export function Header() {
                     : "text-ink-200 hover:text-foreground hover:bg-ink-800"
                 )}
               >
-                {isVi ? "Tài nguyên" : "Resources"}
+                {t({ vi: "Tài nguyên", en: "Resources", zh: "资源", es: "Recursos", id: "Sumber Daya" })}
                 <ChevronDown size={13} className={cn("transition-transform text-ink-400", open === "resources" && "rotate-180")} />
               </button>
               {open === "resources" && (
@@ -332,7 +325,7 @@ export function Header() {
                         className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-ink-700 text-sm text-ink-200 hover:text-foreground transition-colors"
                       >
                         <RIcon size={15} className="text-ink-400" />
-                        {isVi ? r.label : r.labelEn}
+                        {t(r.label)}
                       </Link>
                     );
                   })}
@@ -378,13 +371,13 @@ export function Header() {
               href="/auth/login"
               className="px-3 py-1.5 rounded-lg text-sm text-ink-200 hover:text-foreground hover:bg-ink-800 transition-all"
             >
-              {isVi ? "Đăng nhập" : "Login"}
+              {t({ vi: "Đăng nhập", en: "Login", zh: "登录", es: "Iniciar sesión", id: "Masuk" })}
             </Link>
             <Link
               href="/contact"
               className="px-4 py-2 rounded-lg text-sm font-semibold bg-gold text-ink-900 hover:bg-gold-light transition-all shadow-[0_0_20px_rgba(201,150,12,0.25)]"
             >
-              {isVi ? "Bắt đầu" : "Get started"}
+              {t({ vi: "Bắt đầu", en: "Get started", zh: "立即开始", es: "Comenzar", id: "Mulai" })}
             </Link>
           </div>
 
@@ -403,16 +396,17 @@ export function Header() {
             <div className="space-y-1 pt-4">
               {NAV.map((item) => {
                 const Icon = item.icon;
-                const isExpanded = mobileExpanded === item.label;
+                const itemKey = item.label.en;
+                const isExpanded = mobileExpanded === itemKey;
                 return (
-                  <div key={item.label}>
+                  <div key={itemKey}>
                     <button
-                      onClick={() => setMobileExpanded(isExpanded ? null : item.label)}
+                      onClick={() => setMobileExpanded(isExpanded ? null : itemKey)}
                       className="w-full flex items-center justify-between px-3 py-3 rounded-xl hover:bg-ink-800 transition-colors"
                     >
                       <span className="flex items-center gap-2 text-sm font-medium text-foreground">
                         <Icon size={16} className="text-gold" />
-                        {isVi ? item.label : item.labelEn}
+                        {t(item.label)}
                       </span>
                       <ChevronDown size={14} className={cn("text-ink-400 transition-transform", isExpanded && "rotate-180")} />
                     </button>
@@ -424,7 +418,7 @@ export function Header() {
                             href={navItem.href}
                             className="block px-3 py-2 text-sm text-ink-200 hover:text-foreground rounded-lg hover:bg-ink-800 transition-colors"
                           >
-                            {isVi ? navItem.label : navItem.labelEn}
+                            {t(navItem.label)}
                           </Link>
                         ))}
                       </div>
@@ -433,13 +427,13 @@ export function Header() {
                 );
               })}
               <Link href="/pricing" className="block px-3 py-3 rounded-xl text-sm font-medium text-foreground hover:bg-ink-800 transition-colors">
-                {isVi ? "Bảng giá" : "Pricing"}
+                {t({ vi: "Bảng giá", en: "Pricing", zh: "价格", es: "Precios", id: "Harga" })}
               </Link>
               <Link href="/resources" className="block px-3 py-3 rounded-xl text-sm font-medium text-foreground hover:bg-ink-800 transition-colors">
-                {isVi ? "Tài nguyên" : "Resources"}
+                {t({ vi: "Tài nguyên", en: "Resources", zh: "资源", es: "Recursos", id: "Sumber Daya" })}
               </Link>
               <Link href="/about" className="block px-3 py-3 rounded-xl text-sm font-medium text-foreground hover:bg-ink-800 transition-colors">
-                {isVi ? "Về chúng tôi" : "About"}
+                {t({ vi: "Về chúng tôi", en: "About", zh: "关于我们", es: "Acerca de nosotros", id: "Tentang kami" })}
               </Link>
             </div>
             <div className="mt-4 pt-4 border-t border-ink-700 flex flex-col gap-2">
@@ -461,10 +455,10 @@ export function Header() {
                 ))}
               </div>
               <Link href="/auth/login" className="text-center py-2.5 rounded-xl border border-ink-600 text-sm text-foreground hover:bg-ink-800 transition-colors">
-                {isVi ? "Đăng nhập" : "Login"}
+                {t({ vi: "Đăng nhập", en: "Login", zh: "登录", es: "Iniciar sesión", id: "Masuk" })}
               </Link>
               <Link href="/contact" className="text-center py-2.5 rounded-xl bg-gold text-ink-900 text-sm font-semibold hover:bg-gold-light transition-colors">
-                {isVi ? "Bắt đầu ngay" : "Get started"}
+                {t({ vi: "Bắt đầu ngay", en: "Get started", zh: "立即开始", es: "Comenzar ahora", id: "Mulai sekarang" })}
               </Link>
             </div>
           </div>
