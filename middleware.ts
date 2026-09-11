@@ -21,7 +21,12 @@ export default async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/en/auth/login", request.url));
     }
 
-    if (token.role !== "admin") {
+    // Only admin can access staff management
+    if (pathname.startsWith("/admin/staff") && token.role !== "admin") {
+      return NextResponse.redirect(new URL("/admin", request.url));
+    }
+
+    if (token.role !== "admin" && token.role !== "staff") {
       return NextResponse.redirect(new URL("/en/dashboard", request.url));
     }
 

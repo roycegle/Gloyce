@@ -16,7 +16,7 @@ export const authOptions: NextAuthOptions = {
 
         const { data: user, error } = await supabaseAdmin
           .from("users")
-          .select("id, name, email, password_hash, company, role, status")
+          .select("id, name, email, password_hash, company, role, status, permissions")
           .eq("email", credentials.email.toLowerCase())
           .single();
 
@@ -32,6 +32,7 @@ export const authOptions: NextAuthOptions = {
           company: user.company,
           role: user.role,
           status: user.status,
+          permissions: user.permissions ?? [],
         };
       },
     }),
@@ -47,6 +48,7 @@ export const authOptions: NextAuthOptions = {
         token.company = (user as { company?: string }).company;
         token.role = (user as { role?: string }).role;
         token.status = (user as { status?: string }).status;
+        token.permissions = (user as { permissions?: string[] }).permissions ?? [];
       }
       return token;
     },
@@ -56,13 +58,14 @@ export const authOptions: NextAuthOptions = {
         (session.user as { company?: string }).company = token.company as string;
         (session.user as { role?: string }).role = token.role as string;
         (session.user as { status?: string }).status = token.status as string;
+        (session.user as { permissions?: string[] }).permissions = token.permissions as string[];
       }
       return session;
     },
   },
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60, // 30 days
+    maxAge: 30 * 24 * 60 * 60,
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

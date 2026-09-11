@@ -6,7 +6,7 @@ import Link from "next/link";
 import { signOut } from "next-auth/react";
 import {
   LayoutDashboard, Users, Briefcase, MessageSquare,
-  Globe, LogOut, Menu, X, ChevronRight,
+  Globe, LogOut, Menu, X, ChevronRight, FileText, UserCog,
 } from "lucide-react";
 
 const NAV = [
@@ -14,6 +14,8 @@ const NAV = [
   { href: "/admin/customers", icon: Users, label: "Customers" },
   { href: "/admin/services", icon: Briefcase, label: "Services" },
   { href: "/admin/messages", icon: MessageSquare, label: "Messages" },
+  { href: "/admin/forms", icon: FileText, label: "Forms" },
+  { href: "/admin/staff", icon: UserCog, label: "Staff" },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
