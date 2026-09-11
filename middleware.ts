@@ -1,15 +1,34 @@
 import createMiddleware from "next-intl/middleware";
 import { routing } from "./src/i18n/routing";
 import { NextRequest, NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
 
 const intlMiddleware = createMiddleware(routing);
 
 const PROTECTED_PATHS = ["/dashboard"];
 
-export default function middleware(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Check if this is a dashboard route
+  // Admin routes — require session + role admin
+  if (pathname.startsWith("/admin")) {
+    const token = await getToken({
+      req: request,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
+
+    if (!token) {
+      return NextResponse.redirect(new URL("/en/auth/login", request.url));
+    }
+
+    if (token.role !== "admin") {
+      return NextResponse.redirect(new URL("/en/dashboard", request.url));
+    }
+
+    return NextResponse.next();
+  }
+
+  // Dashboard routes — require session
   const isDashboard = PROTECTED_PATHS.some((path) =>
     pathname.match(new RegExp(`^/(vi|en|zh|es|id)${path}`))
   );
@@ -20,7 +39,7 @@ export default function middleware(request: NextRequest) {
       request.cookies.get("__Secure-next-auth.session-token");
 
     if (!sessionToken) {
-      const locale = pathname.split("/")[1] || "vi";
+      const locale = pathname.split("/")[1] || "en";
       const loginUrl = new URL(`/${locale}/auth/login`, request.url);
       loginUrl.searchParams.set("callbackUrl", pathname);
       return NextResponse.redirect(loginUrl);
@@ -31,7 +50,5 @@ export default function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/((?!_next|_vercel|api|.*\\..*).*)",
-  ],
+  matcher: ["/((?!_next|_vercel|api|.*\\..*).*)", "/admin/:path*"],
 };
