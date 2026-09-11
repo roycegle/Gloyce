@@ -131,34 +131,43 @@ export default async function HomePage() {
           </div>
 
           {/* Globe + floating cards */}
-          <div className="hidden lg:flex flex-col items-center gap-6">
+          <div className="hidden lg:flex items-center justify-center">
             <div className="relative w-72 h-72 animate-float">
               <div className="absolute inset-0 bg-gold/5 rounded-full blur-3xl" />
               <GlobeVisual />
-              <div className="absolute -top-4 -left-8 bg-ink-800/95 backdrop-blur-sm border border-gold/25 rounded-2xl px-4 py-3 shadow-2xl z-10">
-                <p className="text-[10px] text-ink-400 mb-0.5">{t("Thành lập tại", "Incorporated in", "注册于", "Incorporado en", "Didirikan di")}</p>
-                <div className="flex items-center gap-2">
-                  <span className="text-base">🇺🇸</span>
-                  <p className="text-sm font-bold text-foreground">Irvine, CA</p>
-                </div>
-              </div>
+              {/* IRS Registered — right */}
               <div className="absolute top-1/2 -right-14 -translate-y-1/2 bg-ink-800/95 backdrop-blur-sm border border-gold/20 rounded-xl px-3 py-2.5 shadow-xl z-10">
                 <div className="flex items-center gap-2">
                   <BadgeCheck size={14} className="text-emerald-400 shrink-0" />
                   <p className="text-xs font-semibold text-foreground">IRS Registered</p>
                 </div>
               </div>
+              {/* Done in days — bottom-right */}
               <div className="absolute -bottom-4 -right-4 bg-ink-800/95 backdrop-blur-sm border border-gold/20 rounded-2xl px-4 py-3 shadow-2xl z-10">
                 <p className="text-[10px] text-ink-400 mb-0.5">{t("Xử lý trong", "Done in", "完成于", "Procesado en", "Selesai dalam")}</p>
                 <p className="text-sm font-bold text-gold">7–14 {t("ngày", "days", "天", "días", "hari")}</p>
               </div>
-            </div>
-            <div className="flex gap-3">
-              {[{flag:"🇺🇸",label:"US LLC"},{flag:"🇸🇬",label:"Singapore"},{flag:"🇭🇰",label:"Hong Kong"}].map(j => (
-                <div key={j.label} className="flex items-center gap-2 px-3 py-2 bg-ink-800 border border-ink-600 rounded-xl text-xs font-medium text-ink-200 hover:border-gold/30 hover:text-gold transition-all cursor-default">
-                  <span className="text-base">{j.flag}</span>{j.label}
+              {/* US LLC — upper-left */}
+              <div className="absolute -top-6 -left-10 animate-float bg-ink-800/95 backdrop-blur-sm border border-gold/25 rounded-xl px-3 py-2 shadow-xl z-10" style={{animationDelay:'0.9s'}}>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm">🇺🇸</span>
+                  <p className="text-xs font-semibold text-foreground">US LLC</p>
                 </div>
-              ))}
+              </div>
+              {/* Singapore — left side */}
+              <div className="absolute top-1/2 -left-16 -translate-y-1/2 animate-float bg-ink-800/95 backdrop-blur-sm border border-gold/25 rounded-xl px-3 py-2 shadow-xl z-10" style={{animationDelay:'2.1s'}}>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm">🇸🇬</span>
+                  <p className="text-xs font-semibold text-foreground">Singapore</p>
+                </div>
+              </div>
+              {/* Hong Kong — lower-left */}
+              <div className="absolute -bottom-6 left-4 animate-float bg-ink-800/95 backdrop-blur-sm border border-gold/25 rounded-xl px-3 py-2 shadow-xl z-10" style={{animationDelay:'3.5s'}}>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm">🇭🇰</span>
+                  <p className="text-xs font-semibold text-foreground">Hong Kong</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
