@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, Phone, MapPin, Calendar, MessageSquare, Check } from "lucide-react";
+import { Mail, MapPin, Calendar, MessageSquare, Check } from "lucide-react";
 
 const SERVICES = [
   { vi: "LLC tại Mỹ", en: "US LLC" },
@@ -62,18 +62,18 @@ export default function ContactPage() {
                 <div className="w-9 h-9 rounded-xl bg-ink-800 border border-ink-600 flex items-center justify-center shrink-0"><Mail size={15} className="text-gold" /></div>
                 hello@gloyce.co
               </a>
-              <a href="tel:+84903000000" className="flex items-center gap-3 text-ink-300 hover:text-foreground transition-colors">
-                <div className="w-9 h-9 rounded-xl bg-ink-800 border border-ink-600 flex items-center justify-center shrink-0"><Phone size={15} className="text-gold" /></div>
-                +84 903 000 000
-              </a>
-              <div className="flex items-center gap-3 text-ink-300">
+              <div className="flex items-start gap-3 text-ink-300">
                 <div className="w-9 h-9 rounded-xl bg-ink-800 border border-ink-600 flex items-center justify-center shrink-0"><MapPin size={15} className="text-gold" /></div>
-                {isVi ? "TP. Hồ Chí Minh, Việt Nam" : "Ho Chi Minh City, Vietnam"}
+                <div>
+                  <p className="text-sm font-medium text-foreground mb-0.5">Gloyce LLC</p>
+                  <p className="text-sm leading-relaxed">3000 Marketplace<br />Irvine, CA 92602<br />United States</p>
+                </div>
               </div>
             </div>
-            <div className="bg-ink-800 border border-gold/20 rounded-xl p-4">
+            <div className="bg-ink-800 border border-gold/20 rounded-xl p-4 space-y-2">
               <p className="text-xs font-semibold text-gold mb-1">{isVi ? "Giờ làm việc" : "Business hours"}</p>
-              <p className="text-sm text-ink-300">{isVi ? "Thứ 2 – Thứ 6: 8:00 – 18:00 (ICT)" : "Mon – Fri: 8:00 – 18:00 (ICT)"}</p>
+              <p className="text-sm text-ink-300">{isVi ? "Thứ 2 – Thứ 6: 9:00 – 18:00 (PST)" : "Mon – Fri: 9:00 AM – 6:00 PM (PST)"}</p>
+              <p className="text-xs text-ink-500">{isVi ? "Hỗ trợ tiếng Việt trong giờ làm việc" : "Vietnamese support during business hours"}</p>
             </div>
           </div>
 

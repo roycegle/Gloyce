@@ -1,5 +1,5 @@
 import { Link } from "@/i18n/routing";
-import { Globe, Mail, Phone } from "lucide-react";
+import { Globe, Mail, Phone, MapPin } from "lucide-react";
 
 const FOOTER_LINKS = {
   incorporate: {
@@ -76,11 +76,12 @@ export async function Footer({ locale }: { locale: string }) {
             </p>
             <div className="space-y-2">
               <a href="mailto:hello@gloyce.co" className="flex items-center gap-2 text-xs text-ink-400 hover:text-gold transition-colors">
-                <Mail size={13} /> hello@gloyce.co
+                <Mail size={13} className="shrink-0" /> hello@gloyce.co
               </a>
-              <a href="tel:+84903000000" className="flex items-center gap-2 text-xs text-ink-400 hover:text-gold transition-colors">
-                <Phone size={13} /> +84 903 000 000
-              </a>
+              <div className="flex items-start gap-2 text-xs text-ink-400">
+                <MapPin size={13} className="shrink-0 mt-0.5" />
+                <span>3000 Marketplace,<br />Irvine, CA 92602<br />United States</span>
+              </div>
             </div>
           </div>
 
