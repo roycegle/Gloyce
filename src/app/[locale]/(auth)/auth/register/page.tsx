@@ -22,13 +22,40 @@ export default function RegisterPage() {
     agreed: false,
   });
 
+  const [error, setError] = useState<string | null>(null);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (form.password !== form.confirmPassword) return;
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1000));
-    setLoading(false);
-    setSubmitted(true);
+    setError(null);
+
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          password: form.password,
+          phone: form.phone,
+          company: form.company,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Registration failed");
+        return;
+      }
+
+      setSubmitted(true);
+    } catch {
+      setError("Network error, please try again");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -127,6 +154,10 @@ export default function RegisterPage() {
                   />
                   <span>{t("terms")}</span>
                 </label>
+
+                {error && (
+                  <p className="text-sm text-red-400 text-center">{error}</p>
+                )}
 
                 <Button type="submit" size="lg" className="w-full" isLoading={loading}>
                   {t("submit")}

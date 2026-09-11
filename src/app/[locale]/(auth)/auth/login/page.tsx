@@ -17,8 +17,8 @@ export default function LoginPage() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || `/${locale}/dashboard`;
 
-  const [email, setEmail] = useState("demo@gloyce.co");
-  const [password, setPassword] = useState("demo123");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -103,11 +103,6 @@ export default function LoginPage() {
               {t("submit")}
             </Button>
           </form>
-
-          {/* Demo hint */}
-          <div className="mt-4 p-3 rounded-lg bg-navy-800 border border-navy-700 text-xs text-navy-400 text-center">
-            <span className="font-semibold text-navy-300">Demo:</span> demo@gloyce.co / demo123
-          </div>
 
           <p className="mt-6 text-center text-sm text-navy-400">
             {t("noAccount")}{" "}

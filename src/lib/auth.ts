@@ -1,15 +1,7 @@
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-
-// Mock user for MVP — replace with real DB lookup in production
-const MOCK_USER = {
-  id: "user-001",
-  name: "Alex Chen",
-  email: "demo@gloyce.co",
-  password: "demo123",
-  company: "My Company LLC",
-  role: "client",
-};
+import bcrypt from "bcryptjs";
+import { supabaseAdmin } from "./supabase";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -22,19 +14,25 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
 
-        if (
-          credentials.email === MOCK_USER.email &&
-          credentials.password === MOCK_USER.password
-        ) {
-          return {
-            id: MOCK_USER.id,
-            name: MOCK_USER.name,
-            email: MOCK_USER.email,
-            company: MOCK_USER.company,
-            role: MOCK_USER.role,
-          };
-        }
-        return null;
+        const { data: user, error } = await supabaseAdmin
+          .from("users")
+          .select("id, name, email, password_hash, company, role, status")
+          .eq("email", credentials.email.toLowerCase())
+          .single();
+
+        if (error || !user) return null;
+
+        const passwordMatch = await bcrypt.compare(credentials.password, user.password_hash);
+        if (!passwordMatch) return null;
+
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          company: user.company,
+          role: user.role,
+          status: user.status,
+        };
       },
     }),
   ],
@@ -46,16 +44,18 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.company = (user as typeof MOCK_USER).company;
-        token.role = (user as typeof MOCK_USER).role;
+        token.company = (user as { company?: string }).company;
+        token.role = (user as { role?: string }).role;
+        token.status = (user as { status?: string }).status;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
-        (session.user as typeof MOCK_USER & { id: string }).id = token.id as string;
-        (session.user as typeof MOCK_USER).company = token.company as string;
-        (session.user as typeof MOCK_USER).role = token.role as string;
+        (session.user as { id?: string }).id = token.id as string;
+        (session.user as { company?: string }).company = token.company as string;
+        (session.user as { role?: string }).role = token.role as string;
+        (session.user as { status?: string }).status = token.status as string;
       }
       return session;
     },
@@ -64,5 +64,5 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
-  secret: process.env.NEXTAUTH_SECRET || "gloyce-dev-secret-change-in-production",
+  secret: process.env.NEXTAUTH_SECRET,
 };
