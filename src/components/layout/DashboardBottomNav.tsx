@@ -54,10 +54,8 @@ export function DashboardBottomNav() {
               <Link
                 key={href}
                 href={href}
-                className={cn(
-                  "flex-1 flex flex-col items-center justify-center gap-0.5 py-2.5 relative transition-colors",
-                  isActive ? "text-gold" : "text-[#4A5A88]"
-                )}
+                className="flex-1 flex flex-col items-center justify-center gap-0.5 py-2.5 relative transition-colors"
+                style={{ color: isActive ? "#B87C10" : "#9BAED0" }}
               >
                 {isActive && (
                   <span className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-gold rounded-full" />
@@ -66,18 +64,13 @@ export function DashboardBottomNav() {
                 <div className="relative">
                   <Icon size={20} strokeWidth={isActive ? 2.5 : 1.8} />
                   {badge > 0 && (
-                    <span className="absolute -top-1 -right-1.5 w-4 h-4 bg-gold rounded-full text-[9px] font-bold text-[#060C30] flex items-center justify-center">
+                    <span className="absolute -top-1 -right-1.5 w-4 h-4 bg-gold rounded-full text-[9px] font-bold flex items-center justify-center" style={{ color: "#060C30" }}>
                       {badge}
                     </span>
                   )}
                 </div>
 
-                <span
-                  className={cn(
-                    "text-[9px] font-medium tracking-wide leading-none hidden sm:block",
-                    isActive ? "text-gold" : "text-[#4A5A88]"
-                  )}
-                >
+                <span className="text-[9px] font-medium tracking-wide leading-none hidden sm:block">
                   {t(key as Parameters<typeof t>[0])}
                 </span>
               </Link>
@@ -97,7 +90,7 @@ export function DashboardBottomNav() {
             </div>
             <div className="min-w-0">
               <p className="text-xs font-semibold text-white truncate max-w-[120px]">{userName}</p>
-              <p className="text-[10px] truncate max-w-[120px]" style={{ color: "#4A5A88" }}>
+              <p className="text-[10px] truncate max-w-[120px]" style={{ color: "#8B9EC7" }}>
                 {session?.user?.email}
               </p>
             </div>
@@ -106,9 +99,9 @@ export function DashboardBottomNav() {
           <button
             onClick={() => signOut({ callbackUrl: "/vi/auth/login" })}
             className="p-2 rounded-lg transition-colors"
-            style={{ color: "#4A5A88" }}
+            style={{ color: "#8B9EC7" }}
             onMouseEnter={(e) => (e.currentTarget.style.color = "#f87171")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "#4A5A88")}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "#8B9EC7")}
             title="Sign out"
           >
             <LogOut size={16} />
