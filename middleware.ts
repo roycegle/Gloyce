@@ -11,7 +11,7 @@ export default function middleware(request: NextRequest) {
 
   // Check if this is a dashboard route
   const isDashboard = PROTECTED_PATHS.some((path) =>
-    pathname.match(new RegExp(`^/(vi|en)${path}`))
+    pathname.match(new RegExp(`^/(vi|en|zh|es|id)${path}`))
   );
 
   if (isDashboard) {

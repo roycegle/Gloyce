@@ -1,0 +1,88 @@
+{
+  "meta": {
+    "siteName": "Gloyce",
+    "defaultTitle": "Gloyce — Haz negocios globales, más fácil",
+    "defaultDescription": "Gloyce ayuda a empresas vietnamitas a constituirse, operar y gestionar flujos de dinero transfronterizos en EE.UU., Singapur y Hong Kong."
+  },
+  "nav": {
+    "services": "Services",
+    "servicesExecute": "Company Formation",
+    "servicesOperate": "Operations & Compliance",
+    "servicesStrategize": "Strategic Advisory",
+    "pricing": "Pricing",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Sign In",
+    "getStarted": "Get Started",
+    "dashboard": "Dashboard",
+    "logout": "Sign Out"
+  },
+  "home": {
+    "hero": {
+      "label": "For Vietnamese businesses going global",
+      "title": "Go global.",
+      "titleAccent": "Operate globally.",
+      "subtitle": "One platform to incorporate in the US, Singapore, and Hong Kong — with accounting, compliance, and advisory built for Vietnamese SMEs.",
+      "cta": "Get Started",
+      "ctaSecondary": "Explore Services",
+      "trust": "Trusted by 200+ Vietnamese businesses",
+      "trustPartners": "Infrastructure partners:"
+    },
+    "stats": {
+      "companies": "Companies formed",
+      "countries": "Countries served",
+      "clients": "Satisfied clients",
+      "experts": "Compliance experts"
+    },
+    "services": {
+      "title": "Everything you need to operate globally",
+      "subtitle": "Three tiers built to grow with your business"
+    },
+    "testimonials": {
+      "title": "Trusted by Vietnamese sellers worldwide",
+      "subtitle": "Hear from businesses like yours"
+    },
+    "cta": {
+      "title": "Ready to go global?",
+      "subtitle": "Book a free 30-minute consultation with our expert team.",
+      "button": "Book Free Consultation"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "tryAgain": "Try again",
+    "learnMore": "Learn more",
+    "getStarted": "Get Started",
+    "bookConsultation": "Book Free Consultation",
+    "viewAll": "View all",
+    "back": "Back",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "edit": "Edit",
+    "save": "Save",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "yes": "Yes",
+    "no": "No",
+    "or": "or"
+  },
+  "footer": {
+    "tagline": "Go global. Operate globally. Move money globally.",
+    "servicesTitle": "Services",
+    "companyTitle": "Company",
+    "legalTitle": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "complianceNote": "All services are structured in compliance with applicable US federal, state and international laws.",
+    "copyright": "© {year} Gloyce. All rights reserved.",
+    "companyLinks": {
+      "about": "About Gloyce",
+      "blog": "Blog",
+      "contact": "Contact",
+      "careers": "Careers"
+    }
+  }
+}

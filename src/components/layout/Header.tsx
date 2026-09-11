@@ -12,6 +12,14 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+const LANGUAGES = [
+  { code: "vi", label: "Tiếng Việt", flag: "🇻🇳" },
+  { code: "en", label: "English",    flag: "🇺🇸" },
+  { code: "zh", label: "中文",        flag: "🇨🇳" },
+  { code: "es", label: "Español",    flag: "🇪🇸" },
+  { code: "id", label: "Indonesia",  flag: "🇮🇩" },
+];
+
 const NAV = [
   {
     label: "Thành lập",
@@ -105,12 +113,15 @@ export function Header() {
   const [open, setOpen] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+  const [langOpen, setLangOpen] = useState(false);
   const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const langRef = useRef<HTMLDivElement>(null);
 
   const isVi = locale === "vi";
+  const currentLang = LANGUAGES.find(l => l.code === locale) ?? LANGUAGES[0];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -121,7 +132,18 @@ export function Header() {
   useEffect(() => {
     setMobileOpen(false);
     setOpen(null);
+    setLangOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (langRef.current && !langRef.current.contains(e.target as Node)) {
+        setLangOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
 
   const handleMouseEnter = (label: string) => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -132,8 +154,9 @@ export function Header() {
     closeTimer.current = setTimeout(() => setOpen(null), 150);
   };
 
-  const toggleLocale = () => {
-    router.replace(pathname, { locale: isVi ? "en" : "vi" });
+  const switchLocale = (code: string) => {
+    router.replace(pathname, { locale: code as "vi" | "en" | "zh" | "es" | "id" });
+    setLangOpen(false);
   };
 
   return (
@@ -196,7 +219,7 @@ export function Header() {
                   {/* Mega dropdown */}
                   {isActive && (
                     <div
-                      className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-max min-w-[520px] bg-ink-800 border border-ink-600 rounded-2xl shadow-2xl shadow-black/60 p-5 grid gap-4"
+                      className="absolute top-full left-0 mt-2 w-max min-w-[520px] bg-ink-800 border border-ink-600 rounded-2xl shadow-2xl shadow-black/60 p-5 grid gap-4"
                       style={{ gridTemplateColumns: item.groups.length > 1 ? "1fr 1fr" : "1fr" }}
                       onMouseEnter={() => handleMouseEnter(item.label)}
                       onMouseLeave={handleMouseLeave}
@@ -320,12 +343,37 @@ export function Header() {
 
           {/* Right side */}
           <div className="hidden lg:flex items-center gap-2 shrink-0">
-            <button
-              onClick={toggleLocale}
-              className="px-2.5 py-1.5 rounded-lg text-xs font-medium text-ink-300 hover:text-foreground hover:bg-ink-800 transition-all border border-ink-600"
-            >
-              {isVi ? "EN" : "VI"}
-            </button>
+            {/* Language picker */}
+            <div ref={langRef} className="relative">
+              <button
+                onClick={() => setLangOpen(!langOpen)}
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-ink-300 hover:text-foreground hover:bg-ink-800 transition-all border border-ink-600"
+              >
+                <span className="text-base leading-none">{currentLang.flag}</span>
+                <span className="hidden xl:inline">{currentLang.label}</span>
+                <ChevronDown size={11} className={cn("transition-transform text-ink-500", langOpen && "rotate-180")} />
+              </button>
+              {langOpen && (
+                <div className="absolute top-full right-0 mt-2 w-44 bg-ink-800 border border-ink-600 rounded-xl shadow-2xl shadow-black/60 py-1.5 z-50">
+                  {LANGUAGES.map(lang => (
+                    <button
+                      key={lang.code}
+                      onClick={() => switchLocale(lang.code)}
+                      className={cn(
+                        "w-full flex items-center gap-2.5 px-3 py-2 text-sm transition-colors text-left",
+                        locale === lang.code
+                          ? "text-gold bg-gold/8"
+                          : "text-ink-200 hover:text-foreground hover:bg-ink-700"
+                      )}
+                    >
+                      <span className="text-base leading-none">{lang.flag}</span>
+                      <span className="flex-1">{lang.label}</span>
+                      {locale === lang.code && <span className="w-1.5 h-1.5 rounded-full bg-gold" />}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
             <Link
               href="/auth/login"
               className="px-3 py-1.5 rounded-lg text-sm text-ink-200 hover:text-foreground hover:bg-ink-800 transition-all"
@@ -395,9 +443,23 @@ export function Header() {
               </Link>
             </div>
             <div className="mt-4 pt-4 border-t border-ink-700 flex flex-col gap-2">
-              <button onClick={toggleLocale} className="text-sm text-ink-300 text-center py-2">
-                {isVi ? "Switch to English" : "Chuyển sang Tiếng Việt"}
-              </button>
+              <div className="grid grid-cols-5 gap-1.5 mb-1">
+                {LANGUAGES.map(lang => (
+                  <button
+                    key={lang.code}
+                    onClick={() => switchLocale(lang.code)}
+                    className={cn(
+                      "flex flex-col items-center gap-1 py-2 rounded-lg text-[10px] font-medium transition-colors",
+                      locale === lang.code
+                        ? "bg-gold/15 text-gold border border-gold/30"
+                        : "text-ink-400 hover:text-foreground hover:bg-ink-800 border border-transparent"
+                    )}
+                  >
+                    <span className="text-lg leading-none">{lang.flag}</span>
+                    <span className="truncate w-full text-center px-0.5">{lang.code.toUpperCase()}</span>
+                  </button>
+                ))}
+              </div>
               <Link href="/auth/login" className="text-center py-2.5 rounded-xl border border-ink-600 text-sm text-foreground hover:bg-ink-800 transition-colors">
                 {isVi ? "Đăng nhập" : "Login"}
               </Link>
