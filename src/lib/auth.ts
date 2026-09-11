@@ -4,10 +4,10 @@ import CredentialsProvider from "next-auth/providers/credentials";
 // Mock user for MVP — replace with real DB lookup in production
 const MOCK_USER = {
   id: "user-001",
-  name: "Nguyễn Văn Minh",
+  name: "Alex Chen",
   email: "demo@gloyce.co",
   password: "demo123",
-  company: "Nguyen Trading LLC",
+  company: "My Company LLC",
   role: "client",
 };
 
