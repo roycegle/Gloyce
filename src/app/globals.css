@@ -49,7 +49,8 @@
   --color-navy-100: #EFF4FF;
 
   /* Font */
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --font-mono: 'Geist Mono', ui-monospace, monospace;
 
   /* Border radius */
@@ -91,6 +92,9 @@ body {
   border-radius: inherit;
 }
 
+/* Display font utility */
+.font-display { font-family: var(--font-display); }
+
 /* Gold shimmer text */
 .text-gold-gradient {
   background: linear-gradient(135deg, #C9960C 0%, #E8B82A 50%, #C9960C 100%);
@@ -99,8 +103,76 @@ body {
   background-clip: text;
 }
 
+/* Gold shimmer animated */
+.text-gold-shimmer {
+  background: linear-gradient(90deg, #C9960C 0%, #E8B82A 30%, #FDE68A 50%, #E8B82A 70%, #C9960C 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+@keyframes shimmer {
+  to { background-position: 200% center; }
+}
+
 /* Section divider line */
 .divider-gold {
   height: 1px;
   background: linear-gradient(90deg, transparent, #C9960C40, transparent);
 }
+
+/* Glow card effect */
+.card-glow {
+  box-shadow: 0 0 0 1px rgba(201,150,12,0.15), 0 8px 32px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.3);
+}
+
+/* Avatar gradient ring */
+.avatar-ring {
+  background: linear-gradient(135deg, #C9960C, #E8B82A, #C9960C);
+  padding: 2px;
+  border-radius: 9999px;
+}
+
+/* Dot grid pattern */
+.bg-dot-grid {
+  background-image: radial-gradient(rgba(201,150,12,0.2) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Globe ring animation */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow { animation: spin-slow 20s linear infinite; }
+
+@keyframes spin-reverse {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+.animate-spin-reverse { animation: spin-reverse 30s linear infinite; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+.animate-float { animation: float 5s ease-in-out infinite; }
+
+/* Trusted logos row */
+.logo-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  border: 1px solid rgba(30,46,72,0.8);
+  background: rgba(13,21,40,0.6);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #9AADC8;
+  white-space: nowrap;
+  transition: border-color 0.2s, color 0.2s;
+}
+.logo-pill:hover { border-color: rgba(201,150,12,0.4); color: #E8B82A; }
