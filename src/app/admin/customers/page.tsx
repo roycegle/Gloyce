@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Search, ChevronRight, Building2 } from "lucide-react";
@@ -21,7 +21,7 @@ const STATUS_COLORS: Record<string, string> = {
   suspended: "bg-red-100 text-red-700",
 };
 
-export default function CustomersPage() {
+function CustomersContent() {
   const searchParams = useSearchParams();
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [loading, setLoading] = useState(true);
@@ -124,5 +124,13 @@ export default function CustomersPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function CustomersPage() {
+  return (
+    <Suspense fallback={<div className="p-12 text-center text-gray-400 text-sm">Loading...</div>}>
+      <CustomersContent />
+    </Suspense>
   );
 }
