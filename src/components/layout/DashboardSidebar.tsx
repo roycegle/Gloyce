@@ -140,7 +140,7 @@ export function DashboardSidebar() {
         </div>
 
         <button
-          onClick={() => signOut({ callbackUrl: "/vi/auth/login" })}
+          onClick={() => signOut({ callbackUrl: "/en/auth/login" })}
           className={cn(
             "flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors",
             collapsed ? "justify-center" : ""

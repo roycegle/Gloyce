@@ -97,7 +97,7 @@ export function DashboardBottomNav() {
           </div>
 
           <button
-            onClick={() => signOut({ callbackUrl: "/vi/auth/login" })}
+            onClick={() => signOut({ callbackUrl: "/en/auth/login" })}
             className="p-2 rounded-lg transition-colors"
             style={{ color: "#8B9EC7" }}
             onMouseEnter={(e) => (e.currentTarget.style.color = "#f87171")}
