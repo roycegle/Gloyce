@@ -6,7 +6,7 @@ export default async function AboutPage() {
   const locale = await getLocale();
   const isVi = locale === "vi";
   const values = [
-    { icon: Shield, title: isVi ? "Tuân thủ trên hết" : "Compliance first", desc: isVi ? "Không có lời khuyên mập mờ. Mọi dịch vụ đều được xây dựng trên nền tảng tuân thủ pháp luật Việt Nam và quốc tế." : "No ambiguous advice. Every service is built on a foundation of Vietnamese and international legal compliance." },
+    { icon: Shield, title: isVi ? "Tuân thủ trên hết" : "Compliance first", desc: isVi ? "Không có lời khuyên mập mờ. Mọi dịch vụ đều được xây dựng trên nền tảng tuân thủ pháp luật Mỹ (liên bang và tiểu bang) và quốc tế." : "No ambiguous advice. Every service is built on a foundation of US federal, state and international legal compliance." },
     { icon: Users, title: isVi ? "Am hiểu ngôn ngữ & văn hóa" : "Language & culture fluency", desc: isVi ? "Đội ngũ Gloyce nói tiếng Việt, hiểu bối cảnh kinh doanh Việt Nam và kết nối với đối tác quốc tế." : "The Gloyce team speaks Vietnamese, understands Vietnamese business context and connects with international partners." },
     { icon: TrendingUp, title: isVi ? "Chủ động, không thụ động" : "Proactive, not reactive", desc: isVi ? "Chúng tôi theo dõi thay đổi pháp lý, deadline và cơ hội — chủ động thông báo trước khi vấn đề xảy ra." : "We monitor legal changes, deadlines and opportunities — proactively alerting you before issues arise." },
     { icon: Globe, title: isVi ? "Mạng lưới đối tác toàn cầu" : "Global partner network", desc: isVi ? "Gloyce kết nối với luật sư, kế toán, ngân hàng và fintech tại Mỹ, Singapore, Hồng Kông và Việt Nam." : "Gloyce connects with lawyers, accountants, banks and fintechs in the US, Singapore, Hong Kong and Vietnam." },

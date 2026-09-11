@@ -42,8 +42,8 @@ export default async function AccountingPage() {
             </h1>
             <p className="text-ink-300 text-lg leading-relaxed">
               {isVi
-                ? "Đội ngũ kế toán của Gloyce am hiểu cả luật thuế Việt Nam lẫn Mỹ — giúp bạn nộp đúng thuế, không bỏ lỡ deadline và tối ưu chi phí trong khuôn khổ pháp luật."
-                : "Gloyce's accounting team understands both Vietnamese and US tax law — helping you pay the right tax, never miss a deadline, and optimize costs within legal boundaries."}
+                ? "Đội ngũ kế toán của Gloyce am hiểu luật thuế Mỹ (liên bang và tiểu bang), với kinh nghiệm chuyên sâu phục vụ doanh nghiệp chủ sở hữu Việt Nam — giúp bạn nộp đúng thuế, không bỏ lỡ deadline và tối ưu chi phí trong khuôn khổ pháp luật."
+                : "Gloyce's accounting team specializes in US federal and state tax law, with deep expertise serving Vietnamese-owned businesses — helping you file correctly, never miss a deadline, and optimize costs within legal boundaries."}
             </p>
           </div>
 
