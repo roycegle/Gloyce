@@ -184,5 +184,44 @@
       "save": "Guardar cambios",
       "saved": "¡Guardado con éxito!"
     }
+  },
+  "auth": {
+    "login": {
+      "title": "Inicia sesión en tu cuenta",
+      "subtitle": "Bienvenido de vuelta",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "submit": "Iniciar sesión",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "noAccount": "¿No tienes cuenta?",
+      "register": "Crear cuenta",
+      "error": "Email o contraseña incorrectos"
+    },
+    "register": {
+      "title": "Crea tu cuenta",
+      "subtitle": "Comienza tu viaje global",
+      "name": "Nombre completo",
+      "company": "Nombre de la empresa",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar contraseña",
+      "phone": "Número de teléfono",
+      "terms": "Acepto los Términos de Servicio y la Política de Privacidad",
+      "submit": "Crear Cuenta",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "login": "Iniciar sesión",
+      "successTitle": "¡Cuenta creada!",
+      "successDesc": "Nos pondremos en contacto en 1 día hábil para verificar y activar tu cuenta.",
+      "passwordMismatch": "Las contraseñas no coinciden"
+    },
+    "forgotPassword": {
+      "title": "Restablecer contraseña",
+      "subtitle": "Ingresa tu correo para recibir el enlace de restablecimiento",
+      "email": "Correo electrónico",
+      "submit": "Enviar enlace",
+      "back": "Volver al inicio de sesión",
+      "success": "Correo de restablecimiento enviado. Revisa tu bandeja de entrada.",
+      "successTitle": "¡Correo enviado!"
+    }
   }
 }

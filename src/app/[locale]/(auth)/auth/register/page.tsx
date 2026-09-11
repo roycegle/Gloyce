@@ -51,10 +51,8 @@ export default function RegisterPage() {
               <div className="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto mb-4">
                 <CheckCircle2 className="w-7 h-7 text-emerald-400" />
               </div>
-              <h2 className="text-xl font-bold text-foreground mb-2">Tài khoản đã được tạo!</h2>
-              <p className="text-navy-400 text-sm mb-6">
-                Chúng tôi sẽ liên hệ trong vòng 1 ngày làm việc để xác minh và kích hoạt tài khoản.
-              </p>
+              <h2 className="text-xl font-bold text-foreground mb-2">{t("successTitle")}</h2>
+              <p className="text-navy-400 text-sm mb-6">{t("successDesc")}</p>
               <Link href="/auth/login">
                 <Button variant="outline" size="md">
                   {t("login")}
@@ -71,14 +69,14 @@ export default function RegisterPage() {
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <Input
                   label={t("name")}
-                  placeholder="Nguyễn Văn A"
+                  placeholder="Alex Chen"
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   required
                 />
                 <Input
                   label={t("company")}
-                  placeholder="Tên công ty"
+                  placeholder="My Company LLC"
                   value={form.company}
                   onChange={(e) => setForm({ ...form, company: e.target.value })}
                 />
@@ -93,7 +91,7 @@ export default function RegisterPage() {
                 <Input
                   label={t("phone")}
                   type="tel"
-                  placeholder="+84 9xx xxx xxx"
+                  placeholder="+XX XXXX XXXX"
                   value={form.phone}
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
                 />
@@ -113,7 +111,7 @@ export default function RegisterPage() {
                   onChange={(e) => setForm({ ...form, confirmPassword: e.target.value })}
                   error={
                     form.confirmPassword && form.password !== form.confirmPassword
-                      ? "Mật khẩu không khớp"
+                      ? t("passwordMismatch")
                       : undefined
                   }
                   required

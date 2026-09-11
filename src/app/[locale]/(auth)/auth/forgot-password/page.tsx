@@ -41,7 +41,7 @@ export default function ForgotPasswordPage() {
               <div className="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto mb-4">
                 <CheckCircle2 className="w-7 h-7 text-emerald-400" />
               </div>
-              <h2 className="text-xl font-bold text-foreground mb-2">Email đã được gửi!</h2>
+              <h2 className="text-xl font-bold text-foreground mb-2">{t("successTitle")}</h2>
               <p className="text-navy-400 text-sm mb-6">{t("success")}</p>
               <Link href="/auth/login">
                 <Button variant="outline" size="md" className="gap-2">

@@ -184,5 +184,44 @@
       "save": "Simpan Perubahan",
       "saved": "Berhasil disimpan!"
     }
+  },
+  "auth": {
+    "login": {
+      "title": "Masuk ke akun Anda",
+      "subtitle": "Selamat datang kembali",
+      "email": "Email",
+      "password": "Kata sandi",
+      "submit": "Masuk",
+      "forgotPassword": "Lupa kata sandi?",
+      "noAccount": "Belum punya akun?",
+      "register": "Buat akun",
+      "error": "Email atau kata sandi salah"
+    },
+    "register": {
+      "title": "Buat akun Anda",
+      "subtitle": "Mulai perjalanan global Anda",
+      "name": "Nama lengkap",
+      "company": "Nama perusahaan",
+      "email": "Alamat email",
+      "password": "Kata sandi",
+      "confirmPassword": "Konfirmasi kata sandi",
+      "phone": "Nomor telepon",
+      "terms": "Saya setuju dengan Syarat Layanan dan Kebijakan Privasi",
+      "submit": "Buat Akun",
+      "hasAccount": "Sudah punya akun?",
+      "login": "Masuk",
+      "successTitle": "Akun berhasil dibuat!",
+      "successDesc": "Kami akan menghubungi Anda dalam 1 hari kerja untuk memverifikasi dan mengaktifkan akun.",
+      "passwordMismatch": "Kata sandi tidak cocok"
+    },
+    "forgotPassword": {
+      "title": "Reset kata sandi",
+      "subtitle": "Masukkan email Anda untuk menerima tautan reset",
+      "email": "Alamat email",
+      "submit": "Kirim tautan reset",
+      "back": "Kembali ke halaman masuk",
+      "success": "Email reset kata sandi telah dikirim. Periksa kotak masuk Anda.",
+      "successTitle": "Email terkirim!"
+    }
   }
 }

@@ -190,7 +190,7 @@
   },
   "auth": {
     "login": {
-      "title": "Đăng nhập vào tài khoản",
+      "title": "Đăng nhập tài khoản",
       "subtitle": "Chào mừng trở lại",
       "email": "Email",
       "password": "Mật khẩu",
@@ -198,8 +198,6 @@
       "forgotPassword": "Quên mật khẩu?",
       "noAccount": "Chưa có tài khoản?",
       "register": "Tạo tài khoản",
-      "orContinueWith": "Hoặc tiếp tục với",
-      "google": "Tiếp tục với Google",
       "error": "Email hoặc mật khẩu không đúng"
     },
     "register": {
@@ -207,14 +205,17 @@
       "subtitle": "Bắt đầu hành trình toàn cầu của bạn",
       "name": "Họ và tên",
       "company": "Tên công ty",
-      "email": "Email",
+      "email": "Địa chỉ email",
       "password": "Mật khẩu",
       "confirmPassword": "Xác nhận mật khẩu",
       "phone": "Số điện thoại",
       "terms": "Tôi đồng ý với Điều khoản dịch vụ và Chính sách bảo mật",
       "submit": "Tạo tài khoản",
       "hasAccount": "Đã có tài khoản?",
-      "login": "Đăng nhập"
+      "login": "Đăng nhập",
+      "successTitle": "Tài khoản đã được tạo!",
+      "successDesc": "Chúng tôi sẽ liên hệ trong vòng 1 ngày làm việc để xác minh và kích hoạt tài khoản.",
+      "passwordMismatch": "Mật khẩu không khớp"
     },
     "forgotPassword": {
       "title": "Đặt lại mật khẩu",
@@ -222,7 +223,8 @@
       "email": "Địa chỉ email",
       "submit": "Gửi liên kết đặt lại",
       "back": "Quay lại đăng nhập",
-      "success": "Email đặt lại mật khẩu đã được gửi. Vui lòng kiểm tra hộp thư của bạn."
+      "success": "Email đặt lại mật khẩu đã được gửi. Vui lòng kiểm tra hộp thư.",
+      "successTitle": "Email đã được gửi!"
     }
   },
   "dashboard": {

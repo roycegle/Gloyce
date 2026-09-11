@@ -198,8 +198,6 @@
       "forgotPassword": "Forgot password?",
       "noAccount": "Don't have an account?",
       "register": "Create account",
-      "orContinueWith": "Or continue with",
-      "google": "Continue with Google",
       "error": "Invalid email or password"
     },
     "register": {
@@ -214,7 +212,10 @@
       "terms": "I agree to the Terms of Service and Privacy Policy",
       "submit": "Create Account",
       "hasAccount": "Already have an account?",
-      "login": "Sign in"
+      "login": "Sign in",
+      "successTitle": "Account created!",
+      "successDesc": "We'll reach out within 1 business day to verify and activate your account.",
+      "passwordMismatch": "Passwords do not match"
     },
     "forgotPassword": {
       "title": "Reset your password",
@@ -222,7 +223,8 @@
       "email": "Email address",
       "submit": "Send reset link",
       "back": "Back to sign in",
-      "success": "Password reset email sent. Please check your inbox."
+      "success": "Password reset email sent. Please check your inbox.",
+      "successTitle": "Email sent!"
     }
   },
   "dashboard": {
