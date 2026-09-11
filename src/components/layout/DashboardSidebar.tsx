@@ -17,10 +17,16 @@ import {
   Globe,
   ChevronLeft,
   ChevronRight,
+  X,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
-export function DashboardSidebar() {
+interface DashboardSidebarProps {
+  mobileOpen?: boolean;
+  onMobileClose?: () => void;
+}
+
+export function DashboardSidebar({ mobileOpen = false, onMobileClose }: DashboardSidebarProps) {
   const t = useTranslations("dashboard.nav");
   const pathname = usePathname();
   const { data: session } = useSession();
@@ -46,7 +52,7 @@ export function DashboardSidebar() {
     { href: "/dashboard/settings" as const, icon: Settings, label: t("settings") },
   ];
 
-  const userName = session?.user?.name || "User";
+  const userName = session?.user?.name || "Alex Chen";
   const userInitials = userName
     .split(" ")
     .map((n: string) => n[0])
@@ -54,20 +60,30 @@ export function DashboardSidebar() {
     .join("")
     .toUpperCase();
 
-  return (
+  const sidebarContent = (isMobile = false) => (
     <aside
       className={cn(
-        "flex flex-col h-screen bg-navy-950 border-r border-navy-800 transition-all duration-200 sticky top-0 shrink-0",
-        collapsed ? "w-16" : "w-60"
+        "flex flex-col h-full transition-all duration-200",
+        /* Dark sidebar surface */
+        "bg-[#060C30] border-r border-[#111840]",
+        !isMobile && (collapsed ? "w-16" : "w-60")
       )}
     >
       {/* Logo */}
-      <div className="flex items-center gap-2.5 px-4 py-4 border-b border-navy-800 h-16">
+      <div className="flex items-center gap-2.5 px-4 py-4 border-b border-[#111840] h-16">
         <div className="w-8 h-8 bg-gold rounded-lg flex items-center justify-center shrink-0">
-          <Globe className="w-5 h-5 text-navy-900" />
+          <Globe className="w-5 h-5 text-[#060C30]" />
         </div>
-        {!collapsed && (
-          <span className="text-base font-bold text-foreground">Gloyce</span>
+        {(!collapsed || isMobile) && (
+          <span className="text-base font-bold text-white">Gloyce</span>
+        )}
+        {isMobile && (
+          <button
+            onClick={onMobileClose}
+            className="ml-auto p-1.5 text-[#6B7BA4] hover:text-white rounded-lg hover:bg-[#0F1840] transition-colors"
+          >
+            <X size={18} />
+          </button>
         )}
       </div>
 
@@ -75,23 +91,25 @@ export function DashboardSidebar() {
       <nav className="flex-1 px-2 py-3 flex flex-col gap-0.5 overflow-y-auto">
         {NAV.map((item) => {
           const Icon = item.icon;
-          const isActive = pathname === item.href ||
+          const isActive =
+            pathname === item.href ||
             (item.href !== "/dashboard" && pathname.startsWith(item.href));
 
           return (
             <Link
               key={item.href}
               href={item.href}
+              onClick={onMobileClose}
               className={cn(
                 "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors relative",
                 isActive
-                  ? "bg-gold/10 text-gold border border-gold/20"
-                  : "text-navy-400 hover:text-foreground hover:bg-navy-800"
+                  ? "bg-gold/15 text-gold border border-gold/25"
+                  : "text-[#6B7BA4] hover:text-[#C4D0F0] hover:bg-[#0F1840]"
               )}
-              title={collapsed ? item.label : undefined}
+              title={collapsed && !isMobile ? item.label : undefined}
             >
-              <Icon className="w-4.5 h-4.5 shrink-0" size={18} />
-              {!collapsed && (
+              <Icon className="shrink-0" size={18} />
+              {(!collapsed || isMobile) && (
                 <>
                   <span className="flex-1">{item.label}</span>
                   {item.badge && (
@@ -101,7 +119,7 @@ export function DashboardSidebar() {
                   )}
                 </>
               )}
-              {collapsed && item.badge && (
+              {collapsed && !isMobile && item.badge && (
                 <span className="absolute top-1 right-1 w-2 h-2 bg-gold rounded-full" />
               )}
             </Link>
@@ -110,23 +128,18 @@ export function DashboardSidebar() {
       </nav>
 
       {/* Bottom section */}
-      <div className="px-2 py-3 border-t border-navy-800 flex flex-col gap-2">
-        {!collapsed && <LanguageToggle className="mx-1" />}
+      <div className="px-2 py-3 border-t border-[#111840] flex flex-col gap-2">
+        {(!collapsed || isMobile) && <LanguageToggle className="mx-1" />}
 
         {/* User info */}
-        <div
-          className={cn(
-            "flex items-center gap-3 px-2 py-2 rounded-lg",
-            collapsed ? "justify-center" : ""
-          )}
-        >
+        <div className={cn("flex items-center gap-3 px-2 py-2 rounded-lg", collapsed && !isMobile ? "justify-center" : "")}>
           <div className="w-8 h-8 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center text-xs font-bold text-gold shrink-0">
             {userInitials}
           </div>
-          {!collapsed && (
+          {(!collapsed || isMobile) && (
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-semibold text-foreground truncate">{userName}</p>
-              <p className="text-[10px] text-navy-500 truncate">{session?.user?.email}</p>
+              <p className="text-xs font-semibold text-white truncate">{userName}</p>
+              <p className="text-[10px] text-[#4A5A88] truncate">{session?.user?.email}</p>
             </div>
           )}
         </div>
@@ -134,23 +147,49 @@ export function DashboardSidebar() {
         <button
           onClick={() => signOut({ callbackUrl: "/vi/auth/login" })}
           className={cn(
-            "flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-navy-500 hover:text-red-400 hover:bg-red-500/5 transition-colors",
-            collapsed ? "justify-center" : ""
+            "flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-[#4A5A88] hover:text-red-400 hover:bg-red-500/5 transition-colors",
+            collapsed && !isMobile ? "justify-center" : ""
           )}
-          title={collapsed ? "Đăng xuất" : undefined}
+          title={collapsed && !isMobile ? "Sign out" : undefined}
         >
           <LogOut size={16} />
-          {!collapsed && <span>Đăng xuất</span>}
+          {(!collapsed || isMobile) && <span>Sign out</span>}
         </button>
 
-        {/* Collapse toggle */}
-        <button
-          onClick={toggleCollapsed}
-          className="flex items-center justify-center h-7 rounded-lg text-navy-600 hover:text-navy-400 hover:bg-navy-800 transition-colors mt-1"
-        >
-          {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
-        </button>
+        {/* Collapse toggle — desktop only */}
+        {!isMobile && (
+          <button
+            onClick={toggleCollapsed}
+            className="flex items-center justify-center h-7 rounded-lg text-[#3A4A6A] hover:text-[#6B7BA4] hover:bg-[#0F1840] transition-colors mt-1"
+          >
+            {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+          </button>
+        )}
       </div>
     </aside>
+  );
+
+  return (
+    <>
+      {/* Desktop sidebar — hidden on mobile */}
+      <div className="hidden md:flex h-screen shrink-0 sticky top-0">
+        {sidebarContent(false)}
+      </div>
+
+      {/* Mobile overlay drawer */}
+      {mobileOpen && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 z-40 bg-black/50 md:hidden"
+            onClick={onMobileClose}
+          />
+          {/* Drawer */}
+          <div className="fixed inset-y-0 left-0 z-50 w-72 md:hidden flex flex-col h-full">
+            {sidebarContent(true)}
+          </div>
+        </>
+      )}
+    </>
   );
 }

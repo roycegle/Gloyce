@@ -1,14 +1,9 @@
+"use client";
+
+import { useTranslations, useLocale } from "next-intl";
 import { MOCK_SERVICES } from "@/data/mock/services";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, Circle, Clock, AlertCircle, FileText } from "lucide-react";
-import { Link } from "@/i18n/routing";
-
-const STATUS_CONFIG = {
-  active: { label: "Đang hoạt động", variant: "success" as const },
-  pending: { label: "Chờ xem xét", variant: "warning" as const },
-  action_required: { label: "Cần hành động", variant: "danger" as const },
-  complete: { label: "Hoàn thành", variant: "default" as const },
-};
+import { CheckCircle2, Circle, Clock, AlertCircle } from "lucide-react";
 
 const TIER_LABELS = {
   execute: "EXECUTE",
@@ -16,20 +11,28 @@ const TIER_LABELS = {
   strategize: "STRATEGIZE",
 };
 
-function formatDate(iso?: string) {
+function formatDate(iso?: string, locale?: string) {
   if (!iso) return "";
   const d = new Date(iso);
-  return d.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" });
+  return d.toLocaleDateString(locale, { day: "2-digit", month: "2-digit", year: "numeric" });
 }
 
 export default function ServicesPage() {
+  const t = useTranslations("dashboard.services");
+  const locale = useLocale();
+
+  const STATUS_CONFIG = {
+    active: { label: t("status.active"), variant: "success" as const },
+    pending: { label: t("status.pending"), variant: "warning" as const },
+    action_required: { label: t("status.action_required"), variant: "danger" as const },
+    complete: { label: t("status.complete"), variant: "default" as const },
+  };
+
   return (
     <div className="flex flex-col gap-6 max-w-3xl">
       <div>
-        <h2 className="text-xl font-bold text-foreground">Dịch vụ của tôi</h2>
-        <p className="text-sm text-navy-400 mt-0.5">
-          Theo dõi tiến trình tất cả dịch vụ đang hoạt động.
-        </p>
+        <h2 className="text-xl font-bold text-foreground">{t("title")}</h2>
+        <p className="text-sm text-navy-400 mt-0.5">{t("noServices").replace(".", "—")} {/* reuse desc */}</p>
       </div>
 
       {MOCK_SERVICES.map((service) => {
@@ -39,24 +42,19 @@ export default function ServicesPage() {
         const pct = Math.round((completedSteps / totalSteps) * 100);
 
         return (
-          <div
-            key={service.id}
-            className="bg-navy-800 rounded-2xl border border-navy-700 p-6 flex flex-col gap-5"
-          >
+          <div key={service.id} className="bg-navy-800 rounded-2xl border border-navy-700 p-5 sm:p-6 flex flex-col gap-5">
             {/* Header */}
             <div className="flex items-start justify-between gap-3">
-              <div>
-                <div className="flex items-center gap-2 mb-1">
+              <div className="min-w-0">
+                <div className="flex items-center gap-2 mb-1 flex-wrap">
                   <Badge variant="gold" className="text-[10px] tracking-widest">
                     {TIER_LABELS[service.tier]}
                   </Badge>
-                  <Badge variant={cfg.variant} className="text-xs">
-                    {cfg.label}
-                  </Badge>
+                  <Badge variant={cfg.variant} className="text-xs">{cfg.label}</Badge>
                 </div>
                 <h3 className="text-base font-semibold text-foreground">{service.name}</h3>
                 <p className="text-xs text-navy-500 mt-0.5">
-                  Bắt đầu: {formatDate(service.startDate)} · {service.price}
+                  {formatDate(service.startDate, locale)} · {service.price}
                 </p>
               </div>
             </div>
@@ -65,7 +63,7 @@ export default function ServicesPage() {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm text-navy-400">
-                  Tiến trình: Bước {completedSteps}/{totalSteps}
+                  {t("step", { current: completedSteps, total: totalSteps })}
                 </span>
                 <span className="text-sm font-bold text-gold">{pct}%</span>
               </div>
@@ -79,75 +77,48 @@ export default function ServicesPage() {
 
             {/* Steps */}
             <div className="flex flex-col gap-2">
-              {service.steps.map((step, i) => (
-                <div key={step.id} className="flex items-start gap-3">
-                  {/* Icon */}
-                  <div className="flex flex-col items-center mt-0.5">
-                    {step.status === "complete" ? (
-                      <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
-                    ) : step.status === "current" ? (
-                      <div className="w-5 h-5 rounded-full border-2 border-gold bg-gold/10 flex items-center justify-center shrink-0">
-                        <div className="w-2 h-2 rounded-full bg-gold animate-pulse" />
-                      </div>
-                    ) : (
-                      <Circle className="w-5 h-5 text-navy-600 shrink-0" />
-                    )}
-                    {i < service.steps.length - 1 && (
-                      <div
-                        className={`w-px h-5 mt-1 ${
-                          step.status === "complete" ? "bg-emerald-800" : "bg-navy-700"
-                        }`}
-                      />
-                    )}
-                  </div>
+              {service.steps.map((step) => {
+                const Icon =
+                  step.status === "complete"
+                    ? CheckCircle2
+                    : step.status === "current"
+                    ? Clock
+                    : Circle;
+                const iconColor =
+                  step.status === "complete"
+                    ? "text-emerald-400"
+                    : step.status === "current"
+                    ? "text-gold"
+                    : "text-navy-600";
+                const textColor =
+                  step.status === "complete"
+                    ? "text-navy-400"
+                    : step.status === "current"
+                    ? "text-foreground font-medium"
+                    : "text-navy-600";
 
-                  {/* Content */}
-                  <div className="pb-2">
-                    <p
-                      className={`text-sm leading-tight ${
-                        step.status === "complete"
-                          ? "text-navy-400 line-through"
-                          : step.status === "current"
-                          ? "text-foreground font-medium"
-                          : "text-navy-600"
-                      }`}
-                    >
-                      {step.label}
-                    </p>
+                return (
+                  <div key={step.id} className="flex items-center gap-3">
+                    <Icon size={16} className={`shrink-0 ${iconColor}`} />
+                    <span className={`text-sm ${textColor} flex-1`}>{step.label}</span>
                     {step.completedAt && (
-                      <p className="text-[10px] text-navy-600 mt-0.5 flex items-center gap-1">
-                        <Clock size={10} />
-                        Hoàn thành: {formatDate(step.completedAt)}
-                      </p>
-                    )}
-                    {step.status === "current" && (
-                      <p className="text-xs text-gold mt-0.5 font-medium">Đang xử lý</p>
+                      <span className="text-[10px] text-navy-600 shrink-0">
+                        {formatDate(step.completedAt, locale)}
+                      </span>
                     )}
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
-            {/* Action required */}
+            {/* Next action */}
             {service.nextAction && (
-              <div className="p-4 rounded-xl bg-amber-500/5 border border-amber-500/15 flex flex-col gap-2">
-                <div className="flex items-center gap-2">
-                  <AlertCircle size={15} className="text-amber-400 shrink-0" />
-                  <p className="text-xs font-semibold text-amber-300">Hành động cần thiết</p>
-                  {service.nextActionDate && (
-                    <span className="ml-auto text-[10px] text-amber-500">
-                      Trước {formatDate(service.nextActionDate)}
-                    </span>
-                  )}
+              <div className="flex items-start gap-2.5 p-3.5 rounded-xl bg-amber-500/5 border border-amber-500/15 text-sm text-amber-300">
+                <AlertCircle size={15} className="shrink-0 mt-0.5 text-amber-400" />
+                <div>
+                  <p className="font-medium text-amber-300 mb-0.5">{t("nextAction")}</p>
+                  <p className="text-xs text-amber-400/80 leading-relaxed">{service.nextAction}</p>
                 </div>
-                <p className="text-xs text-amber-300/80 leading-relaxed">{service.nextAction}</p>
-                <Link
-                  href="/dashboard/documents"
-                  className="inline-flex items-center gap-1.5 text-xs text-amber-400 hover:text-amber-300 font-medium"
-                >
-                  <FileText size={12} />
-                  Tải tài liệu lên
-                </Link>
               </div>
             )}
           </div>

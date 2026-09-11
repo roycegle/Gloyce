@@ -84,5 +84,105 @@
       "contact": "Contact",
       "careers": "Careers"
     }
+  },
+  "dashboard": {
+    "nav": {
+      "overview": "概览",
+      "services": "我的服务",
+      "documents": "文件",
+      "messages": "消息",
+      "billing": "账单",
+      "settings": "设置"
+    },
+    "overview": {
+      "title": "今日账户概览",
+      "greeting": "你好，{name}",
+      "activeServices": "活跃服务",
+      "pendingDocuments": "待处理文件",
+      "unreadMessages": "未读消息",
+      "nextBilling": "下次账单",
+      "recentActivity": "近期动态",
+      "yourServices": "您的服务",
+      "viewAll": "查看全部"
+    },
+    "services": {
+      "title": "我的服务",
+      "noServices": "您暂无活跃服务。",
+      "status": {
+        "active": "进行中",
+        "pending": "待审核",
+        "action_required": "需要操作",
+        "complete": "已完成"
+      },
+      "step": "步骤 {current} / {total}",
+      "nextAction": "下一步操作：",
+      "attachedDocuments": "相关文件"
+    },
+    "documents": {
+      "title": "文件",
+      "categories": {
+        "company": "公司文件",
+        "tax": "税务文件",
+        "banking": "银行文件",
+        "all": "全部"
+      },
+      "upload": "上传文件",
+      "download": "下载",
+      "noDocuments": "暂无文件",
+      "uploadedAt": "上传时间"
+    },
+    "messages": {
+      "title": "消息",
+      "newMessage": "新消息",
+      "placeholder": "输入消息…",
+      "send": "发送",
+      "team": "Gloyce 团队",
+      "noMessages": "暂无消息"
+    },
+    "billing": {
+      "title": "账单",
+      "currentPlan": "当前套餐",
+      "nextCharge": "下次扣款",
+      "invoices": "账单历史",
+      "downloadInvoice": "下载账单",
+      "noInvoices": "暂无账单",
+      "status": {
+        "paid": "已付款",
+        "pending": "待付款",
+        "overdue": "已逾期"
+      }
+    },
+    "settings": {
+      "title": "账户设置",
+      "tabs": {
+        "profile": "个人资料",
+        "notifications": "通知",
+        "security": "安全"
+      },
+      "profile": {
+        "name": "姓名",
+        "email": "邮箱",
+        "phone": "电话",
+        "company": "公司名称",
+        "saveChanges": "保存更改"
+      },
+      "notifications": {
+        "emailNotifications": "电子邮件通知",
+        "serviceUpdates": "服务更新",
+        "documentAlerts": "文件提醒",
+        "billingReminders": "账单提醒",
+        "marketingEmails": "营销邮件"
+      },
+      "security": {
+        "changePassword": "修改密码",
+        "currentPassword": "当前密码",
+        "newPassword": "新密码",
+        "confirmPassword": "确认新密码",
+        "twoFactor": "双重验证",
+        "twoFactorDesc": "为您的账户增加额外的安全保障"
+      },
+      "save": "保存更改",
+      "saved": "保存成功！"
+    }
   }
 }

@@ -84,5 +84,105 @@
       "contact": "Contact",
       "careers": "Careers"
     }
+  },
+  "dashboard": {
+    "nav": {
+      "overview": "Resumen",
+      "services": "Mis servicios",
+      "documents": "Documentos",
+      "messages": "Mensajes",
+      "billing": "Facturación",
+      "settings": "Configuración"
+    },
+    "overview": {
+      "title": "Resumen de tu cuenta hoy",
+      "greeting": "Hola, {name}",
+      "activeServices": "Servicios activos",
+      "pendingDocuments": "Documentos pendientes",
+      "unreadMessages": "Mensajes no leídos",
+      "nextBilling": "Próximo pago",
+      "recentActivity": "Actividad reciente",
+      "yourServices": "Tus servicios",
+      "viewAll": "Ver todo"
+    },
+    "services": {
+      "title": "Mis servicios",
+      "noServices": "No tienes servicios activos.",
+      "status": {
+        "active": "Activo",
+        "pending": "En revisión",
+        "action_required": "Acción requerida",
+        "complete": "Completado"
+      },
+      "step": "Paso {current} de {total}",
+      "nextAction": "Próxima acción:",
+      "attachedDocuments": "Documentos adjuntos"
+    },
+    "documents": {
+      "title": "Documentos",
+      "categories": {
+        "company": "Documentos de empresa",
+        "tax": "Documentos fiscales",
+        "banking": "Documentos bancarios",
+        "all": "Todos"
+      },
+      "upload": "Subir documento",
+      "download": "Descargar",
+      "noDocuments": "Sin documentos aún",
+      "uploadedAt": "Subido el"
+    },
+    "messages": {
+      "title": "Mensajes",
+      "newMessage": "Nuevo mensaje",
+      "placeholder": "Escribe tu mensaje…",
+      "send": "Enviar",
+      "team": "Equipo Gloyce",
+      "noMessages": "Sin mensajes aún"
+    },
+    "billing": {
+      "title": "Facturación",
+      "currentPlan": "Plan actual",
+      "nextCharge": "Próximo cargo",
+      "invoices": "Historial de facturas",
+      "downloadInvoice": "Descargar factura",
+      "noInvoices": "Sin facturas aún",
+      "status": {
+        "paid": "Pagado",
+        "pending": "Pendiente",
+        "overdue": "Vencido"
+      }
+    },
+    "settings": {
+      "title": "Configuración de cuenta",
+      "tabs": {
+        "profile": "Perfil",
+        "notifications": "Notificaciones",
+        "security": "Seguridad"
+      },
+      "profile": {
+        "name": "Nombre completo",
+        "email": "Correo electrónico",
+        "phone": "Teléfono",
+        "company": "Empresa",
+        "saveChanges": "Guardar cambios"
+      },
+      "notifications": {
+        "emailNotifications": "Notificaciones por email",
+        "serviceUpdates": "Actualizaciones de servicio",
+        "documentAlerts": "Alertas de documentos",
+        "billingReminders": "Recordatorios de pago",
+        "marketingEmails": "Emails de marketing"
+      },
+      "security": {
+        "changePassword": "Cambiar contraseña",
+        "currentPassword": "Contraseña actual",
+        "newPassword": "Nueva contraseña",
+        "confirmPassword": "Confirmar contraseña",
+        "twoFactor": "Autenticación de dos factores",
+        "twoFactorDesc": "Agrega una capa extra de seguridad a tu cuenta"
+      },
+      "save": "Guardar cambios",
+      "saved": "¡Guardado con éxito!"
+    }
   }
 }

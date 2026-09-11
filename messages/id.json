@@ -84,5 +84,105 @@
       "contact": "Contact",
       "careers": "Careers"
     }
+  },
+  "dashboard": {
+    "nav": {
+      "overview": "Ikhtisar",
+      "services": "Layanan Saya",
+      "documents": "Dokumen",
+      "messages": "Pesan",
+      "billing": "Tagihan",
+      "settings": "Pengaturan"
+    },
+    "overview": {
+      "title": "Ikhtisar akun Anda hari ini",
+      "greeting": "Halo, {name}",
+      "activeServices": "Layanan aktif",
+      "pendingDocuments": "Dokumen tertunda",
+      "unreadMessages": "Pesan belum dibaca",
+      "nextBilling": "Tagihan berikutnya",
+      "recentActivity": "Aktivitas terkini",
+      "yourServices": "Layanan Anda",
+      "viewAll": "Lihat semua"
+    },
+    "services": {
+      "title": "Layanan Saya",
+      "noServices": "Anda belum memiliki layanan aktif.",
+      "status": {
+        "active": "Aktif",
+        "pending": "Dalam Tinjauan",
+        "action_required": "Perlu Tindakan",
+        "complete": "Selesai"
+      },
+      "step": "Langkah {current} dari {total}",
+      "nextAction": "Tindakan berikutnya:",
+      "attachedDocuments": "Dokumen terlampir"
+    },
+    "documents": {
+      "title": "Dokumen",
+      "categories": {
+        "company": "Dokumen Perusahaan",
+        "tax": "Dokumen Pajak",
+        "banking": "Dokumen Perbankan",
+        "all": "Semua"
+      },
+      "upload": "Unggah Dokumen",
+      "download": "Unduh",
+      "noDocuments": "Belum ada dokumen",
+      "uploadedAt": "Diunggah"
+    },
+    "messages": {
+      "title": "Pesan",
+      "newMessage": "Pesan Baru",
+      "placeholder": "Ketik pesan Anda…",
+      "send": "Kirim",
+      "team": "Tim Gloyce",
+      "noMessages": "Belum ada pesan"
+    },
+    "billing": {
+      "title": "Tagihan",
+      "currentPlan": "Paket Saat Ini",
+      "nextCharge": "Tagihan berikutnya",
+      "invoices": "Riwayat Tagihan",
+      "downloadInvoice": "Unduh Tagihan",
+      "noInvoices": "Belum ada tagihan",
+      "status": {
+        "paid": "Lunas",
+        "pending": "Tertunda",
+        "overdue": "Jatuh Tempo"
+      }
+    },
+    "settings": {
+      "title": "Pengaturan Akun",
+      "tabs": {
+        "profile": "Profil",
+        "notifications": "Notifikasi",
+        "security": "Keamanan"
+      },
+      "profile": {
+        "name": "Nama lengkap",
+        "email": "Email",
+        "phone": "Nomor telepon",
+        "company": "Nama perusahaan",
+        "saveChanges": "Simpan Perubahan"
+      },
+      "notifications": {
+        "emailNotifications": "Notifikasi Email",
+        "serviceUpdates": "Pembaruan layanan",
+        "documentAlerts": "Peringatan dokumen",
+        "billingReminders": "Pengingat tagihan",
+        "marketingEmails": "Email pemasaran"
+      },
+      "security": {
+        "changePassword": "Ganti Kata Sandi",
+        "currentPassword": "Kata sandi saat ini",
+        "newPassword": "Kata sandi baru",
+        "confirmPassword": "Konfirmasi kata sandi baru",
+        "twoFactor": "Autentikasi dua faktor",
+        "twoFactorDesc": "Tambahkan lapisan keamanan ekstra ke akun Anda"
+      },
+      "save": "Simpan Perubahan",
+      "saved": "Berhasil disimpan!"
+    }
   }
 }
