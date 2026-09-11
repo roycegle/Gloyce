@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { getLocale } from "next-intl/server";
+import NetworkBackground from "@/components/NetworkBackground";
 import { Link } from "@/i18n/routing";
 import {
   ArrowRight, Star, Building2, Calculator, FileCheck,
@@ -69,13 +70,13 @@ export default async function HomePage() {
     (vals as Record<string, string[]>)[locale] ?? fb;
 
   return (
-    <main className="overflow-x-hidden">
+    <main className="relative z-[1] overflow-x-hidden">
+      <NetworkBackground />
 
       {/* HERO */}
       <section className="relative min-h-[95vh] flex flex-col justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_65%_30%,_rgba(201,150,12,0.07)_0%,_transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_50%_at_10%_80%,_rgba(59,125,216,0.05)_0%,_transparent_60%)]" />
-        <div className="absolute inset-0 bg-dot-grid opacity-25" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_65%_30%,_rgba(201,150,12,0.06)_0%,_transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_40%_50%_at_10%_80%,_rgba(59,125,216,0.04)_0%,_transparent_60%)]" />
         <div className="absolute bottom-0 inset-x-0 h-56 bg-gradient-to-t from-ink-900 to-transparent" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-24 pb-20 grid lg:grid-cols-2 gap-16 items-center">
