@@ -197,7 +197,7 @@ export default function ContactPage() {
                         {t("Họ và tên *", "Full name *", "姓名 *", "Nombre completo *", "Nama lengkap *")}
                       </label>
                       <input type="text" className="w-full bg-ink-700 border border-ink-600 rounded-xl px-4 py-2.5 text-sm text-foreground placeholder:text-ink-500 focus:outline-none focus:border-gold/50 transition-colors"
-                        placeholder={t("Nguyễn Văn A", "Your name", "您的姓名", "Tu nombre", "Nama Anda")} />
+                        placeholder={t("Alex Chen", "Alex Chen", "Alex Chen", "Alex Chen", "Alex Chen")} />
                     </div>
                     <div>
                       <label className="block text-xs font-medium text-ink-300 mb-1.5">Email *</label>

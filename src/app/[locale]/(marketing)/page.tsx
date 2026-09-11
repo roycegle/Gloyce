@@ -559,7 +559,7 @@ export default async function HomePage() {
 
           <div className="grid md:grid-cols-3 gap-5">
             {[
-              { name:"Nguyễn Minh Tuấn", role: t("Founder, TechExport JSC · Vietnam","Founder, TechExport JSC · Vietnam","TechExport JSC创始人 · 越南","Fundador, TechExport JSC · Vietnam","Pendiri, TechExport JSC · Vietnam"),
+              { name:"Alex Chen", role: t("Founder, TechExport JSC · Singapore","Founder, TechExport JSC · Singapore","TechExport JSC创始人 · 新加坡","Fundador, TechExport JSC · Singapur","Pendiri, TechExport JSC · Singapura"),
                 service:"US LLC", avatarBg:"C9960C",
                 quote: t(
                   "Gloyce đã giúp chúng tôi thành lập LLC Delaware trong vòng 10 ngày. Toàn bộ quy trình rõ ràng, đội ngũ hỗ trợ chuyên nghiệp và phản hồi rất nhanh.",
@@ -636,11 +636,11 @@ export default async function HomePage() {
                 </h3>
                 <p className="text-sm text-ink-300 leading-relaxed mb-6">
                   {t(
-                    "Nguyen Trading LLC bán hàng trên Amazon từ 2022. Trước khi dùng Gloyce, họ mất hàng chục giờ/tháng để tự quản lý sổ sách — không có chuyên môn và luôn lo lắng về rủi ro pháp lý Mỹ.",
-                    "Nguyen Trading LLC has been selling on Amazon since 2022. Before Gloyce, they spent dozens of hours each month managing their own books — with no expertise and constant anxiety about US legal risk.",
-                    "Nguyen Trading LLC自2022年起在Amazon上销售。在使用Gloyce之前，他们每月花费数十小时自己管理账簿——没有专业知识，并且一直担心美国法律风险。",
-                    "Nguyen Trading LLC vende en Amazon desde 2022. Antes de Gloyce, pasaban decenas de horas al mes gestionando sus propios libros — sin experiencia y con constante ansiedad por el riesgo legal en EE.UU.",
-                    "Nguyen Trading LLC telah berjualan di Amazon sejak 2022. Sebelum Gloyce, mereka menghabiskan puluhan jam setiap bulan untuk mengelola buku mereka sendiri — tanpa keahlian dan selalu khawatir tentang risiko hukum AS."
+                    "Stellar Commerce LLC bán hàng trên Amazon từ 2022. Trước khi dùng Gloyce, họ mất hàng chục giờ/tháng để tự quản lý sổ sách — không có chuyên môn và luôn lo lắng về rủi ro pháp lý Mỹ.",
+                    "Stellar Commerce LLC has been selling on Amazon since 2022. Before Gloyce, they spent dozens of hours each month managing their own books — with no expertise and constant anxiety about US legal risk.",
+                    "Stellar Commerce LLC自2022年起在Amazon上销售。在使用Gloyce之前，他们每月花费数十小时自己管理账簿——没有专业知识，并且一直担心美国法律风险。",
+                    "Stellar Commerce LLC vende en Amazon desde 2022. Antes de Gloyce, pasaban decenas de horas al mes gestionando sus propios libros — sin experiencia y con constante ansiedad por el riesgo legal en EE.UU.",
+                    "Stellar Commerce LLC telah berjualan di Amazon sejak 2022. Sebelum Gloyce, mereka menghabiskan puluhan jam setiap bulan untuk mengelola buku mereka sendiri — tanpa keahlian dan selalu khawatir tentang risiko hukum AS."
                   )}
                 </p>
                 <div className="grid grid-cols-3 gap-3 mb-6">

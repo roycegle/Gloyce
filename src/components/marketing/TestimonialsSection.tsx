@@ -5,27 +5,27 @@ import { Quote } from "lucide-react";
 const TESTIMONIALS = [
   {
     quote:
-      "Gloyce giúp mình mở LLC Delaware trong 2 tuần, lấy EIN và kết nối Stripe nhanh hơn rất nhiều so với tự làm. Đội ngũ hỗ trợ rất chuyên nghiệp và luôn sẵn sàng giải đáp.",
-    name: "Minh Tuấn Nguyễn",
-    role: "CEO, Founder",
-    company: "Amazon Seller — 6 năm kinh nghiệm",
-    avatar: "MT",
+      "Gloyce helped us set up a Delaware LLC, get our EIN, and connect Stripe in under two weeks. The team was professional and available every step of the way.",
+    name: "Alex Chen",
+    role: "CEO & Founder",
+    company: "Amazon Seller — 6 years",
+    avatar: "AC",
   },
   {
     quote:
-      "Trước đây mình phải thuê 3 bên khác nhau: luật sư Mỹ, kế toán và ngân hàng. Gloyce gom hết vào một mối, tiết kiệm rất nhiều thời gian và chi phí.",
-    name: "Phương Linh Trần",
+      "We used to coordinate three separate vendors: a US attorney, an accountant, and a bank. Gloyce consolidated everything into one relationship — massive time and cost savings.",
+    name: "Priya Sharma",
     role: "Founder",
     company: "TikTok Shop International",
-    avatar: "PL",
+    avatar: "PS",
   },
   {
     quote:
-      "Mình đặc biệt ấn tượng với cách Gloyce xử lý phần Form 5472 và BOI Report — họ chuẩn bị hồ sơ đúng hạn, mình không phải lo rủi ro pháp lý với IRS.",
-    name: "Đức Anh Lê",
+      "I was especially impressed by how Gloyce handled our Form 5472 and BOI Report filings — everything was on time and I had zero IRS anxiety.",
+    name: "David Park",
     role: "Director",
     company: "Cross-border Payment Startup",
-    avatar: "DA",
+    avatar: "DP",
   },
 ];
 

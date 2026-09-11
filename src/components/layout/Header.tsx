@@ -70,7 +70,7 @@ const NAV = [
       },
     ],
     guides: [
-      { label: { vi: "Thuế doanh nghiệp Mỹ cho người Việt", en: "US business tax for Vietnamese", zh: "面向越南人的美国企业税", es: "Impuestos empresariales en EE.UU.", id: "Pajak bisnis AS untuk Vietnam" } as L, href: "/resources/guides/us-tax" },
+      { label: { vi: "Thuế doanh nghiệp Mỹ cho người châu Á", en: "US business tax for Asian founders", zh: "亚洲创始人的美国企业税指南", es: "Impuestos empresariales en EE.UU. para fundadores asiáticos", id: "Pajak bisnis AS untuk pendiri Asia" } as L, href: "/resources/guides/us-tax" },
       { label: { vi: "Form 5472 là gì?", en: "What is Form 5472?", zh: "什么是表格5472?", es: "¿Qué es el Formulario 5472?", id: "Apa itu Form 5472?" } as L, href: "/resources/guides/form-5472" },
       { label: { vi: "10 phần mềm kế toán tốt nhất", en: "10 best accounting tools", zh: "10款最佳会计工具", es: "10 mejores herramientas contables", id: "10 alat akuntansi terbaik" } as L, href: "/resources/guides/tools" },
     ],
@@ -157,7 +157,7 @@ export function Header() {
     <>
       {/* Announcement bar */}
       <div className="bg-gold/10 border-b border-gold/20 text-center py-2 px-4 text-xs text-gold">
-        {t({ vi: "🌟 Gloyce được vinh danh Top Fintech Việt Nam 2026 — ", en: "🌟 Gloyce named Top Vietnam Fintech 2026 — ", zh: "🌟 Gloyce荣获2026年越南顶级金融科技奖 — ", es: "🌟 Gloyce premiado Top Fintech Vietnam 2026 — ", id: "🌟 Gloyce dinobatkan Top Fintech Vietnam 2026 — " })}
+        {t({ vi: "🌟 Gloyce được vinh danh Top Fintech châu Á 2026 — ", en: "🌟 Gloyce named Top Asia Fintech 2026 — ", zh: "🌟 Gloyce荣获2026年亚洲顶级金融科技奖 — ", es: "🌟 Gloyce premiado Top Fintech Asia 2026 — ", id: "🌟 Gloyce dinobatkan Top Fintech Asia 2026 — " })}
         <Link href="/about" className="underline underline-offset-2 hover:text-gold-light transition-colors">
           {t({ vi: "Đọc thêm", en: "Read more", zh: "了解更多", es: "Leer más", id: "Baca selengkapnya" })}
         </Link>

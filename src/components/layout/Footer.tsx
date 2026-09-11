@@ -70,7 +70,7 @@ export async function Footer({ locale }: { locale: string }) {
               <span className="font-bold text-lg text-foreground">Gloyce</span>
             </Link>
             <p className="text-sm text-ink-300 leading-relaxed mb-4">
-              {t({ vi: "Nền tảng giúp doanh nghiệp Việt Nam thành lập, vận hành và mở rộng kinh doanh toàn cầu.", en: "Helping Vietnamese businesses incorporate, operate, and expand globally.", zh: "帮助越南企业在全球成立、运营和扩展业务。", es: "Ayudamos a empresas vietnamitas a constituirse, operar y expandirse globalmente.", id: "Membantu bisnis Vietnam mendirikan, beroperasi, dan berkembang secara global." })}
+              {t({ vi: "Nền tảng giúp doanh nghiệp châu Á thành lập, vận hành và mở rộng kinh doanh toàn cầu.", en: "Helping Asian businesses incorporate, operate, and expand globally.", zh: "帮助亚洲企业在全球成立、运营和扩展业务。", es: "Ayudamos a empresas asiáticas a constituirse, operar y expandirse globalmente.", id: "Membantu bisnis Asia mendirikan, beroperasi, dan berkembang secara global." })}
             </p>
             <div className="space-y-2">
               <a href="mailto:hello@gloyce.co" className="flex items-center gap-2 text-xs text-ink-400 hover:text-gold transition-colors">

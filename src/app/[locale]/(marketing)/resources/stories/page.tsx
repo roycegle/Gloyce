@@ -26,7 +26,7 @@ type Story = {
 
 const STORIES: Story[] = [
   {
-    name: "Nguyễn Minh Tuấn",
+    name: "Alex Chen",
     role: {
       vi: "Founder & CEO",
       en: "Founder & CEO",

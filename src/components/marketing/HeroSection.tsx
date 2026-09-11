@@ -88,7 +88,7 @@ export function HeroSection() {
                   <Building2 className="w-5 h-5 text-gold" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-foreground">Nguyen Trading LLC</p>
+                  <p className="text-sm font-semibold text-foreground">Stellar Commerce LLC</p>
                   <p className="text-xs text-navy-400">Delaware, United States</p>
                 </div>
                 <div className="ml-auto">
