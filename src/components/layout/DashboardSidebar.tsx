@@ -122,7 +122,7 @@ export function DashboardSidebar() {
         className="px-2 py-3 flex flex-col gap-2"
         style={{ borderTop: "1px solid #111840" }}
       >
-        {!collapsed && <LanguageToggle className="mx-1" />}
+        {!collapsed && <LanguageToggle className="mx-1" direction="up" />}
 
         {/* User info */}
         <div className={cn("flex items-center gap-3 px-2 py-2 rounded-lg", collapsed ? "justify-center" : "")}>
