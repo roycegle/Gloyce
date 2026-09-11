@@ -137,11 +137,47 @@ export default function ContactPage() {
             ) : (
               <div className="bg-ink-800 border border-ink-600 rounded-2xl p-7">
                 <h3 className="font-bold text-foreground mb-2">{isVi ? "Đặt lịch tư vấn 30 phút miễn phí" : "Book a free 30-minute consultation"}</h3>
-                <p className="text-sm text-ink-300 mb-6">{isVi ? "Chọn khung giờ phù hợp trên Calendly. Chuyên gia Gloyce sẽ phân tích nhu cầu và đề xuất giải pháp phù hợp nhất." : "Pick a time slot on Calendly. Gloyce experts will analyze your needs and propose the best solution."}</p>
-                <div className="h-48 bg-ink-700 border border-ink-600 rounded-xl flex items-center justify-center">
-                  <p className="text-sm text-ink-400">{isVi ? "Widget Calendly sẽ tích hợp tại đây" : "Calendly widget will be integrated here"}</p>
+                <p className="text-sm text-ink-300 mb-6">{isVi ? "Gửi thông tin bên dưới — chuyên gia Gloyce sẽ liên hệ trong vòng 4 giờ làm việc để xác nhận khung giờ phù hợp." : "Send your details below — a Gloyce expert will reach out within 4 business hours to confirm a time."}</p>
+                <div className="space-y-4">
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-xs font-medium text-ink-300 mb-1.5">{isVi ? "Họ và tên *" : "Full name *"}</label>
+                      <input type="text" className="w-full bg-ink-700 border border-ink-600 rounded-xl px-4 py-2.5 text-sm text-foreground placeholder:text-ink-500 focus:outline-none focus:border-gold/50 transition-colors" placeholder={isVi ? "Nguyễn Văn A" : "Your name"} />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-ink-300 mb-1.5">Email *</label>
+                      <input type="email" className="w-full bg-ink-700 border border-ink-600 rounded-xl px-4 py-2.5 text-sm text-foreground placeholder:text-ink-500 focus:outline-none focus:border-gold/50 transition-colors" placeholder="email@example.com" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-ink-300 mb-1.5">{isVi ? "Nhu cầu tư vấn" : "What you need advice on"}</label>
+                    <select className="w-full bg-ink-700 border border-ink-600 rounded-xl px-4 py-2.5 text-sm text-foreground focus:outline-none focus:border-gold/50 transition-colors">
+                      <option value="">{isVi ? "Chọn chủ đề..." : "Choose a topic..."}</option>
+                      {SERVICES.map(s => <option key={s.en} value={s.en}>{isVi ? s.vi : s.en}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium text-ink-300 mb-2">{isVi ? "Khung giờ bạn rảnh (PST)" : "Your available times (PST)"}</label>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                      {(isVi
+                        ? ["Sáng (9–12h)","Trưa (12–15h)","Chiều (15–18h)","Thứ 2–3","Thứ 4–5","Thứ 6"]
+                        : ["Morning (9–12)","Midday (12–15)","Afternoon (15–18)","Mon–Tue","Wed–Thu","Friday"]
+                      ).map(slot => (
+                        <label key={slot} className="flex items-center gap-2 px-3 py-2 bg-ink-700 border border-ink-600 rounded-lg text-xs text-ink-300 cursor-pointer hover:border-gold/40 hover:text-gold transition-all">
+                          <input type="checkbox" className="accent-gold" /> {slot}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                  <a href={`mailto:hello@gloyce.co?subject=${isVi ? "Đặt lịch tư vấn" : "Book a consultation"}`}
+                    className="block w-full text-center py-3 rounded-xl bg-gold text-ink-900 font-semibold text-sm hover:bg-gold-light transition-all shadow-[0_0_20px_rgba(201,150,12,0.25)]">
+                    {isVi ? "Gửi yêu cầu đặt lịch" : "Send booking request"}
+                  </a>
+                  <p className="text-xs text-ink-500 text-center">
+                    {isVi ? "Hoặc liên hệ trực tiếp: " : "Or contact directly: "}
+                    <a href="mailto:hello@gloyce.co" className="text-gold hover:text-gold-light transition-colors">hello@gloyce.co</a>
+                  </p>
                 </div>
-                <p className="text-xs text-ink-500 mt-4 text-center">{isVi ? "Hoặc gửi email trực tiếp: hello@gloyce.co" : "Or email directly: hello@gloyce.co"}</p>
               </div>
             )}
           </div>
