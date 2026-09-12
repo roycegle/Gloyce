@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, Circle, Clock, Briefcase } from "lucide-react";
+import { CheckCircle2, Circle, Clock, Briefcase, ClipboardList, ChevronRight, X, Save, Check } from "lucide-react";
 import { Link } from "@/i18n/routing";
 
 interface Service {
@@ -19,6 +19,41 @@ interface Service {
   created_at: string;
 }
 
+interface FormTemplate {
+  id: string;
+  name: string;
+  description?: string;
+  category: string;
+  service_type?: string;
+}
+
+interface CustomerForm {
+  id: string;
+  status: string;
+  notes?: string;
+  due_date?: string;
+  submitted_at?: string;
+  responses?: Record<string, string>;
+  created_at: string;
+  form_templates: FormTemplate | null;
+  services: { id: string; name: string; type: string } | null;
+}
+
+interface FormField {
+  id: string;
+  label: string;
+  field_type: string;
+  required: boolean;
+  options?: string[];
+  placeholder?: string;
+  help_text?: string;
+  order_index: number;
+}
+
+interface ActiveForm extends CustomerForm {
+  fields: FormField[];
+}
+
 function formatDate(iso?: string, locale?: string) {
   if (!iso) return "";
   return new Date(iso).toLocaleDateString(locale, { day: "2-digit", month: "2-digit", year: "numeric" });
@@ -28,14 +63,52 @@ export default function ServicesPage() {
   const t = useTranslations("dashboard.services");
   const locale = useLocale();
   const [services, setServices] = useState<Service[]>([]);
+  const [forms, setForms] = useState<CustomerForm[]>([]);
   const [loading, setLoading] = useState(true);
+  const [view, setView] = useState<"services" | "forms">("services");
+  const [activeForm, setActiveForm] = useState<ActiveForm | null>(null);
+  const [responses, setResponses] = useState<Record<string, string>>({});
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    fetch("/api/dashboard/services")
-      .then(r => r.json())
-      .then(d => { setServices(Array.isArray(d) ? d : []); setLoading(false); })
-      .catch(() => setLoading(false));
+    Promise.all([
+      fetch("/api/dashboard/services").then(r => r.json()),
+      fetch("/api/dashboard/forms").then(r => r.json()),
+    ]).then(([s, f]) => {
+      setServices(Array.isArray(s) ? s : []);
+      setForms(Array.isArray(f) ? f : []);
+      setLoading(false);
+    }).catch(() => setLoading(false));
   }, []);
+
+  const pendingForms = forms.filter(f => f.status === "pending");
+
+  const openForm = async (formId: string) => {
+    const res = await fetch(`/api/dashboard/forms/${formId}`);
+    const data = await res.json();
+    setActiveForm(data);
+    setResponses(data.responses || {});
+    setSubmitted(false);
+  };
+
+  const saveForm = async (submit = false) => {
+    if (!activeForm) return;
+    setSubmitting(true);
+    await fetch(`/api/dashboard/forms/${activeForm.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ responses, submit }),
+    });
+    setSubmitting(false);
+    if (submit) {
+      setSubmitted(true);
+      // refresh forms list
+      const f = await fetch("/api/dashboard/forms").then(r => r.json());
+      setForms(Array.isArray(f) ? f : []);
+      setTimeout(() => setActiveForm(null), 1500);
+    }
+  };
 
   const STATUS_CONFIG: Record<string, { label: string; variant: "success" | "warning" | "danger" | "default" }> = {
     active: { label: t("status.active"), variant: "success" },
@@ -45,6 +118,13 @@ export default function ServicesPage() {
     complete: { label: t("status.complete"), variant: "default" },
   };
 
+  const FORM_STATUS: Record<string, { label: string; variant: "success" | "warning" | "danger" | "default" }> = {
+    pending: { label: "Pending", variant: "warning" },
+    submitted: { label: "Submitted", variant: "success" },
+    completed: { label: "Completed", variant: "default" },
+    in_review: { label: "In Review", variant: "default" },
+  };
+
   if (loading) return (
     <div className="flex flex-col gap-4 max-w-3xl">
       <h2 className="text-xl font-bold text-foreground">{t("title")}</h2>
@@ -52,79 +132,250 @@ export default function ServicesPage() {
     </div>
   );
 
+  // Form fill overlay
+  if (activeForm) {
+    return (
+      <div className="max-w-2xl">
+        <button onClick={() => setActiveForm(null)} className="flex items-center gap-1.5 text-sm text-navy-400 hover:text-foreground mb-5">
+          <X size={14} /> Close form
+        </button>
+        <div className="bg-navy-800 rounded-2xl border border-navy-700 p-6">
+          <div className="mb-6">
+            <h2 className="text-lg font-bold text-foreground">{activeForm.form_templates?.name}</h2>
+            {activeForm.form_templates?.description && <p className="text-sm text-navy-400 mt-1">{activeForm.form_templates.description}</p>}
+            {activeForm.notes && <div className="mt-3 p-3 rounded-xl bg-amber-500/5 border border-amber-500/15 text-xs text-amber-400">{activeForm.notes}</div>}
+            {activeForm.due_date && <p className="text-xs text-navy-500 mt-2">Due: {formatDate(activeForm.due_date, locale)}</p>}
+          </div>
+
+          {submitted ? (
+            <div className="flex flex-col items-center gap-3 py-10">
+              <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                <Check size={20} className="text-emerald-400" />
+              </div>
+              <p className="text-sm font-medium text-foreground">Form submitted successfully!</p>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-5">
+              {activeForm.fields.map((field) => (
+                <div key={field.id} className="flex flex-col gap-1.5">
+                  <label className="text-sm font-medium text-foreground">
+                    {field.label}
+                    {field.required && <span className="text-red-400 ml-1">*</span>}
+                  </label>
+                  {field.help_text && <p className="text-xs text-navy-500">{field.help_text}</p>}
+                  {field.field_type === "textarea" ? (
+                    <textarea
+                      value={responses[field.id] || ""}
+                      onChange={e => setResponses(r => ({ ...r, [field.id]: e.target.value }))}
+                      placeholder={field.placeholder || ""}
+                      rows={3}
+                      className="bg-navy-900 border border-navy-700 rounded-xl px-4 py-2.5 text-sm text-foreground placeholder:text-navy-500 focus:outline-none focus:ring-2 focus:ring-gold/40 resize-none"
+                    />
+                  ) : field.field_type === "select" ? (
+                    <select
+                      value={responses[field.id] || ""}
+                      onChange={e => setResponses(r => ({ ...r, [field.id]: e.target.value }))}
+                      className="bg-navy-900 border border-navy-700 rounded-xl px-4 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-gold/40"
+                    >
+                      <option value="">— Select —</option>
+                      {(field.options || []).map(opt => <option key={opt} value={opt}>{opt}</option>)}
+                    </select>
+                  ) : (
+                    <input
+                      type={field.field_type === "date" ? "date" : field.field_type === "number" ? "number" : field.field_type === "email" ? "email" : "text"}
+                      value={responses[field.id] || ""}
+                      onChange={e => setResponses(r => ({ ...r, [field.id]: e.target.value }))}
+                      placeholder={field.placeholder || ""}
+                      className="bg-navy-900 border border-navy-700 rounded-xl px-4 py-2.5 text-sm text-foreground placeholder:text-navy-500 focus:outline-none focus:ring-2 focus:ring-gold/40"
+                    />
+                  )}
+                </div>
+              ))}
+
+              <div className="flex gap-3 pt-2 border-t border-navy-700">
+                <button onClick={() => saveForm(false)} disabled={submitting}
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-navy-600 text-sm text-navy-300 hover:text-foreground transition-colors disabled:opacity-50">
+                  <Save size={14} /> Save draft
+                </button>
+                <button onClick={() => saveForm(true)} disabled={submitting}
+                  className="flex items-center gap-1.5 px-5 py-2 rounded-xl bg-gold/10 border border-gold/20 text-gold text-sm font-medium hover:bg-gold/20 transition-colors disabled:opacity-50">
+                  {submitting ? "Submitting..." : "Submit form"}
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-6 max-w-3xl">
-      <h2 className="text-xl font-bold text-foreground">{t("title")}</h2>
-
-      {services.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-4 py-20 bg-navy-800 rounded-2xl border border-navy-700 text-center px-6">
-          <div className="w-14 h-14 rounded-2xl bg-gold/10 border border-gold/20 flex items-center justify-center">
-            <Briefcase size={24} className="text-gold" />
+      <div className="flex items-center justify-between">
+        <h2 className="text-xl font-bold text-foreground">{t("title")}</h2>
+        {pendingForms.length > 0 && (
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-medium">
+            <ClipboardList size={13} />
+            {pendingForms.length} form{pendingForms.length !== 1 ? "s" : ""} to fill
           </div>
-          <div>
-            <p className="text-base font-semibold text-foreground mb-1">{t("noServicesTitle")}</p>
-            <p className="text-sm text-navy-400 max-w-xs mx-auto leading-relaxed">{t("noServices")}</p>
-          </div>
-          <Link href="/contact" className="mt-2 px-5 py-2.5 rounded-xl bg-gold/10 border border-gold/20 text-gold text-sm font-medium hover:bg-gold/20 transition-colors">
-            {t("contactUs")}
-          </Link>
-        </div>
-      ) : (
-        services.map((service) => {
-          const cfg = STATUS_CONFIG[service.status] || { label: service.status, variant: "default" as const };
-          const pct = service.total_steps > 0 ? Math.round((service.current_step / service.total_steps) * 100) : 0;
-          const steps = Array.from({ length: service.total_steps }, (_, i) => i + 1);
+        )}
+      </div>
 
-          return (
-            <div key={service.id} className="bg-navy-800 rounded-2xl border border-navy-700 p-5 sm:p-6 flex flex-col gap-5">
-              <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2 mb-1 flex-wrap">
-                    <Badge variant="gold" className="text-[10px] tracking-widest">{service.type.toUpperCase()}</Badge>
-                    <Badge variant={cfg.variant} className="text-xs">{cfg.label}</Badge>
-                  </div>
-                  <h3 className="text-base font-semibold text-foreground">{service.name}</h3>
-                  <p className="text-xs text-navy-500 mt-0.5">
-                    {formatDate(service.created_at, locale)}
-                    {service.price && ` · $${service.price.toLocaleString()} ${service.currency || "USD"}`}
-                  </p>
-                </div>
-              </div>
+      {/* Tab toggle */}
+      <div className="flex gap-1 p-1 bg-navy-800 border border-navy-700 rounded-xl w-fit">
+        {([["services", "My Services"], ["forms", "Forms to Fill"]] as const).map(([key, label]) => (
+          <button key={key} onClick={() => setView(key)}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1.5 ${view === key ? "bg-navy-700 text-foreground" : "text-navy-400 hover:text-foreground"}`}>
+            {label}
+            {key === "forms" && pendingForms.length > 0 && (
+              <span className="bg-amber-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">{pendingForms.length}</span>
+            )}
+          </button>
+        ))}
+      </div>
 
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-navy-400">{t("step", { current: service.current_step, total: service.total_steps })}</span>
-                  <span className="text-sm font-bold text-gold">{pct}%</span>
-                </div>
-                <div className="h-2 bg-navy-700 rounded-full">
-                  <div className="h-2 bg-gradient-to-r from-gold-dark to-gold rounded-full transition-all" style={{ width: `${pct}%` }} />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-2">
-                {steps.map((stepNum) => {
-                  const done = stepNum < service.current_step;
-                  const current = stepNum === service.current_step;
-                  const Icon = done ? CheckCircle2 : current ? Clock : Circle;
-                  return (
-                    <div key={stepNum} className="flex items-center gap-3">
-                      <Icon size={16} className={`shrink-0 ${done ? "text-emerald-400" : current ? "text-gold" : "text-navy-600"}`} />
-                      <span className={`text-sm flex-1 ${done ? "text-navy-400" : current ? "text-foreground font-medium" : "text-navy-600"}`}>
-                        Step {stepNum}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {service.notes && (
-                <div className="p-3.5 rounded-xl bg-amber-500/5 border border-amber-500/15 text-xs text-amber-400/80 leading-relaxed">
-                  {service.notes}
-                </div>
-              )}
+      {/* Services view */}
+      {view === "services" && (
+        services.length === 0 ? (
+          <div className="flex flex-col items-center justify-center gap-4 py-20 bg-navy-800 rounded-2xl border border-navy-700 text-center px-6">
+            <div className="w-14 h-14 rounded-2xl bg-gold/10 border border-gold/20 flex items-center justify-center">
+              <Briefcase size={24} className="text-gold" />
             </div>
-          );
-        })
+            <div>
+              <p className="text-base font-semibold text-foreground mb-1">{t("noServicesTitle")}</p>
+              <p className="text-sm text-navy-400 max-w-xs mx-auto leading-relaxed">{t("noServices")}</p>
+            </div>
+            <Link href="/contact" className="mt-2 px-5 py-2.5 rounded-xl bg-gold/10 border border-gold/20 text-gold text-sm font-medium hover:bg-gold/20 transition-colors">
+              {t("contactUs")}
+            </Link>
+          </div>
+        ) : (
+          services.map((service) => {
+            const cfg = STATUS_CONFIG[service.status] || { label: service.status, variant: "default" as const };
+            const pct = service.total_steps > 0 ? Math.round((service.current_step / service.total_steps) * 100) : 0;
+            const steps = Array.from({ length: service.total_steps }, (_, i) => i + 1);
+            const relatedForms = forms.filter(f => f.services?.id === service.id);
+
+            return (
+              <div key={service.id} className="bg-navy-800 rounded-2xl border border-navy-700 p-5 sm:p-6 flex flex-col gap-5">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
+                      <Badge variant="gold" className="text-[10px] tracking-widest">{service.type.toUpperCase()}</Badge>
+                      <Badge variant={cfg.variant} className="text-xs">{cfg.label}</Badge>
+                    </div>
+                    <h3 className="text-base font-semibold text-foreground">{service.name}</h3>
+                    <p className="text-xs text-navy-500 mt-0.5">
+                      {formatDate(service.created_at, locale)}
+                      {service.price && ` · $${service.price.toLocaleString()} ${service.currency || "USD"}`}
+                    </p>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm text-navy-400">{t("step", { current: service.current_step, total: service.total_steps })}</span>
+                    <span className="text-sm font-bold text-gold">{pct}%</span>
+                  </div>
+                  <div className="h-2 bg-navy-700 rounded-full">
+                    <div className="h-2 bg-gradient-to-r from-gold-dark to-gold rounded-full transition-all" style={{ width: `${pct}%` }} />
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  {steps.map((stepNum) => {
+                    const done = stepNum < service.current_step;
+                    const current = stepNum === service.current_step;
+                    const Icon = done ? CheckCircle2 : current ? Clock : Circle;
+                    return (
+                      <div key={stepNum} className="flex items-center gap-3">
+                        <Icon size={16} className={`shrink-0 ${done ? "text-emerald-400" : current ? "text-gold" : "text-navy-600"}`} />
+                        <span className={`text-sm flex-1 ${done ? "text-navy-400" : current ? "text-foreground font-medium" : "text-navy-600"}`}>
+                          Step {stepNum}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {service.notes && (
+                  <div className="p-3.5 rounded-xl bg-amber-500/5 border border-amber-500/15 text-xs text-amber-400/80 leading-relaxed">
+                    {service.notes}
+                  </div>
+                )}
+
+                {relatedForms.length > 0 && (
+                  <div className="border-t border-navy-700 pt-4">
+                    <p className="text-xs font-semibold text-navy-400 mb-2 uppercase tracking-wider">Required Forms</p>
+                    <div className="flex flex-col gap-2">
+                      {relatedForms.map(f => {
+                        const fs = FORM_STATUS[f.status] || { label: f.status, variant: "default" as const };
+                        return (
+                          <div key={f.id} className="flex items-center justify-between gap-3 p-3 rounded-xl bg-navy-900 border border-navy-700">
+                            <div className="min-w-0">
+                              <p className="text-sm text-foreground truncate">{f.form_templates?.name}</p>
+                              {f.due_date && <p className="text-xs text-navy-500 mt-0.5">Due {formatDate(f.due_date, locale)}</p>}
+                            </div>
+                            <div className="flex items-center gap-2 shrink-0">
+                              <Badge variant={fs.variant} className="text-[10px]">{fs.label}</Badge>
+                              {f.status === "pending" && (
+                                <button onClick={() => openForm(f.id)} className="flex items-center gap-1 text-xs text-gold hover:text-gold-light">
+                                  Fill <ChevronRight size={12} />
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })
+        )
+      )}
+
+      {/* Forms view */}
+      {view === "forms" && (
+        forms.length === 0 ? (
+          <div className="flex flex-col items-center justify-center gap-4 py-20 bg-navy-800 rounded-2xl border border-navy-700 text-center px-6">
+            <div className="w-14 h-14 rounded-2xl bg-navy-700 border border-navy-600 flex items-center justify-center">
+              <ClipboardList size={24} className="text-navy-400" />
+            </div>
+            <p className="text-sm text-navy-400">No forms assigned yet.</p>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-3">
+            {forms.map(f => {
+              const fs = FORM_STATUS[f.status] || { label: f.status, variant: "default" as const };
+              return (
+                <div key={f.id} className="bg-navy-800 rounded-2xl border border-navy-700 p-5 flex items-start justify-between gap-4">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Badge variant={fs.variant} className="text-[10px]">{fs.label}</Badge>
+                      {f.form_templates?.category && <span className="text-[10px] text-navy-500 uppercase tracking-wider">{f.form_templates.category}</span>}
+                    </div>
+                    <p className="text-sm font-semibold text-foreground">{f.form_templates?.name || "Form"}</p>
+                    {f.form_templates?.description && <p className="text-xs text-navy-500 mt-0.5">{f.form_templates.description}</p>}
+                    {f.notes && <p className="text-xs text-amber-400/80 mt-1">{f.notes}</p>}
+                    <div className="flex items-center gap-3 mt-2 text-xs text-navy-500">
+                      {f.services && <span>For: {f.services.name}</span>}
+                      {f.due_date && <span>Due: {formatDate(f.due_date, locale)}</span>}
+                      {f.submitted_at && <span>Submitted: {formatDate(f.submitted_at, locale)}</span>}
+                    </div>
+                  </div>
+                  {f.status === "pending" && (
+                    <button onClick={() => openForm(f.id)}
+                      className="shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gold/10 border border-gold/20 text-gold text-sm font-medium hover:bg-gold/20 transition-colors">
+                      Fill Form <ChevronRight size={14} />
+                    </button>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )
       )}
     </div>
   );

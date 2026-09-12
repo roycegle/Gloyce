@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState, use } from "react";
+import { useEffect, useState, use, useRef } from "react";
 import Link from "next/link";
-import { ArrowLeft, Send, Plus, CheckCircle, XCircle, FileText, DollarSign, ClipboardList, FolderOpen } from "lucide-react";
+import { ArrowLeft, Send, Plus, CheckCircle, XCircle, FileText, DollarSign, ClipboardList, FolderOpen, Upload, Trash2, ExternalLink } from "lucide-react";
 
 interface User { id: string; name: string; email: string; phone?: string; company?: string; status: string; created_at: string; }
 interface Service { id: string; type: string; name: string; status: string; current_step: number; total_steps: number; price?: number; created_at: string; }
@@ -40,6 +40,10 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
   const [showFormAssign, setShowFormAssign] = useState(false);
   const [assignForm, setAssignForm] = useState({ template_id: "", service_id: "", due_date: "", notes: "" });
   const [saving, setSaving] = useState(false);
+  const [showDocUpload, setShowDocUpload] = useState(false);
+  const [docUpload, setDocUpload] = useState({ name: "", category: "company", service_id: "" });
+  const [docFile, setDocFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const load = async () => {
     const res = await fetch(`/api/admin/customers/${id}`);
@@ -88,6 +92,30 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
 
   const updateInvoiceStatus = async (invoiceId: string, status: string) => {
     await fetch(`/api/admin/invoices/${invoiceId}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status }) });
+    await load();
+  };
+
+  const uploadDocument = async () => {
+    if (!docFile) return;
+    setSaving(true);
+    const fd = new FormData();
+    fd.append("file", docFile);
+    fd.append("user_id", id);
+    fd.append("category", docUpload.category);
+    if (docUpload.name) fd.append("name", docUpload.name);
+    if (docUpload.service_id) fd.append("service_id", docUpload.service_id);
+    await fetch("/api/admin/documents", { method: "POST", body: fd });
+    setDocFile(null);
+    setDocUpload({ name: "", category: "company", service_id: "" });
+    setShowDocUpload(false);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+    await load();
+    setSaving(false);
+  };
+
+  const deleteDocument = async (docId: string) => {
+    if (!confirm("Delete this document?")) return;
+    await fetch("/api/admin/documents", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: docId }) });
     await load();
   };
 
@@ -197,9 +225,27 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
             <div className="bg-white rounded-xl border border-gray-200 p-5 mb-4">
               <h3 className="font-semibold text-gray-800 mb-4">New Service</h3>
               <div className="grid grid-cols-2 gap-3 mb-4">
-                <div><label className="text-xs font-medium text-gray-500 mb-1 block">Type</label>
+                <div><label className="text-xs font-medium text-gray-500 mb-1 block">Service Type</label>
                   <select value={newService.type} onChange={(e) => setNewService({ ...newService, type: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm">
-                    <option value="execute">EXECUTE</option><option value="operate">OPERATE</option><option value="strategize">STRATEGIZE</option>
+                    <optgroup label="Company Formation">
+                      <option value="us_llc">US LLC Formation</option>
+                      <option value="singapore">Singapore Company</option>
+                      <option value="hong_kong">Hong Kong Company</option>
+                    </optgroup>
+                    <optgroup label="Banking & Payments">
+                      <option value="us_bank">US Bank Account</option>
+                      <option value="payment_gateway">Payment Gateway</option>
+                    </optgroup>
+                    <optgroup label="Compliance">
+                      <option value="accounting">Monthly Accounting</option>
+                      <option value="odi">ODI Registration</option>
+                      <option value="certification">Document Certification</option>
+                    </optgroup>
+                    <optgroup label="Tiers">
+                      <option value="execute">EXECUTE (custom)</option>
+                      <option value="operate">OPERATE (custom)</option>
+                      <option value="strategize">STRATEGIZE</option>
+                    </optgroup>
                   </select></div>
                 <div><label className="text-xs font-medium text-gray-500 mb-1 block">Service Name</label>
                   <input value={newService.name} onChange={(e) => setNewService({ ...newService, name: e.target.value })} placeholder="e.g. US LLC Formation" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" /></div>
@@ -340,30 +386,73 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
 
       {/* Documents */}
       {tab === "documents" && (
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          {documents.length === 0 ? <div className="p-12 text-center text-gray-400 text-sm"><FolderOpen size={28} className="mx-auto mb-2 text-gray-200" />No documents yet</div>
-            : (
-              <table className="w-full text-sm">
-                <thead><tr className="border-b border-gray-100 bg-gray-50">
-                  <th className="text-left px-4 py-3 font-medium text-gray-500">Document</th>
-                  <th className="text-left px-4 py-3 font-medium text-gray-500 hidden md:table-cell">Category</th>
-                  <th className="text-left px-4 py-3 font-medium text-gray-500">Uploaded by</th>
-                  <th className="text-left px-4 py-3 font-medium text-gray-500">Status</th>
-                  <th className="px-4 py-3" />
-                </tr></thead>
-                <tbody>
-                  {documents.map((d) => (
-                    <tr key={d.id} className="border-b border-gray-50">
-                      <td className="px-4 py-3"><div className="flex items-center gap-2"><FileText size={15} className="text-gray-300" /><span className="font-medium text-gray-800">{d.name}</span></div></td>
-                      <td className="px-4 py-3 text-gray-500 capitalize hidden md:table-cell">{d.category || "—"}</td>
-                      <td className="px-4 py-3 text-gray-500 capitalize">{d.uploaded_by}</td>
-                      <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize ${STATUS_BADGE[d.status] || "bg-gray-100 text-gray-500"}`}>{d.status}</span></td>
-                      <td className="px-4 py-3 text-right">{d.file_url && <a href={d.file_url} target="_blank" rel="noopener noreferrer" className="text-xs text-amber-600 hover:text-amber-700 font-medium">View</a>}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
+        <div>
+          <div className="flex justify-end mb-4">
+            <button onClick={() => setShowDocUpload(!showDocUpload)} className="flex items-center gap-1.5 px-3 py-2 bg-amber-500 text-white text-sm font-medium rounded-lg hover:bg-amber-600"><Upload size={15} /> Upload Document</button>
+          </div>
+          {showDocUpload && (
+            <div className="bg-white rounded-xl border border-gray-200 p-5 mb-4">
+              <h3 className="font-semibold text-gray-800 mb-4">Upload Document to Customer Folder</h3>
+              <div className="grid grid-cols-2 gap-3 mb-4">
+                <div className="col-span-2">
+                  <label className="text-xs font-medium text-gray-500 mb-1 block">File *</label>
+                  <input ref={fileInputRef} type="file" onChange={(e) => setDocFile(e.target.files?.[0] || null)}
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100" />
+                </div>
+                <div><label className="text-xs font-medium text-gray-500 mb-1 block">Display Name (optional)</label>
+                  <input value={docUpload.name} onChange={(e) => setDocUpload({ ...docUpload, name: e.target.value })} placeholder="e.g. Articles of Organization" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" /></div>
+                <div><label className="text-xs font-medium text-gray-500 mb-1 block">Category / Folder</label>
+                  <select value={docUpload.category} onChange={(e) => setDocUpload({ ...docUpload, category: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm">
+                    <option value="company">Company Documents</option>
+                    <option value="tax">Tax Documents</option>
+                    <option value="banking">Banking Documents</option>
+                    <option value="compliance">Compliance / ODI</option>
+                    <option value="license">Licenses & Permits</option>
+                    <option value="certification">Certified Documents</option>
+                    <option value="general">General</option>
+                  </select></div>
+                <div className="col-span-2"><label className="text-xs font-medium text-gray-500 mb-1 block">Related Service (optional)</label>
+                  <select value={docUpload.service_id} onChange={(e) => setDocUpload({ ...docUpload, service_id: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm">
+                    <option value="">— None —</option>
+                    {services.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
+                  </select></div>
+              </div>
+              <div className="flex gap-2 justify-end">
+                <button onClick={() => { setShowDocUpload(false); setDocFile(null); }} className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">Cancel</button>
+                <button onClick={uploadDocument} disabled={saving || !docFile} className="px-4 py-1.5 bg-amber-500 text-white text-sm rounded-lg hover:bg-amber-600 disabled:opacity-50">{saving ? "Uploading..." : "Upload"}</button>
+              </div>
+            </div>
+          )}
+          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+            {documents.length === 0 ? <div className="p-12 text-center text-gray-400 text-sm"><FolderOpen size={28} className="mx-auto mb-2 text-gray-200" />No documents yet — upload one above</div>
+              : (
+                <table className="w-full text-sm">
+                  <thead><tr className="border-b border-gray-100 bg-gray-50">
+                    <th className="text-left px-4 py-3 font-medium text-gray-500">Document</th>
+                    <th className="text-left px-4 py-3 font-medium text-gray-500 hidden md:table-cell">Category</th>
+                    <th className="text-left px-4 py-3 font-medium text-gray-500 hidden lg:table-cell">Uploaded</th>
+                    <th className="text-left px-4 py-3 font-medium text-gray-500">Status</th>
+                    <th className="px-4 py-3" />
+                  </tr></thead>
+                  <tbody>
+                    {documents.map((d) => (
+                      <tr key={d.id} className="border-b border-gray-50">
+                        <td className="px-4 py-3"><div className="flex items-center gap-2"><FileText size={15} className="text-gray-300" /><span className="font-medium text-gray-800">{d.name}</span></div></td>
+                        <td className="px-4 py-3 text-gray-500 capitalize hidden md:table-cell">{d.category || "—"}</td>
+                        <td className="px-4 py-3 text-gray-400 hidden lg:table-cell">{new Date(d.created_at).toLocaleDateString()}</td>
+                        <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize ${STATUS_BADGE[d.status] || "bg-gray-100 text-gray-500"}`}>{d.status}</span></td>
+                        <td className="px-4 py-3 text-right">
+                          <div className="flex items-center justify-end gap-2">
+                            {d.file_url && <a href={d.file_url} target="_blank" rel="noopener noreferrer" className="p-1.5 text-amber-600 hover:bg-amber-50 rounded"><ExternalLink size={14} /></a>}
+                            <button onClick={() => deleteDocument(d.id)} className="p-1.5 text-red-400 hover:bg-red-50 rounded"><Trash2 size={14} /></button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+          </div>
         </div>
       )}
 
