@@ -33,5 +33,24 @@ export async function POST(req: NextRequest) {
     .single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  // Auto-assign the matching form template if one exists for this service type
+  const { data: template } = await supabaseAdmin
+    .from("form_templates")
+    .select("id")
+    .eq("service_type", type)
+    .limit(1)
+    .single();
+
+  if (template) {
+    await supabaseAdmin.from("customer_forms").insert({
+      user_id,
+      template_id: template.id,
+      service_id: data.id,
+      status: "pending",
+      notes: `Required for your ${name} service. Please fill this form so we can proceed.`,
+    });
+  }
+
   return NextResponse.json(data, { status: 201 });
 }
