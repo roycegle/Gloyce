@@ -43,9 +43,9 @@ const NAV = [
       },
     ],
     guides: [
-      { label: { vi: "Hướng dẫn mở LLC Mỹ 2026", en: "How to open a US LLC 2026", zh: "如何在美国开设LLC 2026", es: "Cómo abrir una LLC en EE.UU. 2026", id: "Cara membuka LLC di AS 2026" } as L, href: "/resources/guides/us-llc" },
-      { label: { vi: "So sánh 3 jurisdictions", en: "Compare 3 jurisdictions", zh: "比较3个司法管辖区", es: "Comparar 3 jurisdicciones", id: "Bandingkan 3 yurisdiksi" } as L, href: "/resources/guides/compare" },
-      { label: { vi: "Checklist trước khi thành lập", en: "Pre-incorporation checklist", zh: "成立前检查清单", es: "Lista de verificación previa", id: "Daftar periksa pra-pendirian" } as L, href: "/resources/guides/checklist" },
+      { label: { vi: "Hướng dẫn mở LLC Mỹ 2026", en: "How to open a US LLC 2026", zh: "如何在美国开设LLC 2026", es: "Cómo abrir una LLC en EE.UU. 2026", id: "Cara membuka LLC di AS 2026" } as L, href: "/resources/guides" },
+      { label: { vi: "So sánh 3 jurisdictions", en: "Compare 3 jurisdictions", zh: "比较3个司法管辖区", es: "Comparar 3 jurisdicciones", id: "Bandingkan 3 yurisdiksi" } as L, href: "/resources/guides" },
+      { label: { vi: "Checklist trước khi thành lập", en: "Pre-incorporation checklist", zh: "成立前检查清单", es: "Lista de verificación previa", id: "Daftar periksa pra-pendirian" } as L, href: "/resources/guides" },
     ],
   },
   {
@@ -70,9 +70,9 @@ const NAV = [
       },
     ],
     guides: [
-      { label: { vi: "Thuế doanh nghiệp Mỹ cho người châu Á", en: "US business tax for Asian founders", zh: "亚洲创始人的美国企业税指南", es: "Impuestos empresariales en EE.UU. para fundadores asiáticos", id: "Pajak bisnis AS untuk pendiri Asia" } as L, href: "/resources/guides/us-tax" },
-      { label: { vi: "Form 5472 là gì?", en: "What is Form 5472?", zh: "什么是表格5472?", es: "¿Qué es el Formulario 5472?", id: "Apa itu Form 5472?" } as L, href: "/resources/guides/form-5472" },
-      { label: { vi: "10 phần mềm kế toán tốt nhất", en: "10 best accounting tools", zh: "10款最佳会计工具", es: "10 mejores herramientas contables", id: "10 alat akuntansi terbaik" } as L, href: "/resources/guides/tools" },
+      { label: { vi: "Thuế doanh nghiệp Mỹ cho người châu Á", en: "US business tax for Asian founders", zh: "亚洲创始人的美国企业税指南", es: "Impuestos empresariales en EE.UU. para fundadores asiáticos", id: "Pajak bisnis AS untuk pendiri Asia" } as L, href: "/resources/guides" },
+      { label: { vi: "Form 5472 là gì?", en: "What is Form 5472?", zh: "什么是表格5472?", es: "¿Qué es el Formulario 5472?", id: "Apa itu Form 5472?" } as L, href: "/resources/guides" },
+      { label: { vi: "10 phần mềm kế toán tốt nhất", en: "10 best accounting tools", zh: "10款最佳会计工具", es: "10 mejores herramientas contables", id: "10 alat akuntansi terbaik" } as L, href: "/resources/guides" },
     ],
   },
   {
@@ -89,8 +89,8 @@ const NAV = [
       },
     ],
     guides: [
-      { label: { vi: "Rủi ro pháp lý khi mở LLC tại Mỹ", en: "Legal risks of a US LLC", zh: "美国LLC的法律风险", es: "Riesgos legales de una LLC en EE.UU.", id: "Risiko hukum LLC di AS" } as L, href: "/resources/guides/legal-risk" },
-      { label: { vi: "Form 5472 là gì?", en: "What is Form 5472?", zh: "什么是表格5472?", es: "¿Qué es el Formulario 5472?", id: "Apa itu Form 5472?" } as L, href: "/resources/guides/form-5472" },
+      { label: { vi: "Rủi ro pháp lý khi mở LLC tại Mỹ", en: "Legal risks of a US LLC", zh: "美国LLC的法律风险", es: "Riesgos legales de una LLC en EE.UU.", id: "Risiko hukum LLC di AS" } as L, href: "/resources/guides" },
+      { label: { vi: "Form 5472 là gì?", en: "What is Form 5472?", zh: "什么是表格5472?", es: "¿Qué es el Formulario 5472?", id: "Apa itu Form 5472?" } as L, href: "/resources/guides" },
     ],
   },
 ];

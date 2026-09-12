@@ -30,7 +30,19 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise(r => setTimeout(r, 800));
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        console.error("Contact form error:", data);
+      }
+    } catch (err) {
+      console.error("Contact form network error:", err);
+    }
     setSent(true);
     setLoading(false);
   };

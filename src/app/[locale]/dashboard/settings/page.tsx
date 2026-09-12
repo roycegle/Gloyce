@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
+import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +13,7 @@ type Tab = "profile" | "notifications" | "security";
 
 export default function SettingsPage() {
   const t = useTranslations("dashboard.settings");
+  const { data: session } = useSession();
   const [activeTab, setActiveTab] = useState<Tab>("profile");
   const [saved, setSaved] = useState(false);
   const [notifications, setNotifications] = useState<Record<string, boolean>>({
@@ -22,11 +24,23 @@ export default function SettingsPage() {
   });
 
   const [profile, setProfile] = useState({
-    name: "Alex Chen",
-    email: "demo@gloyce.co",
-    phone: "+65 9123 4567",
-    company: "Chen Trading LLC",
+    name: "",
+    email: "",
+    phone: "",
+    company: "",
   });
+  const [passwords, setPasswords] = useState({ currentPassword: "", newPassword: "", confirmPassword: "" });
+  const [pwError, setPwError] = useState("");
+
+  useEffect(() => {
+    fetch("/api/dashboard/profile")
+      .then(r => r.json())
+      .then(d => {
+        if (d && !d.error) {
+          setProfile({ name: d.name ?? "", email: d.email ?? "", phone: d.phone ?? "", company: d.company ?? "" });
+        }
+      });
+  }, []);
 
   const TABS: { key: Tab; label: string; icon: typeof User }[] = [
     { key: "profile", label: t("tabs.profile"), icon: User },
@@ -42,7 +56,31 @@ export default function SettingsPage() {
   ];
 
   const handleSave = async () => {
-    await new Promise((r) => setTimeout(r, 600));
+    const res = await fetch("/api/dashboard/profile", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: profile.name, phone: profile.phone, company: profile.company }),
+    });
+    if (res.ok) {
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
+    }
+  };
+
+  const handlePasswordSave = async () => {
+    setPwError("");
+    if (passwords.newPassword !== passwords.confirmPassword) {
+      setPwError("Passwords do not match");
+      return;
+    }
+    const res = await fetch("/api/dashboard/profile", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ currentPassword: passwords.currentPassword, newPassword: passwords.newPassword }),
+    });
+    const data = await res.json();
+    if (!res.ok) { setPwError(data.error || "Failed to update password"); return; }
+    setPasswords({ currentPassword: "", newPassword: "", confirmPassword: "" });
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
   };
@@ -140,17 +178,24 @@ export default function SettingsPage() {
         <div className="bg-navy-800 rounded-2xl border border-navy-700 p-5 sm:p-6 flex flex-col gap-5">
           <div className="flex flex-col gap-4">
             <p className="text-sm font-semibold text-foreground">{t("security.changePassword")}</p>
-            {[
-              { key: "currentPassword", label: t("security.currentPassword") },
-              { key: "newPassword", label: t("security.newPassword") },
-              { key: "confirmPassword", label: t("security.confirmPassword") },
-            ].map(({ key, label }) => (
+            {([
+              { key: "currentPassword" as const, label: t("security.currentPassword") },
+              { key: "newPassword" as const, label: t("security.newPassword") },
+              { key: "confirmPassword" as const, label: t("security.confirmPassword") },
+            ] as { key: keyof typeof passwords; label: string }[]).map(({ key, label }) => (
               <div key={key} className="flex flex-col gap-1.5">
                 <label className="text-xs font-medium text-navy-400">{label}</label>
-                <Input type="password" placeholder="••••••••" className="bg-navy-900 border-navy-700 text-sm" />
+                <Input
+                  type="password"
+                  placeholder="••••••••"
+                  value={passwords[key]}
+                  onChange={e => setPasswords(p => ({ ...p, [key]: e.target.value }))}
+                  className="bg-navy-900 border-navy-700 text-sm"
+                />
               </div>
             ))}
-            <Button size="sm" variant="secondary" className="w-fit">{t("save")}</Button>
+            {pwError && <p className="text-xs text-red-400">{pwError}</p>}
+            <Button size="sm" variant="secondary" className="w-fit" onClick={handlePasswordSave}>{t("save")}</Button>
           </div>
 
           <div className="border-t border-navy-700 pt-5 flex items-center justify-between gap-4">

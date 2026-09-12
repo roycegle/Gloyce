@@ -5,84 +5,226 @@
     "defaultDescription": "Gloyce ayuda a empresas vietnamitas a constituirse, operar y gestionar flujos de dinero transfronterizos en EE.UU., Singapur y Hong Kong."
   },
   "nav": {
-    "services": "Services",
-    "servicesExecute": "Company Formation",
-    "servicesOperate": "Operations & Compliance",
-    "servicesStrategize": "Strategic Advisory",
-    "pricing": "Pricing",
-    "about": "About",
-    "contact": "Contact",
-    "login": "Sign In",
-    "getStarted": "Get Started",
-    "dashboard": "Dashboard",
-    "logout": "Sign Out"
+    "services": "Servicios",
+    "servicesExecute": "Constitución de empresa",
+    "servicesOperate": "Operaciones y cumplimiento",
+    "servicesStrategize": "Asesoría estratégica",
+    "pricing": "Precios",
+    "about": "Acerca de",
+    "contact": "Contacto",
+    "login": "Iniciar sesión",
+    "getStarted": "Comenzar",
+    "dashboard": "Panel",
+    "logout": "Cerrar sesión"
   },
   "home": {
     "hero": {
-      "label": "For Vietnamese businesses going global",
-      "title": "Go global.",
-      "titleAccent": "Operate globally.",
-      "subtitle": "One platform to incorporate in the US, Singapore, and Hong Kong — with accounting, compliance, and advisory built for Vietnamese SMEs.",
-      "cta": "Get Started",
-      "ctaSecondary": "Explore Services",
-      "trust": "Trusted by 200+ Vietnamese businesses",
-      "trustPartners": "Infrastructure partners:"
+      "label": "Para empresas vietnamitas que van al mundo",
+      "title": "Expándete globalmente.",
+      "titleAccent": "Opera globalmente.",
+      "subtitle": "Una plataforma para constituirse en EE.UU., Singapur y Hong Kong — con contabilidad, cumplimiento y asesoría para PYMES vietnamitas.",
+      "cta": "Comenzar",
+      "ctaSecondary": "Explorar servicios",
+      "trust": "Más de 200 empresas vietnamitas confían en nosotros",
+      "trustPartners": "Socios de infraestructura:"
     },
     "stats": {
-      "companies": "Companies formed",
-      "countries": "Countries served",
-      "clients": "Satisfied clients",
-      "experts": "Compliance experts"
+      "companies": "Empresas constituidas",
+      "countries": "Países atendidos",
+      "clients": "Clientes satisfechos",
+      "experts": "Expertos en cumplimiento"
     },
     "services": {
-      "title": "Everything you need to operate globally",
-      "subtitle": "Three tiers built to grow with your business"
+      "title": "Todo lo que necesitas para operar globalmente",
+      "subtitle": "Tres niveles diseñados para crecer con tu negocio"
     },
     "testimonials": {
-      "title": "Trusted by Vietnamese sellers worldwide",
-      "subtitle": "Hear from businesses like yours"
+      "title": "La confianza de vendedores vietnamitas en todo el mundo",
+      "subtitle": "Escucha a empresas como la tuya"
     },
     "cta": {
-      "title": "Ready to go global?",
-      "subtitle": "Book a free 30-minute consultation with our expert team.",
-      "button": "Book Free Consultation"
+      "title": "¿Listo para ir global?",
+      "subtitle": "Reserva una consulta gratuita de 30 minutos con nuestro equipo experto.",
+      "button": "Reservar consulta gratuita"
     }
   },
-  "common": {
-    "loading": "Loading...",
-    "error": "Something went wrong",
-    "tryAgain": "Try again",
-    "learnMore": "Learn more",
-    "getStarted": "Get Started",
-    "bookConsultation": "Book Free Consultation",
-    "viewAll": "View all",
-    "back": "Back",
-    "cancel": "Cancel",
-    "confirm": "Confirm",
-    "delete": "Delete",
-    "edit": "Edit",
-    "save": "Save",
-    "close": "Close",
-    "search": "Search",
-    "filter": "Filter",
-    "yes": "Yes",
-    "no": "No",
-    "or": "or"
+  "services": {
+    "execute": {
+      "name": "EXECUTE",
+      "tagline": "Constitución de empresa y configuración inicial",
+      "description": "Registra tu LLC en EE.UU., obtén tu EIN, abre una cuenta bancaria empresarial y configura pasarelas de pago — todo en un proceso coordinado.",
+      "features": [
+        "Registro de LLC en EE.UU. / Delaware / Wyoming",
+        "EIN (Número de Identificación del Empleador)",
+        "Apertura de cuenta bancaria empresarial (Mercury / Relay)",
+        "Configuración de pasarela de pago (Stripe / PayPal)",
+        "Cumplimiento inicial Form 5472",
+        "Agente registrado (12 meses)"
+      ],
+      "price": "Desde $350 USD",
+      "cta": "Comenzar con EXECUTE",
+      "timeline": "14–21 días hábiles"
+    },
+    "operate": {
+      "name": "OPERATE",
+      "tagline": "Contabilidad, impuestos y cumplimiento mensual",
+      "description": "Mantén tu entidad global en cumplimiento mes a mes. Nuestro equipo gestiona la contabilidad, declaraciones fiscales, nómina e informes ODI.",
+      "features": [
+        "Contabilidad mensual (US GAAP)",
+        "Declaración fiscal anual (Form 1120 / 5472)",
+        "Pagos de impuestos estimados trimestrales",
+        "Administración de nómina",
+        "Registro ODI e informes anuales",
+        "Gestor de cumplimiento dedicado"
+      ],
+      "price": "Desde $120/mes",
+      "cta": "Comenzar con OPERATE",
+      "badge": "Más popular"
+    },
+    "strategize": {
+      "name": "STRATEGIZE",
+      "tagline": "Estructura fiscal internacional y asesoría",
+      "description": "Para empresas listas para optimizar su estructura global. Nuestros CFOs fraccionales y estrategas fiscales te ayudan a escalar inteligentemente.",
+      "features": [
+        "Diseño de estructura fiscal internacional",
+        "Estrategia de precios de transferencia",
+        "Asesoría en M&A y diligencia debida",
+        "Contratación de CFO fraccional",
+        "Planificación de inversión transfronteriza",
+        "Estrategia personalizada de tesorería y liquidación"
+      ],
+      "price": "Precio personalizado",
+      "cta": "Reservar una consulta"
+    }
   },
-  "footer": {
-    "tagline": "Go global. Operate globally. Move money globally.",
-    "servicesTitle": "Services",
-    "companyTitle": "Company",
-    "legalTitle": "Legal",
-    "privacyPolicy": "Privacy Policy",
-    "termsOfService": "Terms of Service",
-    "complianceNote": "All services are structured in compliance with applicable US federal, state and international laws.",
-    "copyright": "© {year} Gloyce. All rights reserved.",
-    "companyLinks": {
-      "about": "About Gloyce",
-      "blog": "Blog",
-      "contact": "Contact",
-      "careers": "Careers"
+  "pricing": {
+    "title": "Precios transparentes y predecibles",
+    "subtitle": "Sin tarifas ocultas. Elige el nivel que se adapta a tu etapa.",
+    "execute": {
+      "name": "EXECUTE",
+      "price": "$350",
+      "period": "pago único",
+      "description": "Constitución completa de empresa y configuración inicial"
+    },
+    "operate": {
+      "name": "OPERATE",
+      "price": "$120",
+      "period": "por mes",
+      "badge": "Más popular",
+      "description": "Contabilidad, impuestos y cumplimiento mensual"
+    },
+    "strategize": {
+      "name": "STRATEGIZE",
+      "price": "Personalizado",
+      "period": "contáctanos",
+      "description": "Asesoría estratégica adaptada a tus necesidades"
+    },
+    "faq": {
+      "title": "Preguntas frecuentes"
+    },
+    "includes": "Incluye:",
+    "getStarted": "Comenzar",
+    "contactUs": "Contáctanos",
+    "allPlansNote": "Todos los planes están estructurados en cumplimiento con las regulaciones ODI vietnamitas."
+  },
+  "about": {
+    "hero": {
+      "label": "Acerca de nosotros",
+      "title": "Construido para empresas vietnamitas que van al mundo"
+    },
+    "mission": {
+      "title": "Nuestra Misión",
+      "body": "Gloyce ayuda a emprendedores y empresas vietnamitas a constituirse, operar y expandirse transfronterizamente — sin tener que enlazar docenas de proveedores en cada país."
+    },
+    "compliance": {
+      "title": "Nuestro Compromiso con el Cumplimiento",
+      "body": "Todos los servicios están estructurados para cumplir con las regulaciones ODI (Inversión Directa en el Exterior) vietnamitas. Ayudamos a los clientes a registrarse correctamente ante el Banco Estatal de Vietnam y a cumplir los requisitos de repatriación de beneficios a tiempo."
+    },
+    "values": {
+      "title": "Nuestros Valores",
+      "transparency": {
+        "title": "Transparencia",
+        "description": "Sin tarifas ocultas, sin términos confusos. Sabes exactamente lo que pagas y lo que obtienes."
+      },
+      "compliance": {
+        "title": "Cumplimiento",
+        "description": "Cada solución está diseñada para cumplir con la legislación vietnamita e internacional."
+      },
+      "expertise": {
+        "title": "Experiencia",
+        "description": "Un equipo de contadores, abogados y asesores financieros con amplia experiencia internacional."
+      },
+      "partnership": {
+        "title": "Asociación",
+        "description": "No somos solo un proveedor de servicios — somos tu socio de crecimiento a largo plazo."
+      }
+    }
+  },
+  "contact": {
+    "title": "Habla con nuestro equipo",
+    "subtitle": "Hablamos vietnamita, español e inglés. Reserva una llamada gratuita de 30 minutos o envíanos un mensaje.",
+    "info": {
+      "email": "hello@gloyce.co",
+      "phone": "+84 28 xxxx xxxx",
+      "address": "Ciudad Ho Chi Minh, Vietnam",
+      "hours": "Lunes – Viernes, 9:00 AM – 6:00 PM (GMT+7)"
+    },
+    "form": {
+      "title": "Enviar un mensaje",
+      "name": "Nombre completo",
+      "email": "Correo electrónico",
+      "phone": "Número de teléfono",
+      "company": "Nombre de la empresa",
+      "service": "Servicio de interés",
+      "message": "Cuéntanos sobre tu empresa y necesidades",
+      "submit": "Enviar mensaje",
+      "success": "¡Mensaje enviado! Responderemos en 1 día hábil.",
+      "serviceOptions": {
+        "execute": "Constitución de empresa (EXECUTE)",
+        "operate": "Cumplimiento continuo (OPERATE)",
+        "strategize": "Asesoría estratégica (STRATEGIZE)",
+        "unsure": "Aún no estoy seguro, necesito asesoría"
+      },
+      "required": "Requerido"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Inicia sesión en tu cuenta",
+      "subtitle": "Bienvenido de vuelta",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "submit": "Iniciar sesión",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "noAccount": "¿No tienes cuenta?",
+      "register": "Crear cuenta",
+      "error": "Email o contraseña incorrectos"
+    },
+    "register": {
+      "title": "Crea tu cuenta",
+      "subtitle": "Comienza tu viaje global",
+      "name": "Nombre completo",
+      "company": "Nombre de la empresa",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar contraseña",
+      "phone": "Número de teléfono",
+      "terms": "Acepto los Términos de Servicio y la Política de Privacidad",
+      "submit": "Crear Cuenta",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "login": "Iniciar sesión",
+      "successTitle": "¡Cuenta creada!",
+      "successDesc": "Nos pondremos en contacto en 1 día hábil para verificar y activar tu cuenta.",
+      "passwordMismatch": "Las contraseñas no coinciden"
+    },
+    "forgotPassword": {
+      "title": "Restablecer contraseña",
+      "subtitle": "Ingresa tu correo para recibir el enlace de restablecimiento",
+      "email": "Correo electrónico",
+      "submit": "Enviar enlace",
+      "back": "Volver al inicio de sesión",
+      "success": "Correo de restablecimiento enviado. Revisa tu bandeja de entrada.",
+      "successTitle": "¡Correo enviado!"
     }
   },
   "dashboard": {
@@ -185,43 +327,41 @@
       "saved": "¡Guardado con éxito!"
     }
   },
-  "auth": {
-    "login": {
-      "title": "Inicia sesión en tu cuenta",
-      "subtitle": "Bienvenido de vuelta",
-      "email": "Correo electrónico",
-      "password": "Contraseña",
-      "submit": "Iniciar sesión",
-      "forgotPassword": "¿Olvidaste tu contraseña?",
-      "noAccount": "¿No tienes cuenta?",
-      "register": "Crear cuenta",
-      "error": "Email o contraseña incorrectos"
-    },
-    "register": {
-      "title": "Crea tu cuenta",
-      "subtitle": "Comienza tu viaje global",
-      "name": "Nombre completo",
-      "company": "Nombre de la empresa",
-      "email": "Correo electrónico",
-      "password": "Contraseña",
-      "confirmPassword": "Confirmar contraseña",
-      "phone": "Número de teléfono",
-      "terms": "Acepto los Términos de Servicio y la Política de Privacidad",
-      "submit": "Crear Cuenta",
-      "hasAccount": "¿Ya tienes cuenta?",
-      "login": "Iniciar sesión",
-      "successTitle": "¡Cuenta creada!",
-      "successDesc": "Nos pondremos en contacto en 1 día hábil para verificar y activar tu cuenta.",
-      "passwordMismatch": "Las contraseñas no coinciden"
-    },
-    "forgotPassword": {
-      "title": "Restablecer contraseña",
-      "subtitle": "Ingresa tu correo para recibir el enlace de restablecimiento",
-      "email": "Correo electrónico",
-      "submit": "Enviar enlace",
-      "back": "Volver al inicio de sesión",
-      "success": "Correo de restablecimiento enviado. Revisa tu bandeja de entrada.",
-      "successTitle": "¡Correo enviado!"
+  "common": {
+    "loading": "Cargando...",
+    "error": "Algo salió mal",
+    "tryAgain": "Intentar de nuevo",
+    "learnMore": "Saber más",
+    "getStarted": "Comenzar",
+    "bookConsultation": "Reservar consulta gratuita",
+    "viewAll": "Ver todo",
+    "back": "Volver",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "save": "Guardar",
+    "close": "Cerrar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "yes": "Sí",
+    "no": "No",
+    "or": "o"
+  },
+  "footer": {
+    "tagline": "Expándete globalmente. Opera globalmente. Mueve dinero globalmente.",
+    "servicesTitle": "Servicios",
+    "companyTitle": "Empresa",
+    "legalTitle": "Legal",
+    "privacyPolicy": "Política de privacidad",
+    "termsOfService": "Términos de servicio",
+    "complianceNote": "Todos los servicios están estructurados en cumplimiento con las regulaciones federales, estatales e internacionales aplicables.",
+    "copyright": "© {year} Gloyce. Todos los derechos reservados.",
+    "companyLinks": {
+      "about": "Acerca de Gloyce",
+      "blog": "Blog",
+      "contact": "Contacto",
+      "careers": "Empleo"
     }
   }
 }

@@ -1,131 +1,143 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { MOCK_INVOICES, MOCK_BILLING_SUMMARY } from "@/data/mock/billing";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CreditCard, Download, RefreshCw } from "lucide-react";
+import { CreditCard, RefreshCw } from "lucide-react";
+import { Link } from "@/i18n/routing";
 
-function formatDate(iso: string, locale: string) {
-  const d = new Date(iso);
-  return d.toLocaleDateString(locale, { day: "2-digit", month: "2-digit", year: "numeric" });
+interface Invoice {
+  id: string;
+  amount: number;
+  currency: string;
+  status: string;
+  description?: string;
+  due_date?: string;
+  paid_at?: string;
+  created_at: string;
+  services?: { name: string; type: string };
+}
+
+function formatDate(iso?: string, locale?: string) {
+  if (!iso) return "—";
+  return new Date(iso).toLocaleDateString(locale, { day: "2-digit", month: "2-digit", year: "numeric" });
 }
 
 export default function BillingPage() {
   const t = useTranslations("dashboard.billing");
   const locale = useLocale();
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const STATUS_CONFIG = {
-    paid: { label: t("status.paid"), variant: "success" as const },
-    pending: { label: t("status.pending"), variant: "warning" as const },
-    overdue: { label: t("status.overdue"), variant: "danger" as const },
+  useEffect(() => {
+    fetch("/api/dashboard/invoices")
+      .then(r => r.json())
+      .then(d => { setInvoices(Array.isArray(d) ? d : []); setLoading(false); })
+      .catch(() => setLoading(false));
+  }, []);
+
+  const STATUS_CONFIG: Record<string, { label: string; variant: "success" | "warning" | "danger" | "default" }> = {
+    paid: { label: t("status.paid"), variant: "success" },
+    pending: { label: t("status.pending"), variant: "warning" },
+    overdue: { label: t("status.overdue"), variant: "danger" },
+    cancelled: { label: "Cancelled", variant: "default" },
   };
+
+  const totalPaid = invoices.filter(i => i.status === "paid").reduce((s, i) => s + i.amount, 0);
+  const totalPending = invoices.filter(i => i.status === "pending").reduce((s, i) => s + i.amount, 0);
 
   return (
     <div className="flex flex-col gap-6 max-w-3xl">
       <div>
         <h2 className="text-xl font-bold text-foreground">{t("title")}</h2>
-        <p className="text-sm text-navy-400 mt-0.5">{t("noInvoices")}</p>
+        <p className="text-sm text-navy-400 mt-0.5">Your invoices and payment history.</p>
       </div>
 
-      {/* Current plan */}
+      {/* Summary */}
       <div className="bg-navy-800 rounded-2xl border border-gold/20 p-5 sm:p-6">
-        <div className="flex items-start justify-between gap-4 flex-wrap">
-          <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0">
-              <CreditCard className="w-5 h-5 text-gold" />
-            </div>
-            <div>
-              <p className="text-xs text-navy-500 uppercase tracking-wider">{t("currentPlan")}</p>
-              <p className="text-base font-bold text-foreground mt-0.5">{MOCK_BILLING_SUMMARY.currentPlan}</p>
-            </div>
+        <div className="flex items-center gap-3 mb-5">
+          <div className="w-11 h-11 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0">
+            <CreditCard className="w-5 h-5 text-gold" />
           </div>
-          <Badge variant="gold" className="text-xs">Active</Badge>
+          <div>
+            <p className="text-xs text-navy-500 uppercase tracking-wider">Billing Summary</p>
+            <p className="text-base font-bold text-foreground mt-0.5">Gloyce Services</p>
+          </div>
         </div>
-
-        <div className="mt-5 grid grid-cols-2 gap-4 pt-4 border-t border-navy-700">
+        <div className="grid grid-cols-2 gap-4 pt-4 border-t border-navy-700">
           <div>
-            <p className="text-xs text-navy-500">{t("nextCharge")}</p>
-            <p className="text-xl font-bold text-foreground mt-1">{MOCK_BILLING_SUMMARY.nextCharge}</p>
-            <p className="text-xs text-navy-500 mt-0.5">{MOCK_BILLING_SUMMARY.nextChargeDate}</p>
+            <p className="text-xs text-navy-500">Total Paid</p>
+            <p className="text-xl font-bold text-foreground mt-1">${totalPaid.toLocaleString()}</p>
           </div>
           <div>
-            <p className="text-xs text-navy-500">Total paid</p>
-            <p className="text-xl font-bold text-foreground mt-1">{MOCK_BILLING_SUMMARY.totalPaid}</p>
-            <p className="text-xs text-navy-500 mt-0.5">Since start</p>
+            <p className="text-xs text-navy-500">Outstanding</p>
+            <p className="text-xl font-bold text-amber-400 mt-1">${totalPending.toLocaleString()}</p>
           </div>
         </div>
       </div>
 
-      {/* Invoice table — responsive */}
+      {/* Invoices */}
       <div>
         <h3 className="text-sm font-semibold text-foreground mb-3">{t("invoices")}</h3>
         <div className="bg-navy-800 rounded-2xl border border-navy-700 overflow-hidden">
-          {/* Desktop header — hidden on mobile */}
-          <div className="hidden sm:grid grid-cols-12 gap-2 px-4 py-3 bg-navy-900 border-b border-navy-700 text-xs font-semibold text-navy-500 uppercase tracking-wider">
-            <span className="col-span-2">Invoice</span>
-            <span className="col-span-4">Description</span>
-            <span className="col-span-2">Amount</span>
-            <span className="col-span-2">Date</span>
-            <span className="col-span-1">Status</span>
-            <span className="col-span-1"></span>
-          </div>
-
-          {MOCK_INVOICES.map((inv) => {
-            const cfg = STATUS_CONFIG[inv.status];
-            return (
-              <div key={inv.id} className="border-b border-navy-700/50 last:border-0">
-                {/* Mobile card layout */}
-                <div className="sm:hidden px-4 py-4 flex flex-col gap-2">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="min-w-0">
-                      <p className="text-xs font-mono text-navy-400">{inv.invoiceNumber}</p>
-                      <p className="text-xs text-navy-300 leading-tight mt-0.5">{inv.description}</p>
-                    </div>
-                    <Badge variant={cfg.variant} className="text-[10px] py-0 shrink-0">{cfg.label}</Badge>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-base font-bold text-foreground">{inv.amount}</p>
-                      <p className="text-xs text-navy-500">{formatDate(inv.date, locale)}</p>
-                    </div>
-                    <button className="p-2 text-navy-500 hover:text-foreground hover:bg-navy-700 rounded-lg transition-colors">
-                      <Download size={14} />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Desktop row layout */}
-                <div className="hidden sm:grid grid-cols-12 gap-2 px-4 py-4 items-center hover:bg-navy-750 transition-colors">
-                  <span className="col-span-2 text-xs font-mono text-navy-400">{inv.invoiceNumber}</span>
-                  <span className="col-span-4 text-xs text-navy-300 leading-tight">{inv.description}</span>
-                  <span className="col-span-2 text-sm font-semibold text-foreground">{inv.amount}</span>
-                  <span className="col-span-2 text-xs text-navy-500">{formatDate(inv.date, locale)}</span>
-                  <span className="col-span-1">
-                    <Badge variant={cfg.variant} className="text-[10px] py-0">{cfg.label}</Badge>
-                  </span>
-                  <span className="col-span-1 flex justify-end">
-                    <button className="p-1.5 text-navy-500 hover:text-foreground hover:bg-navy-700 rounded-lg transition-colors">
-                      <Download size={13} />
-                    </button>
-                  </span>
-                </div>
+          {loading ? (
+            <div className="px-4 py-10 text-center text-sm text-navy-500">Loading...</div>
+          ) : invoices.length === 0 ? (
+            <div className="px-4 py-10 text-center text-sm text-navy-500">{t("noInvoices")}</div>
+          ) : (
+            <>
+              <div className="hidden sm:grid grid-cols-12 gap-2 px-4 py-3 bg-navy-900 border-b border-navy-700 text-xs font-semibold text-navy-500 uppercase tracking-wider">
+                <span className="col-span-5">Description</span>
+                <span className="col-span-2">Amount</span>
+                <span className="col-span-3">Due Date</span>
+                <span className="col-span-2">Status</span>
               </div>
-            );
-          })}
+              {invoices.map((inv) => {
+                const cfg = STATUS_CONFIG[inv.status] || { label: inv.status, variant: "default" as const };
+                return (
+                  <div key={inv.id} className="border-b border-navy-700/50 last:border-0">
+                    <div className="sm:hidden px-4 py-4 flex flex-col gap-2">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="min-w-0">
+                          <p className="text-xs text-navy-300 leading-tight">{inv.description || inv.services?.name || "Invoice"}</p>
+                          {inv.services && <p className="text-[10px] text-navy-500 mt-0.5">{inv.services.type.toUpperCase()}</p>}
+                        </div>
+                        <Badge variant={cfg.variant} className="text-[10px] py-0 shrink-0">{cfg.label}</Badge>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-base font-bold text-foreground">${inv.amount.toLocaleString()} {inv.currency}</p>
+                          <p className="text-xs text-navy-500">{formatDate(inv.due_date, locale)}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="hidden sm:grid grid-cols-12 gap-2 px-4 py-4 items-center">
+                      <div className="col-span-5">
+                        <p className="text-xs text-navy-300">{inv.description || inv.services?.name || "Invoice"}</p>
+                        {inv.services && <p className="text-[10px] text-navy-500 mt-0.5">{inv.services.type.toUpperCase()}</p>}
+                      </div>
+                      <span className="col-span-2 text-sm font-semibold text-foreground">${inv.amount.toLocaleString()}</span>
+                      <span className="col-span-3 text-xs text-navy-500">{formatDate(inv.due_date, locale)}</span>
+                      <span className="col-span-2"><Badge variant={cfg.variant} className="text-[10px] py-0">{cfg.label}</Badge></span>
+                    </div>
+                  </div>
+                );
+              })}
+            </>
+          )}
         </div>
       </div>
 
-      {/* Upgrade notice */}
       <div className="p-4 rounded-xl bg-navy-800 border border-navy-700 flex items-center gap-3">
         <div className="w-9 h-9 rounded-lg bg-navy-700 flex items-center justify-center shrink-0">
           <RefreshCw size={15} className="text-navy-400" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-foreground">Need to change your plan?</p>
-          <p className="text-xs text-navy-500 mt-0.5">Contact the Gloyce team for upgrade or adjustment advice.</p>
+          <p className="text-sm font-medium text-foreground">Questions about your invoice?</p>
+          <p className="text-xs text-navy-500 mt-0.5">Contact the Gloyce team for assistance.</p>
         </div>
-        <Button variant="secondary" size="sm">Contact</Button>
+        <Link href="/contact"><Button variant="secondary" size="sm">Contact</Button></Link>
       </div>
     </div>
   );

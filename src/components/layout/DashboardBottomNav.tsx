@@ -29,7 +29,7 @@ export function DashboardBottomNav() {
   const pathname = usePathname();
   const { data: session } = useSession();
 
-  const userName = session?.user?.name || "Alex Chen";
+  const userName = session?.user?.name || session?.user?.email?.split("@")[0] || "User";
   const userInitials = userName
     .split(" ")
     .map((n: string) => n[0])

@@ -245,7 +245,8 @@
       "nextBilling": "Next Billing",
       "recentActivity": "Recent Activity",
       "yourServices": "Your Services",
-      "viewAll": "View all"
+      "viewAll": "View all",
+      "greetingGeneric": "Good morning"
     },
     "services": {
       "title": "My Services",
@@ -258,7 +259,9 @@
       },
       "step": "Step {current} of {total}",
       "nextAction": "Next action:",
-      "attachedDocuments": "Attached documents"
+      "attachedDocuments": "Attached documents",
+      "noServicesTitle": "No active services yet",
+      "contactUs": "Contact Gloyce"
     },
     "documents": {
       "title": "Documents",
@@ -271,7 +274,9 @@
       "upload": "Upload Document",
       "download": "Download",
       "noDocuments": "No documents yet",
-      "uploadedAt": "Uploaded"
+      "uploadedAt": "Uploaded",
+      "subtitle": "Documents uploaded by Gloyce on your behalf.",
+      "noDocumentsTitle": "No documents yet"
     },
     "messages": {
       "title": "Messages",

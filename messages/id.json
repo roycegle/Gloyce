@@ -5,84 +5,226 @@
     "defaultDescription": "Gloyce membantu bisnis Vietnam mendirikan perusahaan, beroperasi, dan mengelola aliran dana lintas batas di AS, Singapura, dan Hong Kong."
   },
   "nav": {
-    "services": "Services",
-    "servicesExecute": "Company Formation",
-    "servicesOperate": "Operations & Compliance",
-    "servicesStrategize": "Strategic Advisory",
-    "pricing": "Pricing",
-    "about": "About",
-    "contact": "Contact",
-    "login": "Sign In",
-    "getStarted": "Get Started",
-    "dashboard": "Dashboard",
-    "logout": "Sign Out"
+    "services": "Layanan",
+    "servicesExecute": "Pendirian Perusahaan",
+    "servicesOperate": "Operasional & Kepatuhan",
+    "servicesStrategize": "Konsultasi Strategis",
+    "pricing": "Harga",
+    "about": "Tentang",
+    "contact": "Kontak",
+    "login": "Masuk",
+    "getStarted": "Mulai Sekarang",
+    "dashboard": "Dasbor",
+    "logout": "Keluar"
   },
   "home": {
     "hero": {
-      "label": "For Vietnamese businesses going global",
+      "label": "Untuk bisnis Vietnam yang go global",
       "title": "Go global.",
-      "titleAccent": "Operate globally.",
-      "subtitle": "One platform to incorporate in the US, Singapore, and Hong Kong — with accounting, compliance, and advisory built for Vietnamese SMEs.",
-      "cta": "Get Started",
-      "ctaSecondary": "Explore Services",
-      "trust": "Trusted by 200+ Vietnamese businesses",
-      "trustPartners": "Infrastructure partners:"
+      "titleAccent": "Beroperasi secara global.",
+      "subtitle": "Satu platform untuk mendirikan perusahaan di AS, Singapura, dan Hong Kong — dilengkapi akuntansi, kepatuhan, dan konsultasi untuk UMKM Vietnam.",
+      "cta": "Mulai Sekarang",
+      "ctaSecondary": "Jelajahi Layanan",
+      "trust": "Dipercaya lebih dari 200 bisnis Vietnam",
+      "trustPartners": "Mitra infrastruktur:"
     },
     "stats": {
-      "companies": "Companies formed",
-      "countries": "Countries served",
-      "clients": "Satisfied clients",
-      "experts": "Compliance experts"
+      "companies": "Perusahaan didirikan",
+      "countries": "Negara dilayani",
+      "clients": "Klien puas",
+      "experts": "Pakar kepatuhan"
     },
     "services": {
-      "title": "Everything you need to operate globally",
-      "subtitle": "Three tiers built to grow with your business"
+      "title": "Semua yang Anda butuhkan untuk beroperasi secara global",
+      "subtitle": "Tiga tingkatan yang dirancang untuk tumbuh bersama bisnis Anda"
     },
     "testimonials": {
-      "title": "Trusted by Vietnamese sellers worldwide",
-      "subtitle": "Hear from businesses like yours"
+      "title": "Dipercaya oleh penjual Vietnam di seluruh dunia",
+      "subtitle": "Dengar dari bisnis seperti Anda"
     },
     "cta": {
-      "title": "Ready to go global?",
-      "subtitle": "Book a free 30-minute consultation with our expert team.",
-      "button": "Book Free Consultation"
+      "title": "Siap go global?",
+      "subtitle": "Jadwalkan konsultasi gratis 30 menit dengan tim ahli kami.",
+      "button": "Jadwalkan Konsultasi Gratis"
     }
   },
-  "common": {
-    "loading": "Loading...",
-    "error": "Something went wrong",
-    "tryAgain": "Try again",
-    "learnMore": "Learn more",
-    "getStarted": "Get Started",
-    "bookConsultation": "Book Free Consultation",
-    "viewAll": "View all",
-    "back": "Back",
-    "cancel": "Cancel",
-    "confirm": "Confirm",
-    "delete": "Delete",
-    "edit": "Edit",
-    "save": "Save",
-    "close": "Close",
-    "search": "Search",
-    "filter": "Filter",
-    "yes": "Yes",
-    "no": "No",
-    "or": "or"
+  "services": {
+    "execute": {
+      "name": "EXECUTE",
+      "tagline": "Pendirian Perusahaan & Pengaturan Awal",
+      "description": "Daftarkan LLC AS Anda, dapatkan EIN, buka rekening bank bisnis, dan konfigurasikan gateway pembayaran — semua dalam satu proses terkoordinasi.",
+      "features": [
+        "Pendaftaran LLC AS / Delaware / Wyoming",
+        "EIN (Employer Identification Number)",
+        "Pembukaan rekening bank bisnis (Mercury / Relay)",
+        "Pengaturan gateway pembayaran (Stripe / PayPal)",
+        "Kepatuhan awal Form 5472",
+        "Agen terdaftar (12 bulan)"
+      ],
+      "price": "Mulai dari $350 USD",
+      "cta": "Mulai dengan EXECUTE",
+      "timeline": "14–21 hari kerja"
+    },
+    "operate": {
+      "name": "OPERATE",
+      "tagline": "Akuntansi, Pajak & Kepatuhan Bulanan",
+      "description": "Jaga kepatuhan entitas global Anda setiap bulan. Tim kami menangani pembukuan, pengajuan pajak, penggajian, dan pelaporan ODI.",
+      "features": [
+        "Pembukuan bulanan (US GAAP)",
+        "Pengembalian pajak tahunan (Form 1120 / 5472)",
+        "Pembayaran pajak estimasi kuartalan",
+        "Administrasi penggajian",
+        "Pendaftaran ODI & pelaporan tahunan",
+        "Manajer kepatuhan khusus"
+      ],
+      "price": "Mulai dari $120/bulan",
+      "cta": "Mulai dengan OPERATE",
+      "badge": "Paling Populer"
+    },
+    "strategize": {
+      "name": "STRATEGIZE",
+      "tagline": "Struktur Pajak Internasional & Konsultasi",
+      "description": "Untuk bisnis yang siap mengoptimalkan struktur globalnya. CFO fraksional dan ahli strategi pajak kami membantu Anda berkembang dengan cerdas.",
+      "features": [
+        "Desain struktur pajak internasional",
+        "Strategi transfer pricing",
+        "Konsultasi M&A dan uji tuntas",
+        "Keterlibatan CFO fraksional",
+        "Perencanaan investasi lintas batas",
+        "Strategi treasury & penyelesaian kustom"
+      ],
+      "price": "Harga kustom",
+      "cta": "Jadwalkan Konsultasi"
+    }
   },
-  "footer": {
-    "tagline": "Go global. Operate globally. Move money globally.",
-    "servicesTitle": "Services",
-    "companyTitle": "Company",
-    "legalTitle": "Legal",
-    "privacyPolicy": "Privacy Policy",
-    "termsOfService": "Terms of Service",
-    "complianceNote": "All services are structured in compliance with applicable US federal, state and international laws.",
-    "copyright": "© {year} Gloyce. All rights reserved.",
-    "companyLinks": {
-      "about": "About Gloyce",
-      "blog": "Blog",
-      "contact": "Contact",
-      "careers": "Careers"
+  "pricing": {
+    "title": "Harga transparan dan terprediksi",
+    "subtitle": "Tanpa biaya tersembunyi. Pilih tingkatan yang sesuai tahap Anda.",
+    "execute": {
+      "name": "EXECUTE",
+      "price": "$350",
+      "period": "sekali bayar",
+      "description": "Pendirian perusahaan lengkap dan pengaturan awal"
+    },
+    "operate": {
+      "name": "OPERATE",
+      "price": "$120",
+      "period": "per bulan",
+      "badge": "Paling Populer",
+      "description": "Akuntansi, pajak, dan kepatuhan bulanan"
+    },
+    "strategize": {
+      "name": "STRATEGIZE",
+      "price": "Kustom",
+      "period": "hubungi kami",
+      "description": "Konsultasi strategis yang disesuaikan kebutuhan Anda"
+    },
+    "faq": {
+      "title": "Pertanyaan yang sering diajukan"
+    },
+    "includes": "Termasuk:",
+    "getStarted": "Mulai Sekarang",
+    "contactUs": "Hubungi Kami",
+    "allPlansNote": "Semua paket disusun sesuai dengan peraturan ODI Vietnam."
+  },
+  "about": {
+    "hero": {
+      "label": "Tentang Kami",
+      "title": "Dibangun untuk bisnis Vietnam yang go global"
+    },
+    "mission": {
+      "title": "Misi Kami",
+      "body": "Gloyce membantu pengusaha dan bisnis Vietnam mendirikan, mengoperasikan, dan berkembang lintas batas — tanpa harus menyatukan lusinan penyedia layanan di setiap negara."
+    },
+    "compliance": {
+      "title": "Komitmen Kami terhadap Kepatuhan",
+      "body": "Semua layanan disusun untuk mematuhi regulasi ODI (Investasi Langsung ke Luar Negeri) Vietnam. Kami membantu klien mendaftar dengan benar ke Bank Negara Vietnam dan memenuhi persyaratan repatriasi keuntungan tepat waktu."
+    },
+    "values": {
+      "title": "Nilai-Nilai Kami",
+      "transparency": {
+        "title": "Transparansi",
+        "description": "Tanpa biaya tersembunyi, tanpa syarat yang membingungkan. Anda tahu persis apa yang Anda bayar dan dapatkan."
+      },
+      "compliance": {
+        "title": "Kepatuhan",
+        "description": "Setiap solusi dirancang untuk mematuhi hukum Vietnam dan internasional."
+      },
+      "expertise": {
+        "title": "Keahlian",
+        "description": "Tim akuntan, pengacara, dan penasihat keuangan dengan pengalaman internasional yang mendalam."
+      },
+      "partnership": {
+        "title": "Kemitraan",
+        "description": "Kami bukan sekadar penyedia layanan — kami adalah mitra pertumbuhan jangka panjang Anda."
+      }
+    }
+  },
+  "contact": {
+    "title": "Bicara dengan tim kami",
+    "subtitle": "Kami berbicara bahasa Vietnam, Indonesia, dan Inggris. Jadwalkan panggilan gratis 30 menit atau kirimkan pesan.",
+    "info": {
+      "email": "hello@gloyce.co",
+      "phone": "+84 28 xxxx xxxx",
+      "address": "Kota Ho Chi Minh, Vietnam",
+      "hours": "Senin – Jumat, 09:00 – 18:00 (GMT+7)"
+    },
+    "form": {
+      "title": "Kirim pesan",
+      "name": "Nama lengkap",
+      "email": "Alamat email",
+      "phone": "Nomor telepon",
+      "company": "Nama perusahaan",
+      "service": "Layanan yang diminati",
+      "message": "Ceritakan tentang bisnis dan kebutuhan Anda",
+      "submit": "Kirim Pesan",
+      "success": "Pesan terkirim! Kami akan merespons dalam 1 hari kerja.",
+      "serviceOptions": {
+        "execute": "Pendirian Perusahaan (EXECUTE)",
+        "operate": "Kepatuhan Berkelanjutan (OPERATE)",
+        "strategize": "Konsultasi Strategis (STRATEGIZE)",
+        "unsure": "Belum yakin, butuh saran"
+      },
+      "required": "Wajib diisi"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Masuk ke akun Anda",
+      "subtitle": "Selamat datang kembali",
+      "email": "Email",
+      "password": "Kata sandi",
+      "submit": "Masuk",
+      "forgotPassword": "Lupa kata sandi?",
+      "noAccount": "Belum punya akun?",
+      "register": "Buat akun",
+      "error": "Email atau kata sandi salah"
+    },
+    "register": {
+      "title": "Buat akun Anda",
+      "subtitle": "Mulai perjalanan global Anda",
+      "name": "Nama lengkap",
+      "company": "Nama perusahaan",
+      "email": "Alamat email",
+      "password": "Kata sandi",
+      "confirmPassword": "Konfirmasi kata sandi",
+      "phone": "Nomor telepon",
+      "terms": "Saya setuju dengan Syarat Layanan dan Kebijakan Privasi",
+      "submit": "Buat Akun",
+      "hasAccount": "Sudah punya akun?",
+      "login": "Masuk",
+      "successTitle": "Akun berhasil dibuat!",
+      "successDesc": "Kami akan menghubungi Anda dalam 1 hari kerja untuk memverifikasi dan mengaktifkan akun.",
+      "passwordMismatch": "Kata sandi tidak cocok"
+    },
+    "forgotPassword": {
+      "title": "Reset kata sandi",
+      "subtitle": "Masukkan email Anda untuk menerima tautan reset",
+      "email": "Alamat email",
+      "submit": "Kirim tautan reset",
+      "back": "Kembali ke halaman masuk",
+      "success": "Email reset kata sandi telah dikirim. Periksa kotak masuk Anda.",
+      "successTitle": "Email terkirim!"
     }
   },
   "dashboard": {
@@ -185,43 +327,41 @@
       "saved": "Berhasil disimpan!"
     }
   },
-  "auth": {
-    "login": {
-      "title": "Masuk ke akun Anda",
-      "subtitle": "Selamat datang kembali",
-      "email": "Email",
-      "password": "Kata sandi",
-      "submit": "Masuk",
-      "forgotPassword": "Lupa kata sandi?",
-      "noAccount": "Belum punya akun?",
-      "register": "Buat akun",
-      "error": "Email atau kata sandi salah"
-    },
-    "register": {
-      "title": "Buat akun Anda",
-      "subtitle": "Mulai perjalanan global Anda",
-      "name": "Nama lengkap",
-      "company": "Nama perusahaan",
-      "email": "Alamat email",
-      "password": "Kata sandi",
-      "confirmPassword": "Konfirmasi kata sandi",
-      "phone": "Nomor telepon",
-      "terms": "Saya setuju dengan Syarat Layanan dan Kebijakan Privasi",
-      "submit": "Buat Akun",
-      "hasAccount": "Sudah punya akun?",
-      "login": "Masuk",
-      "successTitle": "Akun berhasil dibuat!",
-      "successDesc": "Kami akan menghubungi Anda dalam 1 hari kerja untuk memverifikasi dan mengaktifkan akun.",
-      "passwordMismatch": "Kata sandi tidak cocok"
-    },
-    "forgotPassword": {
-      "title": "Reset kata sandi",
-      "subtitle": "Masukkan email Anda untuk menerima tautan reset",
-      "email": "Alamat email",
-      "submit": "Kirim tautan reset",
-      "back": "Kembali ke halaman masuk",
-      "success": "Email reset kata sandi telah dikirim. Periksa kotak masuk Anda.",
-      "successTitle": "Email terkirim!"
+  "common": {
+    "loading": "Memuat...",
+    "error": "Terjadi kesalahan",
+    "tryAgain": "Coba lagi",
+    "learnMore": "Pelajari lebih lanjut",
+    "getStarted": "Mulai Sekarang",
+    "bookConsultation": "Jadwalkan Konsultasi Gratis",
+    "viewAll": "Lihat semua",
+    "back": "Kembali",
+    "cancel": "Batal",
+    "confirm": "Konfirmasi",
+    "delete": "Hapus",
+    "edit": "Edit",
+    "save": "Simpan",
+    "close": "Tutup",
+    "search": "Cari",
+    "filter": "Filter",
+    "yes": "Ya",
+    "no": "Tidak",
+    "or": "atau"
+  },
+  "footer": {
+    "tagline": "Go global. Beroperasi secara global. Kelola uang secara global.",
+    "servicesTitle": "Layanan",
+    "companyTitle": "Perusahaan",
+    "legalTitle": "Hukum",
+    "privacyPolicy": "Kebijakan Privasi",
+    "termsOfService": "Syarat Layanan",
+    "complianceNote": "Semua layanan disusun sesuai dengan hukum federal AS, negara bagian, dan hukum internasional yang berlaku.",
+    "copyright": "© {year} Gloyce. Semua hak dilindungi.",
+    "companyLinks": {
+      "about": "Tentang Gloyce",
+      "blog": "Blog",
+      "contact": "Kontak",
+      "careers": "Karir"
     }
   }
 }

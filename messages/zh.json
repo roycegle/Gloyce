@@ -5,84 +5,226 @@
     "defaultDescription": "Gloyce 帮助越南企业在美国、新加坡和香港成立公司、运营并管理跨境资金流。"
   },
   "nav": {
-    "services": "Services",
-    "servicesExecute": "Company Formation",
-    "servicesOperate": "Operations & Compliance",
-    "servicesStrategize": "Strategic Advisory",
-    "pricing": "Pricing",
-    "about": "About",
-    "contact": "Contact",
-    "login": "Sign In",
-    "getStarted": "Get Started",
-    "dashboard": "Dashboard",
-    "logout": "Sign Out"
+    "services": "服务",
+    "servicesExecute": "公司成立",
+    "servicesOperate": "运营与合规",
+    "servicesStrategize": "战略咨询",
+    "pricing": "价格",
+    "about": "关于我们",
+    "contact": "联系我们",
+    "login": "登录",
+    "getStarted": "立即开始",
+    "dashboard": "仪表板",
+    "logout": "退出登录"
   },
   "home": {
     "hero": {
-      "label": "For Vietnamese businesses going global",
-      "title": "Go global.",
-      "titleAccent": "Operate globally.",
-      "subtitle": "One platform to incorporate in the US, Singapore, and Hong Kong — with accounting, compliance, and advisory built for Vietnamese SMEs.",
-      "cta": "Get Started",
-      "ctaSecondary": "Explore Services",
-      "trust": "Trusted by 200+ Vietnamese businesses",
-      "trustPartners": "Infrastructure partners:"
+      "label": "为越南出海企业服务",
+      "title": "走向全球。",
+      "titleAccent": "全球运营。",
+      "subtitle": "一站式平台，在美国、新加坡和香港成立公司——配备专为越南中小企业打造的会计、合规和咨询服务。",
+      "cta": "立即开始",
+      "ctaSecondary": "了解服务",
+      "trust": "超过200家越南企业的信赖之选",
+      "trustPartners": "基础设施合作伙伴："
     },
     "stats": {
-      "companies": "Companies formed",
-      "countries": "Countries served",
-      "clients": "Satisfied clients",
-      "experts": "Compliance experts"
+      "companies": "已成立公司数",
+      "countries": "服务国家数",
+      "clients": "满意客户数",
+      "experts": "合规专家数"
     },
     "services": {
-      "title": "Everything you need to operate globally",
-      "subtitle": "Three tiers built to grow with your business"
+      "title": "全球运营所需的一切",
+      "subtitle": "三层服务，与您的业务共同成长"
     },
     "testimonials": {
-      "title": "Trusted by Vietnamese sellers worldwide",
-      "subtitle": "Hear from businesses like yours"
+      "title": "全球越南卖家的信赖之选",
+      "subtitle": "听听与您相似的企业怎么说"
     },
     "cta": {
-      "title": "Ready to go global?",
-      "subtitle": "Book a free 30-minute consultation with our expert team.",
-      "button": "Book Free Consultation"
+      "title": "准备走向全球？",
+      "subtitle": "预约我们专家团队的免费30分钟咨询。",
+      "button": "预约免费咨询"
     }
   },
-  "common": {
-    "loading": "Loading...",
-    "error": "Something went wrong",
-    "tryAgain": "Try again",
-    "learnMore": "Learn more",
-    "getStarted": "Get Started",
-    "bookConsultation": "Book Free Consultation",
-    "viewAll": "View all",
-    "back": "Back",
-    "cancel": "Cancel",
-    "confirm": "Confirm",
-    "delete": "Delete",
-    "edit": "Edit",
-    "save": "Save",
-    "close": "Close",
-    "search": "Search",
-    "filter": "Filter",
-    "yes": "Yes",
-    "no": "No",
-    "or": "or"
+  "services": {
+    "execute": {
+      "name": "EXECUTE",
+      "tagline": "公司成立与初始设置",
+      "description": "在美国注册LLC，获取EIN，开设企业银行账户并配置支付网关——所有流程一站式协调。",
+      "features": [
+        "美国LLC / 特拉华州 / 怀俄明州注册",
+        "EIN（雇主识别号）",
+        "企业银行账户开设（Mercury / Relay）",
+        "支付网关配置（Stripe / PayPal）",
+        "Form 5472初始合规",
+        "注册代理人（12个月）"
+      ],
+      "price": "起价$350美元",
+      "cta": "开始EXECUTE之旅",
+      "timeline": "14–21个工作日"
+    },
+    "operate": {
+      "name": "OPERATE",
+      "tagline": "每月会计、税务与合规",
+      "description": "每月保持全球实体合规。我们的团队处理账簿记录、税务申报、薪资管理和ODI报告。",
+      "features": [
+        "每月账簿记录（US GAAP）",
+        "年度税务申报（Form 1120 / 5472）",
+        "季度预估税款缴纳",
+        "薪资管理",
+        "ODI注册与年度报告",
+        "专属合规经理"
+      ],
+      "price": "起价$120/月",
+      "cta": "开始OPERATE之旅",
+      "badge": "最受欢迎"
+    },
+    "strategize": {
+      "name": "STRATEGIZE",
+      "tagline": "国际税务结构与战略咨询",
+      "description": "为准备优化全球架构的企业服务。我们的兼职CFO和税务战略师帮助您智慧扩张。",
+      "features": [
+        "国际税务结构设计",
+        "转让定价策略",
+        "并购咨询与尽职调查",
+        "兼职CFO服务",
+        "跨境投资规划",
+        "定制化资金管理与结算策略"
+      ],
+      "price": "定制报价",
+      "cta": "预约咨询"
+    }
   },
-  "footer": {
-    "tagline": "Go global. Operate globally. Move money globally.",
-    "servicesTitle": "Services",
-    "companyTitle": "Company",
-    "legalTitle": "Legal",
-    "privacyPolicy": "Privacy Policy",
-    "termsOfService": "Terms of Service",
-    "complianceNote": "All services are structured in compliance with applicable US federal, state and international laws.",
-    "copyright": "© {year} Gloyce. All rights reserved.",
-    "companyLinks": {
-      "about": "About Gloyce",
-      "blog": "Blog",
-      "contact": "Contact",
-      "careers": "Careers"
+  "pricing": {
+    "title": "透明定价，无隐藏费用",
+    "subtitle": "无隐藏收费。选择适合您发展阶段的套餐。",
+    "execute": {
+      "name": "EXECUTE",
+      "price": "$350",
+      "period": "一次性费用",
+      "description": "完整公司成立与初始设置"
+    },
+    "operate": {
+      "name": "OPERATE",
+      "price": "$120",
+      "period": "每月",
+      "badge": "最受欢迎",
+      "description": "每月会计、税务与合规"
+    },
+    "strategize": {
+      "name": "STRATEGIZE",
+      "price": "定制",
+      "period": "联系我们",
+      "description": "根据需求量身定制的战略咨询"
+    },
+    "faq": {
+      "title": "常见问题"
+    },
+    "includes": "包含：",
+    "getStarted": "立即开始",
+    "contactUs": "联系我们",
+    "allPlansNote": "所有套餐均符合越南ODI法规要求。"
+  },
+  "about": {
+    "hero": {
+      "label": "关于我们",
+      "title": "为越南出海企业而生"
+    },
+    "mission": {
+      "title": "我们的使命",
+      "body": "Gloyce帮助越南企业家和企业跨境成立、运营和扩张——无需在每个国家自行拼凑数十家服务提供商。"
+    },
+    "compliance": {
+      "title": "我们对合规的承诺",
+      "body": "所有服务均按照越南ODI（境外直接投资）法规结构设计。我们帮助客户向越南国家银行完成正式注册，并按时完成利润汇回要求。"
+    },
+    "values": {
+      "title": "我们的价值观",
+      "transparency": {
+        "title": "透明",
+        "description": "无隐藏费用，无复杂条款。您清楚地知道您所支付和获得的每一项服务。"
+      },
+      "compliance": {
+        "title": "合规",
+        "description": "每一项解决方案均设计为符合越南及国际法律法规。"
+      },
+      "expertise": {
+        "title": "专业",
+        "description": "由具有深厚国际经验的会计师、律师和财务顾问组成的专业团队。"
+      },
+      "partnership": {
+        "title": "伙伴关系",
+        "description": "我们不只是服务提供商——我们是您长期发展的合作伙伴。"
+      }
+    }
+  },
+  "contact": {
+    "title": "与我们的团队交流",
+    "subtitle": "我们说越南语和中文。预约免费30分钟通话或给我们发消息。",
+    "info": {
+      "email": "hello@gloyce.co",
+      "phone": "+84 28 xxxx xxxx",
+      "address": "越南胡志明市",
+      "hours": "周一至周五，9:00 – 18:00（GMT+7）"
+    },
+    "form": {
+      "title": "发送消息",
+      "name": "全名",
+      "email": "电子邮件",
+      "phone": "电话号码",
+      "company": "公司名称",
+      "service": "感兴趣的服务",
+      "message": "请描述您的业务和需求",
+      "submit": "发送消息",
+      "success": "消息已发送！我们将在1个工作日内回复。",
+      "serviceOptions": {
+        "execute": "公司成立（EXECUTE）",
+        "operate": "持续合规（OPERATE）",
+        "strategize": "战略咨询（STRATEGIZE）",
+        "unsure": "尚不确定，需要建议"
+      },
+      "required": "必填"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "登录账户",
+      "subtitle": "欢迎回来",
+      "email": "电子邮箱",
+      "password": "密码",
+      "submit": "登录",
+      "forgotPassword": "忘记密码？",
+      "noAccount": "还没有账户？",
+      "register": "创建账户",
+      "error": "邮箱或密码错误"
+    },
+    "register": {
+      "title": "创建账户",
+      "subtitle": "开始您的全球化之旅",
+      "name": "姓名",
+      "company": "公司名称",
+      "email": "电子邮箱",
+      "password": "密码",
+      "confirmPassword": "确认密码",
+      "phone": "电话号码",
+      "terms": "我同意服务条款和隐私政策",
+      "submit": "创建账户",
+      "hasAccount": "已有账户？",
+      "login": "登录",
+      "successTitle": "账户已创建！",
+      "successDesc": "我们将在1个工作日内联系您进行验证和激活账户。",
+      "passwordMismatch": "密码不匹配"
+    },
+    "forgotPassword": {
+      "title": "重置密码",
+      "subtitle": "输入您的邮箱以接收重置链接",
+      "email": "电子邮箱",
+      "submit": "发送重置链接",
+      "back": "返回登录",
+      "success": "密码重置邮件已发送，请检查您的邮箱。",
+      "successTitle": "邮件已发送！"
     }
   },
   "dashboard": {
@@ -185,43 +327,41 @@
       "saved": "保存成功！"
     }
   },
-  "auth": {
-    "login": {
-      "title": "登录账户",
-      "subtitle": "欢迎回来",
-      "email": "电子邮箱",
-      "password": "密码",
-      "submit": "登录",
-      "forgotPassword": "忘记密码？",
-      "noAccount": "还没有账户？",
-      "register": "创建账户",
-      "error": "邮箱或密码错误"
-    },
-    "register": {
-      "title": "创建账户",
-      "subtitle": "开始您的全球化之旅",
-      "name": "姓名",
-      "company": "公司名称",
-      "email": "电子邮箱",
-      "password": "密码",
-      "confirmPassword": "确认密码",
-      "phone": "电话号码",
-      "terms": "我同意服务条款和隐私政策",
-      "submit": "创建账户",
-      "hasAccount": "已有账户？",
-      "login": "登录",
-      "successTitle": "账户已创建！",
-      "successDesc": "我们将在1个工作日内联系您进行验证和激活账户。",
-      "passwordMismatch": "密码不匹配"
-    },
-    "forgotPassword": {
-      "title": "重置密码",
-      "subtitle": "输入您的邮箱以接收重置链接",
-      "email": "电子邮箱",
-      "submit": "发送重置链接",
-      "back": "返回登录",
-      "success": "密码重置邮件已发送，请检查您的邮箱。",
-      "successTitle": "邮件已发送！"
+  "common": {
+    "loading": "加载中…",
+    "error": "出现错误",
+    "tryAgain": "重试",
+    "learnMore": "了解更多",
+    "getStarted": "立即开始",
+    "bookConsultation": "预约免费咨询",
+    "viewAll": "查看全部",
+    "back": "返回",
+    "cancel": "取消",
+    "confirm": "确认",
+    "delete": "删除",
+    "edit": "编辑",
+    "save": "保存",
+    "close": "关闭",
+    "search": "搜索",
+    "filter": "筛选",
+    "yes": "是",
+    "no": "否",
+    "or": "或"
+  },
+  "footer": {
+    "tagline": "走向全球。全球运营。全球资金流转。",
+    "servicesTitle": "服务",
+    "companyTitle": "公司",
+    "legalTitle": "法律",
+    "privacyPolicy": "隐私政策",
+    "termsOfService": "服务条款",
+    "complianceNote": "所有服务均符合适用的美国联邦、州及国际法律法规。",
+    "copyright": "© {year} Gloyce. 版权所有。",
+    "companyLinks": {
+      "about": "关于Gloyce",
+      "blog": "博客",
+      "contact": "联系我们",
+      "careers": "招聘"
     }
   }
 }

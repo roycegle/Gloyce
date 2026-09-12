@@ -245,7 +245,8 @@
       "nextBilling": "Thanh toán tiếp theo",
       "recentActivity": "Hoạt động gần đây",
       "yourServices": "Dịch vụ của bạn",
-      "viewAll": "Xem tất cả"
+      "viewAll": "Xem tất cả",
+      "greetingGeneric": "Xin chào"
     },
     "services": {
       "title": "Dịch vụ của tôi",
@@ -258,7 +259,9 @@
       },
       "step": "Bước {current} / {total}",
       "nextAction": "Hành động tiếp theo:",
-      "attachedDocuments": "Tài liệu đính kèm"
+      "attachedDocuments": "Tài liệu đính kèm",
+      "noServicesTitle": "Chưa có dịch vụ nào",
+      "contactUs": "Liên hệ Gloyce"
     },
     "documents": {
       "title": "Tài liệu",
@@ -271,7 +274,9 @@
       "upload": "Tải lên tài liệu",
       "download": "Tải xuống",
       "noDocuments": "Chưa có tài liệu nào",
-      "uploadedAt": "Tải lên lúc"
+      "uploadedAt": "Tải lên lúc",
+      "subtitle": "Tài liệu do Gloyce tải lên thay mặt bạn.",
+      "noDocumentsTitle": "Chưa có tài liệu nào"
     },
     "messages": {
       "title": "Tin nhắn",

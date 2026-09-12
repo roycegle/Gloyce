@@ -1,3 +1,6 @@
+// DEPRECATED: Next.js 16 renamed middleware.ts → proxy.ts with a `proxy` export.
+// This file is no longer executed. Auth logic lives in proxy.ts.
+// See: node_modules/next/dist/docs/01-app/03-api-reference/03-file-conventions/proxy.md
 import createMiddleware from "next-intl/middleware";
 import { routing } from "./src/i18n/routing";
 import { NextRequest, NextResponse } from "next/server";
