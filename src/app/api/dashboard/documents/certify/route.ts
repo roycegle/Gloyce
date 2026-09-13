@@ -14,6 +14,25 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "certification_type, destination_country, purpose are required" }, { status: 400 });
   }
 
+  // Prevent duplicate: check if there's already a pending/in_progress request for this document
+  if (document_id) {
+    const { data: existing } = await supabaseAdmin
+      .from("service_requests")
+      .select("id, status")
+      .eq("user_id", auth.userId)
+      .eq("service_type", "certification")
+      .in("status", ["pending", "in_progress"])
+      .contains("details", { document_id })
+      .maybeSingle();
+
+    if (existing) {
+      return NextResponse.json(
+        { error: `Tài liệu này đã có yêu cầu chứng thực đang ${existing.status === "pending" ? "chờ xử lý" : "được xử lý"}` },
+        { status: 409 }
+      );
+    }
+  }
+
   const details: Record<string, unknown> = {
     document_id: document_id || null,
     certification_type,

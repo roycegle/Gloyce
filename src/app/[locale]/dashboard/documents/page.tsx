@@ -72,11 +72,24 @@ export default function DocumentsPage() {
   const [requesting, setRequesting] = useState(false);
   const [requestDone, setRequestDone] = useState(false);
 
+  // Track which document IDs already have a pending/in_progress cert request
+  const [pendingCertDocIds, setPendingCertDocIds] = useState<Set<string>>(new Set());
+
   const reload = () => {
     fetch("/api/dashboard/documents")
       .then(r => r.json())
       .then(d => { setDocuments(Array.isArray(d) ? d : []); setLoading(false); })
       .catch(() => setLoading(false));
+    // Fetch pending/in_progress certification requests to know which docs are locked
+    fetch("/api/dashboard/certifications/pending")
+      .then(r => r.json())
+      .then(d => {
+        if (Array.isArray(d)) {
+          const ids = new Set(d.map((r: { document_id: string }) => r.document_id).filter(Boolean));
+          setPendingCertDocIds(ids as Set<string>);
+        }
+      })
+      .catch(() => {});
   };
 
   useEffect(() => { reload(); }, []);
@@ -417,11 +430,15 @@ export default function DocumentsPage() {
                     <Badge variant="gold" className="text-[10px] hidden sm:flex mr-1">Gloyce</Badge>
                   )}
                   {!fromGloyce && (
-                    <button onClick={() => { setCertDoc(doc); setCertDone(false); }}
-                      title="Yêu cầu chứng thực"
-                      className="p-1.5 text-navy-500 hover:text-gold hover:bg-gold/10 rounded-lg transition-colors">
-                      <Stamp size={14} />
-                    </button>
+                    pendingCertDocIds.has(doc.id)
+                      ? <span title="Đang chờ chứng thực" className="p-1.5 text-amber-400/60 cursor-default flex items-center">
+                          <Stamp size={14} />
+                        </span>
+                      : <button onClick={() => { setCertDoc(doc); setCertDone(false); }}
+                          title="Yêu cầu chứng thực"
+                          className="p-1.5 text-navy-500 hover:text-gold hover:bg-gold/10 rounded-lg transition-colors">
+                          <Stamp size={14} />
+                        </button>
                   )}
                   {doc.file_url && (
                     <>

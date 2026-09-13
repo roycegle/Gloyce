@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
   if (auth.error) return auth.error;
 
   const body = await req.json();
-  const { document_type, service_id, description, urgency } = body;
+  const { document_type, description, urgency } = body;
 
   if (!document_type || !description) {
     return NextResponse.json({ error: "document_type and description are required" }, { status: 400 });
@@ -18,7 +18,6 @@ export async function POST(req: NextRequest) {
     .from("service_requests")
     .insert({
       user_id: auth.userId,
-      service_id: service_id || null,
       service_type: "document_request",
       status: "pending",
       details: {
