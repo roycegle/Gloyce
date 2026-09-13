@@ -21,7 +21,7 @@ const STATUS_BADGE: Record<string, string> = {
   completed: "bg-blue-100 text-blue-700",
   paid: "bg-green-100 text-green-700",
   overdue: "bg-red-100 text-red-700",
-  cancelled: "bg-gray-100 text-gray-500",
+  cancelled: "bg-navy-800/60 text-navy-500",
   in_progress: "bg-blue-100 text-blue-700",
 };
 
@@ -127,7 +127,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
     await load(); setSaving(false);
   };
 
-  if (!data) return <div className="p-8 text-center text-gray-400">Loading...</div>;
+  if (!data) return <div className="p-8 text-center text-navy-500">Loading...</div>;
 
   const { user, services, messages, invoices, requests, documents, forms } = data;
 
@@ -148,13 +148,13 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
     <div>
       {/* Header */}
       <div className="flex items-center gap-3 mb-6">
-        <Link href="/admin/customers" className="text-gray-400 hover:text-gray-600"><ArrowLeft size={20} /></Link>
+        <Link href="/admin/customers" className="text-navy-500 hover:text-navy-400"><ArrowLeft size={20} /></Link>
         <div className="flex-1">
-          <h1 className="text-xl font-bold text-gray-900">{user.name}</h1>
-          <p className="text-sm text-gray-400">{user.email} {user.company && `· ${user.company}`}</p>
+          <h1 className="text-xl font-bold text-foreground">{user.name}</h1>
+          <p className="text-sm text-navy-500">{user.email} {user.company && `· ${user.company}`}</p>
         </div>
         <div className="flex items-center gap-2">
-          <span className={`px-2.5 py-1 rounded-full text-xs font-medium capitalize ${STATUS_BADGE[user.status] || "bg-gray-100 text-gray-600"}`}>{user.status}</span>
+          <span className={`px-2.5 py-1 rounded-full text-xs font-medium capitalize ${STATUS_BADGE[user.status] || "bg-navy-800/60 text-navy-400"}`}>{user.status}</span>
           {user.status === "pending" && <button onClick={() => updateStatus("active")} disabled={saving} className="flex items-center gap-1.5 px-3 py-1.5 bg-green-500 text-white text-xs font-medium rounded-lg hover:bg-green-600"><CheckCircle size={13} /> Activate</button>}
           {user.status === "active" && <button onClick={() => updateStatus("suspended")} disabled={saving} className="flex items-center gap-1.5 px-3 py-1.5 bg-red-500 text-white text-xs font-medium rounded-lg hover:bg-red-600"><XCircle size={13} /> Suspend</button>}
           {user.status === "suspended" && <button onClick={() => updateStatus("active")} disabled={saving} className="flex items-center gap-1.5 px-3 py-1.5 bg-green-500 text-white text-xs font-medium rounded-lg hover:bg-green-600"><CheckCircle size={13} /> Reactivate</button>}
@@ -162,12 +162,12 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 mb-6 border-b border-gray-200 overflow-x-auto">
+      <div className="flex gap-1 mb-6 border-b border-navy-700 overflow-x-auto">
         {tabs.map(({ key, label, count }) => (
           <button key={key} onClick={() => setTab(key)}
-            className={`px-3 py-2 text-sm font-medium whitespace-nowrap border-b-2 transition-colors flex items-center gap-1.5 ${tab === key ? "border-amber-500 text-amber-600" : "border-transparent text-gray-500 hover:text-gray-700"}`}>
+            className={`px-3 py-2 text-sm font-medium whitespace-nowrap border-b-2 transition-colors flex items-center gap-1.5 ${tab === key ? "border-amber-500 text-amber-600" : "border-transparent text-navy-500 hover:text-slate-300"}`}>
             {label}
-            {count !== undefined && count > 0 && <span className={`text-xs rounded-full px-1.5 py-0.5 ${tab === key ? "bg-amber-100 text-amber-700" : "bg-gray-100 text-gray-500"}`}>{count}</span>}
+            {count !== undefined && count > 0 && <span className={`text-xs rounded-full px-1.5 py-0.5 ${tab === key ? "bg-amber-100 text-amber-700" : "bg-navy-800/60 text-navy-500"}`}>{count}</span>}
           </button>
         ))}
       </div>
@@ -175,39 +175,39 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
       {/* Overview */}
       {tab === "overview" && (
         <div className="grid md:grid-cols-2 gap-4">
-          <div className="bg-white rounded-xl border border-gray-200 p-5">
-            <h2 className="font-semibold text-gray-800 mb-4">Customer Info</h2>
+          <div className="bg-navy-800 rounded-xl border border-navy-700 p-5">
+            <h2 className="font-semibold text-slate-200 mb-4">Customer Info</h2>
             <dl className="flex flex-col gap-3 text-sm">
               {[["Name", user.name], ["Email", user.email], ["Phone", user.phone || "—"], ["Company", user.company || "—"], ["Status", user.status], ["Registered", new Date(user.created_at).toLocaleDateString()]].map(([k, v]) => (
                 <div key={k} className="flex justify-between">
-                  <dt className="text-gray-400">{k}</dt>
-                  <dd className="font-medium text-gray-700 capitalize">{v}</dd>
+                  <dt className="text-navy-500">{k}</dt>
+                  <dd className="font-medium text-slate-300 capitalize">{v}</dd>
                 </div>
               ))}
             </dl>
           </div>
           <div className="flex flex-col gap-4">
-            <div className="bg-white rounded-xl border border-gray-200 p-5">
-              <h2 className="font-semibold text-gray-800 mb-3 flex items-center gap-2"><DollarSign size={15} className="text-green-500" /> Billing Summary</h2>
+            <div className="bg-navy-800 rounded-xl border border-navy-700 p-5">
+              <h2 className="font-semibold text-slate-200 mb-3 flex items-center gap-2"><DollarSign size={15} className="text-green-500" /> Billing Summary</h2>
               <div className="grid grid-cols-2 gap-3">
-                <div className="bg-gray-50 rounded-lg p-3 text-center">
-                  <p className="text-lg font-bold text-gray-900">${totalBilled.toLocaleString()}</p>
-                  <p className="text-xs text-gray-400">Total Billed</p>
+                <div className="bg-navy-900 rounded-lg p-3 text-center">
+                  <p className="text-lg font-bold text-foreground">${totalBilled.toLocaleString()}</p>
+                  <p className="text-xs text-navy-500">Total Billed</p>
                 </div>
                 <div className="bg-green-50 rounded-lg p-3 text-center">
                   <p className="text-lg font-bold text-green-700">${totalPaid.toLocaleString()}</p>
-                  <p className="text-xs text-gray-400">Total Paid</p>
+                  <p className="text-xs text-navy-500">Total Paid</p>
                 </div>
               </div>
             </div>
-            <div className="bg-white rounded-xl border border-gray-200 p-5">
-              <h2 className="font-semibold text-gray-800 mb-3 flex items-center gap-2"><ClipboardList size={15} className="text-amber-500" /> Open Requests</h2>
+            <div className="bg-navy-800 rounded-xl border border-navy-700 p-5">
+              <h2 className="font-semibold text-slate-200 mb-3 flex items-center gap-2"><ClipboardList size={15} className="text-amber-500" /> Open Requests</h2>
               {requests.filter(r => r.status !== "completed").length === 0
-                ? <p className="text-sm text-gray-400">No open requests</p>
+                ? <p className="text-sm text-navy-500">No open requests</p>
                 : requests.filter(r => r.status !== "completed").slice(0, 3).map(r => (
                   <div key={r.id} className="flex items-center justify-between py-1.5 text-sm">
-                    <span className="text-gray-700 capitalize">{r.service_type}</span>
-                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${STATUS_BADGE[r.status] || "bg-gray-100 text-gray-500"}`}>{r.status}</span>
+                    <span className="text-slate-300 capitalize">{r.service_type}</span>
+                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${STATUS_BADGE[r.status] || "bg-navy-800/60 text-navy-500"}`}>{r.status}</span>
                   </div>
                 ))}
             </div>
@@ -222,11 +222,11 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
             <button onClick={() => setShowServiceForm(!showServiceForm)} className="flex items-center gap-1.5 px-3 py-2 bg-amber-500 text-white text-sm font-medium rounded-lg hover:bg-amber-600"><Plus size={15} /> Add Service</button>
           </div>
           {showServiceForm && (
-            <div className="bg-white rounded-xl border border-gray-200 p-5 mb-4">
-              <h3 className="font-semibold text-gray-800 mb-4">New Service</h3>
+            <div className="bg-navy-800 rounded-xl border border-navy-700 p-5 mb-4">
+              <h3 className="font-semibold text-slate-200 mb-4">New Service</h3>
               <div className="grid grid-cols-2 gap-3 mb-4">
-                <div><label className="text-xs font-medium text-gray-500 mb-1 block">Service Type</label>
-                  <select value={newService.type} onChange={(e) => setNewService({ ...newService, type: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm">
+                <div><label className="text-xs font-medium text-navy-500 mb-1 block">Service Type</label>
+                  <select value={newService.type} onChange={(e) => setNewService({ ...newService, type: e.target.value })} className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm">
                     <optgroup label="Company Formation">
                       <option value="us_llc">US LLC Formation</option>
                       <option value="singapore">Singapore Company</option>
@@ -247,39 +247,39 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                       <option value="strategize">STRATEGIZE</option>
                     </optgroup>
                   </select></div>
-                <div><label className="text-xs font-medium text-gray-500 mb-1 block">Service Name</label>
-                  <input value={newService.name} onChange={(e) => setNewService({ ...newService, name: e.target.value })} placeholder="e.g. US LLC Formation" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" /></div>
-                <div><label className="text-xs font-medium text-gray-500 mb-1 block">Price (USD)</label>
-                  <input type="number" value={newService.price} onChange={(e) => setNewService({ ...newService, price: e.target.value })} placeholder="499" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" /></div>
-                <div><label className="text-xs font-medium text-gray-500 mb-1 block">Total Steps</label>
-                  <input type="number" value={newService.total_steps} onChange={(e) => setNewService({ ...newService, total_steps: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" /></div>
+                <div><label className="text-xs font-medium text-navy-500 mb-1 block">Service Name</label>
+                  <input value={newService.name} onChange={(e) => setNewService({ ...newService, name: e.target.value })} placeholder="e.g. US LLC Formation" className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm" /></div>
+                <div><label className="text-xs font-medium text-navy-500 mb-1 block">Price (USD)</label>
+                  <input type="number" value={newService.price} onChange={(e) => setNewService({ ...newService, price: e.target.value })} placeholder="499" className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm" /></div>
+                <div><label className="text-xs font-medium text-navy-500 mb-1 block">Total Steps</label>
+                  <input type="number" value={newService.total_steps} onChange={(e) => setNewService({ ...newService, total_steps: e.target.value })} className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm" /></div>
               </div>
               <div className="flex gap-2 justify-end">
-                <button onClick={() => setShowServiceForm(false)} className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">Cancel</button>
+                <button onClick={() => setShowServiceForm(false)} className="px-3 py-1.5 text-sm text-navy-500 hover:text-slate-300">Cancel</button>
                 <button onClick={createService} disabled={saving || !newService.name} className="px-4 py-1.5 bg-amber-500 text-white text-sm rounded-lg hover:bg-amber-600 disabled:opacity-50">Create</button>
               </div>
             </div>
           )}
           <div className="flex flex-col gap-3">
-            {services.length === 0 ? <div className="bg-white rounded-xl border border-gray-200 p-8 text-center text-gray-400 text-sm">No services yet</div>
+            {services.length === 0 ? <div className="bg-navy-800 rounded-xl border border-navy-700 p-8 text-center text-navy-500 text-sm">No services yet</div>
               : services.map((s) => (
-                <div key={s.id} className="bg-white rounded-xl border border-gray-200 p-5">
+                <div key={s.id} className="bg-navy-800 rounded-xl border border-navy-700 p-5">
                   <div className="flex items-start justify-between mb-3">
                     <div><span className="text-xs font-bold uppercase tracking-wider text-amber-600">{s.type}</span>
-                      <h3 className="font-semibold text-gray-900 mt-0.5">{s.name}</h3>
-                      {s.price && <p className="text-xs text-gray-400">${s.price.toLocaleString()}</p>}</div>
-                    <span className={`px-2.5 py-1 rounded-full text-xs font-medium capitalize ${STATUS_BADGE[s.status] || "bg-gray-100 text-gray-500"}`}>{s.status}</span>
+                      <h3 className="font-semibold text-foreground mt-0.5">{s.name}</h3>
+                      {s.price && <p className="text-xs text-navy-500">${s.price.toLocaleString()}</p>}</div>
+                    <span className={`px-2.5 py-1 rounded-full text-xs font-medium capitalize ${STATUS_BADGE[s.status] || "bg-navy-800/60 text-navy-500"}`}>{s.status}</span>
                   </div>
                   <div className="mb-3">
-                    <div className="flex justify-between text-xs text-gray-400 mb-1"><span>Step {s.current_step} of {s.total_steps}</span><span>{Math.round((s.current_step / s.total_steps) * 100)}%</span></div>
-                    <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden"><div className="h-full bg-amber-500 rounded-full" style={{ width: `${(s.current_step / s.total_steps) * 100}%` }} /></div>
+                    <div className="flex justify-between text-xs text-navy-500 mb-1"><span>Step {s.current_step} of {s.total_steps}</span><span>{Math.round((s.current_step / s.total_steps) * 100)}%</span></div>
+                    <div className="h-1.5 bg-navy-800/60 rounded-full overflow-hidden"><div className="h-full bg-amber-500 rounded-full" style={{ width: `${(s.current_step / s.total_steps) * 100}%` }} /></div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-gray-400">Update step:</span>
+                    <span className="text-xs text-navy-500">Update step:</span>
                     <div className="flex gap-1">
                       {Array.from({ length: s.total_steps }, (_, i) => i + 1).map((step) => (
                         <button key={step} onClick={() => updateServiceStep(s.id, step, s.total_steps)}
-                          className={`w-7 h-7 rounded-full text-xs font-medium transition-colors ${step === s.current_step ? "bg-amber-500 text-white" : step < s.current_step ? "bg-amber-100 text-amber-700" : "bg-gray-100 text-gray-400 hover:bg-gray-200"}`}>
+                          className={`w-7 h-7 rounded-full text-xs font-medium transition-colors ${step === s.current_step ? "bg-amber-500 text-white" : step < s.current_step ? "bg-amber-100 text-amber-700" : "bg-navy-800/60 text-navy-500 hover:bg-navy-700"}`}>
                           {step}
                         </button>
                       ))}
@@ -298,53 +298,53 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
             <button onClick={() => setShowInvoiceForm(!showInvoiceForm)} className="flex items-center gap-1.5 px-3 py-2 bg-amber-500 text-white text-sm font-medium rounded-lg hover:bg-amber-600"><Plus size={15} /> New Invoice</button>
           </div>
           {showInvoiceForm && (
-            <div className="bg-white rounded-xl border border-gray-200 p-5 mb-4">
-              <h3 className="font-semibold text-gray-800 mb-4">New Invoice</h3>
+            <div className="bg-navy-800 rounded-xl border border-navy-700 p-5 mb-4">
+              <h3 className="font-semibold text-slate-200 mb-4">New Invoice</h3>
               <div className="grid grid-cols-2 gap-3 mb-4">
-                <div><label className="text-xs font-medium text-gray-500 mb-1 block">Amount (USD)</label>
-                  <input type="number" value={newInvoice.amount} onChange={(e) => setNewInvoice({ ...newInvoice, amount: e.target.value })} placeholder="500" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" /></div>
-                <div><label className="text-xs font-medium text-gray-500 mb-1 block">Due Date</label>
-                  <input type="date" value={newInvoice.due_date} onChange={(e) => setNewInvoice({ ...newInvoice, due_date: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" /></div>
-                <div className="col-span-2"><label className="text-xs font-medium text-gray-500 mb-1 block">Description</label>
-                  <input value={newInvoice.description} onChange={(e) => setNewInvoice({ ...newInvoice, description: e.target.value })} placeholder="e.g. US LLC Formation — Setup fee" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" /></div>
-                <div className="col-span-2"><label className="text-xs font-medium text-gray-500 mb-1 block">Related Service (optional)</label>
-                  <select value={newInvoice.service_id} onChange={(e) => setNewInvoice({ ...newInvoice, service_id: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm">
+                <div><label className="text-xs font-medium text-navy-500 mb-1 block">Amount (USD)</label>
+                  <input type="number" value={newInvoice.amount} onChange={(e) => setNewInvoice({ ...newInvoice, amount: e.target.value })} placeholder="500" className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm" /></div>
+                <div><label className="text-xs font-medium text-navy-500 mb-1 block">Due Date</label>
+                  <input type="date" value={newInvoice.due_date} onChange={(e) => setNewInvoice({ ...newInvoice, due_date: e.target.value })} className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm" /></div>
+                <div className="col-span-2"><label className="text-xs font-medium text-navy-500 mb-1 block">Description</label>
+                  <input value={newInvoice.description} onChange={(e) => setNewInvoice({ ...newInvoice, description: e.target.value })} placeholder="e.g. US LLC Formation — Setup fee" className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm" /></div>
+                <div className="col-span-2"><label className="text-xs font-medium text-navy-500 mb-1 block">Related Service (optional)</label>
+                  <select value={newInvoice.service_id} onChange={(e) => setNewInvoice({ ...newInvoice, service_id: e.target.value })} className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm">
                     <option value="">— None —</option>
                     {services.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
                   </select></div>
               </div>
               <div className="flex gap-2 justify-end">
-                <button onClick={() => setShowInvoiceForm(false)} className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">Cancel</button>
+                <button onClick={() => setShowInvoiceForm(false)} className="px-3 py-1.5 text-sm text-navy-500 hover:text-slate-300">Cancel</button>
                 <button onClick={createInvoice} disabled={saving || !newInvoice.amount} className="px-4 py-1.5 bg-amber-500 text-white text-sm rounded-lg hover:bg-amber-600 disabled:opacity-50">Create Invoice</button>
               </div>
             </div>
           )}
-          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-            {invoices.length === 0 ? <div className="p-12 text-center text-gray-400 text-sm"><DollarSign size={28} className="mx-auto mb-2 text-gray-200" />No invoices yet</div>
+          <div className="bg-navy-800 rounded-xl border border-navy-700 overflow-hidden">
+            {invoices.length === 0 ? <div className="p-12 text-center text-navy-500 text-sm"><DollarSign size={28} className="mx-auto mb-2 text-navy-600" />No invoices yet</div>
               : (
                 <table className="w-full text-sm">
-                  <thead><tr className="border-b border-gray-100 bg-gray-50">
-                    <th className="text-left px-4 py-3 font-medium text-gray-500">Description</th>
-                    <th className="text-left px-4 py-3 font-medium text-gray-500">Amount</th>
-                    <th className="text-left px-4 py-3 font-medium text-gray-500 hidden md:table-cell">Due</th>
-                    <th className="text-left px-4 py-3 font-medium text-gray-500">Status</th>
+                  <thead><tr className="border-b border-navy-800 bg-navy-900">
+                    <th className="text-left px-4 py-3 font-medium text-navy-500">Description</th>
+                    <th className="text-left px-4 py-3 font-medium text-navy-500">Amount</th>
+                    <th className="text-left px-4 py-3 font-medium text-navy-500 hidden md:table-cell">Due</th>
+                    <th className="text-left px-4 py-3 font-medium text-navy-500">Status</th>
                     <th className="px-4 py-3" />
                   </tr></thead>
                   <tbody>
                     {invoices.map((inv) => (
-                      <tr key={inv.id} className="border-b border-gray-50">
+                      <tr key={inv.id} className="border-b border-navy-800">
                         <td className="px-4 py-3">
-                          <p className="font-medium text-gray-800">{inv.description || "—"}</p>
-                          {inv.services && <p className="text-xs text-gray-400">{inv.services.name}</p>}
+                          <p className="font-medium text-slate-200">{inv.description || "—"}</p>
+                          {inv.services && <p className="text-xs text-navy-500">{inv.services.name}</p>}
                         </td>
-                        <td className="px-4 py-3 font-semibold text-gray-900">${inv.amount.toLocaleString()}</td>
-                        <td className="px-4 py-3 text-gray-400 hidden md:table-cell">{inv.due_date ? new Date(inv.due_date).toLocaleDateString() : "—"}</td>
-                        <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize ${STATUS_BADGE[inv.status] || "bg-gray-100 text-gray-500"}`}>{inv.status}</span></td>
+                        <td className="px-4 py-3 font-semibold text-foreground">${inv.amount.toLocaleString()}</td>
+                        <td className="px-4 py-3 text-navy-500 hidden md:table-cell">{inv.due_date ? new Date(inv.due_date).toLocaleDateString() : "—"}</td>
+                        <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize ${STATUS_BADGE[inv.status] || "bg-navy-800/60 text-navy-500"}`}>{inv.status}</span></td>
                         <td className="px-4 py-3 text-right">
                           {inv.status === "pending" && (
                             <button onClick={() => updateInvoiceStatus(inv.id, "paid")} className="text-xs text-green-600 hover:text-green-700 font-medium">Mark Paid</button>
                           )}
-                          {inv.status === "paid" && <span className="text-xs text-gray-300">Paid {inv.paid_at ? new Date(inv.paid_at).toLocaleDateString() : ""}</span>}
+                          {inv.status === "paid" && <span className="text-xs text-navy-500">Paid {inv.paid_at ? new Date(inv.paid_at).toLocaleDateString() : ""}</span>}
                         </td>
                       </tr>
                     ))}
@@ -357,25 +357,25 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
 
       {/* Requests */}
       {tab === "requests" && (
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          {requests.length === 0 ? <div className="p-12 text-center text-gray-400 text-sm"><ClipboardList size={28} className="mx-auto mb-2 text-gray-200" />No requests yet</div>
+        <div className="bg-navy-800 rounded-xl border border-navy-700 overflow-hidden">
+          {requests.length === 0 ? <div className="p-12 text-center text-navy-500 text-sm"><ClipboardList size={28} className="mx-auto mb-2 text-navy-600" />No requests yet</div>
             : (
               <table className="w-full text-sm">
-                <thead><tr className="border-b border-gray-100 bg-gray-50">
-                  <th className="text-left px-4 py-3 font-medium text-gray-500">Service Type</th>
-                  <th className="text-left px-4 py-3 font-medium text-gray-500 hidden md:table-cell">Details</th>
-                  <th className="text-left px-4 py-3 font-medium text-gray-500">Date</th>
-                  <th className="text-left px-4 py-3 font-medium text-gray-500">Status</th>
+                <thead><tr className="border-b border-navy-800 bg-navy-900">
+                  <th className="text-left px-4 py-3 font-medium text-navy-500">Service Type</th>
+                  <th className="text-left px-4 py-3 font-medium text-navy-500 hidden md:table-cell">Details</th>
+                  <th className="text-left px-4 py-3 font-medium text-navy-500">Date</th>
+                  <th className="text-left px-4 py-3 font-medium text-navy-500">Status</th>
                 </tr></thead>
                 <tbody>
                   {requests.map((r) => (
-                    <tr key={r.id} className="border-b border-gray-50">
-                      <td className="px-4 py-3 font-medium text-gray-800 capitalize">{r.service_type}</td>
-                      <td className="px-4 py-3 text-gray-500 hidden md:table-cell text-xs max-w-xs truncate">
+                    <tr key={r.id} className="border-b border-navy-800">
+                      <td className="px-4 py-3 font-medium text-slate-200 capitalize">{r.service_type}</td>
+                      <td className="px-4 py-3 text-navy-500 hidden md:table-cell text-xs max-w-xs truncate">
                         {Object.entries(r.details || {}).slice(0, 2).map(([k, v]) => `${k}: ${v}`).join(" · ")}
                       </td>
-                      <td className="px-4 py-3 text-gray-400">{new Date(r.created_at).toLocaleDateString()}</td>
-                      <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize ${STATUS_BADGE[r.status] || "bg-gray-100 text-gray-500"}`}>{r.status}</span></td>
+                      <td className="px-4 py-3 text-navy-500">{new Date(r.created_at).toLocaleDateString()}</td>
+                      <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize ${STATUS_BADGE[r.status] || "bg-navy-800/60 text-navy-500"}`}>{r.status}</span></td>
                     </tr>
                   ))}
                 </tbody>
@@ -391,18 +391,18 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
             <button onClick={() => setShowDocUpload(!showDocUpload)} className="flex items-center gap-1.5 px-3 py-2 bg-amber-500 text-white text-sm font-medium rounded-lg hover:bg-amber-600"><Upload size={15} /> Upload Document</button>
           </div>
           {showDocUpload && (
-            <div className="bg-white rounded-xl border border-gray-200 p-5 mb-4">
-              <h3 className="font-semibold text-gray-800 mb-4">Upload Document to Customer Folder</h3>
+            <div className="bg-navy-800 rounded-xl border border-navy-700 p-5 mb-4">
+              <h3 className="font-semibold text-slate-200 mb-4">Upload Document to Customer Folder</h3>
               <div className="grid grid-cols-2 gap-3 mb-4">
                 <div className="col-span-2">
-                  <label className="text-xs font-medium text-gray-500 mb-1 block">File *</label>
+                  <label className="text-xs font-medium text-navy-500 mb-1 block">File *</label>
                   <input ref={fileInputRef} type="file" onChange={(e) => setDocFile(e.target.files?.[0] || null)}
-                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100" />
+                    className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100" />
                 </div>
-                <div><label className="text-xs font-medium text-gray-500 mb-1 block">Display Name (optional)</label>
-                  <input value={docUpload.name} onChange={(e) => setDocUpload({ ...docUpload, name: e.target.value })} placeholder="e.g. Articles of Organization" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" /></div>
-                <div><label className="text-xs font-medium text-gray-500 mb-1 block">Category / Folder</label>
-                  <select value={docUpload.category} onChange={(e) => setDocUpload({ ...docUpload, category: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm">
+                <div><label className="text-xs font-medium text-navy-500 mb-1 block">Display Name (optional)</label>
+                  <input value={docUpload.name} onChange={(e) => setDocUpload({ ...docUpload, name: e.target.value })} placeholder="e.g. Articles of Organization" className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm" /></div>
+                <div><label className="text-xs font-medium text-navy-500 mb-1 block">Category / Folder</label>
+                  <select value={docUpload.category} onChange={(e) => setDocUpload({ ...docUpload, category: e.target.value })} className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm">
                     <option value="company">Company Documents</option>
                     <option value="tax">Tax Documents</option>
                     <option value="banking">Banking Documents</option>
@@ -411,36 +411,36 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                     <option value="certification">Certified Documents</option>
                     <option value="general">General</option>
                   </select></div>
-                <div className="col-span-2"><label className="text-xs font-medium text-gray-500 mb-1 block">Related Service (optional)</label>
-                  <select value={docUpload.service_id} onChange={(e) => setDocUpload({ ...docUpload, service_id: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm">
+                <div className="col-span-2"><label className="text-xs font-medium text-navy-500 mb-1 block">Related Service (optional)</label>
+                  <select value={docUpload.service_id} onChange={(e) => setDocUpload({ ...docUpload, service_id: e.target.value })} className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm">
                     <option value="">— None —</option>
                     {services.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
                   </select></div>
               </div>
               <div className="flex gap-2 justify-end">
-                <button onClick={() => { setShowDocUpload(false); setDocFile(null); }} className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">Cancel</button>
+                <button onClick={() => { setShowDocUpload(false); setDocFile(null); }} className="px-3 py-1.5 text-sm text-navy-500 hover:text-slate-300">Cancel</button>
                 <button onClick={uploadDocument} disabled={saving || !docFile} className="px-4 py-1.5 bg-amber-500 text-white text-sm rounded-lg hover:bg-amber-600 disabled:opacity-50">{saving ? "Uploading..." : "Upload"}</button>
               </div>
             </div>
           )}
-          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-            {documents.length === 0 ? <div className="p-12 text-center text-gray-400 text-sm"><FolderOpen size={28} className="mx-auto mb-2 text-gray-200" />No documents yet — upload one above</div>
+          <div className="bg-navy-800 rounded-xl border border-navy-700 overflow-hidden">
+            {documents.length === 0 ? <div className="p-12 text-center text-navy-500 text-sm"><FolderOpen size={28} className="mx-auto mb-2 text-navy-600" />No documents yet — upload one above</div>
               : (
                 <table className="w-full text-sm">
-                  <thead><tr className="border-b border-gray-100 bg-gray-50">
-                    <th className="text-left px-4 py-3 font-medium text-gray-500">Document</th>
-                    <th className="text-left px-4 py-3 font-medium text-gray-500 hidden md:table-cell">Category</th>
-                    <th className="text-left px-4 py-3 font-medium text-gray-500 hidden lg:table-cell">Uploaded</th>
-                    <th className="text-left px-4 py-3 font-medium text-gray-500">Status</th>
+                  <thead><tr className="border-b border-navy-800 bg-navy-900">
+                    <th className="text-left px-4 py-3 font-medium text-navy-500">Document</th>
+                    <th className="text-left px-4 py-3 font-medium text-navy-500 hidden md:table-cell">Category</th>
+                    <th className="text-left px-4 py-3 font-medium text-navy-500 hidden lg:table-cell">Uploaded</th>
+                    <th className="text-left px-4 py-3 font-medium text-navy-500">Status</th>
                     <th className="px-4 py-3" />
                   </tr></thead>
                   <tbody>
                     {documents.map((d) => (
-                      <tr key={d.id} className="border-b border-gray-50">
-                        <td className="px-4 py-3"><div className="flex items-center gap-2"><FileText size={15} className="text-gray-300" /><span className="font-medium text-gray-800">{d.name}</span></div></td>
-                        <td className="px-4 py-3 text-gray-500 capitalize hidden md:table-cell">{d.category || "—"}</td>
-                        <td className="px-4 py-3 text-gray-400 hidden lg:table-cell">{new Date(d.created_at).toLocaleDateString()}</td>
-                        <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize ${STATUS_BADGE[d.status] || "bg-gray-100 text-gray-500"}`}>{d.status}</span></td>
+                      <tr key={d.id} className="border-b border-navy-800">
+                        <td className="px-4 py-3"><div className="flex items-center gap-2"><FileText size={15} className="text-navy-500" /><span className="font-medium text-slate-200">{d.name}</span></div></td>
+                        <td className="px-4 py-3 text-navy-500 capitalize hidden md:table-cell">{d.category || "—"}</td>
+                        <td className="px-4 py-3 text-navy-500 hidden lg:table-cell">{new Date(d.created_at).toLocaleDateString()}</td>
+                        <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize ${STATUS_BADGE[d.status] || "bg-navy-800/60 text-navy-500"}`}>{d.status}</span></td>
                         <td className="px-4 py-3 text-right">
                           <div className="flex items-center justify-end gap-2">
                             {d.file_url && <a href={d.file_url} target="_blank" rel="noopener noreferrer" className="p-1.5 text-amber-600 hover:bg-amber-50 rounded"><ExternalLink size={14} /></a>}
@@ -463,50 +463,50 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
             <button onClick={() => setShowFormAssign(!showFormAssign)} className="flex items-center gap-1.5 px-3 py-2 bg-amber-500 text-white text-sm font-medium rounded-lg hover:bg-amber-600"><Plus size={15} /> Assign Form</button>
           </div>
           {showFormAssign && (
-            <div className="bg-white rounded-xl border border-gray-200 p-5 mb-4">
-              <h3 className="font-semibold text-gray-800 mb-4">Assign Form Template</h3>
+            <div className="bg-navy-800 rounded-xl border border-navy-700 p-5 mb-4">
+              <h3 className="font-semibold text-slate-200 mb-4">Assign Form Template</h3>
               <div className="grid grid-cols-2 gap-3 mb-4">
-                <div className="col-span-2"><label className="text-xs font-medium text-gray-500 mb-1 block">Form Template</label>
-                  <select value={assignForm.template_id} onChange={(e) => setAssignForm({ ...assignForm, template_id: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm">
+                <div className="col-span-2"><label className="text-xs font-medium text-navy-500 mb-1 block">Form Template</label>
+                  <select value={assignForm.template_id} onChange={(e) => setAssignForm({ ...assignForm, template_id: e.target.value })} className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm">
                     <option value="">— Select template —</option>
                     {templates.map(t => <option key={t.id} value={t.id}>{t.name} ({t.category})</option>)}
                   </select></div>
-                <div><label className="text-xs font-medium text-gray-500 mb-1 block">Related Service (optional)</label>
-                  <select value={assignForm.service_id} onChange={(e) => setAssignForm({ ...assignForm, service_id: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm">
+                <div><label className="text-xs font-medium text-navy-500 mb-1 block">Related Service (optional)</label>
+                  <select value={assignForm.service_id} onChange={(e) => setAssignForm({ ...assignForm, service_id: e.target.value })} className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm">
                     <option value="">— None —</option>
                     {services.map(s => <option key={s.id} value={s.id}>{s.name}</option>)}
                   </select></div>
-                <div><label className="text-xs font-medium text-gray-500 mb-1 block">Due Date (optional)</label>
-                  <input type="date" value={assignForm.due_date} onChange={(e) => setAssignForm({ ...assignForm, due_date: e.target.value })} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" /></div>
-                <div className="col-span-2"><label className="text-xs font-medium text-gray-500 mb-1 block">Notes</label>
-                  <input value={assignForm.notes} onChange={(e) => setAssignForm({ ...assignForm, notes: e.target.value })} placeholder="Instructions for the customer..." className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" /></div>
+                <div><label className="text-xs font-medium text-navy-500 mb-1 block">Due Date (optional)</label>
+                  <input type="date" value={assignForm.due_date} onChange={(e) => setAssignForm({ ...assignForm, due_date: e.target.value })} className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm" /></div>
+                <div className="col-span-2"><label className="text-xs font-medium text-navy-500 mb-1 block">Notes</label>
+                  <input value={assignForm.notes} onChange={(e) => setAssignForm({ ...assignForm, notes: e.target.value })} placeholder="Instructions for the customer..." className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm" /></div>
               </div>
               <div className="flex gap-2 justify-end">
-                <button onClick={() => setShowFormAssign(false)} className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">Cancel</button>
+                <button onClick={() => setShowFormAssign(false)} className="px-3 py-1.5 text-sm text-navy-500 hover:text-slate-300">Cancel</button>
                 <button onClick={assignTemplate} disabled={saving || !assignForm.template_id} className="px-4 py-1.5 bg-amber-500 text-white text-sm rounded-lg hover:bg-amber-600 disabled:opacity-50">Assign</button>
               </div>
             </div>
           )}
-          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-            {forms.length === 0 ? <div className="p-12 text-center text-gray-400 text-sm"><FileText size={28} className="mx-auto mb-2 text-gray-200" />No forms assigned yet</div>
+          <div className="bg-navy-800 rounded-xl border border-navy-700 overflow-hidden">
+            {forms.length === 0 ? <div className="p-12 text-center text-navy-500 text-sm"><FileText size={28} className="mx-auto mb-2 text-navy-600" />No forms assigned yet</div>
               : (
                 <table className="w-full text-sm">
-                  <thead><tr className="border-b border-gray-100 bg-gray-50">
-                    <th className="text-left px-4 py-3 font-medium text-gray-500">Form</th>
-                    <th className="text-left px-4 py-3 font-medium text-gray-500 hidden md:table-cell">Category</th>
-                    <th className="text-left px-4 py-3 font-medium text-gray-500 hidden md:table-cell">Due</th>
-                    <th className="text-left px-4 py-3 font-medium text-gray-500">Status</th>
+                  <thead><tr className="border-b border-navy-800 bg-navy-900">
+                    <th className="text-left px-4 py-3 font-medium text-navy-500">Form</th>
+                    <th className="text-left px-4 py-3 font-medium text-navy-500 hidden md:table-cell">Category</th>
+                    <th className="text-left px-4 py-3 font-medium text-navy-500 hidden md:table-cell">Due</th>
+                    <th className="text-left px-4 py-3 font-medium text-navy-500">Status</th>
                   </tr></thead>
                   <tbody>
                     {forms.map((f) => (
-                      <tr key={f.id} className="border-b border-gray-50">
+                      <tr key={f.id} className="border-b border-navy-800">
                         <td className="px-4 py-3">
-                          <p className="font-medium text-gray-800">{f.form_templates?.name || "—"}</p>
-                          {f.notes && <p className="text-xs text-gray-400">{f.notes}</p>}
+                          <p className="font-medium text-slate-200">{f.form_templates?.name || "—"}</p>
+                          {f.notes && <p className="text-xs text-navy-500">{f.notes}</p>}
                         </td>
-                        <td className="px-4 py-3 text-gray-500 capitalize hidden md:table-cell">{f.form_templates?.category || "—"}</td>
-                        <td className="px-4 py-3 text-gray-400 hidden md:table-cell">{f.due_date ? new Date(f.due_date).toLocaleDateString() : "—"}</td>
-                        <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize ${STATUS_BADGE[f.status] || "bg-gray-100 text-gray-500"}`}>{f.status}</span></td>
+                        <td className="px-4 py-3 text-navy-500 capitalize hidden md:table-cell">{f.form_templates?.category || "—"}</td>
+                        <td className="px-4 py-3 text-navy-500 hidden md:table-cell">{f.due_date ? new Date(f.due_date).toLocaleDateString() : "—"}</td>
+                        <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize ${STATUS_BADGE[f.status] || "bg-navy-800/60 text-navy-500"}`}>{f.status}</span></td>
                       </tr>
                     ))}
                   </tbody>
@@ -519,26 +519,26 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
       {/* Messages */}
       {tab === "messages" && (
         <div>
-          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div className="bg-navy-800 rounded-xl border border-navy-700 overflow-hidden">
             <div className="p-4 flex flex-col gap-3 max-h-96 overflow-y-auto">
-              {messages.length === 0 ? <p className="text-center text-sm text-gray-400 py-8">No messages yet</p>
+              {messages.length === 0 ? <p className="text-center text-sm text-navy-500 py-8">No messages yet</p>
                 : messages.map((m) => (
                   <div key={m.id} className={`flex ${m.sender === "admin" ? "justify-end" : "justify-start"}`}>
-                    <div className={`max-w-[75%] rounded-xl px-4 py-2.5 text-sm ${m.sender === "admin" ? "bg-amber-500 text-white" : "bg-gray-100 text-gray-800"}`}>
+                    <div className={`max-w-[75%] rounded-xl px-4 py-2.5 text-sm ${m.sender === "admin" ? "bg-amber-500 text-white" : "bg-navy-800/60 text-slate-200"}`}>
                       {m.subject && <p className="font-semibold text-xs mb-1 opacity-75">{m.subject}</p>}
                       <p>{m.content}</p>
-                      <p className={`text-[10px] mt-1 ${m.sender === "admin" ? "text-amber-200" : "text-gray-400"}`}>
+                      <p className={`text-[10px] mt-1 ${m.sender === "admin" ? "text-amber-200" : "text-navy-500"}`}>
                         {m.sender === "admin" ? "You" : user.name} · {new Date(m.created_at).toLocaleString("en-US", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}
                       </p>
                     </div>
                   </div>
                 ))}
             </div>
-            <div className="p-4 border-t border-gray-100 flex gap-2">
+            <div className="p-4 border-t border-navy-800 flex gap-2">
               <input value={message} onChange={(e) => setMessage(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                 placeholder={`Message to ${user.name}...`}
-                className="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400" />
+                className="flex-1 border border-navy-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400" />
               <button onClick={sendMessage} disabled={!message.trim() || saving} className="px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 disabled:opacity-50">
                 <Send size={15} />
               </button>

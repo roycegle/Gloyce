@@ -39,7 +39,7 @@ const SERVICE_TYPES = [
 const FIELD_TYPES = ["text", "textarea", "select", "date", "number", "email", "phone"];
 
 const CATEGORY_COLORS: Record<string, string> = {
-  general: "bg-gray-100 text-gray-600",
+  general: "bg-navy-800/60 text-navy-400",
   company: "bg-blue-100 text-blue-700",
   tax: "bg-red-100 text-red-700",
   banking: "bg-green-100 text-green-700",
@@ -129,8 +129,8 @@ export default function FormsPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Form Templates</h1>
-          <p className="text-sm text-gray-500 mt-1">{templates.length} templates</p>
+          <h1 className="text-2xl font-bold text-foreground">Form Templates</h1>
+          <p className="text-sm text-navy-500 mt-1">{templates.length} templates</p>
         </div>
         <button onClick={() => setShowForm(!showForm)} className="flex items-center gap-1.5 px-4 py-2 bg-amber-500 text-white text-sm font-medium rounded-lg hover:bg-amber-600">
           <Plus size={15} /> New Template
@@ -138,53 +138,53 @@ export default function FormsPage() {
       </div>
 
       {showForm && (
-        <div className="bg-white rounded-xl border border-gray-200 p-5 mb-6">
-          <h3 className="font-semibold text-gray-800 mb-4">New Form Template</h3>
+        <div className="bg-navy-800 rounded-xl border border-navy-700 p-5 mb-6">
+          <h3 className="font-semibold text-slate-200 mb-4">New Form Template</h3>
           <div className="grid grid-cols-2 gap-3 mb-4">
             <div className="col-span-2">
-              <label className="text-xs font-medium text-gray-500 mb-1 block">Template Name *</label>
+              <label className="text-xs font-medium text-navy-500 mb-1 block">Template Name *</label>
               <input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
-                placeholder="e.g. US LLC Information Form" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" />
+                placeholder="e.g. US LLC Information Form" className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm" />
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500 mb-1 block">Category</label>
+              <label className="text-xs font-medium text-navy-500 mb-1 block">Category</label>
               <select value={form.category} onChange={e => setForm({ ...form, category: e.target.value })}
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm capitalize">
+                className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm capitalize">
                 {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
             </div>
             <div>
-              <label className="text-xs font-medium text-gray-500 mb-1 block">Auto-assign for service type</label>
+              <label className="text-xs font-medium text-navy-500 mb-1 block">Auto-assign for service type</label>
               <select value={form.service_type} onChange={e => setForm({ ...form, service_type: e.target.value })}
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm">
+                className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm">
                 {SERVICE_TYPES.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
               </select>
             </div>
             <div className="col-span-2">
-              <label className="text-xs font-medium text-gray-500 mb-1 block">Description</label>
+              <label className="text-xs font-medium text-navy-500 mb-1 block">Description</label>
               <textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })}
-                placeholder="What this form is for..." rows={2} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm resize-none" />
+                placeholder="What this form is for..." rows={2} className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm resize-none" />
             </div>
           </div>
           <div className="flex gap-2 justify-end">
-            <button onClick={() => setShowForm(false)} className="px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700">Cancel</button>
+            <button onClick={() => setShowForm(false)} className="px-3 py-1.5 text-sm text-navy-500 hover:text-slate-300">Cancel</button>
             <button onClick={create} disabled={saving || !form.name} className="px-4 py-1.5 bg-amber-500 text-white text-sm rounded-lg hover:bg-amber-600 disabled:opacity-50">Create Template</button>
           </div>
         </div>
       )}
 
       <div className="flex flex-col gap-3">
-        {loading ? <div className="bg-white rounded-xl border border-gray-200 p-12 text-center text-gray-400 text-sm">Loading...</div>
+        {loading ? <div className="bg-navy-800 rounded-xl border border-navy-700 p-12 text-center text-navy-500 text-sm">Loading...</div>
           : templates.length === 0 ? (
-            <div className="bg-white rounded-xl border border-gray-200 p-12 text-center">
-              <FileText size={32} className="text-gray-200 mx-auto mb-3" />
-              <p className="text-sm text-gray-400">No templates yet</p>
+            <div className="bg-navy-800 rounded-xl border border-navy-700 p-12 text-center">
+              <FileText size={32} className="text-navy-600 mx-auto mb-3" />
+              <p className="text-sm text-navy-500">No templates yet</p>
             </div>
           ) : templates.map((t) => (
-            <div key={t.id} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+            <div key={t.id} className="bg-navy-800 rounded-xl border border-navy-700 overflow-hidden">
               {/* Template header */}
               <div className="flex items-center gap-3 px-5 py-4">
-                <button onClick={() => toggleExpand(t.id)} className="text-gray-300 hover:text-gray-500">
+                <button onClick={() => toggleExpand(t.id)} className="text-navy-500 hover:text-navy-500">
                   {expanded === t.id ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
                 </button>
                 <div className="w-9 h-9 rounded-lg bg-amber-50 flex items-center justify-center shrink-0">
@@ -192,22 +192,22 @@ export default function FormsPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap mb-0.5">
-                    <p className="font-semibold text-gray-900">{t.name}</p>
-                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize ${CATEGORY_COLORS[t.category] || "bg-gray-100 text-gray-600"}`}>{t.category}</span>
+                    <p className="font-semibold text-foreground">{t.name}</p>
+                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize ${CATEGORY_COLORS[t.category] || "bg-navy-800/60 text-navy-400"}`}>{t.category}</span>
                     {t.service_type && <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-600">Auto: {t.service_type}</span>}
                   </div>
-                  {t.description && <p className="text-xs text-gray-400 truncate">{t.description}</p>}
+                  {t.description && <p className="text-xs text-navy-500 truncate">{t.description}</p>}
                 </div>
-                <button onClick={() => remove(t.id)} className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-300 hover:text-red-400 shrink-0">
+                <button onClick={() => remove(t.id)} className="p-1.5 rounded-lg hover:bg-navy-800/60 text-navy-500 hover:text-red-400 shrink-0">
                   <Trash2 size={15} />
                 </button>
               </div>
 
               {/* Expanded: fields */}
               {expanded === t.id && (
-                <div className="border-t border-gray-100 px-5 py-4">
+                <div className="border-t border-navy-800 px-5 py-4">
                   <div className="flex items-center justify-between mb-3">
-                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    <p className="text-xs font-semibold text-navy-500 uppercase tracking-wider">
                       Fields ({t.fields?.length || 0})
                     </p>
                     <button onClick={() => setAddingFieldTo(addingFieldTo === t.id ? null : t.id)}
@@ -218,23 +218,23 @@ export default function FormsPage() {
 
                   {/* Field list */}
                   {(t.fields || []).length === 0 ? (
-                    <p className="text-xs text-gray-300 py-4 text-center">No fields yet — add one above</p>
+                    <p className="text-xs text-navy-500 py-4 text-center">No fields yet — add one above</p>
                   ) : (
                     <div className="flex flex-col gap-1 mb-4">
                       {(t.fields || []).map((f, i) => (
-                        <div key={f.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg group">
-                          <GripVertical size={14} className="text-gray-300 shrink-0" />
+                        <div key={f.id} className="flex items-center gap-3 p-3 bg-navy-900 rounded-lg group">
+                          <GripVertical size={14} className="text-navy-500 shrink-0" />
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <span className="text-sm font-medium text-gray-800">{f.label}</span>
+                              <span className="text-sm font-medium text-slate-200">{f.label}</span>
                               {f.required && <span className="text-[10px] text-red-500 font-medium">REQUIRED</span>}
-                              <span className="text-[10px] text-gray-400 uppercase px-1.5 py-0.5 bg-gray-200 rounded">{f.field_type}</span>
+                              <span className="text-[10px] text-navy-500 uppercase px-1.5 py-0.5 bg-navy-700 rounded">{f.field_type}</span>
                             </div>
-                            {f.placeholder && <p className="text-xs text-gray-400 mt-0.5">Placeholder: {f.placeholder}</p>}
-                            {f.options && <p className="text-xs text-gray-400 mt-0.5">Options: {f.options.join(", ")}</p>}
+                            {f.placeholder && <p className="text-xs text-navy-500 mt-0.5">Placeholder: {f.placeholder}</p>}
+                            {f.options && <p className="text-xs text-navy-500 mt-0.5">Options: {f.options.join(", ")}</p>}
                           </div>
                           <button onClick={() => deleteField(t.id, f.id)}
-                            className="p-1 text-gray-300 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                            className="p-1 text-navy-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity">
                             <Trash2 size={13} />
                           </button>
                         </div>
@@ -244,46 +244,46 @@ export default function FormsPage() {
 
                   {/* Add field form */}
                   {addingFieldTo === t.id && (
-                    <div className="border border-dashed border-gray-200 rounded-xl p-4">
-                      <p className="text-xs font-semibold text-gray-500 mb-3">New Field</p>
+                    <div className="border border-dashed border-navy-700 rounded-xl p-4">
+                      <p className="text-xs font-semibold text-navy-500 mb-3">New Field</p>
                       <div className="grid grid-cols-2 gap-3">
                         <div className="col-span-2">
-                          <label className="text-xs text-gray-400 mb-1 block">Label *</label>
+                          <label className="text-xs text-navy-500 mb-1 block">Label *</label>
                           <input value={newField.label} onChange={e => setNewField({ ...newField, label: e.target.value })}
-                            placeholder="e.g. Full Legal Name" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" />
+                            placeholder="e.g. Full Legal Name" className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm" />
                         </div>
                         <div>
-                          <label className="text-xs text-gray-400 mb-1 block">Type</label>
+                          <label className="text-xs text-navy-500 mb-1 block">Type</label>
                           <select value={newField.field_type} onChange={e => setNewField({ ...newField, field_type: e.target.value })}
-                            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm">
+                            className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm">
                             {FIELD_TYPES.map(ft => <option key={ft} value={ft}>{ft}</option>)}
                           </select>
                         </div>
                         <div>
-                          <label className="text-xs text-gray-400 mb-1 block">Placeholder</label>
+                          <label className="text-xs text-navy-500 mb-1 block">Placeholder</label>
                           <input value={newField.placeholder} onChange={e => setNewField({ ...newField, placeholder: e.target.value })}
-                            placeholder="Optional hint text" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" />
+                            placeholder="Optional hint text" className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm" />
                         </div>
                         {newField.field_type === "select" && (
                           <div className="col-span-2">
-                            <label className="text-xs text-gray-400 mb-1 block">Options (one per line)</label>
+                            <label className="text-xs text-navy-500 mb-1 block">Options (one per line)</label>
                             <textarea value={newField.options} onChange={e => setNewField({ ...newField, options: e.target.value })}
                               placeholder={"Option A\nOption B\nOption C"} rows={3}
-                              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm resize-none" />
+                              className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm resize-none" />
                           </div>
                         )}
                         <div className="col-span-2">
-                          <label className="text-xs text-gray-400 mb-1 block">Help text (optional)</label>
+                          <label className="text-xs text-navy-500 mb-1 block">Help text (optional)</label>
                           <input value={newField.help_text} onChange={e => setNewField({ ...newField, help_text: e.target.value })}
-                            placeholder="Additional instructions for the customer" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" />
+                            placeholder="Additional instructions for the customer" className="w-full border border-navy-700 rounded-lg px-3 py-2 text-sm" />
                         </div>
                         <div className="col-span-2 flex items-center gap-2">
                           <input type="checkbox" id={`req-${t.id}`} checked={newField.required} onChange={e => setNewField({ ...newField, required: e.target.checked })} />
-                          <label htmlFor={`req-${t.id}`} className="text-xs text-gray-600">Required field</label>
+                          <label htmlFor={`req-${t.id}`} className="text-xs text-navy-400">Required field</label>
                         </div>
                       </div>
                       <div className="flex gap-2 justify-end mt-3">
-                        <button onClick={() => setAddingFieldTo(null)} className="px-3 py-1.5 text-xs text-gray-400 hover:text-gray-600">Cancel</button>
+                        <button onClick={() => setAddingFieldTo(null)} className="px-3 py-1.5 text-xs text-navy-500 hover:text-navy-400">Cancel</button>
                         <button onClick={() => addField(t.id)} disabled={saving || !newField.label}
                           className="px-4 py-1.5 bg-amber-500 text-white text-xs rounded-lg hover:bg-amber-600 disabled:opacity-50">Add Field</button>
                       </div>
