@@ -105,12 +105,13 @@ export default function DocumentsPage() {
   const submitCertRequest = async () => {
     if (!certForm.certification_type || !certForm.destination_country || !certForm.purpose) return;
     setCertSubmitting(true);
-    await fetch("/api/dashboard/documents/certify", {
+    const res = await fetch("/api/dashboard/documents/certify", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ document_id: certDoc?.id, ...certForm, copies: parseInt(certForm.copies) || 1 }),
     });
     setCertSubmitting(false);
+    if (!res.ok) { alert("Gửi yêu cầu thất bại. Vui lòng thử lại."); return; }
     setCertDone(true);
     setTimeout(() => {
       setCertDoc(null); setCertDone(false);
@@ -141,12 +142,13 @@ export default function DocumentsPage() {
   const submitRequest = async () => {
     if (!requestForm.document_type || !requestForm.description) return;
     setRequesting(true);
-    await fetch("/api/dashboard/documents/request", {
+    const res = await fetch("/api/dashboard/documents/request", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(requestForm),
     });
     setRequesting(false);
+    if (!res.ok) { const err = await res.json().catch(() => ({})); alert(`Gửi yêu cầu thất bại: ${err.error || "Vui lòng thử lại"}`); return; }
     setRequestDone(true);
     setTimeout(() => {
       setShowRequest(false); setRequestDone(false);

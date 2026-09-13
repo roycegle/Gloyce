@@ -11,12 +11,10 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   const body = await req.json();
   const { status, admin_notes } = body;
 
-  // Merge admin_notes into details JSONB so no schema change needed
   const updatePayload: Record<string, unknown> = {};
   if (status) updatePayload.status = status;
 
   if (admin_notes !== undefined) {
-    // Read current details then merge
     const { data: existing } = await supabaseAdmin
       .from("service_requests")
       .select("details")
@@ -30,7 +28,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     .from("service_requests")
     .update(updatePayload)
     .eq("id", id)
-    .select("*, users(id,name,email,company)")
+    .select("*")
     .single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
