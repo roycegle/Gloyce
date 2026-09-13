@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Download, File, FileSpreadsheet, Image, FolderOpen, Stamp, X, Check, ExternalLink, Upload, InboxIcon } from "lucide-react";
+import { FileText, Download, File, FileSpreadsheet, Image, FolderOpen, Stamp, X, Check, ExternalLink, Upload, InboxIcon, Clock, AlertCircle, CheckCircle2, XCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Document {
@@ -75,12 +75,15 @@ export default function DocumentsPage() {
   // Track which document IDs already have a pending/in_progress cert request
   const [pendingCertDocIds, setPendingCertDocIds] = useState<Set<string>>(new Set());
 
+  // My requests (all service_requests for this user)
+  const [myRequests, setMyRequests] = useState<Array<{ id: string; service_type: string; status: string; details: Record<string, unknown>; created_at: string }>>([]);
+
   const reload = () => {
     fetch("/api/dashboard/documents")
       .then(r => r.json())
       .then(d => { setDocuments(Array.isArray(d) ? d : []); setLoading(false); })
       .catch(() => setLoading(false));
-    // Fetch pending/in_progress certification requests to know which docs are locked
+
     fetch("/api/dashboard/certifications/pending")
       .then(r => r.json())
       .then(d => {
@@ -89,6 +92,11 @@ export default function DocumentsPage() {
           setPendingCertDocIds(ids as Set<string>);
         }
       })
+      .catch(() => {});
+
+    fetch("/api/dashboard/requests")
+      .then(r => r.json())
+      .then(d => { if (Array.isArray(d)) setMyRequests(d); })
       .catch(() => {});
   };
 
@@ -458,6 +466,61 @@ export default function DocumentsPage() {
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* My Requests */}
+      {myRequests.length > 0 && (
+        <div>
+          <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+            <Clock size={14} className="text-navy-400" />
+            Yêu cầu của tôi
+          </h3>
+          <div className="bg-navy-800 rounded-2xl border border-navy-700 overflow-hidden">
+            {myRequests.map((req) => {
+              const d = req.details as Record<string, unknown>;
+              const isPending = req.status === "pending";
+              const isInProgress = req.status === "in_progress";
+              const isCompleted = req.status === "completed";
+              const isRejected = req.status === "rejected";
+
+              const statusBadge = isPending
+                ? <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20"><Clock size={10} />Chờ xử lý</span>
+                : isInProgress
+                ? <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20"><AlertCircle size={10} />Đang xử lý</span>
+                : isCompleted
+                ? <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><CheckCircle2 size={10} />Hoàn thành</span>
+                : isRejected
+                ? <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-red-500/10 text-red-400 border border-red-500/20"><XCircle size={10} />Từ chối</span>
+                : null;
+
+              const typeBadge = req.service_type === "certification"
+                ? <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">Chứng thực</span>
+                : <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-navy-700 text-navy-300 border border-navy-600">Yêu cầu tài liệu</span>;
+
+              const summary = req.service_type === "certification"
+                ? [d.certification_type, d.destination_country].filter(Boolean).map(String).join(" · ")
+                : [d.document_type, d.urgency === "urgent" ? "⚡ Gấp" : null].filter(Boolean).map(String).join(" · ");
+
+              const adminNotes = typeof d.admin_notes === "string" && d.admin_notes ? d.admin_notes : null;
+
+              return (
+                <div key={req.id} className="flex items-start gap-3 px-4 py-3.5 border-b border-navy-700/50 last:border-0">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap mb-1">
+                      {typeBadge}
+                      {statusBadge}
+                    </div>
+                    {summary && <p className="text-sm text-foreground truncate">{summary}</p>}
+                    {adminNotes && (
+                      <p className="text-xs text-navy-400 mt-1 italic">"{adminNotes}"</p>
+                    )}
+                    <p className="text-xs text-navy-500 mt-0.5">{formatDate(req.created_at)}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
 
