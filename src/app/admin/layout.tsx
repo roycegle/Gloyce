@@ -23,7 +23,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen bg-navy-950">
+    <div className="flex h-screen bg-ink-900">
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div className="fixed inset-0 z-20 bg-black/50 md:hidden" onClick={() => setSidebarOpen(false)} />
@@ -92,12 +92,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Main */}
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
         {/* Topbar */}
-        <header className="h-16 flex items-center gap-4 px-6 shrink-0" style={{ background: "#0B1230", borderBottom: "1px solid #1A2550" }}>
-          <button className="md:hidden text-navy-500" onClick={() => setSidebarOpen(true)}>
+        <header className="h-16 flex items-center gap-4 px-6 shrink-0 bg-ink-800 border-b border-ink-600">
+          <button className="md:hidden text-ink-400" onClick={() => setSidebarOpen(true)}>
             <Menu size={20} />
           </button>
-          <h1 className="text-sm font-semibold text-navy-400">Gloyce Admin Panel</h1>
-          <Link href="/en/dashboard" className="ml-auto text-xs text-amber-500 hover:text-amber-400">
+          <h1 className="text-sm font-semibold text-ink-400">Gloyce Admin Panel</h1>
+          <Link href="/en/dashboard" className="ml-auto text-xs text-gold hover:text-gold-light">
             ← View as customer
           </Link>
         </header>

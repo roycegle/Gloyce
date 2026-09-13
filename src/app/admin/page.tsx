@@ -29,7 +29,7 @@ export default function AdminDashboard() {
     <div>
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
-        <p className="text-sm text-navy-500 mt-1">Welcome to Gloyce Admin</p>
+        <p className="text-sm text-ink-400 mt-1">Welcome to Gloyce Admin</p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -37,7 +37,7 @@ export default function AdminDashboard() {
           <Link
             key={label}
             href={href}
-            className="bg-navy-800 rounded-xl p-5 border border-navy-700 hover:shadow-md transition-shadow"
+            className="bg-ink-800 rounded-xl p-5 border border-ink-600 hover:shadow-md transition-shadow"
           >
             <div className="flex items-center justify-between mb-3">
               <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: color + "18" }}>
@@ -45,33 +45,33 @@ export default function AdminDashboard() {
               </div>
             </div>
             <p className="text-2xl font-bold text-foreground">{value}</p>
-            <p className="text-xs text-navy-500 mt-0.5">{label}</p>
+            <p className="text-xs text-ink-400 mt-0.5">{label}</p>
           </Link>
         ))}
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
-        <div className="bg-navy-800 rounded-xl border border-navy-700 p-5">
+        <div className="bg-ink-800 rounded-xl border border-ink-600 p-5">
           <h2 className="font-semibold text-slate-200 mb-4">Quick Actions</h2>
           <div className="flex flex-col gap-2">
-            <Link href="/admin/customers" className="flex items-center gap-3 p-3 rounded-lg hover:bg-navy-900 text-sm text-slate-300">
+            <Link href="/admin/customers" className="flex items-center gap-3 p-3 rounded-lg hover:bg-ink-900 text-sm text-slate-300">
               <Users size={16} className="text-blue-500" /> View all customers
             </Link>
-            <Link href="/admin/customers?status=pending" className="flex items-center gap-3 p-3 rounded-lg hover:bg-navy-900 text-sm text-slate-300">
+            <Link href="/admin/customers?status=pending" className="flex items-center gap-3 p-3 rounded-lg hover:bg-ink-900 text-sm text-slate-300">
               <Clock size={16} className="text-amber-500" /> Approve pending accounts
             </Link>
-            <Link href="/admin/services" className="flex items-center gap-3 p-3 rounded-lg hover:bg-navy-900 text-sm text-slate-300">
+            <Link href="/admin/services" className="flex items-center gap-3 p-3 rounded-lg hover:bg-ink-900 text-sm text-slate-300">
               <Briefcase size={16} className="text-green-500" /> Manage services
             </Link>
-            <Link href="/admin/messages" className="flex items-center gap-3 p-3 rounded-lg hover:bg-navy-900 text-sm text-slate-300">
+            <Link href="/admin/messages" className="flex items-center gap-3 p-3 rounded-lg hover:bg-ink-900 text-sm text-slate-300">
               <MessageSquare size={16} className="text-purple-500" /> Reply to messages
             </Link>
           </div>
         </div>
 
-        <div className="bg-navy-800 rounded-xl border border-navy-700 p-5">
+        <div className="bg-ink-800 rounded-xl border border-ink-600 p-5">
           <h2 className="font-semibold text-slate-200 mb-3">Getting Started</h2>
-          <ol className="flex flex-col gap-3 text-sm text-navy-400 list-none">
+          <ol className="flex flex-col gap-3 text-sm text-ink-300 list-none">
             {[
               "Customer signs up → status is 'pending'",
               "You review and activate their account",
