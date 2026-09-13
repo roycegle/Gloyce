@@ -14,6 +14,7 @@ export async function GET(req: NextRequest) {
     .from("documents")
     .select("*, services(name,type)")
     .eq("user_id", userId)
+    .eq("uploaded_by", "Gloyce")
     .order("created_at", { ascending: false });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });

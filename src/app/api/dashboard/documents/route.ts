@@ -10,6 +10,7 @@ export async function GET() {
     .from("documents")
     .select("id,name,category,file_url,status,uploaded_by,created_at")
     .eq("user_id", auth.userId)
+    .eq("uploaded_by", "Gloyce")
     .order("created_at", { ascending: false });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });

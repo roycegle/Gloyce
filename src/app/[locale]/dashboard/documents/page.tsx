@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Download, File, FileSpreadsheet, Image, FolderOpen, Stamp, X, Check, ExternalLink, Upload, InboxIcon, Clock, AlertCircle, CheckCircle2, XCircle } from "lucide-react";
+import { FileText, Download, File, FileSpreadsheet, Image, FolderOpen, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Document {
@@ -37,379 +37,63 @@ function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString(undefined, { day: "2-digit", month: "short", year: "numeric" });
 }
 
-type Category = "all" | string;
+const CATEGORY_LABELS: Record<string, string> = {
+  all: "Tất cả",
+  company: "Công ty",
+  tax: "Thuế",
+  banking: "Ngân hàng",
+  compliance: "Compliance",
+  license: "Giấy phép",
+  certification: "Chứng thực",
+  general: "Khác",
+};
 
 export default function DocumentsPage() {
   const t = useTranslations("dashboard.documents");
   const [documents, setDocuments] = useState<Document[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState<Category>("all");
+  const [activeCategory, setActiveCategory] = useState<string>("all");
 
-  // Certification modal
-  const [certDoc, setCertDoc] = useState<Document | null>(null);
-  const [certForm, setCertForm] = useState({
-    certification_type: "",
-    destination_country: "",
-    purpose: "",
-    copies: "1",
-    delivery_method: "Digital (PDF certified copy)",
-    notes: "",
-  });
-  const [certSubmitting, setCertSubmitting] = useState(false);
-  const [certDone, setCertDone] = useState(false);
-
-  // Upload modal
-  const [showUpload, setShowUpload] = useState(false);
-  const [uploadFile, setUploadFile] = useState<File | null>(null);
-  const [uploadForm, setUploadForm] = useState({ name: "", category: "general" });
-  const [uploading, setUploading] = useState(false);
-  const [uploadDone, setUploadDone] = useState(false);
-  const fileRef = useRef<HTMLInputElement>(null);
-
-  // Request document modal
-  const [showRequest, setShowRequest] = useState(false);
-  const [requestForm, setRequestForm] = useState({ document_type: "", description: "", urgency: "normal" });
-  const [requesting, setRequesting] = useState(false);
-  const [requestDone, setRequestDone] = useState(false);
-
-  // Map: document_id → { id, status, result_url, result_filename } for all cert requests
-  type CertInfo = { id: string; status: string; result_url: string | null; result_filename: string | null };
-  const [certByDocId, setCertByDocId] = useState<Record<string, CertInfo>>({});
-
-  // My document requests (NOT certification — those are shown inline on doc rows)
-  const [myRequests, setMyRequests] = useState<Array<{ id: string; service_type: string; status: string; details: Record<string, unknown>; created_at: string }>>([]);
-
-  const reload = () => {
+  useEffect(() => {
     fetch("/api/dashboard/documents")
       .then(r => r.json())
       .then(d => { setDocuments(Array.isArray(d) ? d : []); setLoading(false); })
       .catch(() => setLoading(false));
-
-    fetch("/api/dashboard/certifications/pending")
-      .then(r => r.json())
-      .then((d: Array<{ id: string; document_id: string; status: string; result_url: string | null; result_filename: string | null }>) => {
-        if (Array.isArray(d)) {
-          const map: Record<string, CertInfo> = {};
-          d.forEach(r => { if (r.document_id) map[r.document_id] = { id: r.id, status: r.status, result_url: r.result_url, result_filename: r.result_filename }; });
-          setCertByDocId(map);
-        }
-      })
-      .catch(() => {});
-
-    fetch("/api/dashboard/requests")
-      .then(r => r.json())
-      .then(d => { if (Array.isArray(d)) setMyRequests(d.filter((r: { service_type: string }) => r.service_type === "document_request")); })
-      .catch(() => {});
-  };
-
-  useEffect(() => { reload(); }, []);
+  }, []);
 
   const categories = ["all", ...Array.from(new Set(documents.map(d => d.category).filter(Boolean)))];
-
-  const filtered = activeCategory === "all"
-    ? documents
-    : documents.filter(d => d.category === activeCategory);
-
-  const categoryLabel = (cat: string) => {
-    const labels: Record<string, string> = {
-      all: t("categories.all"),
-      company: t("categories.company"),
-      tax: t("categories.tax"),
-      banking: t("categories.banking"),
-      compliance: "Compliance",
-      license: "Licenses",
-      certification: "Certified",
-      general: "General",
-      customer: "My Uploads",
-    };
-    return labels[cat] || (cat.charAt(0).toUpperCase() + cat.slice(1));
-  };
-
-  const submitCertRequest = async () => {
-    if (!certForm.certification_type || !certForm.destination_country || !certForm.purpose) return;
-    setCertSubmitting(true);
-    const res = await fetch("/api/dashboard/documents/certify", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ document_id: certDoc?.id, ...certForm, copies: parseInt(certForm.copies) || 1 }),
-    });
-    setCertSubmitting(false);
-    if (!res.ok) {
-      const errData = await res.json().catch(() => ({}));
-      alert((errData as { error?: string }).error || "Gửi yêu cầu thất bại. Vui lòng thử lại.");
-      return;
-    }
-    setCertDone(true);
-    reload();
-    setTimeout(() => {
-      setCertDoc(null); setCertDone(false);
-      setCertForm({ certification_type: "", destination_country: "", purpose: "", copies: "1", delivery_method: "Digital (PDF certified copy)", notes: "" });
-    }, 2000);
-  };
-
-  const submitUpload = async () => {
-    if (!uploadFile) return;
-    setUploading(true);
-    const fd = new FormData();
-    fd.append("file", uploadFile);
-    fd.append("category", uploadForm.category);
-    if (uploadForm.name) fd.append("name", uploadForm.name);
-    const res = await fetch("/api/dashboard/documents", { method: "POST", body: fd });
-    setUploading(false);
-    if (res.ok) {
-      setUploadDone(true);
-      setTimeout(() => {
-        setShowUpload(false); setUploadDone(false);
-        setUploadFile(null); setUploadForm({ name: "", category: "general" });
-        if (fileRef.current) fileRef.current.value = "";
-        reload();
-      }, 1500);
-    }
-  };
-
-  const submitRequest = async () => {
-    if (!requestForm.document_type || !requestForm.description) return;
-    setRequesting(true);
-    const res = await fetch("/api/dashboard/documents/request", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(requestForm),
-    });
-    setRequesting(false);
-    if (!res.ok) { const err = await res.json().catch(() => ({})); alert(`Gửi yêu cầu thất bại: ${err.error || "Vui lòng thử lại"}`); return; }
-    setRequestDone(true);
-    setTimeout(() => {
-      setShowRequest(false); setRequestDone(false);
-      setRequestForm({ document_type: "", description: "", urgency: "normal" });
-    }, 2000);
-  };
-
-  const modalClass = "fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4";
-  const cardClass = "bg-navy-800 rounded-2xl border border-navy-700 p-6 w-full max-w-lg";
-  const inputClass = "w-full bg-navy-900 border border-navy-700 rounded-xl px-4 py-2.5 text-sm text-foreground placeholder:text-navy-500 focus:outline-none focus:ring-2 focus:ring-gold/40";
-  const labelClass = "text-xs font-medium text-navy-400 mb-1.5 block";
+  const filtered = activeCategory === "all" ? documents : documents.filter(d => d.category === activeCategory);
 
   return (
-    <div className="flex flex-col gap-6 max-w-3xl">
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <h2 className="text-xl font-bold text-foreground">{t("title")}</h2>
-          <p className="text-sm text-navy-400 mt-0.5">{t("subtitle")}</p>
-        </div>
-        <div className="flex gap-2 shrink-0">
-          <button onClick={() => setShowRequest(true)}
-            className="flex items-center gap-2 px-3 py-2 rounded-xl border border-navy-600 text-xs font-medium text-navy-300 hover:text-foreground hover:border-navy-500 transition-colors">
-            <InboxIcon size={14} />
-            <span className="hidden sm:inline">Yêu cầu tài liệu</span>
-          </button>
-          <button onClick={() => setShowUpload(true)}
-            className="flex items-center gap-2 px-3 py-2 rounded-xl bg-gold/10 border border-gold/20 text-gold text-xs font-medium hover:bg-gold/20 transition-colors">
-            <Upload size={14} />
-            <span className="hidden sm:inline">Gửi tài liệu</span>
-          </button>
-        </div>
+    <div className="max-w-4xl flex flex-col gap-6">
+      {/* Header */}
+      <div>
+        <h1 className="text-xl font-bold text-foreground">{t("title")}</h1>
+        <p className="text-sm text-navy-400 mt-0.5">
+          Hồ sơ và tài liệu hoàn chỉnh từ Gloyce — luôn có sẵn để xem và tải về
+        </p>
       </div>
-
-      {/* Upload modal */}
-      {showUpload && (
-        <div className={modalClass}>
-          <div className={cardClass}>
-            <div className="flex items-center justify-between mb-5">
-              <h3 className="text-base font-bold text-foreground">Gửi tài liệu lên</h3>
-              <button onClick={() => { setShowUpload(false); setUploadFile(null); if (fileRef.current) fileRef.current.value = ""; }}
-                className="p-1.5 text-navy-500 hover:text-foreground rounded-lg"><X size={16} /></button>
-            </div>
-            {uploadDone ? (
-              <div className="flex flex-col items-center gap-3 py-8">
-                <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                  <Check size={20} className="text-emerald-400" />
-                </div>
-                <p className="text-sm font-medium text-foreground">Đã gửi thành công!</p>
-              </div>
-            ) : (
-              <div className="flex flex-col gap-4">
-                <div>
-                  <label className={labelClass}>Chọn file *</label>
-                  <input ref={fileRef} type="file" onChange={e => setUploadFile(e.target.files?.[0] || null)}
-                    className="w-full text-sm text-navy-300 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-navy-700 file:text-navy-300 hover:file:bg-navy-600 cursor-pointer" />
-                </div>
-                <div>
-                  <label className={labelClass}>Tên tài liệu (để trống = dùng tên file)</label>
-                  <input value={uploadForm.name} onChange={e => setUploadForm(f => ({ ...f, name: e.target.value }))}
-                    placeholder="VD: Hộ chiếu, Giấy đăng ký kinh doanh..." className={inputClass} />
-                </div>
-                <div>
-                  <label className={labelClass}>Loại tài liệu</label>
-                  <select value={uploadForm.category} onChange={e => setUploadForm(f => ({ ...f, category: e.target.value }))} className={inputClass}>
-                    <option value="general">Khác</option>
-                    <option value="company">Giấy tờ công ty</option>
-                    <option value="tax">Thuế / Kế toán</option>
-                    <option value="banking">Ngân hàng</option>
-                    <option value="compliance">Compliance</option>
-                    <option value="license">Giấy phép</option>
-                  </select>
-                </div>
-                <div className="flex gap-3 pt-1">
-                  <button onClick={() => { setShowUpload(false); setUploadFile(null); if (fileRef.current) fileRef.current.value = ""; }}
-                    className="flex-1 py-2.5 rounded-xl border border-navy-600 text-sm text-navy-300 hover:text-foreground">Hủy</button>
-                  <button onClick={submitUpload} disabled={uploading || !uploadFile}
-                    className="flex-1 py-2.5 rounded-xl bg-gold/10 border border-gold/20 text-gold text-sm font-medium hover:bg-gold/20 disabled:opacity-50">
-                    {uploading ? "Đang gửi..." : "Gửi lên"}
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Request document modal */}
-      {showRequest && (
-        <div className={modalClass}>
-          <div className={cardClass}>
-            <div className="flex items-center justify-between mb-5">
-              <div>
-                <h3 className="text-base font-bold text-foreground">Yêu cầu tài liệu từ Gloyce</h3>
-                <p className="text-xs text-navy-400 mt-0.5">Đội ngũ sẽ chuẩn bị và gửi trong 3–5 ngày làm việc</p>
-              </div>
-              <button onClick={() => setShowRequest(false)} className="p-1.5 text-navy-500 hover:text-foreground rounded-lg"><X size={16} /></button>
-            </div>
-            {requestDone ? (
-              <div className="flex flex-col items-center gap-3 py-8">
-                <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                  <Check size={20} className="text-emerald-400" />
-                </div>
-                <p className="text-sm font-medium text-foreground">Yêu cầu đã được gửi! Chúng tôi sẽ liên hệ sớm.</p>
-              </div>
-            ) : (
-              <div className="flex flex-col gap-4">
-                <div>
-                  <label className={labelClass}>Loại tài liệu cần *</label>
-                  <select value={requestForm.document_type} onChange={e => setRequestForm(f => ({ ...f, document_type: e.target.value }))} className={inputClass}>
-                    <option value="">— Chọn loại tài liệu —</option>
-                    <option value="Company Certificate">Giấy chứng nhận thành lập công ty</option>
-                    <option value="EIN Letter">Giấy xác nhận EIN (Mỹ)</option>
-                    <option value="Articles of Organization">Điều lệ công ty (Articles of Organization)</option>
-                    <option value="Operating Agreement">Thỏa thuận vận hành (Operating Agreement)</option>
-                    <option value="Bank Statement">Sao kê ngân hàng</option>
-                    <option value="Shareholder Register">Sổ cổ đông</option>
-                    <option value="Business License">Giấy phép kinh doanh</option>
-                    <option value="Tax Return">Tờ khai thuế</option>
-                    <option value="Apostille">Chứng thực Apostille</option>
-                    <option value="Other">Khác</option>
-                  </select>
-                </div>
-                <div>
-                  <label className={labelClass}>Mô tả chi tiết yêu cầu *</label>
-                  <textarea value={requestForm.description} onChange={e => setRequestForm(f => ({ ...f, description: e.target.value }))}
-                    placeholder="VD: Cần giấy chứng nhận thành lập có công chứng để nộp cho ngân hàng tại Việt Nam..."
-                    rows={3} className={`${inputClass} resize-none`} />
-                </div>
-                <div>
-                  <label className={labelClass}>Mức độ ưu tiên</label>
-                  <select value={requestForm.urgency} onChange={e => setRequestForm(f => ({ ...f, urgency: e.target.value }))} className={inputClass}>
-                    <option value="normal">Bình thường (3–5 ngày làm việc)</option>
-                    <option value="urgent">Gấp (1–2 ngày, phụ phí có thể phát sinh)</option>
-                  </select>
-                </div>
-                <div className="flex gap-3 pt-1">
-                  <button onClick={() => setShowRequest(false)}
-                    className="flex-1 py-2.5 rounded-xl border border-navy-600 text-sm text-navy-300 hover:text-foreground">Hủy</button>
-                  <button onClick={submitRequest} disabled={requesting || !requestForm.document_type || !requestForm.description}
-                    className="flex-1 py-2.5 rounded-xl bg-gold/10 border border-gold/20 text-gold text-sm font-medium hover:bg-gold/20 disabled:opacity-50">
-                    {requesting ? "Đang gửi..." : "Gửi yêu cầu"}
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Certification modal */}
-      {certDoc && (
-        <div className={modalClass}>
-          <div className={cardClass}>
-            <div className="flex items-start justify-between mb-5">
-              <div>
-                <h3 className="text-base font-bold text-foreground">Request Certification</h3>
-                <p className="text-xs text-navy-400 mt-0.5">Document: {certDoc.name}</p>
-              </div>
-              <button onClick={() => setCertDoc(null)} className="p-1.5 text-navy-500 hover:text-foreground rounded-lg"><X size={16} /></button>
-            </div>
-            {certDone ? (
-              <div className="flex flex-col items-center gap-3 py-8">
-                <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
-                  <Check size={20} className="text-emerald-400" />
-                </div>
-                <p className="text-sm font-medium text-foreground">Request submitted! Our team will be in touch.</p>
-              </div>
-            ) : (
-              <div className="flex flex-col gap-4">
-                <div>
-                  <label className={labelClass}>Certification Type *</label>
-                  <select value={certForm.certification_type} onChange={e => setCertForm(f => ({ ...f, certification_type: e.target.value }))} className={inputClass}>
-                    <option value="">— Select —</option>
-                    {["Apostille", "Notarization", "Embassy Legalization", "Certified True Copy", "Government Authentication"].map(o => <option key={o} value={o}>{o}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label className={labelClass}>Destination Country *</label>
-                  <input value={certForm.destination_country} onChange={e => setCertForm(f => ({ ...f, destination_country: e.target.value }))}
-                    placeholder="e.g. Vietnam, Singapore" className={inputClass} />
-                </div>
-                <div>
-                  <label className={labelClass}>Purpose *</label>
-                  <textarea value={certForm.purpose} onChange={e => setCertForm(f => ({ ...f, purpose: e.target.value }))}
-                    placeholder="e.g. Opening a bank account, Government filing" rows={2}
-                    className={`${inputClass} resize-none`} />
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className={labelClass}>Copies Needed</label>
-                    <input type="number" min="1" value={certForm.copies} onChange={e => setCertForm(f => ({ ...f, copies: e.target.value }))} className={inputClass} />
-                  </div>
-                  <div>
-                    <label className={labelClass}>Delivery</label>
-                    <select value={certForm.delivery_method} onChange={e => setCertForm(f => ({ ...f, delivery_method: e.target.value }))} className={inputClass}>
-                      {["Digital (PDF certified copy)", "Physical — courier to Vietnam", "Physical — pick up in US/SG/HK"].map(o => <option key={o} value={o}>{o}</option>)}
-                    </select>
-                  </div>
-                </div>
-                <div>
-                  <label className={labelClass}>Additional Notes</label>
-                  <textarea value={certForm.notes} onChange={e => setCertForm(f => ({ ...f, notes: e.target.value }))}
-                    placeholder="Any special requirements..." rows={2} className={`${inputClass} resize-none`} />
-                </div>
-                <div className="flex gap-3 pt-1">
-                  <button onClick={() => setCertDoc(null)} className="flex-1 py-2.5 rounded-xl border border-navy-600 text-sm text-navy-300 hover:text-foreground">Cancel</button>
-                  <button onClick={submitCertRequest} disabled={certSubmitting || !certForm.certification_type || !certForm.destination_country || !certForm.purpose}
-                    className="flex-1 py-2.5 rounded-xl bg-gold/10 border border-gold/20 text-gold text-sm font-medium hover:bg-gold/20 disabled:opacity-50">
-                    {certSubmitting ? "Submitting..." : "Submit Request"}
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
 
       {/* Category tabs */}
-      <div className="flex gap-2 flex-wrap">
-        {categories.map((cat) => (
-          <button key={cat} onClick={() => setActiveCategory(cat)}
-            className={cn("px-3 py-1.5 rounded-lg text-xs font-medium transition-colors",
-              activeCategory === cat
-                ? "bg-gold/10 text-gold border border-gold/20"
-                : "text-navy-400 hover:text-foreground border border-navy-700 hover:border-navy-600")}>
-            {categoryLabel(cat)}
-          </button>
-        ))}
-      </div>
+      {categories.length > 1 && (
+        <div className="flex gap-2 flex-wrap">
+          {categories.map((cat) => (
+            <button key={cat} onClick={() => setActiveCategory(cat)}
+              className={cn("px-3 py-1.5 rounded-lg text-xs font-medium transition-colors border",
+                activeCategory === cat
+                  ? "bg-gold/10 text-gold border-gold/20"
+                  : "text-navy-400 hover:text-foreground border-navy-700 hover:border-navy-600")}>
+              {CATEGORY_LABELS[cat] || (cat.charAt(0).toUpperCase() + cat.slice(1))}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Document list */}
       {loading ? (
-        <div className="bg-navy-800 rounded-2xl border border-navy-700 p-10 text-center text-sm text-navy-500">Loading...</div>
+        <div className="bg-navy-800 rounded-2xl border border-navy-700 p-10 text-center text-sm text-navy-500">
+          Đang tải...
+        </div>
       ) : filtered.length === 0 ? (
         <div className="flex flex-col items-center justify-center gap-4 py-20 bg-navy-800 rounded-2xl border border-navy-700 text-center px-6">
           <div className="w-14 h-14 rounded-2xl bg-navy-700 border border-navy-600 flex items-center justify-center">
@@ -417,7 +101,9 @@ export default function DocumentsPage() {
           </div>
           <div>
             <p className="text-base font-semibold text-foreground mb-1">{t("noDocumentsTitle")}</p>
-            <p className="text-sm text-navy-400 max-w-xs mx-auto leading-relaxed">{t("noDocuments")}</p>
+            <p className="text-sm text-navy-400 max-w-xs mx-auto leading-relaxed">
+              Hồ sơ hoàn chỉnh của bạn sẽ xuất hiện ở đây sau khi Gloyce xử lý xong dịch vụ.
+            </p>
           </div>
         </div>
       ) : (
@@ -426,7 +112,6 @@ export default function DocumentsPage() {
             const ext = getExtension(doc.name);
             const Icon = FILE_ICONS[ext] || File;
             const color = FILE_COLORS[ext] || "text-navy-400";
-            const fromGloyce = doc.uploaded_by === "Gloyce";
             return (
               <div key={doc.id}
                 className="flex items-center gap-3 sm:gap-4 px-4 py-3.5 border-b border-navy-700/50 last:border-0 hover:bg-navy-750 transition-colors">
@@ -434,169 +119,34 @@ export default function DocumentsPage() {
                   <Icon size={16} className={color} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-foreground truncate">{doc.name}</p>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <p className="text-sm font-medium text-foreground truncate">{doc.name}</p>
+                    <Badge variant="gold" className="text-[10px] shrink-0">Gloyce</Badge>
+                  </div>
                   <p className="text-xs text-navy-500 mt-0.5">
-                    {ext.toUpperCase()} · {t("uploadedAt")} {formatDate(doc.created_at)}
-                    {doc.uploaded_by && ` · ${doc.uploaded_by}`}
+                    {ext.toUpperCase()} · {formatDate(doc.created_at)}
+                    {doc.category && doc.category !== "general" && ` · ${CATEGORY_LABELS[doc.category] || doc.category}`}
                   </p>
                 </div>
-                <div className="flex flex-col items-end gap-1 shrink-0">
-                  <div className="flex items-center gap-1">
-                    {fromGloyce && (
-                      <Badge variant="gold" className="text-[10px] hidden sm:flex mr-1">Gloyce</Badge>
-                    )}
-                    {!fromGloyce && (() => {
-                      const cert = certByDocId[doc.id];
-                      // Show stamp button if: no cert request, OR previous request was completed/rejected
-                      const canResubmit = !cert || cert.status === "completed" || cert.status === "rejected";
-                      if (canResubmit) {
-                        return (
-                          <button onClick={() => { setCertDoc(doc); setCertDone(false); }}
-                            title="Yêu cầu chứng thực"
-                            className="p-1.5 text-navy-500 hover:text-gold hover:bg-gold/10 rounded-lg transition-colors">
-                            <Stamp size={14} />
-                          </button>
-                        );
-                      }
-                      // Pending / in_progress — hide stamp, show status chip only
-                      return null;
-                    })()}
-                    {doc.file_url && (
-                      <>
-                        <a href={doc.file_url} target="_blank" rel="noopener noreferrer"
-                          title="Xem"
-                          className="p-1.5 text-navy-500 hover:text-foreground hover:bg-navy-700 rounded-lg transition-colors">
-                          <ExternalLink size={14} />
-                        </a>
-                        <a href={doc.file_url} download
-                          title="Tải xuống"
-                          className="p-1.5 text-navy-500 hover:text-foreground hover:bg-navy-700 rounded-lg transition-colors">
-                          <Download size={14} />
-                        </a>
-                      </>
-                    )}
+                {doc.file_url && (
+                  <div className="flex items-center gap-1 shrink-0">
+                    <a href={doc.file_url} target="_blank" rel="noopener noreferrer"
+                      title="Xem"
+                      className="p-2 text-navy-500 hover:text-foreground hover:bg-navy-700 rounded-lg transition-colors">
+                      <ExternalLink size={15} />
+                    </a>
+                    <a href={doc.file_url} download
+                      title="Tải xuống"
+                      className="p-2 text-navy-500 hover:text-gold hover:bg-gold/10 rounded-lg transition-colors">
+                      <Download size={15} />
+                    </a>
                   </div>
-                  {/* Cert request inline status + result */}
-                  {!fromGloyce && certByDocId[doc.id] && (() => {
-                    const cert = certByDocId[doc.id];
-                    const isPending = cert.status === "pending";
-                    const isInProgress = cert.status === "in_progress";
-                    const isCompleted = cert.status === "completed";
-                    const isRejected = cert.status === "rejected";
-                    return (
-                      <div className="flex flex-col items-end gap-1">
-                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium border ${
-                          isPending ? "bg-amber-500/10 text-amber-400 border-amber-500/20" :
-                          isInProgress ? "bg-blue-500/10 text-blue-400 border-blue-500/20" :
-                          isCompleted ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" :
-                          "bg-red-500/10 text-red-400 border-red-500/20"
-                        }`}>
-                          {isPending && <><Clock size={9} />Chứng thực · Chờ xử lý</>}
-                          {isInProgress && <><AlertCircle size={9} />Chứng thực · Đang xử lý</>}
-                          {isCompleted && <><CheckCircle2 size={9} />Chứng thực · Hoàn thành</>}
-                          {isRejected && <><XCircle size={9} />Chứng thực · Từ chối</>}
-                        </span>
-                        {isCompleted && cert.result_url && (
-                          <a href={cert.result_url} download={cert.result_filename || true}
-                            className="inline-flex items-center gap-1 text-[10px] text-emerald-400 hover:text-emerald-300 font-medium">
-                            <Download size={10} />Tải file đã chứng
-                          </a>
-                        )}
-                        {isRejected && (
-                          <button onClick={() => { setCertDoc(doc); setCertDone(false); }}
-                            className="text-[10px] text-navy-400 hover:text-foreground underline">
-                            Gửi lại yêu cầu
-                          </button>
-                        )}
-                      </div>
-                    );
-                  })()}
-                </div>
+                )}
               </div>
             );
           })}
         </div>
       )}
-
-      {/* My Document Requests — certification requests are shown inline on each doc row above */}
-      {myRequests.length > 0 && (
-        <div>
-          <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
-            <Clock size={14} className="text-navy-400" />
-            Yêu cầu làm hồ sơ / tài liệu
-          </h3>
-          <div className="bg-navy-800 rounded-2xl border border-navy-700 overflow-hidden">
-            {myRequests.map((req) => {
-              const d = req.details as Record<string, unknown>;
-              const isPending = req.status === "pending";
-              const isInProgress = req.status === "in_progress";
-              const isCompleted = req.status === "completed";
-              const isRejected = req.status === "rejected";
-
-              const statusBadge = isPending
-                ? <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20"><Clock size={10} />Chờ xử lý</span>
-                : isInProgress
-                ? <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20"><AlertCircle size={10} />Đang xử lý</span>
-                : isCompleted
-                ? <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><CheckCircle2 size={10} />Hoàn thành</span>
-                : isRejected
-                ? <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-red-500/10 text-red-400 border border-red-500/20"><XCircle size={10} />Từ chối</span>
-                : null;
-
-              const summary = [d.document_type, d.urgency === "urgent" ? "⚡ Gấp" : null].filter(Boolean).map(String).join(" · ");
-              const adminNotes = typeof d.admin_notes === "string" && d.admin_notes ? d.admin_notes : null;
-              const resultUrl = typeof d.result_url === "string" && d.result_url ? d.result_url : null;
-              const resultFilename = typeof d.result_filename === "string" && d.result_filename ? d.result_filename : "Tài liệu kết quả";
-
-              return (
-                <div key={req.id} className="px-4 py-3.5 border-b border-navy-700/50 last:border-0">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap mb-1">
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-navy-700 text-navy-300 border border-navy-600">Yêu cầu tài liệu</span>
-                        {statusBadge}
-                      </div>
-                      {summary && <p className="text-sm text-foreground">{summary}</p>}
-                      {!!(d.description) && <p className="text-xs text-navy-400 mt-0.5 line-clamp-2">{String(d.description)}</p>}
-                      {adminNotes && <p className="text-xs text-navy-400 mt-1 italic">"{adminNotes}"</p>}
-                      <p className="text-xs text-navy-500 mt-0.5">{formatDate(req.created_at)}</p>
-                    </div>
-                  </div>
-                  {/* Result file from Gloyce */}
-                  {resultUrl && (
-                    <div className="mt-2 flex items-center gap-2 p-2.5 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
-                      <CheckCircle2 size={13} className="text-emerald-400 shrink-0" />
-                      <span className="text-xs text-emerald-400 flex-1 truncate">Kết quả đã có: {resultFilename}</span>
-                      <a href={resultUrl} download={resultFilename}
-                        className="flex items-center gap-1 text-xs text-emerald-400 hover:text-emerald-300 font-medium shrink-0">
-                        <Download size={12} />Tải về
-                      </a>
-                      <a href={resultUrl} target="_blank" rel="noopener noreferrer"
-                        className="flex items-center gap-1 text-xs text-navy-400 hover:text-foreground shrink-0">
-                        <ExternalLink size={12} />Xem
-                      </a>
-                    </div>
-                  )}
-                  {isCompleted && !resultUrl && (
-                    <div className="mt-2 p-2 rounded-lg bg-navy-700/50 border border-navy-600">
-                      <p className="text-xs text-navy-400">Hoàn thành · Gloyce sẽ sớm gửi tài liệu cho bạn.</p>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      {/* Certification info box */}
-      <div className="p-4 rounded-xl bg-navy-800 border border-navy-700 flex items-start gap-3">
-        <Stamp size={16} className="text-navy-400 shrink-0 mt-0.5" />
-        <div className="flex-1">
-          <p className="text-sm font-medium text-foreground">Cần chứng thực tài liệu?</p>
-          <p className="text-xs text-navy-500 mt-0.5">Nhấn vào biểu tượng <Stamp size={10} className="inline" /> trên tài liệu bạn đã tải lên để yêu cầu Apostille, công chứng, hoặc chứng thực chính phủ. Chúng tôi xử lý trong 3–5 ngày làm việc.</p>
-        </div>
-      </div>
     </div>
   );
 }
