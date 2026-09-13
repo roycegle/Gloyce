@@ -388,10 +388,19 @@ export default function AdminRequestsPage() {
                     )}
 
                     {(req.status === "completed" || req.status === "rejected") && !(req.details.result_url) && (
-                      <div className="flex items-center gap-2 text-xs text-slate-500">
-                        <Check size={13} />
-                        Yêu cầu đã được {req.status === "completed" ? "hoàn thành" : "từ chối"}
-                        {adminNotes && <span className="text-slate-400">· {adminNotes}</span>}
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <div className="flex items-center gap-2 text-xs text-slate-500 flex-1 min-w-0">
+                          <Check size={13} className="shrink-0" />
+                          Yêu cầu đã được {req.status === "completed" ? "hoàn thành" : "từ chối"}
+                          {adminNotes && <span className="text-slate-400">· {adminNotes}</span>}
+                        </div>
+                        <button
+                          onClick={() => { setResultUploadId(req.id); setResultFile(null); }}
+                          className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-medium hover:bg-amber-500/20 transition-colors"
+                        >
+                          <Upload size={13} />
+                          Upload kết quả
+                        </button>
                       </div>
                     )}
                   </div>

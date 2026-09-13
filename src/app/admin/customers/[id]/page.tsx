@@ -501,6 +501,30 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                       </div>
                     </div>
                   )}
+                  {/* Result file for completed requests */}
+                  {r.status === "completed" && (d.result_url as string) && (
+                    <div className="mt-2 flex items-center gap-2 p-2.5 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
+                      <CheckCircle size={13} className="text-emerald-400 shrink-0" />
+                      <span className="text-xs text-emerald-400 flex-1 truncate">Kết quả: {(d.result_filename as string) || "file"}</span>
+                      <a href={d.result_url as string} target="_blank" rel="noopener noreferrer"
+                        className="text-xs text-ink-400 hover:text-slate-200">Xem</a>
+                    </div>
+                  )}
+                  {(r.status === "completed" || r.status === "rejected") && !(d.result_url) && (
+                    <div className="mt-2 flex items-center gap-2 flex-wrap">
+                      <div className="flex items-center gap-2 text-xs text-ink-500 flex-1 min-w-0">
+                        <CheckCircle size={13} className="shrink-0" />
+                        Yêu cầu đã được {r.status === "completed" ? "hoàn thành" : "từ chối"}
+                      </div>
+                      <button
+                        onClick={() => { setResultUploadId(r.id); setResultFile(null); }}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-medium hover:bg-amber-500/20 transition-colors"
+                      >
+                        <Upload size={12} />
+                        Upload kết quả
+                      </button>
+                    </div>
+                  )}
                 </div>
               );
             })
