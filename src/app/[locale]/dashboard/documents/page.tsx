@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Download, File, FileSpreadsheet, Image, FolderOpen, Stamp, X, Check } from "lucide-react";
+import { FileText, Download, File, FileSpreadsheet, Image, FolderOpen, Stamp, X, Check, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Document {
@@ -229,16 +229,26 @@ export default function DocumentsPage() {
                   {doc.uploaded_by === "Gloyce" && (
                     <Badge variant="gold" className="text-[10px] hidden sm:flex mr-1">Gloyce</Badge>
                   )}
-                  <button onClick={() => { setCertDoc(doc); setCertDone(false); }}
-                    title="Request certification"
-                    className="p-1.5 text-navy-500 hover:text-gold hover:bg-gold/10 rounded-lg transition-colors">
-                    <Stamp size={14} />
-                  </button>
+                  {doc.uploaded_by !== "Gloyce" && (
+                    <button onClick={() => { setCertDoc(doc); setCertDone(false); }}
+                      title="Request certification"
+                      className="p-1.5 text-navy-500 hover:text-gold hover:bg-gold/10 rounded-lg transition-colors">
+                      <Stamp size={14} />
+                    </button>
+                  )}
                   {doc.file_url && (
-                    <a href={doc.file_url} target="_blank" rel="noopener noreferrer"
-                      className="p-1.5 text-navy-500 hover:text-foreground hover:bg-navy-700 rounded-lg transition-colors">
-                      <Download size={14} />
-                    </a>
+                    <>
+                      <a href={doc.file_url} target="_blank" rel="noopener noreferrer"
+                        title="View"
+                        className="p-1.5 text-navy-500 hover:text-foreground hover:bg-navy-700 rounded-lg transition-colors">
+                        <ExternalLink size={14} />
+                      </a>
+                      <a href={doc.file_url} download
+                        title="Download"
+                        className="p-1.5 text-navy-500 hover:text-foreground hover:bg-navy-700 rounded-lg transition-colors">
+                        <Download size={14} />
+                      </a>
+                    </>
                   )}
                 </div>
               </div>
@@ -250,9 +260,23 @@ export default function DocumentsPage() {
       {/* Info box */}
       <div className="p-4 rounded-xl bg-navy-800 border border-navy-700 flex items-start gap-3">
         <Stamp size={16} className="text-navy-400 shrink-0 mt-0.5" />
-        <div>
+        <div className="flex-1">
           <p className="text-sm font-medium text-foreground">Need document certification?</p>
-          <p className="text-xs text-navy-500 mt-0.5">Click the stamp icon on any document to request apostille, notarization, or government certification. Our team will process it within 3–5 business days.</p>
+          <p className="text-xs text-navy-500 mt-0.5 mb-3">Request apostille, notarization, or government certification for any of your documents. Our team will process it within 3–5 business days.</p>
+          {documents.filter(d => d.uploaded_by !== "Gloyce").length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {documents.filter(d => d.uploaded_by !== "Gloyce").map(doc => (
+                <button key={doc.id}
+                  onClick={() => { setCertDoc(doc); setCertDone(false); }}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-navy-700 border border-navy-600 text-xs text-navy-300 hover:text-gold hover:border-gold/40 transition-colors">
+                  <Stamp size={11} />
+                  {doc.name.length > 30 ? doc.name.slice(0, 30) + "…" : doc.name}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <p className="text-xs text-navy-600 italic">No documents available for certification yet.</p>
+          )}
         </div>
       </div>
     </div>
