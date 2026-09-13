@@ -3,37 +3,52 @@
 import { useEffect, useState } from "react";
 import {
   ClipboardList, Plus, Check, Clock, XCircle, ChevronDown, ChevronUp,
-  FileText, Stamp, Upload, Calendar, AlertCircle, Download, ExternalLink,
-  CreditCard, DollarSign, RefreshCw,
+  FileText, Stamp, Calendar, AlertCircle, Download, ExternalLink,
+  CreditCard, DollarSign, RefreshCw, Building2, Briefcase,
 } from "lucide-react";
 import { toast } from "sonner";
 
-interface ServiceRequest {
+interface UnifiedRequest {
   id: string;
+  source: "service" | "service_request";
   service_type: string;
+  display_name: string | null;
   status: string;
   payment_status?: string;
   price?: number;
   currency?: string;
+  is_price_fixed: boolean;
+  current_step?: number;
+  total_steps?: number;
   details: Record<string, unknown>;
   created_at: string;
 }
 
-const TYPE_LABEL: Record<string, string> = {
+const SR_TYPE_LABEL: Record<string, string> = {
   document_request: "Yêu cầu tài liệu",
   certification: "Yêu cầu chứng thực",
 };
 
-const TYPE_ICON: Record<string, typeof FileText> = {
+const SR_TYPE_ICON: Record<string, typeof FileText> = {
   document_request: FileText,
   certification: Stamp,
 };
 
+const SVC_TYPE_ICON: Record<string, typeof Briefcase> = {
+  us_llc: Building2,
+  singapore: Building2,
+  hong_kong: Building2,
+  accounting: Briefcase,
+  odi: FileText,
+  us_bank: CreditCard,
+  payment_gateway: CreditCard,
+};
+
 const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
-  pending:     { label: "Chờ xử lý",   color: "bg-amber-500/15 text-amber-400 border-amber-500/30" },
-  in_progress: { label: "Đang xử lý",  color: "bg-blue-500/15 text-blue-400 border-blue-500/30" },
-  completed:   { label: "Hoàn thành",  color: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30" },
-  rejected:    { label: "Từ chối",      color: "bg-red-500/15 text-red-400 border-red-500/30" },
+  pending:     { label: "Chờ xử lý",  color: "bg-amber-500/15 text-amber-400 border-amber-500/30" },
+  in_progress: { label: "Đang xử lý", color: "bg-blue-500/15 text-blue-400 border-blue-500/30" },
+  completed:   { label: "Hoàn thành", color: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30" },
+  rejected:    { label: "Từ chối",     color: "bg-red-500/15 text-red-400 border-red-500/30" },
 };
 
 const PAYMENT_CONFIG: Record<string, { label: string; color: string; desc: string }> = {
@@ -63,12 +78,10 @@ function NewRequestModal({ onClose, onCreated }: { onClose: () => void; onCreate
   const [type, setType] = useState<"certification" | "document_request">("document_request");
   const [submitting, setSubmitting] = useState(false);
 
-  // document_request fields
   const [docType, setDocType] = useState("");
   const [docDesc, setDocDesc] = useState("");
   const [urgency, setUrgency] = useState("normal");
 
-  // certification fields
   const [certType, setCertType] = useState("");
   const [certCountry, setCertCountry] = useState("");
   const [certPurpose, setCertPurpose] = useState("");
@@ -91,11 +104,9 @@ function NewRequestModal({ onClose, onCreated }: { onClose: () => void; onCreate
       body: JSON.stringify({ service_type: type, details }),
     });
     setSubmitting(false);
-
     if (res.ok) {
       toast.success("Yêu cầu đã được gửi thành công");
-      onCreated();
-      onClose();
+      onCreated(); onClose();
     } else {
       const d = await res.json().catch(() => ({}));
       toast.error((d as { error?: string }).error || "Gửi yêu cầu thất bại");
@@ -109,9 +120,7 @@ function NewRequestModal({ onClose, onCreated }: { onClose: () => void; onCreate
           <h2 className="text-base font-bold text-slate-100">Tạo yêu cầu mới</h2>
           <button onClick={onClose} className="text-slate-500 hover:text-slate-300 text-sm">Đóng</button>
         </div>
-
         <div className="overflow-y-auto flex-1 p-5 space-y-4">
-          {/* Type selector */}
           <div>
             <p className="text-[11px] text-slate-500 mb-2 uppercase tracking-wider">Loại yêu cầu</p>
             <div className="grid grid-cols-2 gap-2">
@@ -120,7 +129,7 @@ function NewRequestModal({ onClose, onCreated }: { onClose: () => void; onCreate
                   className={`p-3 rounded-xl border text-left transition-colors ${type === t ? "border-amber-500/40 bg-amber-500/10" : "border-[#1E2A4A] bg-[#060C30] hover:border-[#2A3A5A]"}`}>
                   <div className="flex items-center gap-2 mb-1">
                     {t === "document_request" ? <FileText size={14} className="text-amber-400" /> : <Stamp size={14} className="text-amber-400" />}
-                    <span className="text-xs font-semibold text-slate-200">{TYPE_LABEL[t]}</span>
+                    <span className="text-xs font-semibold text-slate-200">{SR_TYPE_LABEL[t]}</span>
                   </div>
                   <p className="text-[10px] text-slate-500 leading-relaxed">
                     {t === "document_request" ? "Yêu cầu Gloyce chuẩn bị tài liệu pháp lý" : "Chứng thực/hợp pháp hóa tài liệu hiện có"}
@@ -129,7 +138,6 @@ function NewRequestModal({ onClose, onCreated }: { onClose: () => void; onCreate
               ))}
             </div>
           </div>
-
           {type === "document_request" && (
             <>
               <div>
@@ -139,8 +147,7 @@ function NewRequestModal({ onClose, onCreated }: { onClose: () => void; onCreate
               </div>
               <div>
                 <label className="text-[11px] text-slate-500 mb-1 block">Mô tả chi tiết *</label>
-                <textarea value={docDesc} onChange={e => setDocDesc(e.target.value)} rows={3}
-                  placeholder="Mô tả mục đích sử dụng, deadline nếu có..."
+                <textarea value={docDesc} onChange={e => setDocDesc(e.target.value)} rows={3} placeholder="Mô tả mục đích, deadline nếu có..."
                   className="w-full bg-[#060C30] border border-[#1E2A4A] rounded-lg px-3 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-amber-500/40 resize-none" />
               </div>
               <div>
@@ -153,7 +160,6 @@ function NewRequestModal({ onClose, onCreated }: { onClose: () => void; onCreate
               </div>
             </>
           )}
-
           {type === "certification" && (
             <>
               <div>
@@ -196,14 +202,12 @@ function NewRequestModal({ onClose, onCreated }: { onClose: () => void; onCreate
               </div>
               <div>
                 <label className="text-[11px] text-slate-500 mb-1 block">Ghi chú thêm</label>
-                <textarea value={certNotes} onChange={e => setCertNotes(e.target.value)} rows={2}
-                  placeholder="Deadline, yêu cầu đặc biệt..."
+                <textarea value={certNotes} onChange={e => setCertNotes(e.target.value)} rows={2} placeholder="Deadline, yêu cầu đặc biệt..."
                   className="w-full bg-[#060C30] border border-[#1E2A4A] rounded-lg px-3 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-amber-500/40 resize-none" />
               </div>
             </>
           )}
         </div>
-
         <div className="p-5 border-t border-[#1E2A4A] flex gap-2 justify-end shrink-0">
           <button onClick={onClose} className="px-4 py-2 text-sm text-slate-400 hover:text-slate-200 transition-colors">Hủy</button>
           <button onClick={submit} disabled={submitting}
@@ -218,7 +222,7 @@ function NewRequestModal({ onClose, onCreated }: { onClose: () => void; onCreate
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
 export default function DashboardRequestsPage() {
-  const [requests, setRequests] = useState<ServiceRequest[]>([]);
+  const [requests, setRequests] = useState<UnifiedRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState<string | null>(null);
   const [showNew, setShowNew] = useState(false);
@@ -240,7 +244,7 @@ export default function DashboardRequestsPage() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-xl font-bold text-slate-100">Yêu cầu dịch vụ</h1>
-          <p className="text-sm text-slate-500 mt-0.5">Theo dõi tiến trình và kết quả tất cả yêu cầu</p>
+          <p className="text-sm text-slate-500 mt-0.5">Tất cả dịch vụ và yêu cầu — theo dõi tiến trình và kết quả</p>
         </div>
         <div className="flex items-center gap-2">
           <button onClick={load} disabled={loading} title="Làm mới"
@@ -270,11 +274,16 @@ export default function DashboardRequestsPage() {
         <div className="flex flex-col gap-3">
           {requests.map(req => {
             const isExpanded = expanded === req.id;
-            const TypeIcon = TYPE_ICON[req.service_type] || FileText;
+            const isStandard = req.source === "service";
+            const isSR = req.source === "service_request";
+            const TypeIcon = isStandard
+              ? (SVC_TYPE_ICON[req.service_type] || Briefcase)
+              : (SR_TYPE_ICON[req.service_type] || FileText);
             const statusCfg = STATUS_CONFIG[req.status] || STATUS_CONFIG.pending;
             const StatusIcon = req.status === "completed" ? Check : req.status === "in_progress" ? Clock : req.status === "rejected" ? XCircle : AlertCircle;
             const d = req.details || {};
             const payCfg = req.payment_status && req.payment_status !== "none" ? PAYMENT_CONFIG[req.payment_status] : null;
+            const title = req.display_name || SR_TYPE_LABEL[req.service_type] || req.service_type;
 
             return (
               <div key={req.id} className="bg-[#0D1733] rounded-xl border border-[#1E2A4A] overflow-hidden">
@@ -282,18 +291,24 @@ export default function DashboardRequestsPage() {
                 <div className="flex items-center gap-3 px-4 py-4 cursor-pointer hover:bg-[#111840] transition-colors"
                   onClick={() => setExpanded(isExpanded ? null : req.id)}>
                   <div className="w-9 h-9 rounded-lg bg-[#1A2540] border border-[#2A3A5A] flex items-center justify-center shrink-0">
-                    <TypeIcon size={16} className="text-amber-400" />
+                    <TypeIcon size={16} className={isStandard ? "text-blue-400" : "text-amber-400"} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-sm font-semibold text-slate-200">{TYPE_LABEL[req.service_type] || req.service_type}</span>
-                      {(d.urgency as string) === "urgent" && (
+                      <span className="text-sm font-semibold text-slate-200">{title}</span>
+                      {isStandard && (
+                        <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-blue-500/15 text-blue-400 border border-blue-500/20">Dịch vụ</span>
+                      )}
+                      {isSR && (d.urgency as string) === "urgent" && (
                         <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-500/15 text-red-400 border border-red-500/30">GẤP</span>
                       )}
                     </div>
-                    <div className="flex items-center gap-2 mt-0.5 text-xs text-slate-500">
-                      <Calendar size={11} />{formatDate(req.created_at)}
+                    <div className="flex items-center gap-2 mt-0.5 text-xs text-slate-500 flex-wrap">
+                      <span className="flex items-center gap-1"><Calendar size={11} />{formatDate(req.created_at)}</span>
                       {req.price && <span className="text-slate-400 font-medium">{formatPrice(req.price, req.currency)}</span>}
+                      {isStandard && req.total_steps && (
+                        <span>Bước {req.current_step || 0}/{req.total_steps}</span>
+                      )}
                     </div>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
@@ -313,42 +328,57 @@ export default function DashboardRequestsPage() {
                 {isExpanded && (
                   <div className="border-t border-[#1E2A4A] px-4 py-4 space-y-4">
 
-                    {/* Workflow steps */}
-                    <div className="flex items-center gap-0 text-[10px]">
-                      {[
-                        { key: "pending", label: "Chờ xử lý" },
-                        { key: "awaiting_payment", label: "Thanh toán" },
-                        { key: "in_progress", label: "Đang xử lý" },
-                        { key: "completed", label: "Hoàn thành" },
-                      ].map((step, i, arr) => {
-                        const isPayStep = step.key === "awaiting_payment";
-                        const reachedPayment = req.payment_status && req.payment_status !== "none";
-                        const reachedProgress = req.status === "in_progress" || req.status === "completed";
-                        const reachedDone = req.status === "completed";
-                        const active =
-                          (step.key === "pending" && req.status === "pending" && !reachedPayment) ||
-                          (isPayStep && reachedPayment && !reachedProgress) ||
-                          (step.key === "in_progress" && reachedProgress && !reachedDone) ||
-                          (step.key === "completed" && reachedDone);
-                        const done =
-                          (step.key === "pending" && (reachedPayment || reachedProgress || reachedDone)) ||
-                          (isPayStep && (reachedProgress || reachedDone)) ||
-                          (step.key === "in_progress" && reachedDone);
-                        return (
-                          <div key={step.key} className="flex items-center flex-1 min-w-0">
-                            <div className={`flex flex-col items-center gap-0.5 flex-1 min-w-0 ${done ? "opacity-60" : active ? "opacity-100" : "opacity-30"}`}>
-                              <div className={`w-2.5 h-2.5 rounded-full border flex-shrink-0 ${done ? "bg-emerald-400 border-emerald-400" : active ? "bg-amber-400 border-amber-400" : "bg-[#1A2540] border-[#2A3A5A]"}`} />
-                              <span className={`truncate max-w-full text-center leading-tight ${active ? "text-amber-400" : "text-slate-500"}`}>{step.label}</span>
-                            </div>
-                            {i < arr.length - 1 && <div className={`h-px flex-1 mx-1 ${done || (active && step.key !== "completed") ? "bg-[#2A3A5A]" : "bg-[#1A2540]"}`} />}
-                          </div>
-                        );
-                      })}
-                    </div>
+                    {/* Step progress (standard services) */}
+                    {isStandard && req.total_steps && (
+                      <div>
+                        <p className="text-[11px] text-slate-500 mb-2 uppercase tracking-wider">Tiến trình thực hiện</p>
+                        <div className="flex gap-1">
+                          {Array.from({ length: req.total_steps }).map((_, i) => (
+                            <div key={i} className={`flex-1 h-1.5 rounded-full ${i < (req.current_step || 0) ? "bg-emerald-400" : i === (req.current_step || 0) ? "bg-amber-400" : "bg-[#1A2540]"}`} />
+                          ))}
+                        </div>
+                        <p className="text-[10px] text-slate-500 mt-1">Bước {req.current_step || 0} / {req.total_steps}</p>
+                      </div>
+                    )}
 
-                    {/* Payment prompt */}
+                    {/* Workflow steps (service_requests) */}
+                    {isSR && (
+                      <div className="flex items-center gap-0 text-[10px]">
+                        {[
+                          { key: "pending", label: "Chờ xử lý" },
+                          { key: "awaiting_payment", label: "Thanh toán" },
+                          { key: "in_progress", label: "Đang xử lý" },
+                          { key: "completed", label: "Hoàn thành" },
+                        ].map((step, i, arr) => {
+                          const isPayStep = step.key === "awaiting_payment";
+                          const reachedPayment = req.payment_status && req.payment_status !== "none";
+                          const reachedProgress = req.status === "in_progress" || req.status === "completed";
+                          const reachedDone = req.status === "completed";
+                          const active =
+                            (step.key === "pending" && req.status === "pending" && !reachedPayment) ||
+                            (isPayStep && reachedPayment && !reachedProgress) ||
+                            (step.key === "in_progress" && reachedProgress && !reachedDone) ||
+                            (step.key === "completed" && reachedDone);
+                          const done =
+                            (step.key === "pending" && (reachedPayment || reachedProgress || reachedDone)) ||
+                            (isPayStep && (reachedProgress || reachedDone)) ||
+                            (step.key === "in_progress" && reachedDone);
+                          return (
+                            <div key={step.key} className="flex items-center flex-1 min-w-0">
+                              <div className={`flex flex-col items-center gap-0.5 flex-1 min-w-0 ${done ? "opacity-60" : active ? "opacity-100" : "opacity-30"}`}>
+                                <div className={`w-2.5 h-2.5 rounded-full border flex-shrink-0 ${done ? "bg-emerald-400 border-emerald-400" : active ? "bg-amber-400 border-amber-400" : "bg-[#1A2540] border-[#2A3A5A]"}`} />
+                                <span className={`truncate max-w-full text-center leading-tight ${active ? "text-amber-400" : "text-slate-500"}`}>{step.label}</span>
+                              </div>
+                              {i < arr.length - 1 && <div className={`h-px flex-1 mx-1 ${done ? "bg-[#2A3A5A]" : "bg-[#1A2540]"}`} />}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+
+                    {/* Payment info */}
                     {payCfg && (
-                      <div className={`p-3 rounded-lg border ${payCfg.color} bg-opacity-10`}>
+                      <div className={`p-3 rounded-lg border ${payCfg.color}`} style={{ backgroundColor: "rgba(0,0,0,0.2)" }}>
                         <div className="flex items-start gap-2">
                           <DollarSign size={14} className="shrink-0 mt-0.5" />
                           <div>
@@ -362,27 +392,37 @@ export default function DashboardRequestsPage() {
                       </div>
                     )}
 
-                    {/* Request details */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {req.service_type === "document_request" && (
-                        <>
-                          <div><p className="text-[11px] text-slate-500 mb-0.5">Loại tài liệu</p><p className="text-sm text-slate-200 font-medium">{d.document_type as string || "—"}</p></div>
-                          <div><p className="text-[11px] text-slate-500 mb-0.5">Ưu tiên</p><p className="text-sm text-slate-200">{(d.urgency as string) === "urgent" ? "Gấp" : "Bình thường"}</p></div>
-                          <div className="sm:col-span-2"><p className="text-[11px] text-slate-500 mb-0.5">Mô tả</p><p className="text-sm text-slate-300 leading-relaxed">{d.description as string || "—"}</p></div>
-                        </>
-                      )}
-                      {req.service_type === "certification" && (
-                        <>
-                          <div><p className="text-[11px] text-slate-500 mb-0.5">Loại chứng thực</p><p className="text-sm text-slate-200 font-medium">{d.certification_type as string || "—"}</p></div>
-                          <div><p className="text-[11px] text-slate-500 mb-0.5">Quốc gia đích</p><p className="text-sm text-slate-200">{d.destination_country as string || "—"}</p></div>
-                          {d.purpose && <div><p className="text-[11px] text-slate-500 mb-0.5">Mục đích</p><p className="text-sm text-slate-300">{d.purpose as string}</p></div>}
-                          <div><p className="text-[11px] text-slate-500 mb-0.5">Nhận kết quả</p><p className="text-sm text-slate-300">{d.delivery_method as string || "—"} · {d.copies as string || 1} bản</p></div>
-                          {d.notes && <div className="sm:col-span-2"><p className="text-[11px] text-slate-500 mb-0.5">Ghi chú</p><p className="text-sm text-slate-300">{d.notes as string}</p></div>}
-                        </>
-                      )}
-                    </div>
+                    {/* Standard service: show invoice note */}
+                    {isStandard && (!req.payment_status || req.payment_status === "none") && req.price && (
+                      <div className="flex items-center gap-2 text-xs text-slate-500 p-2 rounded-lg border border-[#1E2A4A]">
+                        <CreditCard size={12} className="shrink-0" />
+                        <span>Giá dịch vụ: <span className="text-slate-300 font-medium">{formatPrice(req.price, req.currency)}</span> — thanh toán qua hóa đơn</span>
+                      </div>
+                    )}
 
-                    {/* Admin notes */}
+                    {/* Service request details */}
+                    {isSR && (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {req.service_type === "document_request" && (
+                          <>
+                            <div><p className="text-[11px] text-slate-500 mb-0.5">Loại tài liệu</p><p className="text-sm text-slate-200 font-medium">{d.document_type as string || "—"}</p></div>
+                            <div><p className="text-[11px] text-slate-500 mb-0.5">Ưu tiên</p><p className="text-sm text-slate-200">{(d.urgency as string) === "urgent" ? "Gấp" : "Bình thường"}</p></div>
+                            <div className="sm:col-span-2"><p className="text-[11px] text-slate-500 mb-0.5">Mô tả</p><p className="text-sm text-slate-300 leading-relaxed">{d.description as string || "—"}</p></div>
+                          </>
+                        )}
+                        {req.service_type === "certification" && (
+                          <>
+                            <div><p className="text-[11px] text-slate-500 mb-0.5">Loại chứng thực</p><p className="text-sm text-slate-200 font-medium">{d.certification_type as string || "—"}</p></div>
+                            <div><p className="text-[11px] text-slate-500 mb-0.5">Quốc gia đích</p><p className="text-sm text-slate-200">{d.destination_country as string || "—"}</p></div>
+                            {d.purpose && <div><p className="text-[11px] text-slate-500 mb-0.5">Mục đích</p><p className="text-sm text-slate-300">{d.purpose as string}</p></div>}
+                            <div><p className="text-[11px] text-slate-500 mb-0.5">Nhận kết quả</p><p className="text-sm text-slate-300">{d.delivery_method as string || "—"} · {d.copies as string || 1} bản</p></div>
+                            {d.notes && <div className="sm:col-span-2"><p className="text-[11px] text-slate-500 mb-0.5">Ghi chú</p><p className="text-sm text-slate-300">{d.notes as string}</p></div>}
+                          </>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Admin note */}
                     {(d.admin_notes as string) && (
                       <div className="p-3 rounded-lg bg-blue-500/5 border border-blue-500/20">
                         <p className="text-[11px] text-blue-400 mb-0.5 uppercase tracking-wider">Ghi chú từ Gloyce</p>
@@ -399,7 +439,7 @@ export default function DashboardRequestsPage() {
                         <div className="flex items-center gap-2">
                           <FileText size={14} className="text-emerald-400 shrink-0" />
                           <span className="text-sm text-slate-300 flex-1 truncate">{(d.result_filename as string) || "file"}</span>
-                          <div className="flex items-center gap-1 shrink-0">
+                          <div className="flex gap-1 shrink-0">
                             <a href={d.result_url as string} target="_blank" rel="noopener noreferrer"
                               className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#1A2540] border border-[#2A3A5A] text-xs text-slate-300 hover:text-white transition-colors">
                               <ExternalLink size={11} />Xem
