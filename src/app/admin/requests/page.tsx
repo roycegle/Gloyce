@@ -43,6 +43,7 @@ function formatDate(iso: string) {
 export default function AdminRequestsPage() {
   const [requests, setRequests] = useState<ServiceRequest[]>([]);
   const [loading, setLoading] = useState(true);
+  const [apiError, setApiError] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState("all");
   const [expanded, setExpanded] = useState<string | null>(null);
   const [notes, setNotes] = useState<Record<string, string>>({});
@@ -53,10 +54,22 @@ export default function AdminRequestsPage() {
 
   const load = (status = statusFilter) => {
     setLoading(true);
+    setApiError(null);
     fetch(`/api/admin/requests?status=${status}`)
-      .then(r => r.json())
-      .then(d => { setRequests(Array.isArray(d) ? d : []); setLoading(false); })
-      .catch(() => setLoading(false));
+      .then(async r => {
+        const d = await r.json();
+        if (!r.ok) {
+          setApiError(`HTTP ${r.status}: ${d?.error || JSON.stringify(d)}`);
+          setRequests([]);
+        } else if (Array.isArray(d)) {
+          setRequests(d);
+        } else {
+          setApiError(`Unexpected response: ${JSON.stringify(d)}`);
+          setRequests([]);
+        }
+        setLoading(false);
+      })
+      .catch(err => { setApiError(String(err)); setLoading(false); });
   };
 
   useEffect(() => { load(); }, []);
@@ -101,6 +114,15 @@ export default function AdminRequestsPage() {
 
   return (
     <div className="max-w-5xl">
+      {apiError && (
+        <div className="mb-4 p-3 rounded-xl bg-red-500/10 border border-red-500/30 flex items-start gap-2">
+          <XCircle size={16} className="text-red-400 shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm font-medium text-red-400">Lỗi tải dữ liệu</p>
+            <p className="text-xs text-red-400/80 mt-0.5 font-mono">{apiError}</p>
+          </div>
+        </div>
+      )}
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-xl font-bold text-slate-100">Yêu cầu từ khách hàng</h1>
