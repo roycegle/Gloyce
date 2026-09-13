@@ -8,7 +8,7 @@ import {
   LayoutDashboard,
   Briefcase,
   FileText,
-  MessageSquare,
+  ClipboardList,
   CreditCard,
   Settings,
   LogOut,
@@ -18,8 +18,8 @@ import { cn } from "@/lib/utils";
 const NAV_ITEMS = [
   { href: "/dashboard" as const, icon: LayoutDashboard, key: "overview", badge: 0 },
   { href: "/dashboard/services" as const, icon: Briefcase, key: "services", badge: 0 },
+  { href: "/dashboard/requests" as const, icon: ClipboardList, key: "requests", badge: 0 },
   { href: "/dashboard/documents" as const, icon: FileText, key: "documents", badge: 0 },
-  { href: "/dashboard/messages" as const, icon: MessageSquare, key: "messages", badge: 2 },
   { href: "/dashboard/billing" as const, icon: CreditCard, key: "billing", badge: 0 },
   { href: "/dashboard/settings" as const, icon: Settings, key: "settings", badge: 0 },
 ];

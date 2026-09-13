@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import {
-  LayoutDashboard, Users, Briefcase, MessageSquare,
+  LayoutDashboard, Users, Briefcase,
   Globe, LogOut, Menu, X, ChevronRight, FileText, UserCog, ClipboardList,
 } from "lucide-react";
 import { Toaster } from "sonner";
@@ -15,7 +15,6 @@ const NAV = [
   { href: "/admin/customers", icon: Users, label: "Customers", badge: false },
   { href: "/admin/requests", icon: ClipboardList, label: "Requests", badge: true },
   { href: "/admin/services", icon: Briefcase, label: "Services", badge: false },
-  { href: "/admin/messages", icon: MessageSquare, label: "Messages", badge: false },
   { href: "/admin/forms", icon: FileText, label: "Forms", badge: false },
   { href: "/admin/staff", icon: UserCog, label: "Staff", badge: false },
 ];

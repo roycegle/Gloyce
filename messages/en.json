@@ -231,8 +231,8 @@
     "nav": {
       "overview": "Overview",
       "services": "My Services",
+      "requests": "Requests",
       "documents": "Documents",
-      "messages": "Messages",
       "billing": "Billing",
       "settings": "Settings"
     },
