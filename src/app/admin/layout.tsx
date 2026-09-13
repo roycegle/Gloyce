@@ -1,27 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import {
   LayoutDashboard, Users, Briefcase, MessageSquare,
-  Globe, LogOut, Menu, X, ChevronRight, FileText, UserCog,
+  Globe, LogOut, Menu, X, ChevronRight, FileText, UserCog, ClipboardList,
 } from "lucide-react";
 import { Toaster } from "sonner";
 
 const NAV = [
-  { href: "/admin", icon: LayoutDashboard, label: "Dashboard" },
-  { href: "/admin/customers", icon: Users, label: "Customers" },
-  { href: "/admin/services", icon: Briefcase, label: "Services" },
-  { href: "/admin/messages", icon: MessageSquare, label: "Messages" },
-  { href: "/admin/forms", icon: FileText, label: "Forms" },
-  { href: "/admin/staff", icon: UserCog, label: "Staff" },
+  { href: "/admin", icon: LayoutDashboard, label: "Dashboard", badge: false },
+  { href: "/admin/customers", icon: Users, label: "Customers", badge: false },
+  { href: "/admin/requests", icon: ClipboardList, label: "Requests", badge: true },
+  { href: "/admin/services", icon: Briefcase, label: "Services", badge: false },
+  { href: "/admin/messages", icon: MessageSquare, label: "Messages", badge: false },
+  { href: "/admin/forms", icon: FileText, label: "Forms", badge: false },
+  { href: "/admin/staff", icon: UserCog, label: "Staff", badge: false },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [pendingRequests, setPendingRequests] = useState(0);
+
+  useEffect(() => {
+    fetch("/api/admin/requests?status=pending")
+      .then(r => r.json())
+      .then(d => setPendingRequests(Array.isArray(d) ? d.length : 0))
+      .catch(() => {});
+  }, [pathname]);
 
   return (
     <div className="flex h-screen bg-ink-900">
@@ -53,8 +62,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         {/* Nav */}
         <nav className="flex-1 px-2 py-4 flex flex-col gap-0.5">
-          {NAV.map(({ href, icon: Icon, label }) => {
+          {NAV.map(({ href, icon: Icon, label, badge }) => {
             const isActive = href === "/admin" ? pathname === "/admin" : pathname.startsWith(href);
+            const badgeCount = badge ? pendingRequests : 0;
             return (
               <Link
                 key={href}
@@ -69,7 +79,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               >
                 <Icon size={18} />
                 <span>{label}</span>
-                {isActive && <ChevronRight size={14} className="ml-auto" />}
+                {badgeCount > 0 && (
+                  <span className="ml-auto px-1.5 py-0.5 rounded-full text-[10px] font-bold bg-red-500 text-white min-w-[18px] text-center">
+                    {badgeCount}
+                  </span>
+                )}
+                {isActive && badgeCount === 0 && <ChevronRight size={14} className="ml-auto" />}
               </Link>
             );
           })}

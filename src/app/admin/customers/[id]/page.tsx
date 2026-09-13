@@ -386,30 +386,60 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
 
       {/* Requests */}
       {tab === "requests" && (
-        <div className="bg-ink-800 rounded-xl border border-ink-600 overflow-hidden">
-          {requests.length === 0 ? <div className="p-12 text-center text-ink-400 text-sm"><ClipboardList size={28} className="mx-auto mb-2 text-ink-500" />No requests yet</div>
-            : (
-              <table className="w-full text-sm">
-                <thead><tr className="border-b border-ink-600 bg-ink-900">
-                  <th className="text-left px-4 py-3 font-medium text-ink-400">Service Type</th>
-                  <th className="text-left px-4 py-3 font-medium text-ink-400 hidden md:table-cell">Details</th>
-                  <th className="text-left px-4 py-3 font-medium text-ink-400">Date</th>
-                  <th className="text-left px-4 py-3 font-medium text-ink-400">Status</th>
-                </tr></thead>
-                <tbody>
-                  {requests.map((r) => (
-                    <tr key={r.id} className="border-b border-ink-600">
-                      <td className="px-4 py-3 font-medium text-slate-200 capitalize">{r.service_type}</td>
-                      <td className="px-4 py-3 text-ink-400 hidden md:table-cell text-xs max-w-xs truncate">
-                        {Object.entries(r.details || {}).slice(0, 2).map(([k, v]) => `${k}: ${v}`).join(" · ")}
-                      </td>
-                      <td className="px-4 py-3 text-ink-400">{new Date(r.created_at).toLocaleDateString()}</td>
-                      <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize ${STATUS_BADGE[r.status] || "bg-ink-700 text-ink-400"}`}>{r.status}</span></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
+        <div className="flex flex-col gap-3">
+          {requests.length === 0
+            ? <div className="bg-ink-800 rounded-xl border border-ink-600 p-12 text-center text-ink-400 text-sm"><ClipboardList size={28} className="mx-auto mb-2 text-ink-500" />No requests yet</div>
+            : requests.map((r) => {
+              const d = r.details || {};
+              const TYPE_LABEL: Record<string, string> = { document_request: "Yêu cầu tài liệu", certification: "Yêu cầu chứng thực" };
+              return (
+                <div key={r.id} className="bg-ink-800 rounded-xl border border-ink-600 p-4">
+                  <div className="flex items-start justify-between gap-3 mb-3">
+                    <div>
+                      <p className="text-sm font-semibold text-slate-200">
+                        {TYPE_LABEL[r.service_type] || r.service_type}
+                        {(d.urgency as string) === "urgent" && <span className="ml-2 px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-500/15 text-red-400 border border-red-500/30">GẤP</span>}
+                      </p>
+                      <p className="text-xs text-ink-400 mt-0.5">{new Date(r.created_at).toLocaleDateString("vi-VN")}</p>
+                    </div>
+                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize shrink-0 ${STATUS_BADGE[r.status] || "bg-ink-700 text-ink-400"}`}>{r.status}</span>
+                  </div>
+                  <div className="text-xs text-ink-400 mb-3 space-y-1">
+                    {!!(d.document_type) && <p><span className="text-ink-300">Loại:</span> {String(d.document_type)}</p>}
+                    {!!(d.certification_type) && <p><span className="text-ink-300">Chứng thực:</span> {String(d.certification_type)}</p>}
+                    {!!(d.description) && <p><span className="text-ink-300">Mô tả:</span> {String(d.description)}</p>}
+                    {!!(d.purpose) && <p><span className="text-ink-300">Mục đích:</span> {String(d.purpose)}</p>}
+                    {!!(d.destination_country) && <p><span className="text-ink-300">Quốc gia:</span> {String(d.destination_country)}</p>}
+                    {!!(d.admin_notes) && <p className="text-emerald-400"><span className="text-ink-300">Ghi chú nội bộ:</span> {String(d.admin_notes)}</p>}
+                  </div>
+                  {r.status !== "completed" && r.status !== "rejected" && (
+                    <div className="flex flex-wrap gap-2">
+                      {r.status === "pending" && (
+                        <button onClick={async () => { await fetch(`/api/admin/requests/${r.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: "in_progress" }) }); await load(); toast.success("Đang xử lý"); }}
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-medium hover:bg-blue-500/20">
+                          <CheckCircle size={12} /> Bắt đầu xử lý
+                        </button>
+                      )}
+                      <button onClick={async () => { await fetch(`/api/admin/requests/${r.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: "completed" }) }); await load(); toast.success("Hoàn thành"); }}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-medium hover:bg-green-500/20">
+                        <CheckCircle size={12} /> Hoàn thành
+                      </button>
+                      {r.service_type === "document_request" && (
+                        <button onClick={() => { setTab("documents"); setShowDocUpload(true); }}
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-medium hover:bg-amber-500/20">
+                          <Upload size={12} /> Upload tài liệu
+                        </button>
+                      )}
+                      <button onClick={async () => { await fetch(`/api/admin/requests/${r.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: "rejected" }) }); await load(); toast.success("Đã từ chối"); }}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-medium hover:bg-red-500/20">
+                        <XCircle size={12} /> Từ chối
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })
+          }
         </div>
       )}
 
