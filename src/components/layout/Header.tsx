@@ -374,7 +374,7 @@ export function Header() {
               {t({ vi: "Đăng nhập", en: "Login", zh: "登录", es: "Iniciar sesión", id: "Masuk" })}
             </Link>
             <Link
-              href="/contact"
+              href="/get-started"
               className="px-4 py-2 rounded-lg text-sm font-semibold bg-gold text-ink-900 hover:bg-gold-light transition-all shadow-[0_0_20px_rgba(201,150,12,0.25)]"
             >
               {t({ vi: "Bắt đầu", en: "Get started", zh: "立即开始", es: "Comenzar", id: "Mulai" })}
@@ -457,7 +457,7 @@ export function Header() {
               <Link href="/auth/login" className="text-center py-2.5 rounded-xl border border-ink-600 text-sm text-foreground hover:bg-ink-800 transition-colors">
                 {t({ vi: "Đăng nhập", en: "Login", zh: "登录", es: "Iniciar sesión", id: "Masuk" })}
               </Link>
-              <Link href="/contact" className="text-center py-2.5 rounded-xl bg-gold text-ink-900 text-sm font-semibold hover:bg-gold-light transition-colors">
+              <Link href="/get-started" className="text-center py-2.5 rounded-xl bg-gold text-ink-900 text-sm font-semibold hover:bg-gold-light transition-colors">
                 {t({ vi: "Bắt đầu ngay", en: "Get started", zh: "立即开始", es: "Comenzar ahora", id: "Mulai sekarang" })}
               </Link>
             </div>

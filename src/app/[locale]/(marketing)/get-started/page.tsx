@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { useParams } from "next/navigation";
+import { Link } from "@/i18n/routing";
 import {
   Building2, Globe, CreditCard, Calculator, FileText, ChevronRight,
   Star, Users, Zap, Shield
@@ -148,8 +147,6 @@ const COLOR_MAP: Record<string, { bg: string; border: string; text: string; badg
 };
 
 export default function GetStartedPage() {
-  const params = useParams();
-  const locale = (params.locale as string) || "en";
   const [activeCategory, setActiveCategory] = useState("All");
 
   const filtered = activeCategory === "All"
@@ -157,19 +154,7 @@ export default function GetStartedPage() {
     : SERVICES.filter(s => s.category === activeCategory);
 
   return (
-    <div className="min-h-screen bg-navy-950">
-      {/* Header */}
-      <div className="border-b border-navy-800 bg-navy-950/80 backdrop-blur sticky top-0 z-30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <Link href={`/${locale}`} className="flex items-center gap-2">
-            <span className="bg-gold text-ink-950 font-black text-sm px-2.5 py-1 rounded-md tracking-widest">GLOYCE</span>
-          </Link>
-          <Link href={`/${locale}/auth/login`} className="text-sm text-navy-400 hover:text-foreground transition-colors">
-            Sign in
-          </Link>
-        </div>
-      </div>
-
+    <div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Hero */}
         <div className="text-center mb-12">
@@ -271,13 +256,13 @@ export default function GetStartedPage() {
 
                 <div className="flex gap-2">
                   <Link
-                    href={`/${locale}/buy?service=${service.key}`}
+                    href={`/buy?service=${service.key}`}
                     className="flex-1 py-2.5 rounded-xl bg-gold text-ink-950 text-sm font-semibold text-center hover:bg-amber-400 transition-colors flex items-center justify-center gap-1.5"
                   >
                     Get started <ChevronRight size={14} />
                   </Link>
                   <Link
-                    href={`/${locale}/contact?service=${service.key}`}
+                    href={`/contact?service=${service.key}`}
                     className="px-4 py-2.5 rounded-xl bg-navy-700 border border-navy-600 text-navy-300 text-sm font-medium hover:text-foreground hover:border-navy-500 transition-colors"
                   >
                     Ask us
@@ -293,7 +278,7 @@ export default function GetStartedPage() {
           <h2 className="text-xl font-semibold text-foreground mb-2">Not sure which service you need?</h2>
           <p className="text-navy-400 text-sm mb-5">Book a free 30-minute consultation and we'll map out the right path for your business.</p>
           <Link
-            href={`/${locale}/contact`}
+            href="/contact"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-gold/30 text-gold text-sm font-medium hover:bg-gold/10 transition-colors"
           >
             Book a free consultation

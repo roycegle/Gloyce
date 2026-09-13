@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import Link from "next/link";
-import { useSearchParams, useParams, useRouter } from "next/navigation";
+import { Link } from "@/i18n/routing";
+import { useSearchParams, useRouter } from "next/navigation";
 import { ChevronLeft, ChevronRight, Check, Loader2, Building2, Globe, CreditCard, Calculator, FileText, Shield, Zap } from "lucide-react";
 
 const SERVICE_META: Record<string, { name: string; price: number; description: string; duration: string; isMonthly?: boolean }> = {
@@ -34,10 +34,7 @@ type FormData = {
 
 function BuyContent() {
   const params = useSearchParams();
-  const routeParams = useParams();
   const router = useRouter();
-  const locale = (routeParams.locale as string) || "en";
-
   const serviceKey = params.get("service") || "";
   const service = SERVICE_META[serviceKey];
 
@@ -49,9 +46,9 @@ function BuyContent() {
 
   useEffect(() => {
     if (!service) {
-      router.replace(`/${locale}/get-started`);
+      router.replace(`/get-started`);
     }
-  }, [service, locale, router]);
+  }, [service, router]);
 
   if (!service) return null;
 
@@ -89,20 +86,13 @@ function BuyContent() {
   };
 
   return (
-    <div className="min-h-screen bg-navy-950">
-      {/* Header */}
-      <div className="border-b border-navy-800 bg-navy-950/80 backdrop-blur sticky top-0 z-30">
-        <div className="max-w-2xl mx-auto px-4 h-16 flex items-center justify-between">
-          <Link href={`/${locale}`}>
-            <span className="bg-gold text-ink-950 font-black text-sm px-2.5 py-1 rounded-md tracking-widest">GLOYCE</span>
-          </Link>
-          <Link href={`/${locale}/get-started`} className="flex items-center gap-1.5 text-sm text-navy-400 hover:text-foreground transition-colors">
-            <ChevronLeft size={14} /> All services
-          </Link>
-        </div>
+    <div>
+      <div className="max-w-2xl mx-auto px-4 py-4">
+        <Link href="/get-started" className="inline-flex items-center gap-1.5 text-sm text-navy-400 hover:text-foreground transition-colors mb-6">
+          <ChevronLeft size={14} /> All services
+        </Link>
       </div>
-
-      <div className="max-w-2xl mx-auto px-4 py-10">
+      <div className="max-w-2xl mx-auto px-4 pb-10">
         {/* Progress steps */}
         {step < 4 && (
           <div className="flex items-center gap-0 mb-10">
@@ -165,7 +155,7 @@ function BuyContent() {
 
             <div className="flex gap-3">
               <Link
-                href={`/${locale}/get-started`}
+                href="/get-started"
                 className="px-5 py-3 rounded-xl border border-navy-700 text-navy-400 text-sm font-medium hover:text-foreground hover:border-navy-600 transition-colors"
               >
                 Change service
@@ -319,7 +309,7 @@ function BuyContent() {
                 {apiError}
                 {apiError.includes("already exists") && (
                   <div className="mt-2">
-                    <Link href={`/${locale}/auth/login`} className="text-gold underline">Sign in to your account →</Link>
+                    <Link href="/auth/login" className="text-gold underline">Sign in to your account →</Link>
                   </div>
                 )}
               </div>
