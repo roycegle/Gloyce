@@ -31,10 +31,30 @@ export async function GET(req: NextRequest) {
 
   const userMap = Object.fromEntries((users ?? []).map(u => [u.id, u]));
 
-  const enriched = requests.map(r => ({
-    ...r,
-    users: userMap[r.user_id] ?? null,
-  }));
+  // Fetch source documents for certification requests
+  const docIds = requests
+    .filter(r => r.service_type === "certification" && (r.details as Record<string, unknown>)?.document_id)
+    .map(r => (r.details as Record<string, unknown>).document_id as string)
+    .filter(Boolean);
+
+  const docMap: Record<string, { id: string; name: string; file_url?: string; category?: string }> = {};
+  if (docIds.length > 0) {
+    const { data: docs } = await supabaseAdmin
+      .from("documents")
+      .select("id,name,file_url,category")
+      .in("id", docIds);
+    (docs ?? []).forEach(doc => { docMap[doc.id] = doc; });
+  }
+
+  const enriched = requests.map(r => {
+    const details = r.details as Record<string, unknown>;
+    const sourceDocId = details?.document_id as string | undefined;
+    return {
+      ...r,
+      users: userMap[r.user_id] ?? null,
+      source_document: sourceDocId ? (docMap[sourceDocId] ?? null) : null,
+    };
+  });
 
   return NextResponse.json(enriched);
 }

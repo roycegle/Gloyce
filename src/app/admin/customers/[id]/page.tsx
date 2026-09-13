@@ -2,7 +2,7 @@
 
 import { useEffect, useState, use, useRef } from "react";
 import Link from "next/link";
-import { ArrowLeft, Send, Plus, CheckCircle, XCircle, FileText, DollarSign, ClipboardList, FolderOpen, Upload, Trash2, ExternalLink } from "lucide-react";
+import { ArrowLeft, Send, Plus, CheckCircle, XCircle, FileText, DollarSign, ClipboardList, FolderOpen, Upload, Trash2, ExternalLink, Download } from "lucide-react";
 import { toast } from "sonner";
 
 interface User { id: string; name: string; email: string; phone?: string; company?: string; status: string; created_at: string; }
@@ -416,6 +416,10 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
             : requests.map((r) => {
               const d = r.details || {};
               const TYPE_LABEL: Record<string, string> = { document_request: "Yêu cầu tài liệu", certification: "Yêu cầu chứng thực" };
+              // Find source document for certification requests from already-loaded documents
+              const sourceDoc = r.service_type === "certification" && d.document_id
+                ? documents.find(doc => doc.id === String(d.document_id)) ?? null
+                : null;
               return (
                 <div key={r.id} className="bg-ink-800 rounded-xl border border-ink-600 p-4">
                   <div className="flex items-start justify-between gap-3 mb-3">
@@ -428,6 +432,32 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                     </div>
                     <span className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize shrink-0 ${STATUS_BADGE[r.status] || "bg-ink-700 text-ink-400"}`}>{r.status}</span>
                   </div>
+                  {/* Source document for certification */}
+                  {r.service_type === "certification" && (
+                    <div className="mb-3 p-2.5 rounded-lg border border-ink-600 bg-ink-900">
+                      <p className="text-[10px] text-ink-500 uppercase tracking-wider mb-1.5">File cần chứng thực</p>
+                      {sourceDoc ? (
+                        <div className="flex items-center gap-2">
+                          <FileText size={14} className="text-amber-400 shrink-0" />
+                          <span className="text-sm text-slate-200 flex-1 truncate">{sourceDoc.name}</span>
+                          {sourceDoc.file_url && (
+                            <div className="flex items-center gap-1 shrink-0">
+                              <a href={sourceDoc.file_url} target="_blank" rel="noopener noreferrer"
+                                className="flex items-center gap-1 px-2 py-1 rounded bg-ink-700 text-xs text-ink-300 hover:text-slate-200">
+                                <ExternalLink size={11} />Xem
+                              </a>
+                              <a href={sourceDoc.file_url} download
+                                className="flex items-center gap-1 px-2 py-1 rounded bg-amber-500/10 border border-amber-500/20 text-xs text-amber-400 hover:bg-amber-500/20">
+                                <Download size={11} />Tải về
+                              </a>
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <p className="text-xs text-ink-500 italic">Không tìm thấy file gốc</p>
+                      )}
+                    </div>
+                  )}
                   <div className="text-xs text-ink-400 mb-3 space-y-1">
                     {!!(d.document_type) && <p><span className="text-ink-300">Loại:</span> {String(d.document_type)}</p>}
                     {!!(d.certification_type) && <p><span className="text-ink-300">Chứng thực:</span> {String(d.certification_type)}</p>}

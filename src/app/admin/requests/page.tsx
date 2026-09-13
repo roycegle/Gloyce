@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   ClipboardList, Check, Clock, XCircle, ChevronDown, ChevronUp,
-  FileText, Stamp, Upload, User, Calendar, AlertCircle,
+  FileText, Stamp, Upload, User, Calendar, AlertCircle, Download, ExternalLink,
 } from "lucide-react";
 
 interface ServiceRequest {
@@ -16,6 +16,7 @@ interface ServiceRequest {
   created_at: string;
   users?: { id: string; name: string; email: string; company?: string } | null;
   services?: { name: string; type: string } | null;
+  source_document?: { id: string; name: string; file_url?: string; category?: string } | null;
 }
 
 const TYPE_LABEL: Record<string, string> = {
@@ -203,6 +204,39 @@ export default function AdminRequestsPage() {
                 {/* Expanded detail + actions */}
                 {isExpanded && (
                   <div className="border-t border-[#1E2A4A] px-4 py-4 space-y-4">
+                    {/* Source document for certification requests */}
+                    {req.service_type === "certification" && (
+                      <div className="p-3 rounded-lg border border-[#2A3A5A] bg-[#060C30]">
+                        <p className="text-[11px] text-slate-500 mb-2 uppercase tracking-wider">File cần chứng thực</p>
+                        {req.source_document ? (
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-lg bg-[#1A2540] border border-[#2A3A5A] flex items-center justify-center shrink-0">
+                              <FileText size={14} className="text-amber-400" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-slate-200 truncate">{req.source_document.name}</p>
+                              {req.source_document.category && (
+                                <p className="text-xs text-slate-500 capitalize">{req.source_document.category}</p>
+                              )}
+                            </div>
+                            {req.source_document.file_url && (
+                              <div className="flex items-center gap-1 shrink-0">
+                                <a href={req.source_document.file_url} target="_blank" rel="noopener noreferrer"
+                                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#1A2540] border border-[#2A3A5A] text-xs text-slate-300 hover:text-white hover:border-[#3A4A6A] transition-colors">
+                                  <ExternalLink size={12} />Xem
+                                </a>
+                                <a href={req.source_document.file_url} download
+                                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-xs text-amber-400 hover:bg-amber-500/20 transition-colors">
+                                  <Download size={12} />Tải về
+                                </a>
+                              </div>
+                            )}
+                          </div>
+                        ) : (
+                          <p className="text-sm text-slate-500 italic">Không tìm thấy file gốc (có thể đã bị xóa)</p>
+                        )}
+                      </div>
+                    )}
                     {/* Request details */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {req.service_type === "document_request" && (
