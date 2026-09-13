@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
       .eq("user_id", auth.userId)
       .eq("service_type", "certification")
       .in("status", ["pending", "in_progress"])
-      .contains("details", { document_id })
+      .filter("details->>document_id", "eq", document_id)
       .maybeSingle();
 
     if (existing) {

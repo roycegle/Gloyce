@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   ClipboardList, Check, Clock, XCircle, ChevronDown, ChevronUp,
-  FileText, Stamp, Upload, User, Calendar, AlertCircle, Download, ExternalLink,
+  FileText, Stamp, Upload, User, Calendar, AlertCircle, Download, ExternalLink, RefreshCw,
 } from "lucide-react";
 
 interface ServiceRequest {
@@ -130,12 +130,22 @@ export default function AdminRequestsPage() {
             Quản lý và xử lý các yêu cầu tài liệu, chứng thực từ khách hàng
           </p>
         </div>
-        {pending > 0 && (
-          <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20">
-            <AlertCircle size={14} className="text-amber-400" />
-            <span className="text-sm font-medium text-amber-400">{pending} chờ xử lý</span>
-          </div>
-        )}
+        <div className="flex items-center gap-2">
+          {pending > 0 && (
+            <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20">
+              <AlertCircle size={14} className="text-amber-400" />
+              <span className="text-sm font-medium text-amber-400">{pending} chờ xử lý</span>
+            </div>
+          )}
+          <button
+            onClick={() => load()}
+            disabled={loading}
+            title="Làm mới"
+            className="p-2 rounded-lg border border-[#1E2A4A] text-slate-400 hover:text-slate-200 hover:border-[#2A3A5A] disabled:opacity-50 transition-colors"
+          >
+            <RefreshCw size={15} className={loading ? "animate-spin" : ""} />
+          </button>
+        </div>
       </div>
 
       {/* Filter tabs */}

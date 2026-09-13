@@ -134,8 +134,13 @@ export default function DocumentsPage() {
       body: JSON.stringify({ document_id: certDoc?.id, ...certForm, copies: parseInt(certForm.copies) || 1 }),
     });
     setCertSubmitting(false);
-    if (!res.ok) { alert("Gửi yêu cầu thất bại. Vui lòng thử lại."); return; }
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      alert((errData as { error?: string }).error || "Gửi yêu cầu thất bại. Vui lòng thử lại.");
+      return;
+    }
     setCertDone(true);
+    reload();
     setTimeout(() => {
       setCertDoc(null); setCertDone(false);
       setCertForm({ certification_type: "", destination_country: "", purpose: "", copies: "1", delivery_method: "Digital (PDF certified copy)", notes: "" });
@@ -442,7 +447,9 @@ export default function DocumentsPage() {
                     )}
                     {!fromGloyce && (() => {
                       const cert = certByDocId[doc.id];
-                      if (!cert) {
+                      // Show stamp button if: no cert request, OR previous request was completed/rejected
+                      const canResubmit = !cert || cert.status === "completed" || cert.status === "rejected";
+                      if (canResubmit) {
                         return (
                           <button onClick={() => { setCertDoc(doc); setCertDone(false); }}
                             title="Yêu cầu chứng thực"
@@ -451,7 +458,7 @@ export default function DocumentsPage() {
                           </button>
                         );
                       }
-                      // Has a cert request — show status chip instead of stamp button
+                      // Pending / in_progress — hide stamp, show status chip only
                       return null;
                     })()}
                     {doc.file_url && (
