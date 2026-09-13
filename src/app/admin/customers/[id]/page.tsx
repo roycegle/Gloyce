@@ -3,6 +3,7 @@
 import { useEffect, useState, use, useRef } from "react";
 import Link from "next/link";
 import { ArrowLeft, Send, Plus, CheckCircle, XCircle, FileText, DollarSign, ClipboardList, FolderOpen, Upload, Trash2, ExternalLink } from "lucide-react";
+import { toast } from "sonner";
 
 interface User { id: string; name: string; email: string; phone?: string; company?: string; status: string; created_at: string; }
 interface Service { id: string; type: string; name: string; status: string; current_step: number; total_steps: number; price?: number; created_at: string; }
@@ -65,16 +66,32 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
   const sendMessage = async () => {
     if (!message.trim()) return;
     setSaving(true);
-    await fetch("/api/admin/messages", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ user_id: id, content: message }) });
-    setMessage(""); await load(); setSaving(false);
+    try {
+      const res = await fetch("/api/admin/messages", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ user_id: id, content: message }) });
+      if (!res.ok) throw new Error();
+      setMessage("");
+      await load();
+      toast.success("Đã gửi tin nhắn");
+    } catch {
+      toast.error("Gửi tin nhắn thất bại");
+    }
+    setSaving(false);
   };
 
   const createService = async () => {
     if (!newService.name) return;
     setSaving(true);
-    await fetch("/api/admin/services", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ user_id: id, type: newService.type, name: newService.name, price: parseFloat(newService.price) || null, total_steps: parseInt(newService.total_steps) }) });
-    setNewService({ type: "execute", name: "", price: "", total_steps: "5" }); setShowServiceForm(false);
-    await load(); setSaving(false);
+    try {
+      const res = await fetch("/api/admin/services", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ user_id: id, type: newService.type, name: newService.name, price: parseFloat(newService.price) || null, total_steps: parseInt(newService.total_steps) }) });
+      if (!res.ok) throw new Error();
+      setNewService({ type: "execute", name: "", price: "", total_steps: "5" });
+      setShowServiceForm(false);
+      await load();
+      toast.success("Đã tạo dịch vụ");
+    } catch {
+      toast.error("Tạo dịch vụ thất bại");
+    }
+    setSaving(false);
   };
 
   const updateServiceStep = async (serviceId: string, step: number, total: number) => {
@@ -98,25 +115,37 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
   const uploadDocument = async () => {
     if (!docFile) return;
     setSaving(true);
-    const fd = new FormData();
-    fd.append("file", docFile);
-    fd.append("user_id", id);
-    fd.append("category", docUpload.category);
-    if (docUpload.name) fd.append("name", docUpload.name);
-    if (docUpload.service_id) fd.append("service_id", docUpload.service_id);
-    await fetch("/api/admin/documents", { method: "POST", body: fd });
-    setDocFile(null);
-    setDocUpload({ name: "", category: "company", service_id: "" });
-    setShowDocUpload(false);
-    if (fileInputRef.current) fileInputRef.current.value = "";
-    await load();
+    try {
+      const fd = new FormData();
+      fd.append("file", docFile);
+      fd.append("user_id", id);
+      fd.append("category", docUpload.category);
+      if (docUpload.name) fd.append("name", docUpload.name);
+      if (docUpload.service_id) fd.append("service_id", docUpload.service_id);
+      const res = await fetch("/api/admin/documents", { method: "POST", body: fd });
+      if (!res.ok) throw new Error("Upload failed");
+      setDocFile(null);
+      setDocUpload({ name: "", category: "company", service_id: "" });
+      setShowDocUpload(false);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      await load();
+      toast.success("Tài liệu đã được gửi thành công");
+    } catch {
+      toast.error("Gửi tài liệu thất bại. Vui lòng thử lại.");
+    }
     setSaving(false);
   };
 
   const deleteDocument = async (docId: string) => {
     if (!confirm("Delete this document?")) return;
-    await fetch("/api/admin/documents", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: docId }) });
-    await load();
+    try {
+      const res = await fetch("/api/admin/documents", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: docId }) });
+      if (!res.ok) throw new Error("Delete failed");
+      await load();
+      toast.success("Đã xóa tài liệu");
+    } catch {
+      toast.error("Xóa tài liệu thất bại");
+    }
   };
 
   const assignTemplate = async () => {

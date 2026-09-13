@@ -8,6 +8,7 @@ import {
   LayoutDashboard, Users, Briefcase, MessageSquare,
   Globe, LogOut, Menu, X, ChevronRight, FileText, UserCog,
 } from "lucide-react";
+import { Toaster } from "sonner";
 
 const NAV = [
   { href: "/admin", icon: LayoutDashboard, label: "Dashboard" },
@@ -106,6 +107,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <main className="flex-1 overflow-y-auto p-6">
           {children}
         </main>
+        <Toaster position="top-right" richColors />
       </div>
     </div>
   );
