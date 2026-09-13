@@ -2,8 +2,9 @@
 
 import { useTranslations } from "next-intl";
 import { usePathname } from "@/i18n/routing";
-import { Bell } from "lucide-react";
+import { Bell, LogOut } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { signOut } from "next-auth/react";
 
 const PATH_LABELS: Record<string, string> = {
   "/dashboard": "overview",
@@ -25,12 +26,20 @@ export function DashboardTopbar() {
     <header className="h-14 md:h-16 border-b border-navy-700 bg-navy-800 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-10">
       <h1 className="text-base font-semibold text-foreground">{title}</h1>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
         <button className="relative p-2 text-navy-400 hover:text-foreground rounded-lg hover:bg-navy-700 transition-colors">
           <Bell size={18} />
           <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-gold rounded-full" />
         </button>
         <Badge variant="gold" className="text-xs hidden sm:flex">Demo</Badge>
+        {/* Logout — visible on mobile, hidden on desktop (desktop has it in bottom nav) */}
+        <button
+          onClick={() => signOut({ callbackUrl: "/en/auth/login" })}
+          className="md:hidden p-2 text-navy-400 hover:text-red-400 rounded-lg hover:bg-navy-700 transition-colors"
+          title="Sign out"
+        >
+          <LogOut size={18} />
+        </button>
       </div>
     </header>
   );
