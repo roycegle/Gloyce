@@ -108,7 +108,7 @@ export default async function HomePage() {
             </p>
 
             <div className="flex flex-wrap gap-3 mb-10">
-              <Link href="/contact"
+              <Link href="/get-started"
                 className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gold text-ink-900 font-bold text-sm hover:bg-gold-light transition-all shadow-[0_0_40px_rgba(201,150,12,0.35)] hover:shadow-[0_0_50px_rgba(201,150,12,0.50)] hover:-translate-y-0.5">
                 {t("Bắt đầu ngay", "Get started", "立即开始", "Comenzar ahora", "Mulai sekarang")} <ArrowRight size={16} />
               </Link>
