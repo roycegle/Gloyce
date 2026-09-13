@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Download, File, FileSpreadsheet, Image, FolderOpen, Stamp, X, Check, ExternalLink } from "lucide-react";
+import { FileText, Download, File, FileSpreadsheet, Image, FolderOpen, Stamp, X, Check, ExternalLink, Upload, InboxIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Document {
@@ -44,6 +44,8 @@ export default function DocumentsPage() {
   const [documents, setDocuments] = useState<Document[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState<Category>("all");
+
+  // Certification modal
   const [certDoc, setCertDoc] = useState<Document | null>(null);
   const [certForm, setCertForm] = useState({
     certification_type: "",
@@ -56,12 +58,28 @@ export default function DocumentsPage() {
   const [certSubmitting, setCertSubmitting] = useState(false);
   const [certDone, setCertDone] = useState(false);
 
-  useEffect(() => {
+  // Upload modal
+  const [showUpload, setShowUpload] = useState(false);
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [uploadForm, setUploadForm] = useState({ name: "", category: "general" });
+  const [uploading, setUploading] = useState(false);
+  const [uploadDone, setUploadDone] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  // Request document modal
+  const [showRequest, setShowRequest] = useState(false);
+  const [requestForm, setRequestForm] = useState({ document_type: "", description: "", urgency: "normal" });
+  const [requesting, setRequesting] = useState(false);
+  const [requestDone, setRequestDone] = useState(false);
+
+  const reload = () => {
     fetch("/api/dashboard/documents")
       .then(r => r.json())
       .then(d => { setDocuments(Array.isArray(d) ? d : []); setLoading(false); })
       .catch(() => setLoading(false));
-  }, []);
+  };
+
+  useEffect(() => { reload(); }, []);
 
   const categories = ["all", ...Array.from(new Set(documents.map(d => d.category).filter(Boolean)))];
 
@@ -79,6 +97,7 @@ export default function DocumentsPage() {
       license: "Licenses",
       certification: "Certified",
       general: "General",
+      customer: "My Uploads",
     };
     return labels[cat] || (cat.charAt(0).toUpperCase() + cat.slice(1));
   };
@@ -89,28 +108,198 @@ export default function DocumentsPage() {
     await fetch("/api/dashboard/documents/certify", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        document_id: certDoc?.id,
-        ...certForm,
-        copies: parseInt(certForm.copies) || 1,
-      }),
+      body: JSON.stringify({ document_id: certDoc?.id, ...certForm, copies: parseInt(certForm.copies) || 1 }),
     });
     setCertSubmitting(false);
     setCertDone(true);
-    setTimeout(() => { setCertDoc(null); setCertDone(false); setCertForm({ certification_type: "", destination_country: "", purpose: "", copies: "1", delivery_method: "Digital (PDF certified copy)", notes: "" }); }, 2000);
+    setTimeout(() => {
+      setCertDoc(null); setCertDone(false);
+      setCertForm({ certification_type: "", destination_country: "", purpose: "", copies: "1", delivery_method: "Digital (PDF certified copy)", notes: "" });
+    }, 2000);
   };
+
+  const submitUpload = async () => {
+    if (!uploadFile) return;
+    setUploading(true);
+    const fd = new FormData();
+    fd.append("file", uploadFile);
+    fd.append("category", uploadForm.category);
+    if (uploadForm.name) fd.append("name", uploadForm.name);
+    const res = await fetch("/api/dashboard/documents", { method: "POST", body: fd });
+    setUploading(false);
+    if (res.ok) {
+      setUploadDone(true);
+      setTimeout(() => {
+        setShowUpload(false); setUploadDone(false);
+        setUploadFile(null); setUploadForm({ name: "", category: "general" });
+        if (fileRef.current) fileRef.current.value = "";
+        reload();
+      }, 1500);
+    }
+  };
+
+  const submitRequest = async () => {
+    if (!requestForm.document_type || !requestForm.description) return;
+    setRequesting(true);
+    await fetch("/api/dashboard/documents/request", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(requestForm),
+    });
+    setRequesting(false);
+    setRequestDone(true);
+    setTimeout(() => {
+      setShowRequest(false); setRequestDone(false);
+      setRequestForm({ document_type: "", description: "", urgency: "normal" });
+    }, 2000);
+  };
+
+  const modalClass = "fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4";
+  const cardClass = "bg-navy-800 rounded-2xl border border-navy-700 p-6 w-full max-w-lg";
+  const inputClass = "w-full bg-navy-900 border border-navy-700 rounded-xl px-4 py-2.5 text-sm text-foreground placeholder:text-navy-500 focus:outline-none focus:ring-2 focus:ring-gold/40";
+  const labelClass = "text-xs font-medium text-navy-400 mb-1.5 block";
 
   return (
     <div className="flex flex-col gap-6 max-w-3xl">
-      <div>
-        <h2 className="text-xl font-bold text-foreground">{t("title")}</h2>
-        <p className="text-sm text-navy-400 mt-0.5">{t("subtitle")}</p>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h2 className="text-xl font-bold text-foreground">{t("title")}</h2>
+          <p className="text-sm text-navy-400 mt-0.5">{t("subtitle")}</p>
+        </div>
+        <div className="flex gap-2 shrink-0">
+          <button onClick={() => setShowRequest(true)}
+            className="flex items-center gap-2 px-3 py-2 rounded-xl border border-navy-600 text-xs font-medium text-navy-300 hover:text-foreground hover:border-navy-500 transition-colors">
+            <InboxIcon size={14} />
+            <span className="hidden sm:inline">Yêu cầu tài liệu</span>
+          </button>
+          <button onClick={() => setShowUpload(true)}
+            className="flex items-center gap-2 px-3 py-2 rounded-xl bg-gold/10 border border-gold/20 text-gold text-xs font-medium hover:bg-gold/20 transition-colors">
+            <Upload size={14} />
+            <span className="hidden sm:inline">Gửi tài liệu</span>
+          </button>
+        </div>
       </div>
 
-      {/* Certification request modal */}
+      {/* Upload modal */}
+      {showUpload && (
+        <div className={modalClass}>
+          <div className={cardClass}>
+            <div className="flex items-center justify-between mb-5">
+              <h3 className="text-base font-bold text-foreground">Gửi tài liệu lên</h3>
+              <button onClick={() => { setShowUpload(false); setUploadFile(null); if (fileRef.current) fileRef.current.value = ""; }}
+                className="p-1.5 text-navy-500 hover:text-foreground rounded-lg"><X size={16} /></button>
+            </div>
+            {uploadDone ? (
+              <div className="flex flex-col items-center gap-3 py-8">
+                <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                  <Check size={20} className="text-emerald-400" />
+                </div>
+                <p className="text-sm font-medium text-foreground">Đã gửi thành công!</p>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-4">
+                <div>
+                  <label className={labelClass}>Chọn file *</label>
+                  <input ref={fileRef} type="file" onChange={e => setUploadFile(e.target.files?.[0] || null)}
+                    className="w-full text-sm text-navy-300 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-medium file:bg-navy-700 file:text-navy-300 hover:file:bg-navy-600 cursor-pointer" />
+                </div>
+                <div>
+                  <label className={labelClass}>Tên tài liệu (để trống = dùng tên file)</label>
+                  <input value={uploadForm.name} onChange={e => setUploadForm(f => ({ ...f, name: e.target.value }))}
+                    placeholder="VD: Hộ chiếu, Giấy đăng ký kinh doanh..." className={inputClass} />
+                </div>
+                <div>
+                  <label className={labelClass}>Loại tài liệu</label>
+                  <select value={uploadForm.category} onChange={e => setUploadForm(f => ({ ...f, category: e.target.value }))} className={inputClass}>
+                    <option value="general">Khác</option>
+                    <option value="company">Giấy tờ công ty</option>
+                    <option value="tax">Thuế / Kế toán</option>
+                    <option value="banking">Ngân hàng</option>
+                    <option value="compliance">Compliance</option>
+                    <option value="license">Giấy phép</option>
+                  </select>
+                </div>
+                <div className="flex gap-3 pt-1">
+                  <button onClick={() => { setShowUpload(false); setUploadFile(null); if (fileRef.current) fileRef.current.value = ""; }}
+                    className="flex-1 py-2.5 rounded-xl border border-navy-600 text-sm text-navy-300 hover:text-foreground">Hủy</button>
+                  <button onClick={submitUpload} disabled={uploading || !uploadFile}
+                    className="flex-1 py-2.5 rounded-xl bg-gold/10 border border-gold/20 text-gold text-sm font-medium hover:bg-gold/20 disabled:opacity-50">
+                    {uploading ? "Đang gửi..." : "Gửi lên"}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Request document modal */}
+      {showRequest && (
+        <div className={modalClass}>
+          <div className={cardClass}>
+            <div className="flex items-center justify-between mb-5">
+              <div>
+                <h3 className="text-base font-bold text-foreground">Yêu cầu tài liệu từ Gloyce</h3>
+                <p className="text-xs text-navy-400 mt-0.5">Đội ngũ sẽ chuẩn bị và gửi trong 3–5 ngày làm việc</p>
+              </div>
+              <button onClick={() => setShowRequest(false)} className="p-1.5 text-navy-500 hover:text-foreground rounded-lg"><X size={16} /></button>
+            </div>
+            {requestDone ? (
+              <div className="flex flex-col items-center gap-3 py-8">
+                <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
+                  <Check size={20} className="text-emerald-400" />
+                </div>
+                <p className="text-sm font-medium text-foreground">Yêu cầu đã được gửi! Chúng tôi sẽ liên hệ sớm.</p>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-4">
+                <div>
+                  <label className={labelClass}>Loại tài liệu cần *</label>
+                  <select value={requestForm.document_type} onChange={e => setRequestForm(f => ({ ...f, document_type: e.target.value }))} className={inputClass}>
+                    <option value="">— Chọn loại tài liệu —</option>
+                    <option value="Company Certificate">Giấy chứng nhận thành lập công ty</option>
+                    <option value="EIN Letter">Giấy xác nhận EIN (Mỹ)</option>
+                    <option value="Articles of Organization">Điều lệ công ty (Articles of Organization)</option>
+                    <option value="Operating Agreement">Thỏa thuận vận hành (Operating Agreement)</option>
+                    <option value="Bank Statement">Sao kê ngân hàng</option>
+                    <option value="Shareholder Register">Sổ cổ đông</option>
+                    <option value="Business License">Giấy phép kinh doanh</option>
+                    <option value="Tax Return">Tờ khai thuế</option>
+                    <option value="Apostille">Chứng thực Apostille</option>
+                    <option value="Other">Khác</option>
+                  </select>
+                </div>
+                <div>
+                  <label className={labelClass}>Mô tả chi tiết yêu cầu *</label>
+                  <textarea value={requestForm.description} onChange={e => setRequestForm(f => ({ ...f, description: e.target.value }))}
+                    placeholder="VD: Cần giấy chứng nhận thành lập có công chứng để nộp cho ngân hàng tại Việt Nam..."
+                    rows={3} className={`${inputClass} resize-none`} />
+                </div>
+                <div>
+                  <label className={labelClass}>Mức độ ưu tiên</label>
+                  <select value={requestForm.urgency} onChange={e => setRequestForm(f => ({ ...f, urgency: e.target.value }))} className={inputClass}>
+                    <option value="normal">Bình thường (3–5 ngày làm việc)</option>
+                    <option value="urgent">Gấp (1–2 ngày, phụ phí có thể phát sinh)</option>
+                  </select>
+                </div>
+                <div className="flex gap-3 pt-1">
+                  <button onClick={() => setShowRequest(false)}
+                    className="flex-1 py-2.5 rounded-xl border border-navy-600 text-sm text-navy-300 hover:text-foreground">Hủy</button>
+                  <button onClick={submitRequest} disabled={requesting || !requestForm.document_type || !requestForm.description}
+                    className="flex-1 py-2.5 rounded-xl bg-gold/10 border border-gold/20 text-gold text-sm font-medium hover:bg-gold/20 disabled:opacity-50">
+                    {requesting ? "Đang gửi..." : "Gửi yêu cầu"}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Certification modal */}
       {certDoc && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
-          <div className="bg-navy-800 rounded-2xl border border-navy-700 p-6 w-full max-w-lg">
+        <div className={modalClass}>
+          <div className={cardClass}>
             <div className="flex items-start justify-between mb-5">
               <div>
                 <h3 className="text-base font-bold text-foreground">Request Certification</h3>
@@ -118,7 +307,6 @@ export default function DocumentsPage() {
               </div>
               <button onClick={() => setCertDoc(null)} className="p-1.5 text-navy-500 hover:text-foreground rounded-lg"><X size={16} /></button>
             </div>
-
             {certDone ? (
               <div className="flex flex-col items-center gap-3 py-8">
                 <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
@@ -129,43 +317,39 @@ export default function DocumentsPage() {
             ) : (
               <div className="flex flex-col gap-4">
                 <div>
-                  <label className="text-xs font-medium text-navy-400 mb-1.5 block">Certification Type *</label>
-                  <select value={certForm.certification_type} onChange={e => setCertForm(f => ({ ...f, certification_type: e.target.value }))}
-                    className="w-full bg-navy-900 border border-navy-700 rounded-xl px-4 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-gold/40">
+                  <label className={labelClass}>Certification Type *</label>
+                  <select value={certForm.certification_type} onChange={e => setCertForm(f => ({ ...f, certification_type: e.target.value }))} className={inputClass}>
                     <option value="">— Select —</option>
                     {["Apostille", "Notarization", "Embassy Legalization", "Certified True Copy", "Government Authentication"].map(o => <option key={o} value={o}>{o}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-navy-400 mb-1.5 block">Destination Country *</label>
+                  <label className={labelClass}>Destination Country *</label>
                   <input value={certForm.destination_country} onChange={e => setCertForm(f => ({ ...f, destination_country: e.target.value }))}
-                    placeholder="e.g. Vietnam, Singapore" className="w-full bg-navy-900 border border-navy-700 rounded-xl px-4 py-2.5 text-sm text-foreground placeholder:text-navy-500 focus:outline-none focus:ring-2 focus:ring-gold/40" />
+                    placeholder="e.g. Vietnam, Singapore" className={inputClass} />
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-navy-400 mb-1.5 block">Purpose *</label>
+                  <label className={labelClass}>Purpose *</label>
                   <textarea value={certForm.purpose} onChange={e => setCertForm(f => ({ ...f, purpose: e.target.value }))}
                     placeholder="e.g. Opening a bank account, Government filing" rows={2}
-                    className="w-full bg-navy-900 border border-navy-700 rounded-xl px-4 py-2.5 text-sm text-foreground placeholder:text-navy-500 focus:outline-none focus:ring-2 focus:ring-gold/40 resize-none" />
+                    className={`${inputClass} resize-none`} />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="text-xs font-medium text-navy-400 mb-1.5 block">Copies Needed</label>
-                    <input type="number" min="1" value={certForm.copies} onChange={e => setCertForm(f => ({ ...f, copies: e.target.value }))}
-                      className="w-full bg-navy-900 border border-navy-700 rounded-xl px-4 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-gold/40" />
+                    <label className={labelClass}>Copies Needed</label>
+                    <input type="number" min="1" value={certForm.copies} onChange={e => setCertForm(f => ({ ...f, copies: e.target.value }))} className={inputClass} />
                   </div>
                   <div>
-                    <label className="text-xs font-medium text-navy-400 mb-1.5 block">Delivery</label>
-                    <select value={certForm.delivery_method} onChange={e => setCertForm(f => ({ ...f, delivery_method: e.target.value }))}
-                      className="w-full bg-navy-900 border border-navy-700 rounded-xl px-4 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-gold/40">
+                    <label className={labelClass}>Delivery</label>
+                    <select value={certForm.delivery_method} onChange={e => setCertForm(f => ({ ...f, delivery_method: e.target.value }))} className={inputClass}>
                       {["Digital (PDF certified copy)", "Physical — courier to Vietnam", "Physical — pick up in US/SG/HK"].map(o => <option key={o} value={o}>{o}</option>)}
                     </select>
                   </div>
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-navy-400 mb-1.5 block">Additional Notes</label>
+                  <label className={labelClass}>Additional Notes</label>
                   <textarea value={certForm.notes} onChange={e => setCertForm(f => ({ ...f, notes: e.target.value }))}
-                    placeholder="Any special requirements..." rows={2}
-                    className="w-full bg-navy-900 border border-navy-700 rounded-xl px-4 py-2.5 text-sm text-foreground placeholder:text-navy-500 focus:outline-none focus:ring-2 focus:ring-gold/40 resize-none" />
+                    placeholder="Any special requirements..." rows={2} className={`${inputClass} resize-none`} />
                 </div>
                 <div className="flex gap-3 pt-1">
                   <button onClick={() => setCertDoc(null)} className="flex-1 py-2.5 rounded-xl border border-navy-600 text-sm text-navy-300 hover:text-foreground">Cancel</button>
@@ -212,6 +396,7 @@ export default function DocumentsPage() {
             const ext = getExtension(doc.name);
             const Icon = FILE_ICONS[ext] || File;
             const color = FILE_COLORS[ext] || "text-navy-400";
+            const fromGloyce = doc.uploaded_by === "Gloyce";
             return (
               <div key={doc.id}
                 className="flex items-center gap-3 sm:gap-4 px-4 py-3.5 border-b border-navy-700/50 last:border-0 hover:bg-navy-750 transition-colors">
@@ -226,12 +411,12 @@ export default function DocumentsPage() {
                   </p>
                 </div>
                 <div className="flex items-center gap-1 shrink-0">
-                  {doc.uploaded_by === "Gloyce" && (
+                  {fromGloyce && (
                     <Badge variant="gold" className="text-[10px] hidden sm:flex mr-1">Gloyce</Badge>
                   )}
-                  {doc.uploaded_by !== "Gloyce" && (
+                  {!fromGloyce && (
                     <button onClick={() => { setCertDoc(doc); setCertDone(false); }}
-                      title="Request certification"
+                      title="Yêu cầu chứng thực"
                       className="p-1.5 text-navy-500 hover:text-gold hover:bg-gold/10 rounded-lg transition-colors">
                       <Stamp size={14} />
                     </button>
@@ -239,12 +424,12 @@ export default function DocumentsPage() {
                   {doc.file_url && (
                     <>
                       <a href={doc.file_url} target="_blank" rel="noopener noreferrer"
-                        title="View"
+                        title="Xem"
                         className="p-1.5 text-navy-500 hover:text-foreground hover:bg-navy-700 rounded-lg transition-colors">
                         <ExternalLink size={14} />
                       </a>
                       <a href={doc.file_url} download
-                        title="Download"
+                        title="Tải xuống"
                         className="p-1.5 text-navy-500 hover:text-foreground hover:bg-navy-700 rounded-lg transition-colors">
                         <Download size={14} />
                       </a>
@@ -257,26 +442,12 @@ export default function DocumentsPage() {
         </div>
       )}
 
-      {/* Info box */}
+      {/* Certification info box */}
       <div className="p-4 rounded-xl bg-navy-800 border border-navy-700 flex items-start gap-3">
         <Stamp size={16} className="text-navy-400 shrink-0 mt-0.5" />
         <div className="flex-1">
-          <p className="text-sm font-medium text-foreground">Need document certification?</p>
-          <p className="text-xs text-navy-500 mt-0.5 mb-3">Request apostille, notarization, or government certification for any of your documents. Our team will process it within 3–5 business days.</p>
-          {documents.filter(d => d.uploaded_by !== "Gloyce").length > 0 ? (
-            <div className="flex flex-wrap gap-2">
-              {documents.filter(d => d.uploaded_by !== "Gloyce").map(doc => (
-                <button key={doc.id}
-                  onClick={() => { setCertDoc(doc); setCertDone(false); }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-navy-700 border border-navy-600 text-xs text-navy-300 hover:text-gold hover:border-gold/40 transition-colors">
-                  <Stamp size={11} />
-                  {doc.name.length > 30 ? doc.name.slice(0, 30) + "…" : doc.name}
-                </button>
-              ))}
-            </div>
-          ) : (
-            <p className="text-xs text-navy-600 italic">No documents available for certification yet.</p>
-          )}
+          <p className="text-sm font-medium text-foreground">Cần chứng thực tài liệu?</p>
+          <p className="text-xs text-navy-500 mt-0.5">Nhấn vào biểu tượng <Stamp size={10} className="inline" /> trên tài liệu bạn đã tải lên để yêu cầu Apostille, công chứng, hoặc chứng thực chính phủ. Chúng tôi xử lý trong 3–5 ngày làm việc.</p>
         </div>
       </div>
     </div>
