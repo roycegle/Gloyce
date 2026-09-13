@@ -46,6 +46,9 @@ export default function AdminRequestsPage() {
   const [expanded, setExpanded] = useState<string | null>(null);
   const [notes, setNotes] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState<string | null>(null);
+  const [resultUploadId, setResultUploadId] = useState<string | null>(null);
+  const [resultFile, setResultFile] = useState<File | null>(null);
+  const [resultUploading, setResultUploading] = useState(false);
 
   const load = (status = statusFilter) => {
     setLoading(true);
@@ -71,6 +74,19 @@ export default function AdminRequestsPage() {
     });
     setSaving(null);
     load();
+  };
+
+  const uploadResult = async (id: string) => {
+    if (!resultFile) return;
+    setResultUploading(true);
+    const fd = new FormData();
+    fd.append("file", resultFile);
+    const res = await fetch(`/api/admin/requests/${id}/result`, { method: "POST", body: fd });
+    setResultUploading(false);
+    if (res.ok) {
+      setResultUploadId(null); setResultFile(null);
+      load();
+    }
   };
 
   const counts = {
@@ -270,22 +286,12 @@ export default function AdminRequestsPage() {
                           </button>
                         )}
                         <button
-                          onClick={() => updateRequest(req.id, "completed")}
-                          disabled={saving === req.id}
-                          className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium hover:bg-emerald-500/20 disabled:opacity-50 transition-colors"
+                          onClick={() => { setResultUploadId(req.id); setResultFile(null); }}
+                          className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-medium hover:bg-amber-500/20 transition-colors"
                         >
-                          <Check size={13} />
-                          {saving === req.id ? "Đang lưu..." : "Đánh dấu hoàn thành"}
+                          <Upload size={13} />
+                          Upload kết quả
                         </button>
-                        {req.service_type === "document_request" && req.users && (
-                          <Link
-                            href={`/admin/customers/${req.users.id}?tab=documents`}
-                            className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-medium hover:bg-amber-500/20 transition-colors"
-                          >
-                            <Upload size={13} />
-                            Upload tài liệu cho khách →
-                          </Link>
-                        )}
                         <button
                           onClick={() => updateRequest(req.id, "rejected")}
                           disabled={saving === req.id}
@@ -297,7 +303,35 @@ export default function AdminRequestsPage() {
                       </div>
                     )}
 
-                    {(req.status === "completed" || req.status === "rejected") && (
+                    {/* Result upload panel */}
+                    {resultUploadId === req.id && (
+                      <div className="mt-3 p-3 rounded-lg bg-[#060C30] border border-[#1E2A4A]">
+                        <p className="text-xs font-medium text-slate-300 mb-2">Upload file kết quả — tự động đánh dấu hoàn thành</p>
+                        <input type="file"
+                          onChange={e => setResultFile(e.target.files?.[0] || null)}
+                          className="w-full text-xs border border-[#1E2A4A] rounded-lg px-3 py-2 mb-2 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100" />
+                        <div className="flex gap-2">
+                          <button onClick={() => { setResultUploadId(null); setResultFile(null); }}
+                            className="px-3 py-1.5 text-xs text-slate-400 hover:text-slate-200">Hủy</button>
+                          <button onClick={() => uploadResult(req.id)} disabled={!resultFile || resultUploading}
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium hover:bg-emerald-500/20 disabled:opacity-50">
+                            <Upload size={12} />{resultUploading ? "Đang upload..." : "Upload & Hoàn thành"}
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Result download link for completed requests */}
+                    {req.status === "completed" && (req.details.result_url as string) && (
+                      <div className="mt-2 flex items-center gap-2 p-2.5 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
+                        <Check size={13} className="text-emerald-400 shrink-0" />
+                        <span className="text-xs text-emerald-400 flex-1 truncate">Kết quả: {(req.details.result_filename as string) || "file"}</span>
+                        <a href={req.details.result_url as string} target="_blank" rel="noopener noreferrer"
+                          className="text-xs text-slate-400 hover:text-slate-200">Xem</a>
+                      </div>
+                    )}
+
+                    {(req.status === "completed" || req.status === "rejected") && !(req.details.result_url) && (
                       <div className="flex items-center gap-2 text-xs text-slate-500">
                         <Check size={13} />
                         Yêu cầu đã được {req.status === "completed" ? "hoàn thành" : "từ chối"}

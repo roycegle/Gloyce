@@ -72,10 +72,11 @@ export default function DocumentsPage() {
   const [requesting, setRequesting] = useState(false);
   const [requestDone, setRequestDone] = useState(false);
 
-  // Track which document IDs already have a pending/in_progress cert request
-  const [pendingCertDocIds, setPendingCertDocIds] = useState<Set<string>>(new Set());
+  // Map: document_id → { id, status, result_url, result_filename } for all cert requests
+  type CertInfo = { id: string; status: string; result_url: string | null; result_filename: string | null };
+  const [certByDocId, setCertByDocId] = useState<Record<string, CertInfo>>({});
 
-  // My requests (all service_requests for this user)
+  // My document requests (NOT certification — those are shown inline on doc rows)
   const [myRequests, setMyRequests] = useState<Array<{ id: string; service_type: string; status: string; details: Record<string, unknown>; created_at: string }>>([]);
 
   const reload = () => {
@@ -86,17 +87,18 @@ export default function DocumentsPage() {
 
     fetch("/api/dashboard/certifications/pending")
       .then(r => r.json())
-      .then(d => {
+      .then((d: Array<{ id: string; document_id: string; status: string; result_url: string | null; result_filename: string | null }>) => {
         if (Array.isArray(d)) {
-          const ids = new Set(d.map((r: { document_id: string }) => r.document_id).filter(Boolean));
-          setPendingCertDocIds(ids as Set<string>);
+          const map: Record<string, CertInfo> = {};
+          d.forEach(r => { if (r.document_id) map[r.document_id] = { id: r.id, status: r.status, result_url: r.result_url, result_filename: r.result_filename }; });
+          setCertByDocId(map);
         }
       })
       .catch(() => {});
 
     fetch("/api/dashboard/requests")
       .then(r => r.json())
-      .then(d => { if (Array.isArray(d)) setMyRequests(d); })
+      .then(d => { if (Array.isArray(d)) setMyRequests(d.filter((r: { service_type: string }) => r.service_type === "document_request")); })
       .catch(() => {});
   };
 
@@ -433,35 +435,75 @@ export default function DocumentsPage() {
                     {doc.uploaded_by && ` · ${doc.uploaded_by}`}
                   </p>
                 </div>
-                <div className="flex items-center gap-1 shrink-0">
-                  {fromGloyce && (
-                    <Badge variant="gold" className="text-[10px] hidden sm:flex mr-1">Gloyce</Badge>
-                  )}
-                  {!fromGloyce && (
-                    pendingCertDocIds.has(doc.id)
-                      ? <span title="Đang chờ chứng thực" className="p-1.5 text-amber-400/60 cursor-default flex items-center">
-                          <Stamp size={14} />
+                <div className="flex flex-col items-end gap-1 shrink-0">
+                  <div className="flex items-center gap-1">
+                    {fromGloyce && (
+                      <Badge variant="gold" className="text-[10px] hidden sm:flex mr-1">Gloyce</Badge>
+                    )}
+                    {!fromGloyce && (() => {
+                      const cert = certByDocId[doc.id];
+                      if (!cert) {
+                        return (
+                          <button onClick={() => { setCertDoc(doc); setCertDone(false); }}
+                            title="Yêu cầu chứng thực"
+                            className="p-1.5 text-navy-500 hover:text-gold hover:bg-gold/10 rounded-lg transition-colors">
+                            <Stamp size={14} />
+                          </button>
+                        );
+                      }
+                      // Has a cert request — show status chip instead of stamp button
+                      return null;
+                    })()}
+                    {doc.file_url && (
+                      <>
+                        <a href={doc.file_url} target="_blank" rel="noopener noreferrer"
+                          title="Xem"
+                          className="p-1.5 text-navy-500 hover:text-foreground hover:bg-navy-700 rounded-lg transition-colors">
+                          <ExternalLink size={14} />
+                        </a>
+                        <a href={doc.file_url} download
+                          title="Tải xuống"
+                          className="p-1.5 text-navy-500 hover:text-foreground hover:bg-navy-700 rounded-lg transition-colors">
+                          <Download size={14} />
+                        </a>
+                      </>
+                    )}
+                  </div>
+                  {/* Cert request inline status + result */}
+                  {!fromGloyce && certByDocId[doc.id] && (() => {
+                    const cert = certByDocId[doc.id];
+                    const isPending = cert.status === "pending";
+                    const isInProgress = cert.status === "in_progress";
+                    const isCompleted = cert.status === "completed";
+                    const isRejected = cert.status === "rejected";
+                    return (
+                      <div className="flex flex-col items-end gap-1">
+                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium border ${
+                          isPending ? "bg-amber-500/10 text-amber-400 border-amber-500/20" :
+                          isInProgress ? "bg-blue-500/10 text-blue-400 border-blue-500/20" :
+                          isCompleted ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20" :
+                          "bg-red-500/10 text-red-400 border-red-500/20"
+                        }`}>
+                          {isPending && <><Clock size={9} />Chứng thực · Chờ xử lý</>}
+                          {isInProgress && <><AlertCircle size={9} />Chứng thực · Đang xử lý</>}
+                          {isCompleted && <><CheckCircle2 size={9} />Chứng thực · Hoàn thành</>}
+                          {isRejected && <><XCircle size={9} />Chứng thực · Từ chối</>}
                         </span>
-                      : <button onClick={() => { setCertDoc(doc); setCertDone(false); }}
-                          title="Yêu cầu chứng thực"
-                          className="p-1.5 text-navy-500 hover:text-gold hover:bg-gold/10 rounded-lg transition-colors">
-                          <Stamp size={14} />
-                        </button>
-                  )}
-                  {doc.file_url && (
-                    <>
-                      <a href={doc.file_url} target="_blank" rel="noopener noreferrer"
-                        title="Xem"
-                        className="p-1.5 text-navy-500 hover:text-foreground hover:bg-navy-700 rounded-lg transition-colors">
-                        <ExternalLink size={14} />
-                      </a>
-                      <a href={doc.file_url} download
-                        title="Tải xuống"
-                        className="p-1.5 text-navy-500 hover:text-foreground hover:bg-navy-700 rounded-lg transition-colors">
-                        <Download size={14} />
-                      </a>
-                    </>
-                  )}
+                        {isCompleted && cert.result_url && (
+                          <a href={cert.result_url} download={cert.result_filename || true}
+                            className="inline-flex items-center gap-1 text-[10px] text-emerald-400 hover:text-emerald-300 font-medium">
+                            <Download size={10} />Tải file đã chứng
+                          </a>
+                        )}
+                        {isRejected && (
+                          <button onClick={() => { setCertDoc(doc); setCertDone(false); }}
+                            className="text-[10px] text-navy-400 hover:text-foreground underline">
+                            Gửi lại yêu cầu
+                          </button>
+                        )}
+                      </div>
+                    );
+                  })()}
                 </div>
               </div>
             );
@@ -469,12 +511,12 @@ export default function DocumentsPage() {
         </div>
       )}
 
-      {/* My Requests */}
+      {/* My Document Requests — certification requests are shown inline on each doc row above */}
       {myRequests.length > 0 && (
         <div>
           <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
             <Clock size={14} className="text-navy-400" />
-            Yêu cầu của tôi
+            Yêu cầu làm hồ sơ / tài liệu
           </h3>
           <div className="bg-navy-800 rounded-2xl border border-navy-700 overflow-hidden">
             {myRequests.map((req) => {
@@ -494,29 +536,45 @@ export default function DocumentsPage() {
                 ? <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-red-500/10 text-red-400 border border-red-500/20"><XCircle size={10} />Từ chối</span>
                 : null;
 
-              const typeBadge = req.service_type === "certification"
-                ? <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">Chứng thực</span>
-                : <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-navy-700 text-navy-300 border border-navy-600">Yêu cầu tài liệu</span>;
-
-              const summary = req.service_type === "certification"
-                ? [d.certification_type, d.destination_country].filter(Boolean).map(String).join(" · ")
-                : [d.document_type, d.urgency === "urgent" ? "⚡ Gấp" : null].filter(Boolean).map(String).join(" · ");
-
+              const summary = [d.document_type, d.urgency === "urgent" ? "⚡ Gấp" : null].filter(Boolean).map(String).join(" · ");
               const adminNotes = typeof d.admin_notes === "string" && d.admin_notes ? d.admin_notes : null;
+              const resultUrl = typeof d.result_url === "string" && d.result_url ? d.result_url : null;
+              const resultFilename = typeof d.result_filename === "string" && d.result_filename ? d.result_filename : "Tài liệu kết quả";
 
               return (
-                <div key={req.id} className="flex items-start gap-3 px-4 py-3.5 border-b border-navy-700/50 last:border-0">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap mb-1">
-                      {typeBadge}
-                      {statusBadge}
+                <div key={req.id} className="px-4 py-3.5 border-b border-navy-700/50 last:border-0">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap mb-1">
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-navy-700 text-navy-300 border border-navy-600">Yêu cầu tài liệu</span>
+                        {statusBadge}
+                      </div>
+                      {summary && <p className="text-sm text-foreground">{summary}</p>}
+                      {!!(d.description) && <p className="text-xs text-navy-400 mt-0.5 line-clamp-2">{String(d.description)}</p>}
+                      {adminNotes && <p className="text-xs text-navy-400 mt-1 italic">"{adminNotes}"</p>}
+                      <p className="text-xs text-navy-500 mt-0.5">{formatDate(req.created_at)}</p>
                     </div>
-                    {summary && <p className="text-sm text-foreground truncate">{summary}</p>}
-                    {adminNotes && (
-                      <p className="text-xs text-navy-400 mt-1 italic">"{adminNotes}"</p>
-                    )}
-                    <p className="text-xs text-navy-500 mt-0.5">{formatDate(req.created_at)}</p>
                   </div>
+                  {/* Result file from Gloyce */}
+                  {resultUrl && (
+                    <div className="mt-2 flex items-center gap-2 p-2.5 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
+                      <CheckCircle2 size={13} className="text-emerald-400 shrink-0" />
+                      <span className="text-xs text-emerald-400 flex-1 truncate">Kết quả đã có: {resultFilename}</span>
+                      <a href={resultUrl} download={resultFilename}
+                        className="flex items-center gap-1 text-xs text-emerald-400 hover:text-emerald-300 font-medium shrink-0">
+                        <Download size={12} />Tải về
+                      </a>
+                      <a href={resultUrl} target="_blank" rel="noopener noreferrer"
+                        className="flex items-center gap-1 text-xs text-navy-400 hover:text-foreground shrink-0">
+                        <ExternalLink size={12} />Xem
+                      </a>
+                    </div>
+                  )}
+                  {isCompleted && !resultUrl && (
+                    <div className="mt-2 p-2 rounded-lg bg-navy-700/50 border border-navy-600">
+                      <p className="text-xs text-navy-400">Hoàn thành · Gloyce sẽ sớm gửi tài liệu cho bạn.</p>
+                    </div>
+                  )}
                 </div>
               );
             })}

@@ -46,6 +46,12 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
   const [docFile, setDocFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Result file upload per request
+  const [resultUploadId, setResultUploadId] = useState<string | null>(null);
+  const [resultFile, setResultFile] = useState<File | null>(null);
+  const [resultUploading, setResultUploading] = useState(false);
+  const resultFileRef = useRef<HTMLInputElement>(null);
+
   const load = async () => {
     const res = await fetch(`/api/admin/customers/${id}`);
     const json = await res.json();
@@ -56,6 +62,24 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
     load();
     fetch("/api/admin/form-templates").then(r => r.json()).then(d => setTemplates(Array.isArray(d) ? d : []));
   }, [id]);
+
+  const uploadResult = async (requestId: string) => {
+    if (!resultFile) return;
+    setResultUploading(true);
+    const fd = new FormData();
+    fd.append("file", resultFile);
+    const res = await fetch(`/api/admin/requests/${requestId}/result`, { method: "POST", body: fd });
+    setResultUploading(false);
+    if (res.ok) {
+      toast.success("Đã upload kết quả và đánh dấu hoàn thành");
+      setResultUploadId(null); setResultFile(null);
+      if (resultFileRef.current) resultFileRef.current.value = "";
+      await load();
+    } else {
+      const err = await res.json().catch(() => ({}));
+      toast.error(`Lỗi: ${err.error || "Upload thất bại"}`);
+    }
+  };
 
   const updateStatus = async (status: string) => {
     setSaving(true);
@@ -420,20 +444,31 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                           <CheckCircle size={12} /> Bắt đầu xử lý
                         </button>
                       )}
-                      <button onClick={async () => { await fetch(`/api/admin/requests/${r.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: "completed" }) }); await load(); toast.success("Hoàn thành"); }}
-                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-medium hover:bg-green-500/20">
-                        <CheckCircle size={12} /> Hoàn thành
+                      <button onClick={() => { setResultUploadId(r.id); setResultFile(null); }}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-medium hover:bg-amber-500/20">
+                        <Upload size={12} /> Upload kết quả
                       </button>
-                      {r.service_type === "document_request" && (
-                        <button onClick={() => { setTab("documents"); setShowDocUpload(true); }}
-                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-medium hover:bg-amber-500/20">
-                          <Upload size={12} /> Upload tài liệu
-                        </button>
-                      )}
                       <button onClick={async () => { await fetch(`/api/admin/requests/${r.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status: "rejected" }) }); await load(); toast.success("Đã từ chối"); }}
                         className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-medium hover:bg-red-500/20">
                         <XCircle size={12} /> Từ chối
                       </button>
+                    </div>
+                  )}
+                  {/* Result upload panel */}
+                  {resultUploadId === r.id && (
+                    <div className="mt-3 p-3 rounded-lg bg-ink-900 border border-ink-600">
+                      <p className="text-xs font-medium text-slate-300 mb-2">Upload file kết quả — tự động đánh dấu hoàn thành</p>
+                      <input ref={resultFileRef} type="file"
+                        onChange={e => setResultFile(e.target.files?.[0] || null)}
+                        className="w-full text-xs border border-ink-600 rounded-lg px-3 py-2 mb-2 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100" />
+                      <div className="flex gap-2">
+                        <button onClick={() => { setResultUploadId(null); setResultFile(null); }}
+                          className="px-3 py-1.5 text-xs text-ink-400 hover:text-slate-300">Hủy</button>
+                        <button onClick={() => uploadResult(r.id)} disabled={!resultFile || resultUploading}
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium hover:bg-emerald-500/20 disabled:opacity-50">
+                          <Upload size={12} />{resultUploading ? "Đang upload..." : "Upload & Hoàn thành"}
+                        </button>
+                      </div>
                     </div>
                   )}
                 </div>
