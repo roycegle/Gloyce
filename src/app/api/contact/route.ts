@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { sendConsultationEmail } from "@/lib/email";
 
 interface ContactPayload {
   name: string;
@@ -13,7 +14,6 @@ export async function POST(req: NextRequest) {
   try {
     const body: ContactPayload = await req.json();
 
-    // Basic validation
     if (!body.name || !body.email || !body.message) {
       return NextResponse.json(
         { error: "Name, email and message are required." },
@@ -29,28 +29,18 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Log submission server-side (replace with email/CRM integration when ready)
-    console.log("[Contact form submission]", {
-      timestamp: new Date().toISOString(),
+    await sendConsultationEmail({
       name: body.name,
       email: body.email,
-      phone: body.phone ?? "",
-      company: body.company ?? "",
-      service: body.service ?? "",
+      phone: body.phone,
+      company: body.company,
+      service: body.service || "General inquiry",
       message: body.message,
     });
 
-    // TODO: integrate with email service (Resend, SendGrid, etc.) or CRM
-    // Example with Resend:
-    // await resend.emails.send({
-    //   from: "noreply@gloyce.co",
-    //   to: "hello@gloyce.co",
-    //   subject: `New contact: ${body.name} — ${body.service || "General"}`,
-    //   text: `Name: ${body.name}\nEmail: ${body.email}\nPhone: ${body.phone}\nCompany: ${body.company}\nService: ${body.service}\n\n${body.message}`,
-    // });
-
     return NextResponse.json({ ok: true }, { status: 200 });
-  } catch {
+  } catch (err) {
+    console.error("[Contact form]", err);
     return NextResponse.json(
       { error: "Internal server error." },
       { status: 500 }
