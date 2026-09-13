@@ -2,12 +2,11 @@
 
 import { useEffect, useState, use, useRef } from "react";
 import Link from "next/link";
-import { ArrowLeft, Send, Plus, CheckCircle, XCircle, FileText, DollarSign, ClipboardList, FolderOpen, Upload, Trash2, ExternalLink, Download } from "lucide-react";
+import { ArrowLeft, Plus, CheckCircle, XCircle, FileText, DollarSign, ClipboardList, FolderOpen, Upload, Trash2, ExternalLink, Download } from "lucide-react";
 import { toast } from "sonner";
 
 interface User { id: string; name: string; email: string; phone?: string; company?: string; status: string; created_at: string; }
 interface Service { id: string; type: string; name: string; status: string; current_step: number; total_steps: number; price?: number; created_at: string; }
-interface Message { id: string; sender: string; subject?: string; content: string; created_at: string; }
 interface Invoice { id: string; amount: number; currency: string; status: string; description?: string; due_date?: string; paid_at?: string; created_at: string; services?: { name: string; type: string }; }
 interface Request { id: string; service_type: string; status: string; details: Record<string, unknown>; created_at: string; }
 interface Document { id: string; name: string; category?: string; file_url?: string; status: string; uploaded_by: string; created_at: string; }
@@ -26,13 +25,12 @@ const STATUS_BADGE: Record<string, string> = {
   in_progress: "bg-blue-100 text-blue-700",
 };
 
-type Tab = "overview" | "services" | "billing" | "requests" | "documents" | "forms" | "messages";
+type Tab = "overview" | "services" | "billing" | "requests" | "documents" | "forms";
 
 export default function CustomerDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const [data, setData] = useState<{ user: User; services: Service[]; messages: Message[]; invoices: Invoice[]; requests: Request[]; documents: Document[]; forms: CustomerForm[] } | null>(null);
+  const [data, setData] = useState<{ user: User; services: Service[]; invoices: Invoice[]; requests: Request[]; documents: Document[]; forms: CustomerForm[] } | null>(null);
   const [tab, setTab] = useState<Tab>("overview");
-  const [message, setMessage] = useState("");
   const [newService, setNewService] = useState({ type: "execute", name: "", price: "", total_steps: "5" });
   const [showServiceForm, setShowServiceForm] = useState(false);
   const [newInvoice, setNewInvoice] = useState({ amount: "", description: "", due_date: "", service_id: "" });
@@ -85,21 +83,6 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
     setSaving(true);
     await fetch(`/api/admin/customers/${id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ status }) });
     await load(); setSaving(false);
-  };
-
-  const sendMessage = async () => {
-    if (!message.trim()) return;
-    setSaving(true);
-    try {
-      const res = await fetch("/api/admin/messages", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ user_id: id, content: message }) });
-      if (!res.ok) throw new Error();
-      setMessage("");
-      await load();
-      toast.success("Đã gửi tin nhắn");
-    } catch {
-      toast.error("Gửi tin nhắn thất bại");
-    }
-    setSaving(false);
   };
 
   const createService = async () => {
@@ -182,7 +165,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
 
   if (!data) return <div className="p-8 text-center text-ink-400">Loading...</div>;
 
-  const { user, services, messages, invoices, requests, documents, forms } = data;
+  const { user, services, invoices, requests, documents, forms } = data;
 
   const tabs: { key: Tab; label: string; count?: number }[] = [
     { key: "overview", label: "Overview" },
@@ -191,7 +174,6 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
     { key: "requests", label: "Requests", count: requests.filter(r => r.status !== "completed").length },
     { key: "documents", label: "Documents", count: documents.length },
     { key: "forms", label: "Forms", count: forms.length },
-    { key: "messages", label: "Messages", count: messages.length },
   ];
 
   const totalBilled = invoices.reduce((s, i) => s + i.amount, 0);
@@ -664,36 +646,6 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
         </div>
       )}
 
-      {/* Messages */}
-      {tab === "messages" && (
-        <div>
-          <div className="bg-ink-800 rounded-xl border border-ink-600 overflow-hidden">
-            <div className="p-4 flex flex-col gap-3 max-h-96 overflow-y-auto">
-              {messages.length === 0 ? <p className="text-center text-sm text-ink-400 py-8">No messages yet</p>
-                : messages.map((m) => (
-                  <div key={m.id} className={`flex ${m.sender === "admin" ? "justify-end" : "justify-start"}`}>
-                    <div className={`max-w-[75%] rounded-xl px-4 py-2.5 text-sm ${m.sender === "admin" ? "bg-amber-500 text-white" : "bg-ink-700 text-slate-200"}`}>
-                      {m.subject && <p className="font-semibold text-xs mb-1 opacity-75">{m.subject}</p>}
-                      <p>{m.content}</p>
-                      <p className={`text-[10px] mt-1 ${m.sender === "admin" ? "text-amber-200" : "text-ink-400"}`}>
-                        {m.sender === "admin" ? "You" : user.name} · {new Date(m.created_at).toLocaleString("en-US", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-            </div>
-            <div className="p-4 border-t border-ink-600 flex gap-2">
-              <input value={message} onChange={(e) => setMessage(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-                placeholder={`Message to ${user.name}...`}
-                className="flex-1 border border-ink-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400" />
-              <button onClick={sendMessage} disabled={!message.trim() || saving} className="px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 disabled:opacity-50">
-                <Send size={15} />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
