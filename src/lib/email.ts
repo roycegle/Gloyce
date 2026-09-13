@@ -1,6 +1,6 @@
 import { Resend } from "resend";
 
-const FROM = "Gloyce <onboarding@gloyce.com>";
+const FROM = process.env.RESEND_FROM || "Gloyce <onboarding@resend.dev>";
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://gloyce.com";
 
 function getResend() {
