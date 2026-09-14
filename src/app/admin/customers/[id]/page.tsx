@@ -71,12 +71,15 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
     fetch("/api/admin/form-templates").then(r => r.json()).then(d => setTemplates(Array.isArray(d) ? d : []));
   }, [id]);
 
-  const uploadResult = async (requestId: string) => {
+  const uploadResult = async (id: string, source: "service" | "service_request" = "service_request") => {
     if (!resultFile) return;
     setResultUploading(true);
     const fd = new FormData();
     fd.append("file", resultFile);
-    const res = await fetch(`/api/admin/requests/${requestId}/result`, { method: "POST", body: fd });
+    const endpoint = source === "service"
+      ? `/api/admin/services/${id}/result`
+      : `/api/admin/requests/${id}/result`;
+    const res = await fetch(endpoint, { method: "POST", body: fd });
     setResultUploading(false);
     if (res.ok) {
       toast.success("Đã upload kết quả và đánh dấu hoàn thành");
@@ -208,7 +211,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
     { key: "overview", label: "Overview" },
     { key: "services", label: "Services", count: services.length },
     { key: "billing", label: "Billing", count: invoices.length },
-    { key: "requests", label: "Requests", count: requests.filter(r => r.status !== "completed").length },
+    { key: "requests", label: "Requests", count: services.length + requests.length },
     { key: "documents", label: "Documents", count: documents.length },
     { key: "forms", label: "Forms", count: forms.length },
   ];
@@ -430,7 +433,60 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
       {/* Requests */}
       {tab === "requests" && (
         <div className="flex flex-col gap-3">
-          {requests.length === 0
+          {/* Standard service purchases */}
+          {services.map((svc) => {
+            const svcStatus = svc.status === "complete" ? "completed" : svc.status === "pending" ? "pending" : "in_progress";
+            const isComplete = svc.status === "complete";
+            return (
+              <div key={`svc-${svc.id}`} className="bg-ink-800 rounded-xl border border-ink-600 p-4">
+                <div className="flex items-start justify-between gap-3 mb-2">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-blue-500/15 text-blue-400 border border-blue-500/30">Dịch vụ mua</span>
+                      <p className="text-sm font-semibold text-slate-200">{svc.name}</p>
+                    </div>
+                    <p className="text-xs text-ink-400 mt-0.5">{new Date(svc.created_at).toLocaleDateString("vi-VN")}</p>
+                  </div>
+                  <span className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize shrink-0 ${STATUS_BADGE[svcStatus] || "bg-ink-700 text-ink-400"}`}>{svcStatus}</span>
+                </div>
+                <div className="text-xs text-ink-400 mb-3">
+                  Bước {svc.current_step}/{svc.total_steps}
+                  {svc.price && <span className="ml-3">${svc.price.toLocaleString()} USD</span>}
+                </div>
+                {!isComplete && (
+                  <div className="flex flex-wrap gap-2">
+                    <button onClick={() => { setResultUploadId(`svc-${svc.id}`); setResultFile(null); }}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-medium hover:bg-amber-500/20">
+                      <Upload size={12} /> Upload kết quả
+                    </button>
+                  </div>
+                )}
+                {resultUploadId === `svc-${svc.id}` && (
+                  <div className="mt-3 p-3 rounded-lg bg-ink-900 border border-ink-600">
+                    <p className="text-xs font-medium text-slate-300 mb-2">Upload file kết quả — tự động đánh dấu hoàn thành</p>
+                    <input ref={resultFileRef} type="file"
+                      onChange={e => setResultFile(e.target.files?.[0] || null)}
+                      className="w-full text-xs border border-ink-600 rounded-lg px-3 py-2 mb-2 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100" />
+                    <div className="flex gap-2">
+                      <button onClick={() => { setResultUploadId(null); setResultFile(null); }} className="px-3 py-1.5 text-xs text-ink-400 hover:text-slate-300">Hủy</button>
+                      <button onClick={() => uploadResult(svc.id, "service")} disabled={!resultFile || resultUploading}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium hover:bg-emerald-500/20 disabled:opacity-50">
+                        <Upload size={12} />{resultUploading ? "Đang upload..." : "Upload & Hoàn thành"}
+                      </button>
+                    </div>
+                  </div>
+                )}
+                {isComplete && (
+                  <div className="flex items-center gap-2 text-xs text-emerald-400">
+                    <CheckCircle size={13} /> Dịch vụ đã hoàn thành
+                  </div>
+                )}
+              </div>
+            );
+          })}
+
+          {/* Custom service_requests */}
+          {requests.length === 0 && services.length === 0
             ? <div className="bg-ink-800 rounded-xl border border-ink-600 p-12 text-center text-ink-400 text-sm"><ClipboardList size={28} className="mx-auto mb-2 text-ink-500" />No requests yet</div>
             : requests.map((r) => {
               const d = r.details || {};
@@ -443,10 +499,13 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                 <div key={r.id} className="bg-ink-800 rounded-xl border border-ink-600 p-4">
                   <div className="flex items-start justify-between gap-3 mb-3">
                     <div>
-                      <p className="text-sm font-semibold text-slate-200">
-                        {TYPE_LABEL[r.service_type] || r.service_type}
-                        {(d.urgency as string) === "urgent" && <span className="ml-2 px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-500/15 text-red-400 border border-red-500/30">GẤP</span>}
-                      </p>
+                      <div className="flex items-center gap-2">
+                        <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-amber-500/15 text-amber-400 border border-amber-500/30">Yêu cầu đặc biệt</span>
+                        <p className="text-sm font-semibold text-slate-200">
+                          {TYPE_LABEL[r.service_type] || r.service_type}
+                          {(d.urgency as string) === "urgent" && <span className="ml-2 px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-500/15 text-red-400 border border-red-500/30">GẤP</span>}
+                        </p>
+                      </div>
                       <p className="text-xs text-ink-400 mt-0.5">{new Date(r.created_at).toLocaleDateString("vi-VN")}</p>
                     </div>
                     <span className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize shrink-0 ${STATUS_BADGE[r.status] || "bg-ink-700 text-ink-400"}`}>{r.status}</span>
@@ -513,7 +572,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                       <div className="flex gap-2">
                         <button onClick={() => { setResultUploadId(null); setResultFile(null); }}
                           className="px-3 py-1.5 text-xs text-ink-400 hover:text-slate-300">Hủy</button>
-                        <button onClick={() => uploadResult(r.id)} disabled={!resultFile || resultUploading}
+                        <button onClick={() => uploadResult(r.id, "service_request")} disabled={!resultFile || resultUploading}
                           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium hover:bg-emerald-500/20 disabled:opacity-50">
                           <Upload size={12} />{resultUploading ? "Đang upload..." : "Upload & Hoàn thành"}
                         </button>
