@@ -33,6 +33,10 @@ interface CustomerForm {
   notes?: string;
   due_date?: string;
   submitted_at?: string;
+  reviewed_at?: string;
+  gov_submitted_at?: string;
+  admin_review_notes?: string;
+  gov_submission_notes?: string;
   responses?: Record<string, string>;
   created_at: string;
   form_templates: FormTemplate | null;
@@ -82,7 +86,7 @@ export default function ServicesPage() {
     }).catch(() => setLoading(false));
   }, []);
 
-  const pendingForms = forms.filter(f => f.status === "pending");
+  const pendingForms = forms.filter(f => f.status === "pending" || f.status === "needs_update");
 
   const openForm = async (formId: string) => {
     const res = await fetch(`/api/dashboard/forms/${formId}`);
@@ -119,10 +123,13 @@ export default function ServicesPage() {
   };
 
   const FORM_STATUS: Record<string, { label: string; variant: "success" | "warning" | "danger" | "default" }> = {
-    pending: { label: "Pending", variant: "warning" },
-    submitted: { label: "Submitted", variant: "success" },
-    completed: { label: "Completed", variant: "default" },
-    in_review: { label: "In Review", variant: "default" },
+    pending: { label: "Chờ điền", variant: "warning" },
+    draft: { label: "Bản nháp", variant: "default" },
+    submitted: { label: "Đã nộp — Chờ duyệt", variant: "success" },
+    approved: { label: "Đã duyệt — Chuẩn bị nộp chính phủ", variant: "success" },
+    gov_submitted: { label: "Đã nộp chính phủ", variant: "default" },
+    needs_update: { label: "Cần bổ sung hồ sơ", variant: "danger" },
+    completed: { label: "Hoàn thành", variant: "default" },
   };
 
   if (loading) return (
@@ -144,6 +151,18 @@ export default function ServicesPage() {
             <h2 className="text-lg font-bold text-foreground">{activeForm.form_templates?.name}</h2>
             {activeForm.form_templates?.description && <p className="text-sm text-navy-400 mt-1">{activeForm.form_templates.description}</p>}
             {activeForm.notes && <div className="mt-3 p-3 rounded-xl bg-amber-500/5 border border-amber-500/15 text-xs text-amber-400">{activeForm.notes}</div>}
+            {activeForm.admin_review_notes && (
+              <div className="mt-3 p-3 rounded-xl bg-red-500/5 border border-red-500/20 text-xs text-red-400">
+                <p className="font-semibold mb-0.5">Yêu cầu bổ sung từ Gloyce:</p>
+                <p>{activeForm.admin_review_notes}</p>
+              </div>
+            )}
+            {activeForm.gov_submission_notes && (
+              <div className="mt-3 p-3 rounded-xl bg-purple-500/5 border border-purple-500/20 text-xs text-purple-400">
+                <p className="font-semibold mb-0.5">Yêu cầu từ cơ quan chính phủ:</p>
+                <p>{activeForm.gov_submission_notes}</p>
+              </div>
+            )}
             {activeForm.due_date && <p className="text-xs text-navy-500 mt-2">Due: {formatDate(activeForm.due_date, locale)}</p>}
           </div>
 
@@ -318,9 +337,9 @@ export default function ServicesPage() {
                             </div>
                             <div className="flex items-center gap-2 shrink-0">
                               <Badge variant={fs.variant} className="text-[10px]">{fs.label}</Badge>
-                              {f.status === "pending" && (
-                                <button onClick={() => openForm(f.id)} className="flex items-center gap-1 text-xs text-gold hover:text-gold-light">
-                                  Fill <ChevronRight size={12} />
+                              {(f.status === "pending" || f.status === "needs_update") && (
+                                <button onClick={() => openForm(f.id)} className={`flex items-center gap-1 text-xs ${f.status === "needs_update" ? "text-red-400 hover:text-red-300" : "text-gold hover:text-gold-light"}`}>
+                                  {f.status === "needs_update" ? "Cập nhật" : "Fill"} <ChevronRight size={12} />
                                 </button>
                               )}
                             </div>
@@ -349,27 +368,43 @@ export default function ServicesPage() {
           <div className="flex flex-col gap-3">
             {forms.map(f => {
               const fs = FORM_STATUS[f.status] || { label: f.status, variant: "default" as const };
+              const canEdit = f.status === "pending" || f.status === "needs_update";
               return (
-                <div key={f.id} className="bg-navy-800 rounded-2xl border border-navy-700 p-5 flex items-start justify-between gap-4">
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <Badge variant={fs.variant} className="text-[10px]">{fs.label}</Badge>
-                      {f.form_templates?.category && <span className="text-[10px] text-navy-500 uppercase tracking-wider">{f.form_templates.category}</span>}
+                <div key={f.id} className={`bg-navy-800 rounded-2xl border p-5 ${f.status === "needs_update" ? "border-red-500/40" : "border-navy-700"}`}>
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <Badge variant={fs.variant} className="text-[10px]">{fs.label}</Badge>
+                        {f.form_templates?.category && <span className="text-[10px] text-navy-500 uppercase tracking-wider">{f.form_templates.category}</span>}
+                      </div>
+                      <p className="text-sm font-semibold text-foreground">{f.form_templates?.name || "Form"}</p>
+                      {f.form_templates?.description && <p className="text-xs text-navy-500 mt-0.5">{f.form_templates.description}</p>}
+                      {f.notes && <p className="text-xs text-amber-400/80 mt-1">{f.notes}</p>}
+                      <div className="flex items-center gap-3 mt-2 text-xs text-navy-500">
+                        {f.services && <span>For: {f.services.name}</span>}
+                        {f.due_date && <span>Due: {formatDate(f.due_date, locale)}</span>}
+                        {f.submitted_at && <span>Submitted: {formatDate(f.submitted_at, locale)}</span>}
+                        {f.reviewed_at && <span>Reviewed: {formatDate(f.reviewed_at, locale)}</span>}
+                      </div>
                     </div>
-                    <p className="text-sm font-semibold text-foreground">{f.form_templates?.name || "Form"}</p>
-                    {f.form_templates?.description && <p className="text-xs text-navy-500 mt-0.5">{f.form_templates.description}</p>}
-                    {f.notes && <p className="text-xs text-amber-400/80 mt-1">{f.notes}</p>}
-                    <div className="flex items-center gap-3 mt-2 text-xs text-navy-500">
-                      {f.services && <span>For: {f.services.name}</span>}
-                      {f.due_date && <span>Due: {formatDate(f.due_date, locale)}</span>}
-                      {f.submitted_at && <span>Submitted: {formatDate(f.submitted_at, locale)}</span>}
-                    </div>
+                    {canEdit && (
+                      <button onClick={() => openForm(f.id)}
+                        className={`shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-medium transition-colors ${f.status === "needs_update" ? "bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20" : "bg-gold/10 border border-gold/20 text-gold hover:bg-gold/20"}`}>
+                        {f.status === "needs_update" ? "Cập nhật hồ sơ" : "Fill Form"} <ChevronRight size={14} />
+                      </button>
+                    )}
                   </div>
-                  {f.status === "pending" && (
-                    <button onClick={() => openForm(f.id)}
-                      className="shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gold/10 border border-gold/20 text-gold text-sm font-medium hover:bg-gold/20 transition-colors">
-                      Fill Form <ChevronRight size={14} />
-                    </button>
+                  {f.admin_review_notes && f.status === "needs_update" && (
+                    <div className="mt-3 p-3 rounded-xl bg-red-500/5 border border-red-500/15 text-xs text-red-400">
+                      <p className="font-semibold mb-0.5">Yêu cầu bổ sung từ Gloyce:</p>
+                      <p>{f.admin_review_notes}</p>
+                    </div>
+                  )}
+                  {f.gov_submission_notes && f.status === "needs_update" && (
+                    <div className="mt-3 p-3 rounded-xl bg-purple-500/5 border border-purple-500/15 text-xs text-purple-400">
+                      <p className="font-semibold mb-0.5">Yêu cầu từ cơ quan chính phủ:</p>
+                      <p>{f.gov_submission_notes}</p>
+                    </div>
                   )}
                 </div>
               );

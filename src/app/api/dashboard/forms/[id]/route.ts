@@ -51,8 +51,9 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     .single();
 
   if (!form) return NextResponse.json({ error: "Form not found" }, { status: 404 });
-  if (form.status === "submitted" || form.status === "completed") {
-    return NextResponse.json({ error: "Form already submitted" }, { status: 400 });
+  const nonEditable = ["submitted", "approved", "gov_submitted", "completed"];
+  if (nonEditable.includes(form.status)) {
+    return NextResponse.json({ error: "Form cannot be edited in current status" }, { status: 400 });
   }
 
   const updates: Record<string, unknown> = { responses };

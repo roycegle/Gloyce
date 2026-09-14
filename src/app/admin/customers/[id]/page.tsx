@@ -2,7 +2,7 @@
 
 import { useEffect, useState, use, useRef } from "react";
 import Link from "next/link";
-import { ArrowLeft, Plus, CheckCircle, XCircle, FileText, DollarSign, ClipboardList, FolderOpen, Upload, Trash2, ExternalLink, Download } from "lucide-react";
+import { ArrowLeft, Plus, CheckCircle, XCircle, FileText, DollarSign, ClipboardList, FolderOpen, Upload, Trash2, ExternalLink, Download, ChevronDown, ChevronUp, RefreshCw, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
 
 interface User { id: string; name: string; email: string; phone?: string; company?: string; status: string; created_at: string; }
@@ -11,7 +11,9 @@ interface Invoice { id: string; amount: number; currency: string; status: string
 interface Request { id: string; service_type: string; status: string; details: Record<string, unknown>; created_at: string; }
 interface Document { id: string; name: string; category?: string; file_url?: string; status: string; uploaded_by: string; created_at: string; }
 interface FormTemplate { id: string; name: string; description?: string; category: string; }
-interface CustomerForm { id: string; status: string; notes?: string; due_date?: string; created_at: string; form_templates?: FormTemplate; services?: { name: string; type: string }; }
+interface CustomerForm { id: string; status: string; notes?: string; due_date?: string; created_at: string; submitted_at?: string; reviewed_at?: string; gov_submitted_at?: string; admin_review_notes?: string; gov_submission_notes?: string; responses?: Record<string, string>; form_templates?: FormTemplate; services?: { name: string; type: string }; }
+interface FormField { id: string; label: string; field_type: string; required: boolean; options?: string[]; order_index: number; }
+interface AdminFormDetail extends CustomerForm { fields: FormField[]; }
 
 const STATUS_BADGE: Record<string, string> = {
   pending: "bg-amber-100 text-amber-700",
@@ -43,6 +45,14 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
   const [docUpload, setDocUpload] = useState({ name: "", category: "company", service_id: "" });
   const [docFile, setDocFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Form review state
+  const [expandedForm, setExpandedForm] = useState<string | null>(null);
+  const [formDetail, setFormDetail] = useState<AdminFormDetail | null>(null);
+  const [formDetailLoading, setFormDetailLoading] = useState(false);
+  const [reviewNotes, setReviewNotes] = useState<Record<string, string>>({});
+  const [govNotes, setGovNotes] = useState<Record<string, string>>({});
+  const [reviewSaving, setReviewSaving] = useState<string | null>(null);
 
   // Result file upload per request
   const [resultUploadId, setResultUploadId] = useState<string | null>(null);
@@ -161,6 +171,33 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
     await fetch(`/api/admin/customers/${id}/forms`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(assignForm) });
     setAssignForm({ template_id: "", service_id: "", due_date: "", notes: "" }); setShowFormAssign(false);
     await load(); setSaving(false);
+  };
+
+  const expandForm = async (formId: string) => {
+    if (expandedForm === formId) { setExpandedForm(null); setFormDetail(null); return; }
+    setExpandedForm(formId);
+    setFormDetail(null);
+    setFormDetailLoading(true);
+    const res = await fetch(`/api/admin/forms/${formId}`);
+    const d = await res.json();
+    setFormDetail(d);
+    setFormDetailLoading(false);
+  };
+
+  const patchForm = async (formId: string, body: Record<string, unknown>) => {
+    setReviewSaving(formId);
+    const res = await fetch(`/api/admin/forms/${formId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    setReviewSaving(null);
+    if (!res.ok) { toast.error("Lỗi cập nhật form"); return; }
+    toast.success("Đã cập nhật");
+    await load();
+    // Reload form detail
+    const d = await fetch(`/api/admin/forms/${formId}`).then(r => r.json());
+    setFormDetail(d);
   };
 
   if (!data) return <div className="p-8 text-center text-ink-400">Loading...</div>;
@@ -617,32 +654,166 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
               </div>
             </div>
           )}
-          <div className="bg-ink-800 rounded-xl border border-ink-600 overflow-hidden">
-            {forms.length === 0 ? <div className="p-12 text-center text-ink-400 text-sm"><FileText size={28} className="mx-auto mb-2 text-ink-500" />No forms assigned yet</div>
-              : (
-                <table className="w-full text-sm">
-                  <thead><tr className="border-b border-ink-600 bg-ink-900">
-                    <th className="text-left px-4 py-3 font-medium text-ink-400">Form</th>
-                    <th className="text-left px-4 py-3 font-medium text-ink-400 hidden md:table-cell">Category</th>
-                    <th className="text-left px-4 py-3 font-medium text-ink-400 hidden md:table-cell">Due</th>
-                    <th className="text-left px-4 py-3 font-medium text-ink-400">Status</th>
-                  </tr></thead>
-                  <tbody>
-                    {forms.map((f) => (
-                      <tr key={f.id} className="border-b border-ink-600">
-                        <td className="px-4 py-3">
-                          <p className="font-medium text-slate-200">{f.form_templates?.name || "—"}</p>
-                          {f.notes && <p className="text-xs text-ink-400">{f.notes}</p>}
-                        </td>
-                        <td className="px-4 py-3 text-ink-400 capitalize hidden md:table-cell">{f.form_templates?.category || "—"}</td>
-                        <td className="px-4 py-3 text-ink-400 hidden md:table-cell">{f.due_date ? new Date(f.due_date).toLocaleDateString() : "—"}</td>
-                        <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize ${STATUS_BADGE[f.status] || "bg-ink-700 text-ink-400"}`}>{f.status}</span></td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              )}
-          </div>
+          {forms.length === 0
+            ? <div className="bg-ink-800 rounded-xl border border-ink-600 p-12 text-center text-ink-400 text-sm"><FileText size={28} className="mx-auto mb-2 text-ink-500" />No forms assigned yet</div>
+            : (
+              <div className="space-y-3">
+                {forms.map((f) => {
+                  const isExpanded = expandedForm === f.id;
+                  const isSaving = reviewSaving === f.id;
+                  const FORM_STATUS: Record<string, string> = {
+                    pending: "bg-amber-900/40 text-amber-300 border border-amber-700/40",
+                    draft: "bg-ink-700 text-ink-300 border border-ink-600",
+                    submitted: "bg-blue-900/40 text-blue-300 border border-blue-700/40",
+                    approved: "bg-green-900/40 text-green-300 border border-green-700/40",
+                    gov_submitted: "bg-purple-900/40 text-purple-300 border border-purple-700/40",
+                    needs_update: "bg-red-900/40 text-red-300 border border-red-700/40",
+                    completed: "bg-teal-900/40 text-teal-300 border border-teal-700/40",
+                  };
+                  const FORM_STATUS_LABEL: Record<string, string> = {
+                    pending: "Chờ khách hàng", draft: "Bản nháp", submitted: "Đã nộp",
+                    approved: "Đã duyệt", gov_submitted: "Đã nộp chính phủ",
+                    needs_update: "Cần bổ sung", completed: "Hoàn thành",
+                  };
+                  return (
+                    <div key={f.id} className="bg-ink-800 rounded-xl border border-ink-600 overflow-hidden">
+                      {/* Header row */}
+                      <button onClick={() => expandForm(f.id)} className="w-full flex items-center gap-3 px-5 py-4 text-left hover:bg-ink-700/50 transition-colors">
+                        <FileText size={18} className="text-ink-400 shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium text-slate-200 truncate">{f.form_templates?.name || "—"}</p>
+                          <p className="text-xs text-ink-400">{f.form_templates?.category || ""}{f.due_date ? ` · Due ${new Date(f.due_date).toLocaleDateString()}` : ""}</p>
+                        </div>
+                        <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium shrink-0 ${FORM_STATUS[f.status] || "bg-ink-700 text-ink-400"}`}>{FORM_STATUS_LABEL[f.status] || f.status}</span>
+                        {isExpanded ? <ChevronUp size={16} className="text-ink-400 shrink-0" /> : <ChevronDown size={16} className="text-ink-400 shrink-0" />}
+                      </button>
+
+                      {/* Expanded panel */}
+                      {isExpanded && (
+                        <div className="border-t border-ink-600 px-5 py-4">
+                          {formDetailLoading ? (
+                            <div className="py-8 text-center text-ink-400 text-sm">Loading...</div>
+                          ) : formDetail && formDetail.id === f.id ? (
+                            <div className="space-y-5">
+                              {/* Q&A responses */}
+                              {formDetail.fields.length > 0 && (
+                                <div>
+                                  <h4 className="text-xs font-semibold text-ink-400 uppercase tracking-wider mb-3">Câu trả lời của khách hàng</h4>
+                                  <div className="space-y-3">
+                                    {formDetail.fields.map((field) => (
+                                      <div key={field.id} className="bg-ink-900 rounded-lg px-4 py-3">
+                                        <p className="text-xs text-ink-400 mb-1">{field.label}{field.required && <span className="text-red-400 ml-0.5">*</span>}</p>
+                                        <p className="text-sm text-slate-200 whitespace-pre-wrap">{formDetail.responses?.[field.id] || <span className="text-ink-500 italic">Chưa điền</span>}</p>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* Admin review notes display */}
+                              {formDetail.admin_review_notes && (
+                                <div className="bg-amber-900/20 border border-amber-700/30 rounded-lg px-4 py-3">
+                                  <p className="text-xs font-semibold text-amber-400 mb-1 flex items-center gap-1"><AlertTriangle size={12} /> Ghi chú duyệt</p>
+                                  <p className="text-sm text-amber-200">{formDetail.admin_review_notes}</p>
+                                </div>
+                              )}
+                              {formDetail.gov_submission_notes && (
+                                <div className="bg-purple-900/20 border border-purple-700/30 rounded-lg px-4 py-3">
+                                  <p className="text-xs font-semibold text-purple-400 mb-1">Ghi chú nộp chính phủ</p>
+                                  <p className="text-sm text-purple-200">{formDetail.gov_submission_notes}</p>
+                                </div>
+                              )}
+
+                              {/* Action buttons by status */}
+                              {f.status === "submitted" && (
+                                <div className="space-y-3 border-t border-ink-600 pt-4">
+                                  <h4 className="text-xs font-semibold text-ink-400 uppercase tracking-wider">Kiểm duyệt form</h4>
+                                  <textarea
+                                    value={reviewNotes[f.id] || ""}
+                                    onChange={(e) => setReviewNotes(n => ({ ...n, [f.id]: e.target.value }))}
+                                    placeholder="Ghi chú nếu cần bổ sung (bắt buộc khi từ chối)..."
+                                    rows={2}
+                                    className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-ink-500 resize-none"
+                                  />
+                                  <div className="flex gap-2">
+                                    <button
+                                      onClick={() => patchForm(f.id, { status: "approved" })}
+                                      disabled={isSaving}
+                                      className="flex-1 px-3 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-lg disabled:opacity-50 flex items-center justify-center gap-1.5"
+                                    ><CheckCircle size={14} /> Duyệt</button>
+                                    <button
+                                      onClick={() => patchForm(f.id, { status: "needs_update", admin_review_notes: reviewNotes[f.id] || "" })}
+                                      disabled={isSaving || !reviewNotes[f.id]}
+                                      className="flex-1 px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg disabled:opacity-50 flex items-center justify-center gap-1.5"
+                                    ><AlertTriangle size={14} /> Yêu cầu bổ sung</button>
+                                  </div>
+                                </div>
+                              )}
+
+                              {f.status === "approved" && (
+                                <div className="space-y-3 border-t border-ink-600 pt-4">
+                                  <h4 className="text-xs font-semibold text-ink-400 uppercase tracking-wider">Nộp lên chính phủ</h4>
+                                  <textarea
+                                    value={govNotes[f.id] || ""}
+                                    onChange={(e) => setGovNotes(n => ({ ...n, [f.id]: e.target.value }))}
+                                    placeholder="Ghi chú về việc nộp hồ sơ (tùy chọn)..."
+                                    rows={2}
+                                    className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-ink-500 resize-none"
+                                  />
+                                  <button
+                                    onClick={() => patchForm(f.id, { status: "gov_submitted", gov_submission_notes: govNotes[f.id] || "" })}
+                                    disabled={isSaving}
+                                    className="w-full px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-lg disabled:opacity-50 flex items-center justify-center gap-1.5"
+                                  ><RefreshCw size={14} /> Đã nộp chính phủ</button>
+                                </div>
+                              )}
+
+                              {f.status === "gov_submitted" && (
+                                <div className="space-y-3 border-t border-ink-600 pt-4">
+                                  <h4 className="text-xs font-semibold text-ink-400 uppercase tracking-wider">Kết quả từ chính phủ</h4>
+                                  <textarea
+                                    value={govNotes[f.id] || ""}
+                                    onChange={(e) => setGovNotes(n => ({ ...n, [f.id]: e.target.value }))}
+                                    placeholder="Ghi chú nếu chính phủ yêu cầu bổ sung..."
+                                    rows={2}
+                                    className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-ink-500 resize-none"
+                                  />
+                                  <div className="flex gap-2">
+                                    <button
+                                      onClick={() => patchForm(f.id, { status: "completed" })}
+                                      disabled={isSaving}
+                                      className="flex-1 px-3 py-2 bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium rounded-lg disabled:opacity-50 flex items-center justify-center gap-1.5"
+                                    ><CheckCircle size={14} /> Chính phủ chấp nhận</button>
+                                    <button
+                                      onClick={() => patchForm(f.id, { status: "needs_update", gov_submission_notes: govNotes[f.id] || "" })}
+                                      disabled={isSaving || !govNotes[f.id]}
+                                      className="flex-1 px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg disabled:opacity-50 flex items-center justify-center gap-1.5"
+                                    ><AlertTriangle size={14} /> Yêu cầu bổ sung</button>
+                                  </div>
+                                </div>
+                              )}
+
+                              {f.status === "needs_update" && (
+                                <div className="bg-red-900/20 border border-red-700/30 rounded-lg px-4 py-3">
+                                  <p className="text-xs font-semibold text-red-400 mb-1">Đang chờ khách hàng cập nhật</p>
+                                  <p className="text-sm text-red-200">Khách hàng cần bổ sung thông tin theo ghi chú bên trên.</p>
+                                </div>
+                              )}
+
+                              {f.status === "completed" && (
+                                <div className="bg-teal-900/20 border border-teal-700/30 rounded-lg px-4 py-3">
+                                  <p className="text-xs font-semibold text-teal-400">Hoàn thành — Chính phủ đã chấp nhận hồ sơ.</p>
+                                </div>
+                              )}
+                            </div>
+                          ) : null}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
         </div>
       )}
 
