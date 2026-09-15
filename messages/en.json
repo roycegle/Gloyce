@@ -403,7 +403,8 @@
       "tabs": {
         "status": "Status",
         "forms": "Forms",
-        "documents": "Documents"
+        "documents": "Documents",
+        "requests": "Requests"
       },
       "status": {
         "active": "Active",
@@ -437,7 +438,10 @@
       "paid": "Paid",
       "pending_payment": "Pending",
       "view": "View",
-      "backToCompanies": "Back to My Companies"
+      "backToCompanies": "Back to My Companies",
+      "noRequests": "No service requests yet.",
+      "newRequest": "New request",
+      "requestsSubtitle": "Request documents or certification for this company."
     }
   },
   "common": {

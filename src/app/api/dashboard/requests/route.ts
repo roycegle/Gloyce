@@ -85,7 +85,7 @@ export async function POST(req: NextRequest) {
   if (auth.error) return auth.error;
 
   const body = await req.json();
-  const { service_type, details } = body;
+  const { service_type, details, service_id } = body;
 
   if (!service_type || !["certification", "document_request"].includes(service_type)) {
     return NextResponse.json({ error: "Invalid service_type" }, { status: 400 });
@@ -115,6 +115,7 @@ export async function POST(req: NextRequest) {
       status: "pending",
       payment_status: "none",
       details: details || {},
+      ...(service_id ? { service_id } : {}),
     })
     .select("*")
     .single();

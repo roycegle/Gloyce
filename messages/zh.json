@@ -401,7 +401,8 @@
       "tabs": {
         "status": "状态",
         "forms": "表单",
-        "documents": "文件"
+        "documents": "文件",
+        "requests": "请求"
       },
       "status": {
         "active": "进行中",
@@ -435,7 +436,10 @@
       "paid": "已付款",
       "pending_payment": "待付款",
       "view": "查看",
-      "backToCompanies": "返回公司列表"
+      "backToCompanies": "返回公司列表",
+      "noRequests": "暂无服务请求。",
+      "newRequest": "新建请求",
+      "requestsSubtitle": "为本公司申请文件或认证。"
     }
   },
   "common": {

@@ -401,7 +401,8 @@
       "tabs": {
         "status": "Status",
         "forms": "Formulir",
-        "documents": "Dokumen"
+        "documents": "Dokumen",
+        "requests": "Permintaan"
       },
       "status": {
         "active": "Aktif",
@@ -435,7 +436,10 @@
       "paid": "Dibayar",
       "pending_payment": "Tertunda",
       "view": "Lihat",
-      "backToCompanies": "Kembali ke Perusahaan Saya"
+      "backToCompanies": "Kembali ke Perusahaan Saya",
+      "noRequests": "Belum ada permintaan layanan.",
+      "newRequest": "Permintaan baru",
+      "requestsSubtitle": "Minta dokumen atau sertifikasi untuk perusahaan ini."
     }
   },
   "common": {

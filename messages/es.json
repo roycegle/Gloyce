@@ -401,7 +401,8 @@
       "tabs": {
         "status": "Estado",
         "forms": "Formularios",
-        "documents": "Documentos"
+        "documents": "Documentos",
+        "requests": "Solicitudes"
       },
       "status": {
         "active": "Activo",
@@ -435,7 +436,10 @@
       "paid": "Pagado",
       "pending_payment": "Pendiente",
       "view": "Ver",
-      "backToCompanies": "Volver a Mis Empresas"
+      "backToCompanies": "Volver a Mis Empresas",
+      "noRequests": "Aún no hay solicitudes de servicio.",
+      "newRequest": "Nueva solicitud",
+      "requestsSubtitle": "Solicita documentos o certificación para esta empresa."
     }
   },
   "common": {

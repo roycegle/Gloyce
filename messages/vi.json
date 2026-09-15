@@ -403,7 +403,8 @@
       "tabs": {
         "status": "Trạng thái",
         "forms": "Biểu mẫu",
-        "documents": "Tài liệu"
+        "documents": "Tài liệu",
+        "requests": "Yêu cầu"
       },
       "status": {
         "active": "Đang hoạt động",
@@ -437,7 +438,10 @@
       "paid": "Đã thanh toán",
       "pending_payment": "Chờ thanh toán",
       "view": "Xem",
-      "backToCompanies": "Về danh sách công ty"
+      "backToCompanies": "Về danh sách công ty",
+      "noRequests": "Chưa có yêu cầu dịch vụ nào.",
+      "newRequest": "Tạo yêu cầu",
+      "requestsSubtitle": "Yêu cầu tài liệu hoặc chứng thực cho công ty này."
     }
   },
   "common": {
