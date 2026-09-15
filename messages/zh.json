@@ -230,7 +230,7 @@
   "dashboard": {
     "nav": {
       "overview": "概览",
-      "services": "我的服务",
+      "services": "我的公司",
       "documents": "文件",
       "requests": "Requests",
       "billing": "账单",
@@ -253,8 +253,8 @@
       "dueOn": "到期"
     },
     "services": {
-      "title": "我的服务",
-      "noServices": "您暂无活跃服务。",
+      "title": "我的公司",
+      "noServices": "您还没有注册公司。请联系我们开始。",
       "status": {
         "active": "进行中",
         "pending": "待审核",
@@ -264,7 +264,7 @@
       "step": "步骤 {current} / {total}",
       "nextAction": "下一步操作：",
       "attachedDocuments": "相关文件",
-      "myServices": "我的服务",
+      "myServices": "我的公司",
       "formsToFill": "待填写表单",
       "requiredForms": "所需表单",
       "fillForm": "填写",
@@ -275,7 +275,7 @@
       "closeForm": "← 关闭",
       "adminFeedback": "Gloyce 反馈：",
       "govFeedback": "政府要求：",
-      "noServicesTitle": "暂无活跃服务",
+      "noServicesTitle": "暂无公司",
       "contactUs": "联系 Gloyce",
       "formStatus": {
         "pending": "待填写",
@@ -286,7 +286,7 @@
         "needs_update": "需要更新",
         "completed": "已完成"
       },
-      "browseServices": "浏览服务"
+      "browseServices": "注册公司"
     },
     "documents": {
       "title": "文件",

@@ -230,7 +230,7 @@
   "dashboard": {
     "nav": {
       "overview": "Ikhtisar",
-      "services": "Layanan Saya",
+      "services": "Perusahaan Saya",
       "documents": "Dokumen",
       "requests": "Requests",
       "billing": "Tagihan",
@@ -253,8 +253,8 @@
       "dueOn": "Jatuh"
     },
     "services": {
-      "title": "Layanan Saya",
-      "noServices": "Anda belum memiliki layanan aktif.",
+      "title": "Perusahaan Saya",
+      "noServices": "Anda belum memiliki perusahaan terdaftar. Hubungi kami untuk memulai.",
       "status": {
         "active": "Aktif",
         "pending": "Dalam Tinjauan",
@@ -264,7 +264,7 @@
       "step": "Langkah {current} dari {total}",
       "nextAction": "Tindakan berikutnya:",
       "attachedDocuments": "Dokumen terlampir",
-      "myServices": "Layanan Saya",
+      "myServices": "Perusahaan Saya",
       "formsToFill": "Formulir untuk diisi",
       "requiredForms": "Formulir diperlukan",
       "fillForm": "Isi formulir",
@@ -275,7 +275,7 @@
       "closeForm": "← Tutup",
       "adminFeedback": "Masukan dari Gloyce:",
       "govFeedback": "Permintaan pemerintah:",
-      "noServicesTitle": "Belum ada layanan aktif",
+      "noServicesTitle": "Belum ada perusahaan",
       "contactUs": "Hubungi Gloyce",
       "formStatus": {
         "pending": "Menunggu diisi",
@@ -286,7 +286,7 @@
         "needs_update": "Perlu diperbarui",
         "completed": "Selesai"
       },
-      "browseServices": "Lihat Layanan"
+      "browseServices": "Daftarkan Perusahaan"
     },
     "documents": {
       "title": "Dokumen",

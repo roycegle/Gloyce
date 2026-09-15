@@ -230,7 +230,7 @@
   "dashboard": {
     "nav": {
       "overview": "Resumen",
-      "services": "Mis servicios",
+      "services": "Mis empresas",
       "documents": "Documentos",
       "requests": "Requests",
       "billing": "Facturación",
@@ -253,8 +253,8 @@
       "dueOn": "Vence"
     },
     "services": {
-      "title": "Mis servicios",
-      "noServices": "No tienes servicios activos.",
+      "title": "Mis empresas",
+      "noServices": "Aún no tienes empresas registradas. Contáctanos para empezar.",
       "status": {
         "active": "Activo",
         "pending": "En revisión",
@@ -264,7 +264,7 @@
       "step": "Paso {current} de {total}",
       "nextAction": "Próxima acción:",
       "attachedDocuments": "Documentos adjuntos",
-      "myServices": "Mis servicios",
+      "myServices": "Mis empresas",
       "formsToFill": "Formularios a llenar",
       "requiredForms": "Formularios requeridos",
       "fillForm": "Rellenar",
@@ -275,7 +275,7 @@
       "closeForm": "← Cerrar",
       "adminFeedback": "Comentarios de Gloyce:",
       "govFeedback": "Requisito del gobierno:",
-      "noServicesTitle": "Sin servicios activos",
+      "noServicesTitle": "Sin empresas aún",
       "contactUs": "Contactar Gloyce",
       "formStatus": {
         "pending": "Pendiente",
@@ -286,7 +286,7 @@
         "needs_update": "Requiere actualización",
         "completed": "Completado"
       },
-      "browseServices": "Ver servicios"
+      "browseServices": "Registrar una empresa"
     },
     "documents": {
       "title": "Documentos",
