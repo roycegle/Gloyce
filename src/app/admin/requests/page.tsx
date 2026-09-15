@@ -78,7 +78,7 @@ export default function AdminRequestsPage() {
   const [notes, setNotes] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState<string | null>(null);
   const [resultUploadId, setResultUploadId] = useState<string | null>(null);
-  const [resultFile, setResultFile] = useState<File | null>(null);
+  const [resultFiles, setResultFiles] = useState<File[]>([]);
   const [resultUploading, setResultUploading] = useState(false);
   const [priceInput, setPriceInput] = useState<Record<string, string>>({});
   const [settingPrice, setSettingPrice] = useState<string | null>(null);
@@ -151,18 +151,18 @@ export default function AdminRequestsPage() {
     patchSR(req.id, { status: "rejected", admin_notes: notes[req.id] || undefined });
 
   const uploadResult = async (req: UnifiedRequest) => {
-    if (!resultFile) return;
+    if (!resultFiles.length) return;
     setResultUploading(true);
     const endpoint = req.source === "service"
       ? `/api/admin/services/${req.id}/result`
       : `/api/admin/requests/${req.id}/result`;
     const fd = new FormData();
-    fd.append("file", resultFile);
+    for (const f of resultFiles) fd.append("files", f);
     const res = await fetch(endpoint, { method: "POST", body: fd });
     setResultUploading(false);
     if (res.ok) {
-      toast.success("Upload thành công — file đã vào tab Docs của khách");
-      setResultUploadId(null); setResultFile(null);
+      toast.success(`Upload thành công — ${resultFiles.length} file đã vào tab Docs của khách`);
+      setResultUploadId(null); setResultFiles([]);
       load();
     } else {
       const d = await res.json().catch(() => ({}));
@@ -452,7 +452,7 @@ export default function AdminRequestsPage() {
                             <Clock size={13} />{saving === req.id ? "Đang lưu..." : "Bắt đầu xử lý"}
                           </button>
                         )}
-                        <button onClick={() => { setResultUploadId(req.id); setResultFile(null); }}
+                        <button onClick={() => { setResultUploadId(req.id); setResultFiles([]); }}
                           className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-medium hover:bg-amber-500/20 transition-colors">
                           <Upload size={13} />Upload kết quả
                         </button>
@@ -467,26 +467,73 @@ export default function AdminRequestsPage() {
 
                     {/* Result upload panel */}
                     {resultUploadId === req.id && (
-                      <div className="p-3 rounded-lg bg-ink-900 border border-ink-600">
-                        <p className="text-xs font-medium text-ink-300 mb-2">Upload file kết quả — tự động gửi vào Docs của khách</p>
-                        <input type="file" onChange={e => setResultFile(e.target.files?.[0] || null)}
-                          className="w-full text-xs border border-ink-600 rounded-lg px-3 py-2 mb-2 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100" />
-                        <div className="flex gap-2">
-                          <button onClick={() => { setResultUploadId(null); setResultFile(null); }} className="px-3 py-1.5 text-xs text-ink-400 hover:text-ink-100">Hủy</button>
-                          <button onClick={() => uploadResult(req)} disabled={!resultFile || resultUploading}
+                      <div className="p-3 rounded-lg bg-ink-900 border border-ink-600 flex flex-col gap-2">
+                        <p className="text-xs font-medium text-ink-300">Upload file kết quả — tự động gửi vào Docs của khách</p>
+
+                        {/* File picker */}
+                        <label className="flex items-center gap-2 cursor-pointer px-3 py-2 rounded-lg border border-dashed border-ink-500 hover:border-amber-500/50 transition-colors">
+                          <Upload size={13} className="text-ink-400 shrink-0" />
+                          <span className="text-xs text-ink-400">Chọn file (có thể chọn nhiều)</span>
+                          <input
+                            type="file"
+                            multiple
+                            className="hidden"
+                            onChange={e => {
+                              const picked = Array.from(e.target.files || []);
+                              setResultFiles(prev => {
+                                const existing = new Set(prev.map(f => f.name + f.size));
+                                return [...prev, ...picked.filter(f => !existing.has(f.name + f.size))];
+                              });
+                              e.target.value = "";
+                            }}
+                          />
+                        </label>
+
+                        {/* List selected files */}
+                        {resultFiles.length > 0 && (
+                          <div className="flex flex-col gap-1">
+                            {resultFiles.map((f, i) => (
+                              <div key={i} className="flex items-center gap-2 px-2 py-1.5 rounded-lg bg-ink-800 border border-ink-600">
+                                <span className="text-xs text-ink-200 flex-1 truncate">{f.name}</span>
+                                <span className="text-[10px] text-ink-500 shrink-0">{(f.size / 1024).toFixed(0)} KB</span>
+                                <button
+                                  onClick={() => setResultFiles(prev => prev.filter((_, j) => j !== i))}
+                                  className="text-ink-500 hover:text-red-400 transition-colors shrink-0 ml-1"
+                                >
+                                  <XCircle size={13} />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        <div className="flex gap-2 pt-1">
+                          <button onClick={() => { setResultUploadId(null); setResultFiles([]); }} className="px-3 py-1.5 text-xs text-ink-400 hover:text-ink-100">Hủy</button>
+                          <button onClick={() => uploadResult(req)} disabled={!resultFiles.length || resultUploading}
                             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium hover:bg-emerald-500/20 disabled:opacity-50">
-                            <Upload size={12} />{resultUploading ? "Đang upload..." : "Upload & Hoàn thành"}
+                            <Upload size={12} />
+                            {resultUploading
+                              ? "Đang upload..."
+                              : resultFiles.length > 1
+                                ? `Upload ${resultFiles.length} file & Hoàn thành`
+                                : "Upload & Hoàn thành"}
                           </button>
                         </div>
                       </div>
                     )}
 
-                    {/* Result file display */}
+                    {/* Result files display */}
                     {req.status === "completed" && (d.result_url as string) && (
-                      <div className="flex items-center gap-2 p-2.5 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
-                        <Check size={13} className="text-emerald-400 shrink-0" />
-                        <span className="text-xs text-emerald-400 flex-1 truncate">Kết quả: {(d.result_filename as string) || "file"}</span>
-                        <a href={d.result_url as string} target="_blank" rel="noopener noreferrer" className="text-xs text-ink-400 hover:text-ink-100">Xem</a>
+                      <div className="flex flex-col gap-1 p-2.5 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
+                        {((d.result_files as { url: string; filename: string }[] | undefined) || [{ url: d.result_url as string, filename: (d.result_filename as string) || "file" }])
+                          .map((rf, i) => (
+                            <div key={i} className="flex items-center gap-2">
+                              <Check size={13} className="text-emerald-400 shrink-0" />
+                              <span className="text-xs text-emerald-400 flex-1 truncate">{rf.filename}</span>
+                              <a href={rf.url} target="_blank" rel="noopener noreferrer" className="text-xs text-ink-400 hover:text-ink-100 shrink-0">Xem</a>
+                            </div>
+                          ))
+                        }
                       </div>
                     )}
 
@@ -496,7 +543,7 @@ export default function AdminRequestsPage() {
                           <Check size={13} className="shrink-0" />
                           Yêu cầu đã {req.status === "completed" ? "hoàn thành" : "bị từ chối"}
                         </div>
-                        <button onClick={() => { setResultUploadId(req.id); setResultFile(null); }}
+                        <button onClick={() => { setResultUploadId(req.id); setResultFiles([]); }}
                           className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-medium hover:bg-amber-500/20 transition-colors">
                           <Upload size={13} />Upload kết quả
                         </button>
