@@ -7,7 +7,7 @@ import {
   ChevronLeft, CheckCircle2, FileText, FolderOpen,
   Download, ExternalLink, X, Save, Check, AlertCircle, File,
   FileSpreadsheet, Image as ImageIcon, Plus, ClipboardList, Stamp,
-  RefreshCw,
+  RefreshCw, MapPin, Calendar, Building2,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "@/i18n/routing";
@@ -47,6 +47,23 @@ type Tab = "status" | "forms" | "documents" | "requests";
 function fmt(iso?: string, locale?: string) {
   if (!iso) return "";
   return new Date(iso).toLocaleDateString(locale, { day: "2-digit", month: "2-digit", year: "numeric" });
+}
+
+const TYPE_INFO: Record<string, { label: string; country: string; flag: string }> = {
+  us_llc_standard: { label: "US LLC",              country: "United States", flag: "🇺🇸" },
+  us_llc_premium:  { label: "US LLC",              country: "United States", flag: "🇺🇸" },
+  us_llc:          { label: "US LLC",              country: "United States", flag: "🇺🇸" },
+  singapore:       { label: "Singapore Pte. Ltd.", country: "Singapore",     flag: "🇸🇬" },
+  hong_kong:       { label: "Hong Kong Limited",   country: "Hong Kong",     flag: "🇭🇰" },
+  us_bank:         { label: "US Bank Account",     country: "United States", flag: "🇺🇸" },
+  payment_gateway: { label: "Payment Gateway",     country: "Global",        flag: "🌐" },
+  accounting_basic:{ label: "Accounting — Basic",  country: "",              flag: "📊" },
+  accounting_pro:  { label: "Accounting — Pro",    country: "",              flag: "📊" },
+  odi:             { label: "ODI Registration",    country: "Vietnam",       flag: "🇻🇳" },
+  certification:   { label: "Document Cert.",      country: "",              flag: "📋" },
+};
+function typeInfo(type: string) {
+  return TYPE_INFO[type] ?? { label: type.replace(/_/g, " "), country: "", flag: "🏢" };
 }
 const FILE_ICONS: Record<string, typeof FileText> = {
   pdf: FileText, docx: File, doc: File,
@@ -188,58 +205,22 @@ export default function CompanyDetailPage({ params }: { params: Promise<{ id: st
     </div>
   );
 
-  const pct = service.total_steps > 0 ? Math.round((service.current_step / service.total_steps) * 100) : 0;
   const isComplete = service.status === "complete" || service.status === "completed";
   const svcCfg = SVC_STATUS[service.status] || { label: service.status, variant: "default" as const };
+  const info = typeInfo(service.type);
 
   return (
     <div className="flex flex-col gap-6 max-w-4xl">
       {/* Back */}
-      <Link href="/dashboard" className="flex items-center gap-1.5 text-sm text-navy-400 hover:text-foreground transition-colors w-fit">
+      <Link href="/dashboard/services" className="flex items-center gap-1.5 text-sm text-navy-400 hover:text-foreground transition-colors w-fit">
         <ChevronLeft size={15} /> {t("backToCompanies")}
       </Link>
 
-      {/* Company header */}
-      <div className="bg-navy-800 rounded-2xl border border-navy-700 p-5 sm:p-6 flex flex-col gap-4">
-        <div className="flex items-start justify-between gap-3 flex-wrap">
-          <div className="min-w-0 flex-1">
-            <div className="flex items-center gap-2 mb-2 flex-wrap">
-              <Badge variant="gold" className="text-[10px] tracking-widest">
-                {service.type.replace(/_/g, " ").toUpperCase()}
-              </Badge>
-              <Badge variant={svcCfg.variant} className="text-xs">{svcCfg.label}</Badge>
-            </div>
-            <h1 className="text-lg font-bold text-foreground">{service.name}</h1>
-            <p className="text-xs text-navy-500 mt-1">
-              {fmt(service.created_at, locale)}
-              {service.price ? ` · $${service.price.toLocaleString()} ${service.currency || "USD"}` : ""}
-            </p>
-          </div>
-          <div className="text-right shrink-0">
-            <p className={`text-2xl font-black ${isComplete ? "text-emerald-400" : "text-gold"}`}>{pct}%</p>
-          </div>
-        </div>
-
-        {/* Progress dots */}
-        {service.total_steps > 0 && (
-          <div className="flex items-center gap-1.5">
-            {Array.from({ length: service.total_steps }, (_, i) => {
-              const done = i + 1 < service.current_step;
-              const active = i + 1 === service.current_step;
-              return (
-                <div key={i} className={`rounded-full h-2 transition-all flex-1 ${
-                  done || isComplete ? "bg-emerald-400" : active ? "bg-gold" : "bg-navy-600"
-                }`} style={{ maxWidth: 40 }} />
-              );
-            })}
-          </div>
-        )}
-
-        {isComplete && (
-          <div className="flex items-center gap-1.5 text-sm text-emerald-400">
-            <CheckCircle2 size={15} /> {t("status.completed")}
-          </div>
-        )}
+      {/* Title */}
+      <div className="flex items-center gap-3">
+        <div className="text-2xl">{info.flag}</div>
+        <h1 className="text-xl font-bold text-foreground">{service.name}</h1>
+        <Badge variant={svcCfg.variant} className="text-xs">{svcCfg.label}</Badge>
       </div>
 
       {/* Tabs */}
@@ -270,13 +251,51 @@ export default function CompanyDetailPage({ params }: { params: Promise<{ id: st
       {/* ═══ STATUS TAB ═══ */}
       {tab === "status" && (
         <div className="flex flex-col gap-4">
+          {/* Status notice */}
+          <div className={`flex items-start gap-3 p-4 rounded-xl border text-sm ${
+            isComplete
+              ? "bg-emerald-500/5 border-emerald-500/20 text-emerald-300"
+              : service.status === "action_required"
+              ? "bg-red-500/5 border-red-500/20 text-red-300"
+              : "bg-amber-500/5 border-amber-500/20 text-amber-300"
+          }`}>
+            {isComplete
+              ? <CheckCircle2 size={16} className="shrink-0 mt-0.5 text-emerald-400" />
+              : <AlertCircle size={16} className="shrink-0 mt-0.5" />}
+            <p>{
+              isComplete
+                ? t("statusTab.activeNote")
+                : service.status === "action_required"
+                ? t("statusTab.actionNote")
+                : t("statusTab.pendingNote")
+            }</p>
+          </div>
+
+          {/* Company info card */}
+          <div className="bg-navy-800 rounded-2xl border border-navy-700 overflow-hidden">
+            {[
+              { icon: Building2, label: t("statusTab.companyType"), value: info.label },
+              ...(info.country ? [{ icon: MapPin, label: t("statusTab.country"), value: `${info.flag} ${info.country}` }] : []),
+              { icon: Calendar, label: t("statusTab.registrationDate"), value: fmt(service.created_at, locale) },
+              { icon: CheckCircle2, label: t("statusTab.currentStatus"), value: svcCfg.label },
+            ].map(({ icon: Icon, label, value }, i, arr) => (
+              <div key={label} className={`flex items-center justify-between px-5 py-3.5 ${i < arr.length - 1 ? "border-b border-navy-700/60" : ""}`}>
+                <div className="flex items-center gap-2.5 text-navy-400">
+                  <Icon size={14} />
+                  <span className="text-xs font-medium">{label}</span>
+                </div>
+                <span className="text-sm font-semibold text-foreground">{value}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Admin notes */}
           {service.notes && (
-            <div className="flex items-start gap-3 p-4 rounded-xl bg-amber-500/5 border border-amber-500/20 text-sm text-amber-400">
-              <AlertCircle size={16} className="shrink-0 mt-0.5" />
-              <p>{service.notes}</p>
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-amber-500/5 border border-amber-500/15 text-sm text-amber-400">
+              <AlertCircle size={15} className="shrink-0 mt-0.5" />
+              <p className="leading-relaxed">{service.notes}</p>
             </div>
           )}
-
         </div>
       )}
 
@@ -423,8 +442,8 @@ export default function CompanyDetailPage({ params }: { params: Promise<{ id: st
                   paid:     "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
                 };
                 const typeLabel: Record<string, string> = {
-                  document_request: "Document Request",
-                  certification:    "Certification",
+                  document_request: t("statusTab.requestType.document_request"),
+                  certification:    t("statusTab.requestType.certification"),
                 };
                 const d = req.details;
                 return (
@@ -490,11 +509,11 @@ export default function CompanyDetailPage({ params }: { params: Promise<{ id: st
                     <div className="flex items-center gap-2 mb-1">
                       {type === "document_request" ? <FileText size={13} className="text-gold" /> : <Stamp size={13} className="text-gold" />}
                       <span className="text-xs font-semibold text-foreground">
-                        {type === "document_request" ? "Document Request" : "Certification"}
+                        {t(`statusTab.requestType.${type}` as Parameters<typeof t>[0])}
                       </span>
                     </div>
                     <p className="text-[10px] text-navy-500 leading-relaxed">
-                      {type === "document_request" ? "Request Gloyce to prepare a legal document" : "Notarize or apostille an existing document"}
+                      {type === "document_request" ? t("requestsSubtitle") : t("requestsSubtitle")}
                     </p>
                   </button>
                 ))}

@@ -286,7 +286,11 @@
         "needs_update": "需要更新",
         "completed": "已完成"
       },
-      "browseServices": "注册公司"
+      "browseServices": "注册公司",
+      "activeCompanies": "运营中的公司",
+      "inProgress": "处理中",
+      "manage": "管理",
+      "viewDetails": "详情"
     },
     "documents": {
       "title": "文件",
@@ -439,7 +443,19 @@
       "backToCompanies": "返回公司列表",
       "noRequests": "暂无服务请求。",
       "newRequest": "新建请求",
-      "requestsSubtitle": "为本公司申请文件或认证。"
+      "requestsSubtitle": "为本公司申请文件或认证。",
+      "statusTab": {
+        "registrationDate": "注册日期",
+        "companyType": "公司类型",
+        "country": "国家",
+        "currentStatus": "当前状态",
+        "activeNote": "您的公司已注册并正常运营。",
+        "pendingNote": "Gloyce正在处理您的注册申请，每个重要节点我们都会通知您。",
+        "actionNote": "需要您的操作，请查看表单选项卡。",
+        "requestType": { "document_request": "文件申请", "certification": "认证" },
+        "urgency": { "normal": "普通", "urgent": "紧急" },
+        "certType": { "notarization": "公证", "apostille": "海牙认证", "consular_legalization": "领事认证", "certified_translation": "认证翻译" }
+      }
     },
     "requests": {
       "title": "服务请求",

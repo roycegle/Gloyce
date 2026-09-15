@@ -286,7 +286,11 @@
         "needs_update": "Requiere actualización",
         "completed": "Completado"
       },
-      "browseServices": "Registrar una empresa"
+      "browseServices": "Registrar una empresa",
+      "activeCompanies": "Empresas activas",
+      "inProgress": "En proceso",
+      "manage": "Gestionar",
+      "viewDetails": "Detalles"
     },
     "documents": {
       "title": "Documentos",
@@ -439,7 +443,19 @@
       "backToCompanies": "Volver a Mis Empresas",
       "noRequests": "Aún no hay solicitudes de servicio.",
       "newRequest": "Nueva solicitud",
-      "requestsSubtitle": "Solicita documentos o certificación para esta empresa."
+      "requestsSubtitle": "Solicita documentos o certificación para esta empresa.",
+      "statusTab": {
+        "registrationDate": "Fecha de registro",
+        "companyType": "Tipo de empresa",
+        "country": "País",
+        "currentStatus": "Estado actual",
+        "activeNote": "Tu empresa está registrada y en buen estado.",
+        "pendingNote": "Gloyce está procesando tu registro. Te notificaremos en cada hito.",
+        "actionNote": "Se requiere acción. Por favor revisa la pestaña de Formularios.",
+        "requestType": { "document_request": "Solicitud de documento", "certification": "Certificación" },
+        "urgency": { "normal": "Normal", "urgent": "Urgente" },
+        "certType": { "notarization": "Notarización", "apostille": "Apostilla", "consular_legalization": "Legalización consular", "certified_translation": "Traducción certificada" }
+      }
     },
     "requests": {
       "title": "Solicitudes de servicio",

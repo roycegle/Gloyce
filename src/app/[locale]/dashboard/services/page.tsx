@@ -106,7 +106,7 @@ export default function ServicesPage() {
           <div className="flex items-center gap-2">
             <CheckCircle2 size={14} className="text-emerald-400" />
             <span className="text-xs font-semibold text-emerald-400 uppercase tracking-widest">
-              Công ty đang hoạt động
+              {t("activeCompanies")}
             </span>
           </div>
 
@@ -147,7 +147,7 @@ export default function ServicesPage() {
                     className="shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-semibold hover:bg-emerald-500/20 transition-colors whitespace-nowrap"
                   >
                     <ExternalLink size={12} />
-                    Quản trị
+                    {t("manage")}
                   </Link>
                 </div>
               );
@@ -162,7 +162,7 @@ export default function ServicesPage() {
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-gold animate-pulse" />
             <span className="text-xs font-semibold text-gold/80 uppercase tracking-widest">
-              Đang xử lý
+              {t("inProgress")}
             </span>
           </div>
 
@@ -202,7 +202,7 @@ export default function ServicesPage() {
                         href={`/dashboard/companies/${svc.id}` as Parameters<typeof Link>[0]["href"]}
                         className="flex items-center gap-1 text-xs text-navy-400 hover:text-gold transition-colors"
                       >
-                        Chi tiết <ChevronRight size={13} />
+                        {t("viewDetails")} <ChevronRight size={13} />
                       </Link>
                     </div>
                   </div>

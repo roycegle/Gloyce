@@ -286,7 +286,11 @@
         "needs_update": "Perlu diperbarui",
         "completed": "Selesai"
       },
-      "browseServices": "Daftarkan Perusahaan"
+      "browseServices": "Daftarkan Perusahaan",
+      "activeCompanies": "Perusahaan aktif",
+      "inProgress": "Sedang diproses",
+      "manage": "Kelola",
+      "viewDetails": "Detail"
     },
     "documents": {
       "title": "Dokumen",
@@ -439,7 +443,19 @@
       "backToCompanies": "Kembali ke Perusahaan Saya",
       "noRequests": "Belum ada permintaan layanan.",
       "newRequest": "Permintaan baru",
-      "requestsSubtitle": "Minta dokumen atau sertifikasi untuk perusahaan ini."
+      "requestsSubtitle": "Minta dokumen atau sertifikasi untuk perusahaan ini.",
+      "statusTab": {
+        "registrationDate": "Tanggal pendaftaran",
+        "companyType": "Jenis perusahaan",
+        "country": "Negara",
+        "currentStatus": "Status saat ini",
+        "activeNote": "Perusahaan Anda telah terdaftar dan berjalan dengan baik.",
+        "pendingNote": "Gloyce sedang memproses pendaftaran Anda. Kami akan memberi tahu di setiap pencapaian.",
+        "actionNote": "Tindakan diperlukan. Silakan periksa tab Formulir.",
+        "requestType": { "document_request": "Permintaan Dokumen", "certification": "Sertifikasi" },
+        "urgency": { "normal": "Normal", "urgent": "Mendesak" },
+        "certType": { "notarization": "Notarisasi", "apostille": "Apostille", "consular_legalization": "Legalisasi Konsuler", "certified_translation": "Terjemahan Tersertifikasi" }
+      }
     },
     "requests": {
       "title": "Permintaan Layanan",

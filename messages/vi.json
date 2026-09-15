@@ -287,7 +287,11 @@
         "needs_update": "Cần bổ sung",
         "completed": "Hoàn thành"
       },
-      "browseServices": "Đăng ký công ty"
+      "browseServices": "Đăng ký công ty",
+      "activeCompanies": "Công ty đang hoạt động",
+      "inProgress": "Đang xử lý",
+      "manage": "Quản trị",
+      "viewDetails": "Chi tiết"
     },
     "documents": {
       "title": "Tài liệu",
@@ -441,7 +445,30 @@
       "backToCompanies": "Về danh sách công ty",
       "noRequests": "Chưa có yêu cầu dịch vụ nào.",
       "newRequest": "Tạo yêu cầu",
-      "requestsSubtitle": "Yêu cầu tài liệu hoặc chứng thực cho công ty này."
+      "requestsSubtitle": "Yêu cầu tài liệu hoặc chứng thực cho công ty này.",
+      "statusTab": {
+        "registrationDate": "Ngày đăng ký",
+        "companyType": "Loại hình công ty",
+        "country": "Quốc gia",
+        "currentStatus": "Trạng thái hiện tại",
+        "activeNote": "Công ty đã đăng ký và đang hoạt động bình thường.",
+        "pendingNote": "Gloyce đang xử lý hồ sơ đăng ký của bạn. Chúng tôi sẽ thông báo tại mỗi mốc quan trọng.",
+        "actionNote": "Cần hành động từ bạn. Vui lòng kiểm tra tab Biểu mẫu.",
+        "requestType": {
+          "document_request": "Yêu cầu tài liệu",
+          "certification": "Chứng thực"
+        },
+        "urgency": {
+          "normal": "Bình thường",
+          "urgent": "Khẩn cấp"
+        },
+        "certType": {
+          "notarization": "Công chứng",
+          "apostille": "Hợp pháp hóa lãnh sự",
+          "consular_legalization": "Hợp pháp hóa lãnh sự quán",
+          "certified_translation": "Dịch thuật có công chứng"
+        }
+      }
     },
     "requests": {
       "title": "Yêu cầu dịch vụ",
