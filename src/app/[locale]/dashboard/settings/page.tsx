@@ -49,10 +49,10 @@ export default function SettingsPage() {
   ];
 
   const NOTIFICATION_SETTINGS = [
-    { key: "serviceUpdates", label: t("notifications.serviceUpdates"), description: "When your service status changes" },
-    { key: "documentAlerts", label: t("notifications.documentAlerts"), description: "When new documents are uploaded" },
-    { key: "billingReminders", label: t("notifications.billingReminders"), description: "3 days before payment deadline" },
-    { key: "marketingEmails", label: t("notifications.marketingEmails"), description: "News and offers from Gloyce" },
+    { key: "serviceUpdates", label: t("notifications.serviceUpdates"), description: t("notifications.serviceUpdatesDesc") },
+    { key: "documentAlerts", label: t("notifications.documentAlerts"), description: t("notifications.documentAlertsDesc") },
+    { key: "billingReminders", label: t("notifications.billingReminders"), description: t("notifications.billingRemindersDesc") },
+    { key: "marketingEmails", label: t("notifications.marketingEmails"), description: t("notifications.marketingEmailsDesc") },
   ];
 
   const handleSave = async () => {
@@ -70,7 +70,7 @@ export default function SettingsPage() {
   const handlePasswordSave = async () => {
     setPwError("");
     if (passwords.newPassword !== passwords.confirmPassword) {
-      setPwError("Passwords do not match");
+      setPwError(t("security.passwordMismatch"));
       return;
     }
     const res = await fetch("/api/dashboard/profile", {
@@ -79,7 +79,7 @@ export default function SettingsPage() {
       body: JSON.stringify({ currentPassword: passwords.currentPassword, newPassword: passwords.newPassword }),
     });
     const data = await res.json();
-    if (!res.ok) { setPwError(data.error || "Failed to update password"); return; }
+    if (!res.ok) { setPwError(data.error || t("security.updateFailed")); return; }
     setPasswords({ currentPassword: "", newPassword: "", confirmPassword: "" });
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
@@ -89,7 +89,7 @@ export default function SettingsPage() {
     <div className="flex flex-col gap-6 max-w-2xl">
       <div>
         <h2 className="text-xl font-bold text-foreground">{t("title")}</h2>
-        <p className="text-sm text-navy-400 mt-0.5">Manage your account information and preferences.</p>
+        <p className="text-sm text-navy-400 mt-0.5">{t("subtitle")}</p>
       </div>
 
       {/* Tabs */}
@@ -203,7 +203,7 @@ export default function SettingsPage() {
               <p className="text-sm font-medium text-foreground">{t("security.twoFactor")}</p>
               <p className="text-xs text-navy-500 mt-0.5">{t("security.twoFactorDesc")}</p>
             </div>
-            <Badge variant="default" className="text-xs shrink-0">Disabled</Badge>
+            <Badge variant="default" className="text-xs shrink-0">{t("security.twoFactorDisabled")}</Badge>
           </div>
         </div>
       )}

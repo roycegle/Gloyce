@@ -247,7 +247,10 @@
       "yourServices": "Dịch vụ của bạn",
       "viewAll": "Xem tất cả",
       "greetingGeneric": "Xin chào",
-      "noServices": "Bạn chưa có dịch vụ nào."
+      "noServices": "Bạn chưa có dịch vụ nào.",
+      "noPendingInvoices": "Không có hóa đơn chờ thanh toán.",
+      "viewAllInvoices": "Xem tất cả hóa đơn",
+      "dueOn": "Hạn"
     },
     "services": {
       "title": "Dịch vụ của tôi",
@@ -288,17 +291,24 @@
     "documents": {
       "title": "Tài liệu",
       "categories": {
-        "company": "Tài liệu công ty",
-        "tax": "Tài liệu thuế",
-        "banking": "Tài liệu ngân hàng",
-        "all": "Tất cả"
+        "company": "Công ty",
+        "tax": "Thuế",
+        "banking": "Ngân hàng",
+        "all": "Tất cả",
+        "compliance": "Tuân thủ",
+        "license": "Giấy phép",
+        "certification": "Chứng thực",
+        "general": "Khác"
       },
       "upload": "Tải lên tài liệu",
       "download": "Tải xuống",
       "noDocuments": "Chưa có tài liệu nào",
       "uploadedAt": "Tải lên lúc",
-      "subtitle": "Tài liệu do Gloyce tải lên thay mặt bạn.",
-      "noDocumentsTitle": "Chưa có tài liệu nào"
+      "subtitle": "Tài liệu từ Gloyce — luôn có sẵn để xem và tải về.",
+      "noDocumentsTitle": "Chưa có tài liệu nào",
+      "noDocumentsDesc": "Tài liệu của bạn sẽ xuất hiện ở đây sau khi Gloyce xử lý xong dịch vụ.",
+      "view": "Xem",
+      "loading": "Đang tải..."
     },
     "messages": {
       "title": "Tin nhắn",
@@ -319,7 +329,24 @@
         "paid": "Đã thanh toán",
         "pending": "Chờ thanh toán",
         "overdue": "Quá hạn"
-      }
+      },
+      "subtitle": "Hóa đơn và lịch sử thanh toán của bạn.",
+      "billingSummary": "Tổng quan thanh toán",
+      "totalPaid": "Đã thanh toán",
+      "outstanding": "Còn lại",
+      "colDescription": "Mô tả",
+      "colAmount": "Số tiền",
+      "colDate": "Ngày",
+      "colStatus": "Trạng thái",
+      "pay": "Thanh toán",
+      "paidOn": "Đã thanh toán",
+      "loading": "Đang tải...",
+      "paymentConfirmed": "Đã xác nhận thanh toán. Gloyce sẽ bắt đầu xử lý yêu cầu của bạn.",
+      "paymentError": "Có lỗi xảy ra, vui lòng thử lại.",
+      "statusPaid": "Đã thanh toán",
+      "statusPending": "Chờ thanh toán",
+      "statusOverdue": "Quá hạn",
+      "statusCancelled": "Đã hủy"
     },
     "settings": {
       "title": "Cài đặt tài khoản",
@@ -340,7 +367,11 @@
         "serviceUpdates": "Cập nhật dịch vụ",
         "documentAlerts": "Cảnh báo tài liệu",
         "billingReminders": "Nhắc nhở thanh toán",
-        "marketingEmails": "Email marketing"
+        "marketingEmails": "Email marketing",
+        "serviceUpdatesDesc": "Khi trạng thái dịch vụ thay đổi",
+        "documentAlertsDesc": "Khi có tài liệu mới được tải lên",
+        "billingRemindersDesc": "3 ngày trước hạn thanh toán",
+        "marketingEmailsDesc": "Tin tức và ưu đãi từ Gloyce"
       },
       "security": {
         "changePassword": "Đổi mật khẩu",
@@ -348,10 +379,14 @@
         "newPassword": "Mật khẩu mới",
         "confirmPassword": "Xác nhận mật khẩu mới",
         "twoFactor": "Xác thực hai yếu tố",
-        "twoFactorDesc": "Thêm lớp bảo mật cho tài khoản của bạn"
+        "twoFactorDesc": "Thêm lớp bảo mật cho tài khoản của bạn",
+        "passwordMismatch": "Mật khẩu không khớp",
+        "updateFailed": "Cập nhật mật khẩu thất bại",
+        "twoFactorDisabled": "Chưa bật"
       },
       "save": "Lưu thay đổi",
-      "saved": "Đã lưu thành công!"
+      "saved": "Đã lưu thành công!",
+      "subtitle": "Quản lý thông tin tài khoản và tùy chọn của bạn."
     }
   },
   "common": {

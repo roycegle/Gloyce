@@ -1,76 +1,28 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import {
   LayoutDashboard, Users, Briefcase,
-  Globe, LogOut, Menu, X, ChevronRight, FileText, UserCog, ClipboardList, ChevronDown,
+  Globe, LogOut, Menu, X, ChevronRight, FileText, UserCog, ClipboardList,
 } from "lucide-react";
 import { Toaster } from "sonner";
-import { getAdminMessages } from "@/lib/admin-i18n";
 
-const LOCALES = [
-  { code: "en", label: "English", flag: "🇺🇸" },
-  { code: "vi", label: "Tiếng Việt", flag: "🇻🇳" },
-  { code: "zh", label: "中文", flag: "🇨🇳" },
-  { code: "es", label: "Español", flag: "🇪🇸" },
-  { code: "id", label: "Indonesia", flag: "🇮🇩" },
-] as const;
-
-function AdminLanguageToggle({ locale, onChange }: { locale: string; onChange: (code: string) => void }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  const current = LOCALES.find(l => l.code === locale) ?? LOCALES[0];
-
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
-
-  return (
-    <div ref={ref} className="relative">
-      <button
-        onClick={() => setOpen(v => !v)}
-        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium border border-ink-600 text-ink-400 hover:text-foreground hover:border-gold/40 transition-colors"
-      >
-        <span>{current.flag}</span>
-        <span>{current.code.toUpperCase()}</span>
-        <ChevronDown size={11} className={open ? "rotate-180 transition-transform" : "transition-transform"} />
-      </button>
-      {open && (
-        <div className="absolute right-0 top-full mt-1.5 w-44 rounded-xl overflow-hidden shadow-xl z-50 bg-white border border-ink-600">
-          {LOCALES.map(l => (
-            <button
-              key={l.code}
-              onClick={() => { onChange(l.code); setOpen(false); }}
-              className={`w-full flex items-center gap-2.5 px-3 py-2.5 text-sm text-left transition-colors ${l.code === locale ? "bg-gold/8 text-gold font-semibold" : "text-ink-300 hover:bg-ink-700 hover:text-foreground"}`}
-            >
-              <span>{l.flag}</span>
-              <span>{l.label}</span>
-              {l.code === locale && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-gold" />}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
+const NAV_ITEMS = [
+  { href: "/admin", icon: LayoutDashboard, label: "Dashboard", badge: false },
+  { href: "/admin/customers", icon: Users, label: "Customers", badge: false },
+  { href: "/admin/requests", icon: ClipboardList, label: "Requests", badge: true },
+  { href: "/admin/services", icon: Briefcase, label: "Services", badge: false },
+  { href: "/admin/forms", icon: FileText, label: "Forms", badge: false },
+  { href: "/admin/staff", icon: UserCog, label: "Staff", badge: false },
+];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [pendingRequests, setPendingRequests] = useState(0);
-  const [locale, setLocale] = useState("en");
-
-  useEffect(() => {
-    const saved = localStorage.getItem("gloyce_locale") || "en";
-    setLocale(saved);
-  }, []);
 
   useEffect(() => {
     fetch("/api/admin/requests?status=pending")
@@ -78,23 +30,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       .then(d => setPendingRequests(Array.isArray(d) ? d.length : 0))
       .catch(() => {});
   }, [pathname]);
-
-  const changeLocale = (code: string) => {
-    setLocale(code);
-    localStorage.setItem("gloyce_locale", code);
-    document.cookie = `NEXT_LOCALE=${code}; max-age=31536000; path=/; SameSite=Lax`;
-  };
-
-  const m = getAdminMessages(locale);
-
-  const NAV = [
-    { href: "/admin", icon: LayoutDashboard, label: m.nav.dashboard, badge: false },
-    { href: "/admin/customers", icon: Users, label: m.nav.customers, badge: false },
-    { href: "/admin/requests", icon: ClipboardList, label: m.nav.requests, badge: true },
-    { href: "/admin/services", icon: Briefcase, label: m.nav.services, badge: false },
-    { href: "/admin/forms", icon: FileText, label: m.nav.forms, badge: false },
-    { href: "/admin/staff", icon: UserCog, label: m.nav.staff, badge: false },
-  ];
 
   return (
     <div className="flex h-screen bg-ink-900">
@@ -126,7 +61,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
         {/* Nav */}
         <nav className="flex-1 px-2 py-4 flex flex-col gap-0.5">
-          {NAV.map(({ href, icon: Icon, label, badge }) => {
+          {NAV_ITEMS.map(({ href, icon: Icon, label, badge }) => {
             const isActive = href === "/admin" ? pathname === "/admin" : pathname.startsWith(href);
             const badgeCount = badge ? pendingRequests : 0;
             return (
@@ -167,7 +102,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             onMouseLeave={(e) => (e.currentTarget.style.color = "#7B90C8")}
           >
             <LogOut size={16} />
-            <span>{m.common.signOut}</span>
+            <span>Sign out</span>
           </button>
         </div>
       </aside>
@@ -179,11 +114,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <button className="md:hidden text-ink-400" onClick={() => setSidebarOpen(true)}>
             <Menu size={20} />
           </button>
-          <h1 className="text-sm font-semibold text-ink-400">{m.topbar.title}</h1>
+          <h1 className="text-sm font-semibold text-ink-400">Gloyce Admin</h1>
           <div className="ml-auto flex items-center gap-3">
-            <AdminLanguageToggle locale={locale} onChange={changeLocale} />
             <Link href="/en/dashboard" className="text-xs text-gold hover:text-gold-light">
-              ← {m.topbar.viewAsCustomer}
+              ← View as Customer
             </Link>
           </div>
         </header>

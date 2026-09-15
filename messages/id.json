@@ -246,7 +246,10 @@
       "recentActivity": "Aktivitas terkini",
       "yourServices": "Layanan Anda",
       "viewAll": "Lihat semua",
-      "noServices": "Belum ada layanan aktif."
+      "noServices": "Belum ada layanan aktif.",
+      "noPendingInvoices": "Tidak ada tagihan tertunda.",
+      "viewAllInvoices": "Lihat semua faktur",
+      "dueOn": "Jatuh"
     },
     "services": {
       "title": "Layanan Saya",
@@ -287,15 +290,23 @@
     "documents": {
       "title": "Dokumen",
       "categories": {
-        "company": "Dokumen Perusahaan",
-        "tax": "Dokumen Pajak",
-        "banking": "Dokumen Perbankan",
-        "all": "Semua"
+        "company": "Perusahaan",
+        "tax": "Pajak",
+        "banking": "Perbankan",
+        "all": "Semua",
+        "compliance": "Kepatuhan",
+        "license": "Lisensi",
+        "certification": "Sertifikasi",
+        "general": "Lainnya"
       },
       "upload": "Unggah Dokumen",
       "download": "Unduh",
       "noDocuments": "Belum ada dokumen",
-      "uploadedAt": "Diunggah"
+      "uploadedAt": "Diunggah",
+      "subtitle": "Dokumen dari Gloyce — selalu tersedia untuk dilihat dan diunduh.",
+      "noDocumentsDesc": "Dokumen Anda akan muncul di sini setelah Gloyce selesai memproses layanan Anda.",
+      "view": "Lihat",
+      "loading": "Memuat..."
     },
     "messages": {
       "title": "Pesan",
@@ -316,7 +327,24 @@
         "paid": "Lunas",
         "pending": "Tertunda",
         "overdue": "Jatuh Tempo"
-      }
+      },
+      "subtitle": "Faktur dan riwayat pembayaran Anda.",
+      "billingSummary": "Ringkasan Tagihan",
+      "totalPaid": "Total Dibayar",
+      "outstanding": "Belum Dibayar",
+      "colDescription": "Deskripsi",
+      "colAmount": "Jumlah",
+      "colDate": "Tanggal",
+      "colStatus": "Status",
+      "pay": "Bayar",
+      "paidOn": "Dibayar",
+      "loading": "Memuat...",
+      "paymentConfirmed": "Pembayaran dikonfirmasi. Gloyce akan mulai memproses permintaan Anda.",
+      "paymentError": "Terjadi kesalahan, silakan coba lagi.",
+      "statusPaid": "Dibayar",
+      "statusPending": "Menunggu",
+      "statusOverdue": "Lewat Jatuh Tempo",
+      "statusCancelled": "Dibatalkan"
     },
     "settings": {
       "title": "Pengaturan Akun",
@@ -337,7 +365,11 @@
         "serviceUpdates": "Pembaruan layanan",
         "documentAlerts": "Peringatan dokumen",
         "billingReminders": "Pengingat tagihan",
-        "marketingEmails": "Email pemasaran"
+        "marketingEmails": "Email pemasaran",
+        "serviceUpdatesDesc": "Saat status layanan Anda berubah",
+        "documentAlertsDesc": "Saat dokumen baru diunggah",
+        "billingRemindersDesc": "3 hari sebelum batas waktu pembayaran",
+        "marketingEmailsDesc": "Berita dan penawaran dari Gloyce"
       },
       "security": {
         "changePassword": "Ganti Kata Sandi",
@@ -345,10 +377,14 @@
         "newPassword": "Kata sandi baru",
         "confirmPassword": "Konfirmasi kata sandi baru",
         "twoFactor": "Autentikasi dua faktor",
-        "twoFactorDesc": "Tambahkan lapisan keamanan ekstra ke akun Anda"
+        "twoFactorDesc": "Tambahkan lapisan keamanan ekstra ke akun Anda",
+        "passwordMismatch": "Kata sandi tidak cocok",
+        "updateFailed": "Gagal memperbarui kata sandi",
+        "twoFactorDisabled": "Dinonaktifkan"
       },
       "save": "Simpan Perubahan",
-      "saved": "Berhasil disimpan!"
+      "saved": "Berhasil disimpan!",
+      "subtitle": "Kelola informasi akun dan preferensi Anda."
     }
   },
   "common": {

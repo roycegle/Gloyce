@@ -37,17 +37,6 @@ function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString(undefined, { day: "2-digit", month: "short", year: "numeric" });
 }
 
-const CATEGORY_LABELS: Record<string, string> = {
-  all: "Tất cả",
-  company: "Công ty",
-  tax: "Thuế",
-  banking: "Ngân hàng",
-  compliance: "Compliance",
-  license: "Giấy phép",
-  certification: "Chứng thực",
-  general: "Khác",
-};
-
 export default function DocumentsPage() {
   const t = useTranslations("dashboard.documents");
   const [documents, setDocuments] = useState<Document[]>([]);
@@ -64,14 +53,17 @@ export default function DocumentsPage() {
   const categories = ["all", ...Array.from(new Set(documents.map(d => d.category).filter(Boolean)))];
   const filtered = activeCategory === "all" ? documents : documents.filter(d => d.category === activeCategory);
 
+  const getCategoryLabel = (cat: string) => {
+    const key = `categories.${cat}` as Parameters<typeof t>[0];
+    try { return t(key); } catch { return cat.charAt(0).toUpperCase() + cat.slice(1); }
+  };
+
   return (
     <div className="max-w-4xl flex flex-col gap-6">
       {/* Header */}
       <div>
         <h1 className="text-xl font-bold text-foreground">{t("title")}</h1>
-        <p className="text-sm text-navy-400 mt-0.5">
-          Hồ sơ và tài liệu hoàn chỉnh từ Gloyce — luôn có sẵn để xem và tải về
-        </p>
+        <p className="text-sm text-navy-400 mt-0.5">{t("subtitle")}</p>
       </div>
 
       {/* Category tabs */}
@@ -83,7 +75,7 @@ export default function DocumentsPage() {
                 activeCategory === cat
                   ? "bg-gold/10 text-gold border-gold/20"
                   : "text-navy-400 hover:text-foreground border-navy-700 hover:border-navy-600")}>
-              {CATEGORY_LABELS[cat] || (cat.charAt(0).toUpperCase() + cat.slice(1))}
+              {getCategoryLabel(cat)}
             </button>
           ))}
         </div>
@@ -92,7 +84,7 @@ export default function DocumentsPage() {
       {/* Document list */}
       {loading ? (
         <div className="bg-navy-800 rounded-2xl border border-navy-700 p-10 text-center text-sm text-navy-500">
-          Đang tải...
+          {t("loading")}
         </div>
       ) : filtered.length === 0 ? (
         <div className="flex flex-col items-center justify-center gap-4 py-20 bg-navy-800 rounded-2xl border border-navy-700 text-center px-6">
@@ -102,7 +94,7 @@ export default function DocumentsPage() {
           <div>
             <p className="text-base font-semibold text-foreground mb-1">{t("noDocumentsTitle")}</p>
             <p className="text-sm text-navy-400 max-w-xs mx-auto leading-relaxed">
-              Hồ sơ hoàn chỉnh của bạn sẽ xuất hiện ở đây sau khi Gloyce xử lý xong dịch vụ.
+              {t("noDocumentsDesc")}
             </p>
           </div>
         </div>
@@ -125,18 +117,17 @@ export default function DocumentsPage() {
                   </div>
                   <p className="text-xs text-navy-500 mt-0.5">
                     {ext.toUpperCase()} · {formatDate(doc.created_at)}
-                    {doc.category && doc.category !== "general" && ` · ${CATEGORY_LABELS[doc.category] || doc.category}`}
+                    {doc.category && doc.category !== "general" && ` · ${getCategoryLabel(doc.category)}`}
                   </p>
                 </div>
                 {doc.file_url && (
                   <div className="flex items-center gap-1 shrink-0">
                     <a href={doc.file_url} target="_blank" rel="noopener noreferrer"
-                      title="Xem"
+                      title={t("view")}
                       className="p-2 text-navy-500 hover:text-foreground hover:bg-navy-700 rounded-lg transition-colors">
                       <ExternalLink size={15} />
                     </a>
                     <a href={doc.file_url} download
-                      title="Tải xuống"
                       className="p-2 text-navy-500 hover:text-gold hover:bg-gold/10 rounded-lg transition-colors">
                       <Download size={15} />
                     </a>

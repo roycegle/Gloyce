@@ -246,7 +246,10 @@
       "recentActivity": "Actividad reciente",
       "yourServices": "Tus servicios",
       "viewAll": "Ver todo",
-      "noServices": "Sin servicios activos aún."
+      "noServices": "Sin servicios activos aún.",
+      "noPendingInvoices": "Sin facturas pendientes.",
+      "viewAllInvoices": "Ver todas las facturas",
+      "dueOn": "Vence"
     },
     "services": {
       "title": "Mis servicios",
@@ -287,15 +290,23 @@
     "documents": {
       "title": "Documentos",
       "categories": {
-        "company": "Documentos de empresa",
-        "tax": "Documentos fiscales",
-        "banking": "Documentos bancarios",
-        "all": "Todos"
+        "company": "Empresa",
+        "tax": "Impuestos",
+        "banking": "Bancario",
+        "all": "Todos",
+        "compliance": "Cumplimiento",
+        "license": "Licencia",
+        "certification": "Certificación",
+        "general": "Otros"
       },
       "upload": "Subir documento",
       "download": "Descargar",
       "noDocuments": "Sin documentos aún",
-      "uploadedAt": "Subido el"
+      "uploadedAt": "Subido el",
+      "subtitle": "Documentos de Gloyce — siempre disponibles para ver y descargar.",
+      "noDocumentsDesc": "Sus documentos aparecerán aquí una vez que Gloyce termine de procesar su servicio.",
+      "view": "Ver",
+      "loading": "Cargando..."
     },
     "messages": {
       "title": "Mensajes",
@@ -316,7 +327,24 @@
         "paid": "Pagado",
         "pending": "Pendiente",
         "overdue": "Vencido"
-      }
+      },
+      "subtitle": "Sus facturas e historial de pagos.",
+      "billingSummary": "Resumen de facturación",
+      "totalPaid": "Total pagado",
+      "outstanding": "Pendiente",
+      "colDescription": "Descripción",
+      "colAmount": "Monto",
+      "colDate": "Fecha",
+      "colStatus": "Estado",
+      "pay": "Pagar",
+      "paidOn": "Pagado",
+      "loading": "Cargando...",
+      "paymentConfirmed": "Pago confirmado. Gloyce comenzará a procesar su solicitud.",
+      "paymentError": "Ocurrió un error, por favor intente de nuevo.",
+      "statusPaid": "Pagado",
+      "statusPending": "Pendiente",
+      "statusOverdue": "Vencido",
+      "statusCancelled": "Cancelado"
     },
     "settings": {
       "title": "Configuración de cuenta",
@@ -337,7 +365,11 @@
         "serviceUpdates": "Actualizaciones de servicio",
         "documentAlerts": "Alertas de documentos",
         "billingReminders": "Recordatorios de pago",
-        "marketingEmails": "Emails de marketing"
+        "marketingEmails": "Emails de marketing",
+        "serviceUpdatesDesc": "Cuando cambia el estado de su servicio",
+        "documentAlertsDesc": "Cuando se suben nuevos documentos",
+        "billingRemindersDesc": "3 días antes del vencimiento",
+        "marketingEmailsDesc": "Noticias y ofertas de Gloyce"
       },
       "security": {
         "changePassword": "Cambiar contraseña",
@@ -345,10 +377,14 @@
         "newPassword": "Nueva contraseña",
         "confirmPassword": "Confirmar contraseña",
         "twoFactor": "Autenticación de dos factores",
-        "twoFactorDesc": "Agrega una capa extra de seguridad a tu cuenta"
+        "twoFactorDesc": "Agrega una capa extra de seguridad a tu cuenta",
+        "passwordMismatch": "Las contraseñas no coinciden",
+        "updateFailed": "Error al actualizar la contraseña",
+        "twoFactorDisabled": "Deshabilitado"
       },
       "save": "Guardar cambios",
-      "saved": "¡Guardado con éxito!"
+      "saved": "¡Guardado con éxito!",
+      "subtitle": "Gestione la información de su cuenta y preferencias."
     }
   },
   "common": {

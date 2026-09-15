@@ -166,7 +166,7 @@ export default function DashboardOverviewPage() {
 
           {pendingInvoices.length === 0 ? (
             <div className="bg-navy-800 rounded-xl border border-navy-700 p-6 text-center text-sm text-navy-500">
-              No pending invoices.
+              {t("noPendingInvoices")}
             </div>
           ) : (
             <div className="bg-navy-800 rounded-xl border border-navy-700 divide-y divide-navy-700">
@@ -174,16 +174,16 @@ export default function DashboardOverviewPage() {
                 <div key={inv.id} className="flex items-center justify-between p-4 gap-4">
                   <div>
                     <p className="text-sm font-semibold text-foreground">${inv.amount.toLocaleString()} {inv.currency}</p>
-                    {inv.due_date && <p className="text-xs text-navy-500 mt-0.5">Due {formatDate(inv.due_date, locale)}</p>}
+                    {inv.due_date && <p className="text-xs text-navy-500 mt-0.5">{t("dueOn")} {formatDate(inv.due_date, locale)}</p>}
                   </div>
-                  <Badge variant="warning" className="text-xs">Pending</Badge>
+                  <Badge variant="warning" className="text-xs">{ts("formStatus.pending")}</Badge>
                 </div>
               ))}
             </div>
           )}
 
           <Link href="/dashboard/billing" className="text-xs text-gold hover:text-gold-light flex items-center gap-1 self-end">
-            View all invoices <ChevronRight size={12} />
+            {t("viewAllInvoices")} <ChevronRight size={12} />
           </Link>
         </div>
       </div>

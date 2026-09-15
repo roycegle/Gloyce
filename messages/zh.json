@@ -246,7 +246,10 @@
       "recentActivity": "近期动态",
       "yourServices": "您的服务",
       "viewAll": "查看全部",
-      "noServices": "暂无活跃服务。"
+      "noServices": "暂无活跃服务。",
+      "noPendingInvoices": "没有待付款发票。",
+      "viewAllInvoices": "查看所有发票",
+      "dueOn": "到期"
     },
     "services": {
       "title": "我的服务",
@@ -287,15 +290,23 @@
     "documents": {
       "title": "文件",
       "categories": {
-        "company": "公司文件",
-        "tax": "税务文件",
-        "banking": "银行文件",
-        "all": "全部"
+        "company": "公司",
+        "tax": "税务",
+        "banking": "银行",
+        "all": "全部",
+        "compliance": "合规",
+        "license": "许可证",
+        "certification": "认证",
+        "general": "其他"
       },
       "upload": "上传文件",
       "download": "下载",
       "noDocuments": "暂无文件",
-      "uploadedAt": "上传时间"
+      "uploadedAt": "上传时间",
+      "subtitle": "Gloyce 上传的文件 — 随时可查看和下载。",
+      "noDocumentsDesc": "Gloyce 完成服务处理后，您的文件将显示在此处。",
+      "view": "查看",
+      "loading": "加载中..."
     },
     "messages": {
       "title": "消息",
@@ -316,7 +327,24 @@
         "paid": "已付款",
         "pending": "待付款",
         "overdue": "已逾期"
-      }
+      },
+      "subtitle": "您的发票和付款历史。",
+      "billingSummary": "账单摘要",
+      "totalPaid": "已付总额",
+      "outstanding": "待付金额",
+      "colDescription": "描述",
+      "colAmount": "金额",
+      "colDate": "日期",
+      "colStatus": "状态",
+      "pay": "付款",
+      "paidOn": "已付",
+      "loading": "加载中...",
+      "paymentConfirmed": "付款已确认。Gloyce 将开始处理您的请求。",
+      "paymentError": "发生错误，请重试。",
+      "statusPaid": "已付款",
+      "statusPending": "待付款",
+      "statusOverdue": "已逾期",
+      "statusCancelled": "已取消"
     },
     "settings": {
       "title": "账户设置",
@@ -337,7 +365,11 @@
         "serviceUpdates": "服务更新",
         "documentAlerts": "文件提醒",
         "billingReminders": "账单提醒",
-        "marketingEmails": "营销邮件"
+        "marketingEmails": "营销邮件",
+        "serviceUpdatesDesc": "当您的服务状态发生变化时",
+        "documentAlertsDesc": "当有新文件上传时",
+        "billingRemindersDesc": "付款截止日期前3天",
+        "marketingEmailsDesc": "来自 Gloyce 的新闻和优惠"
       },
       "security": {
         "changePassword": "修改密码",
@@ -345,10 +377,14 @@
         "newPassword": "新密码",
         "confirmPassword": "确认新密码",
         "twoFactor": "双重验证",
-        "twoFactorDesc": "为您的账户增加额外的安全保障"
+        "twoFactorDesc": "为您的账户增加额外的安全保障",
+        "passwordMismatch": "密码不匹配",
+        "updateFailed": "密码更新失败",
+        "twoFactorDisabled": "已禁用"
       },
       "save": "保存更改",
-      "saved": "保存成功！"
+      "saved": "保存成功！",
+      "subtitle": "管理您的账户信息和偏好设置。"
     }
   },
   "common": {

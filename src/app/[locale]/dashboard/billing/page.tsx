@@ -44,18 +44,18 @@ export default function BillingPage() {
     const res = await fetch(`/api/dashboard/invoices/${invoiceId}`, { method: "PATCH" });
     setPaying(null);
     if (res.ok) {
-      toast.success("Đã xác nhận thanh toán. Gloyce sẽ bắt đầu xử lý yêu cầu của bạn.");
+      toast.success(t("paymentConfirmed"));
       loadInvoices();
     } else {
-      toast.error("Có lỗi xảy ra, vui lòng thử lại.");
+      toast.error(t("paymentError"));
     }
   };
 
   const STATUS_CONFIG: Record<string, { label: string; variant: "success" | "warning" | "danger" | "default" }> = {
-    paid: { label: "Đã thanh toán", variant: "success" },
-    pending: { label: "Chờ thanh toán", variant: "warning" },
-    overdue: { label: "Quá hạn", variant: "danger" },
-    cancelled: { label: "Đã hủy", variant: "default" },
+    paid: { label: t("statusPaid"), variant: "success" },
+    pending: { label: t("statusPending"), variant: "warning" },
+    overdue: { label: t("statusOverdue"), variant: "danger" },
+    cancelled: { label: t("statusCancelled"), variant: "default" },
   };
 
   const totalPaid = invoices.filter(i => i.status === "paid").reduce((s, i) => s + i.amount, 0);
@@ -65,7 +65,7 @@ export default function BillingPage() {
     <div className="flex flex-col gap-6 max-w-3xl">
       <div>
         <h2 className="text-xl font-bold text-foreground">{t("title")}</h2>
-        <p className="text-sm text-navy-400 mt-0.5">Your invoices and payment history.</p>
+        <p className="text-sm text-navy-400 mt-0.5">{t("subtitle")}</p>
       </div>
 
       {/* Summary */}
@@ -75,17 +75,17 @@ export default function BillingPage() {
             <CreditCard className="w-5 h-5 text-gold" />
           </div>
           <div>
-            <p className="text-xs text-navy-500 uppercase tracking-wider">Billing Summary</p>
+            <p className="text-xs text-navy-500 uppercase tracking-wider">{t("billingSummary")}</p>
             <p className="text-base font-bold text-foreground mt-0.5">Gloyce Services</p>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4 pt-4 border-t border-navy-700">
           <div>
-            <p className="text-xs text-navy-500">Total Paid</p>
+            <p className="text-xs text-navy-500">{t("totalPaid")}</p>
             <p className="text-xl font-bold text-foreground mt-1">${totalPaid.toLocaleString()}</p>
           </div>
           <div>
-            <p className="text-xs text-navy-500">Outstanding</p>
+            <p className="text-xs text-navy-500">{t("outstanding")}</p>
             <p className="text-xl font-bold text-amber-400 mt-1">${totalPending.toLocaleString()}</p>
           </div>
         </div>
@@ -96,16 +96,16 @@ export default function BillingPage() {
         <h3 className="text-sm font-semibold text-foreground mb-3">{t("invoices")}</h3>
         <div className="bg-navy-800 rounded-2xl border border-navy-700 overflow-hidden">
           {loading ? (
-            <div className="px-4 py-10 text-center text-sm text-navy-500">Loading...</div>
+            <div className="px-4 py-10 text-center text-sm text-navy-500">{t("loading")}</div>
           ) : invoices.length === 0 ? (
             <div className="px-4 py-10 text-center text-sm text-navy-500">{t("noInvoices")}</div>
           ) : (
             <>
               <div className="hidden sm:grid grid-cols-12 gap-2 px-4 py-3 bg-navy-900 border-b border-navy-700 text-xs font-semibold text-navy-500 uppercase tracking-wider">
-                <span className="col-span-4">Mô tả</span>
-                <span className="col-span-2">Số tiền</span>
-                <span className="col-span-2">Ngày</span>
-                <span className="col-span-2">Trạng thái</span>
+                <span className="col-span-4">{t("colDescription")}</span>
+                <span className="col-span-2">{t("colAmount")}</span>
+                <span className="col-span-2">{t("colDate")}</span>
+                <span className="col-span-2">{t("colStatus")}</span>
                 <span className="col-span-2"></span>
               </div>
               {invoices.map((inv) => {
@@ -127,7 +127,7 @@ export default function BillingPage() {
                       <div className="flex items-center justify-between gap-3">
                         <div>
                           <p className="text-base font-bold text-foreground">{inv.amount.toLocaleString()} {inv.currency}</p>
-                          <p className="text-xs text-navy-500">{inv.due_date ? formatDate(inv.due_date, locale) : inv.paid_at ? `Paid ${formatDate(inv.paid_at, locale)}` : "—"}</p>
+                          <p className="text-xs text-navy-500">{inv.due_date ? formatDate(inv.due_date, locale) : inv.paid_at ? `${t("paidOn")} ${formatDate(inv.paid_at, locale)}` : "—"}</p>
                         </div>
                         {isPending && (
                           <button
@@ -135,7 +135,7 @@ export default function BillingPage() {
                             disabled={isPayingThis}
                             className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gold/10 border border-gold/30 text-gold text-xs font-semibold hover:bg-gold/20 transition-colors disabled:opacity-50"
                           >
-                            {isPayingThis ? "..." : <><CheckCircle size={13} /> Thanh toán</>}
+                            {isPayingThis ? "..." : <><CheckCircle size={13} /> {t("pay")}</>}
                           </button>
                         )}
                       </div>
@@ -156,7 +156,7 @@ export default function BillingPage() {
                             disabled={isPayingThis}
                             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gold/10 border border-gold/30 text-gold text-xs font-semibold hover:bg-gold/20 transition-colors disabled:opacity-50"
                           >
-                            {isPayingThis ? "..." : <><CheckCircle size={12} /> Thanh toán</>}
+                            {isPayingThis ? "..." : <><CheckCircle size={12} /> {t("pay")}</>}
                           </button>
                         )}
                       </span>

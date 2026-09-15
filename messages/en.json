@@ -247,7 +247,10 @@
       "yourServices": "Your Services",
       "viewAll": "View all",
       "greetingGeneric": "Good morning",
-      "noServices": "No active services yet."
+      "noServices": "No active services yet.",
+      "noPendingInvoices": "No pending invoices.",
+      "viewAllInvoices": "View all invoices",
+      "dueOn": "Due"
     },
     "services": {
       "title": "My Services",
@@ -288,17 +291,24 @@
     "documents": {
       "title": "Documents",
       "categories": {
-        "company": "Company Documents",
-        "tax": "Tax Documents",
-        "banking": "Banking Documents",
-        "all": "All"
+        "company": "Company",
+        "tax": "Tax",
+        "banking": "Banking",
+        "all": "All",
+        "compliance": "Compliance",
+        "license": "License",
+        "certification": "Certification",
+        "general": "Other"
       },
       "upload": "Upload Document",
       "download": "Download",
       "noDocuments": "No documents yet",
       "uploadedAt": "Uploaded",
-      "subtitle": "Documents uploaded by Gloyce on your behalf.",
-      "noDocumentsTitle": "No documents yet"
+      "subtitle": "Documents from Gloyce — always available for viewing and download.",
+      "noDocumentsTitle": "No documents yet",
+      "noDocumentsDesc": "Your documents will appear here once Gloyce finishes processing your service.",
+      "view": "View",
+      "loading": "Loading..."
     },
     "messages": {
       "title": "Messages",
@@ -319,7 +329,24 @@
         "paid": "Paid",
         "pending": "Pending",
         "overdue": "Overdue"
-      }
+      },
+      "subtitle": "Your invoices and payment history.",
+      "billingSummary": "Billing Summary",
+      "totalPaid": "Total Paid",
+      "outstanding": "Outstanding",
+      "colDescription": "Description",
+      "colAmount": "Amount",
+      "colDate": "Date",
+      "colStatus": "Status",
+      "pay": "Pay",
+      "paidOn": "Paid",
+      "loading": "Loading...",
+      "paymentConfirmed": "Payment confirmed. Gloyce will start processing your request.",
+      "paymentError": "An error occurred, please try again.",
+      "statusPaid": "Paid",
+      "statusPending": "Pending",
+      "statusOverdue": "Overdue",
+      "statusCancelled": "Cancelled"
     },
     "settings": {
       "title": "Account Settings",
@@ -340,7 +367,11 @@
         "serviceUpdates": "Service updates",
         "documentAlerts": "Document alerts",
         "billingReminders": "Billing reminders",
-        "marketingEmails": "Marketing emails"
+        "marketingEmails": "Marketing emails",
+        "serviceUpdatesDesc": "When your service status changes",
+        "documentAlertsDesc": "When new documents are uploaded",
+        "billingRemindersDesc": "3 days before payment deadline",
+        "marketingEmailsDesc": "News and offers from Gloyce"
       },
       "security": {
         "changePassword": "Change Password",
@@ -348,10 +379,14 @@
         "newPassword": "New password",
         "confirmPassword": "Confirm new password",
         "twoFactor": "Two-factor authentication",
-        "twoFactorDesc": "Add an extra layer of security to your account"
+        "twoFactorDesc": "Add an extra layer of security to your account",
+        "passwordMismatch": "Passwords do not match",
+        "updateFailed": "Failed to update password",
+        "twoFactorDisabled": "Disabled"
       },
       "save": "Save Changes",
-      "saved": "Saved successfully!"
+      "saved": "Saved successfully!",
+      "subtitle": "Manage your account information and preferences."
     }
   },
   "common": {
