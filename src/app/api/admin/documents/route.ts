@@ -21,60 +21,63 @@ export async function GET(req: NextRequest) {
   return NextResponse.json(data ?? []);
 }
 
-// POST — admin uploads a document to customer folder via Supabase Storage
+// POST — admin uploads one or more documents to customer folder via Supabase Storage
 export async function POST(req: NextRequest) {
   const auth = await requireAdminOrStaff("manage_documents");
   if (auth.error) return auth.error;
 
   const formData = await req.formData();
-  const file = formData.get("file") as File | null;
+  const files = formData.getAll("files") as File[];
   const userId = formData.get("user_id") as string;
   const category = (formData.get("category") as string) || "general";
   const serviceId = formData.get("service_id") as string | null;
-  const customName = formData.get("name") as string | null;
+  const customName = formData.get("name") as string | null; // only used when single file
 
-  if (!file || !userId) {
-    return NextResponse.json({ error: "file and user_id are required" }, { status: 400 });
+  if (!files.length || !userId) {
+    return NextResponse.json({ error: "files and user_id are required" }, { status: 400 });
   }
 
-  const ext = file.name.split(".").pop();
-  const timestamp = Date.now();
-  const storagePath = `${userId}/${category}/${timestamp}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
+  const inserted: unknown[] = [];
 
-  const arrayBuffer = await file.arrayBuffer();
-  const uint8 = new Uint8Array(arrayBuffer);
+  for (const file of files) {
+    const timestamp = Date.now();
+    const storagePath = `${userId}/${category}/${timestamp}-${Math.random().toString(36).slice(2,6)}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
 
-  const { error: uploadError } = await supabaseAdmin.storage
-    .from("documents")
-    .upload(storagePath, uint8, { contentType: file.type, upsert: false });
+    const arrayBuffer = await file.arrayBuffer();
+    const { error: uploadError } = await supabaseAdmin.storage
+      .from("documents")
+      .upload(storagePath, new Uint8Array(arrayBuffer), { contentType: file.type, upsert: false });
 
-  if (uploadError) {
-    return NextResponse.json({ error: `Storage error: ${uploadError.message}` }, { status: 500 });
+    if (uploadError) {
+      return NextResponse.json({ error: `Storage error: ${uploadError.message}` }, { status: 500 });
+    }
+
+    const { data: urlData } = supabaseAdmin.storage.from("documents").getPublicUrl(storagePath);
+
+    const { data, error } = await supabaseAdmin
+      .from("documents")
+      .insert({
+        user_id: userId,
+        name: (files.length === 1 && customName) ? customName : file.name,
+        category,
+        service_id: serviceId || null,
+        file_url: urlData.publicUrl,
+        storage_path: storagePath,
+        status: "active",
+        uploaded_by: "Gloyce",
+      })
+      .select()
+      .single();
+
+    if (error) {
+      await supabaseAdmin.storage.from("documents").remove([storagePath]);
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    inserted.push(data);
   }
 
-  const { data: urlData } = supabaseAdmin.storage.from("documents").getPublicUrl(storagePath);
-
-  const { data, error } = await supabaseAdmin
-    .from("documents")
-    .insert({
-      user_id: userId,
-      name: customName || file.name,
-      category,
-      service_id: serviceId || null,
-      file_url: urlData.publicUrl,
-      storage_path: storagePath,
-      status: "active",
-      uploaded_by: "Gloyce",
-    })
-    .select()
-    .single();
-
-  if (error) {
-    await supabaseAdmin.storage.from("documents").remove([storagePath]);
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
-
-  return NextResponse.json(data);
+  return NextResponse.json(inserted.length === 1 ? inserted[0] : inserted);
 }
 
 // DELETE — remove a document

@@ -43,7 +43,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
   const [saving, setSaving] = useState(false);
   const [showDocUpload, setShowDocUpload] = useState(false);
   const [docUpload, setDocUpload] = useState({ name: "", category: "company", service_id: "" });
-  const [docFile, setDocFile] = useState<File | null>(null);
+  const [docFiles, setDocFiles] = useState<File[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Form review state
@@ -133,18 +133,18 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
   };
 
   const uploadDocument = async () => {
-    if (!docFile) return;
+    if (!docFiles.length) return;
     setSaving(true);
     try {
       const fd = new FormData();
-      fd.append("file", docFile);
+      for (const f of docFiles) fd.append("files", f);
       fd.append("user_id", id);
       fd.append("category", docUpload.category);
-      if (docUpload.name) fd.append("name", docUpload.name);
+      if (docUpload.name && docFiles.length === 1) fd.append("name", docUpload.name);
       if (docUpload.service_id) fd.append("service_id", docUpload.service_id);
       const res = await fetch("/api/admin/documents", { method: "POST", body: fd });
       if (!res.ok) throw new Error("Upload failed");
-      setDocFile(null);
+      setDocFiles([]);
       setDocUpload({ name: "", category: "company", service_id: "" });
       setShowDocUpload(false);
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -621,12 +621,38 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
               <h3 className="font-semibold text-ink-100 mb-4">Upload Document to Customer Folder</h3>
               <div className="grid grid-cols-2 gap-3 mb-4">
                 <div className="col-span-2">
-                  <label className="text-xs font-medium text-ink-400 mb-1 block">File *</label>
-                  <input ref={fileInputRef} type="file" onChange={(e) => setDocFile(e.target.files?.[0] || null)}
-                    className="w-full border border-ink-600 rounded-lg px-3 py-2 text-sm file:mr-3 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100" />
+                  <label className="text-xs font-medium text-ink-400 mb-1 block">Files * <span className="text-ink-500 font-normal">(có thể chọn nhiều)</span></label>
+                  <label className="flex items-center gap-2 cursor-pointer px-3 py-2 rounded-lg border border-dashed border-ink-500 hover:border-amber-500/60 transition-colors mb-2">
+                    <Upload size={13} className="text-ink-400 shrink-0" />
+                    <span className="text-sm text-ink-400">Chọn file...</span>
+                    <input ref={fileInputRef} type="file" multiple className="hidden"
+                      onChange={(e) => {
+                        const picked = Array.from(e.target.files || []);
+                        setDocFiles(prev => {
+                          const existing = new Set(prev.map(f => f.name + f.size));
+                          return [...prev, ...picked.filter(f => !existing.has(f.name + f.size))];
+                        });
+                        e.target.value = "";
+                      }} />
+                  </label>
+                  {docFiles.length > 0 && (
+                    <div className="flex flex-col gap-1 mb-1">
+                      {docFiles.map((f, i) => (
+                        <div key={i} className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-ink-700 border border-ink-600">
+                          <span className="text-sm text-ink-200 flex-1 truncate">{f.name}</span>
+                          <span className="text-xs text-ink-500 shrink-0">{(f.size / 1024).toFixed(0)} KB</span>
+                          <button onClick={() => setDocFiles(prev => prev.filter((_, j) => j !== i))} className="text-ink-500 hover:text-red-400 transition-colors ml-1">
+                            <XCircle size={14} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
+                {docFiles.length === 1 && (
                 <div><label className="text-xs font-medium text-ink-400 mb-1 block">Display Name (optional)</label>
                   <input value={docUpload.name} onChange={(e) => setDocUpload({ ...docUpload, name: e.target.value })} placeholder="e.g. Articles of Organization" className="w-full border border-ink-600 rounded-lg px-3 py-2 text-sm" /></div>
+                )}
                 <div><label className="text-xs font-medium text-ink-400 mb-1 block">Category / Folder</label>
                   <select value={docUpload.category} onChange={(e) => setDocUpload({ ...docUpload, category: e.target.value })} className="w-full border border-ink-600 rounded-lg px-3 py-2 text-sm">
                     <option value="company">Company Documents</option>
@@ -644,8 +670,10 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                   </select></div>
               </div>
               <div className="flex gap-2 justify-end">
-                <button onClick={() => { setShowDocUpload(false); setDocFile(null); }} className="px-3 py-1.5 text-sm text-ink-400 hover:text-ink-300">Cancel</button>
-                <button onClick={uploadDocument} disabled={saving || !docFile} className="px-4 py-1.5 bg-amber-500 text-white text-sm rounded-lg hover:bg-amber-600 disabled:opacity-50">{saving ? "Uploading..." : "Upload"}</button>
+                <button onClick={() => { setShowDocUpload(false); setDocFiles([]); }} className="px-3 py-1.5 text-sm text-ink-400 hover:text-ink-300">Cancel</button>
+                <button onClick={uploadDocument} disabled={saving || !docFiles.length} className="px-4 py-1.5 bg-amber-500 text-white text-sm rounded-lg hover:bg-amber-600 disabled:opacity-50">
+                  {saving ? "Uploading..." : docFiles.length > 1 ? `Upload ${docFiles.length} files` : "Upload"}
+                </button>
               </div>
             </div>
           )}
