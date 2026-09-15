@@ -97,78 +97,58 @@ export default function ServicesPage() {
   );
 
   return (
-    <div className="flex flex-col gap-8 max-w-4xl">
+    <div className="flex flex-col gap-8 max-w-3xl">
       <h2 className="text-xl font-bold text-foreground">{t("title")}</h2>
 
-      {/* ── Công ty đã hoàn tất ── */}
+      {/* ── Công ty đang hoạt động ── */}
       {complete.length > 0 && (
         <section className="flex flex-col gap-3">
           <div className="flex items-center gap-2">
-            <CheckCircle2 size={15} className="text-emerald-400" />
+            <CheckCircle2 size={14} className="text-emerald-400" />
             <span className="text-xs font-semibold text-emerald-400 uppercase tracking-widest">
-              Đã hoàn tất đăng ký
+              Công ty đang hoạt động
             </span>
           </div>
 
-          <div className="rounded-2xl border border-emerald-500/20 overflow-hidden"
-            style={{ background: "rgba(16,30,54,0.7)" }}>
-            {/* Header row */}
-            <div className="hidden sm:grid grid-cols-[1fr_160px_140px_120px_80px] gap-4 px-5 py-2.5 border-b border-navy-700/60">
-              {["Tên công ty", "Loại hình", "Ngày đăng ký", "Quốc gia", ""].map((h, i) => (
-                <span key={i} className="text-[10px] font-semibold text-navy-500 uppercase tracking-widest">{h}</span>
-              ))}
-            </div>
-
-            {/* Company rows */}
-            {complete.map((svc, idx) => {
+          <div className="flex flex-col gap-3">
+            {complete.map(svc => {
               const info = typeInfo(svc.type);
               return (
                 <div key={svc.id}
-                  className={`grid grid-cols-1 sm:grid-cols-[1fr_160px_140px_120px_80px] gap-3 sm:gap-4 px-5 py-4 items-center transition-colors hover:bg-white/[0.02] ${idx !== 0 ? "border-t border-navy-700/50" : ""}`}>
-
-                  {/* Tên công ty */}
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
-                      <Building2 size={17} className="text-emerald-400" />
+                  className="bg-navy-800 rounded-2xl border border-emerald-500/20 p-5 sm:p-6 flex items-center justify-between gap-4 hover:border-emerald-500/35 transition-colors">
+                  {/* Left: icon + tên công ty + meta */}
+                  <div className="flex items-center gap-4 min-w-0">
+                    <div className="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0 text-xl">
+                      {info.flag}
                     </div>
                     <div className="min-w-0">
-                      <p className="text-sm font-semibold text-foreground truncate">{svc.name}</p>
-                      <p className="text-[11px] text-emerald-400/70 sm:hidden">{info.label}</p>
+                      <h3 className="text-base font-bold text-foreground truncate">{svc.name}</h3>
+                      <div className="flex items-center gap-2 mt-1 flex-wrap">
+                        <span className="text-[11px] text-navy-400">{info.label}</span>
+                        {info.country && (
+                          <>
+                            <span className="text-navy-600">·</span>
+                            <span className="text-[11px] text-navy-400 flex items-center gap-1">
+                              <MapPin size={10} className="text-navy-500" />{info.country}
+                            </span>
+                          </>
+                        )}
+                        <span className="text-navy-600">·</span>
+                        <span className="text-[11px] text-navy-400 flex items-center gap-1">
+                          <Calendar size={10} className="text-navy-500" />{fmt(svc.created_at, locale)}
+                        </span>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Loại hình */}
-                  <div className="hidden sm:flex items-center gap-1.5">
-                    <span className="text-sm">{info.flag}</span>
-                    <span className="text-sm text-navy-300">{info.label}</span>
-                  </div>
-
-                  {/* Ngày đăng ký */}
-                  <div className="hidden sm:flex items-center gap-1.5 text-sm text-navy-400">
-                    <Calendar size={13} className="text-navy-500 shrink-0" />
-                    {fmt(svc.created_at, locale)}
-                  </div>
-
-                  {/* Quốc gia */}
-                  <div className="hidden sm:flex items-center gap-1.5 text-sm text-navy-400">
-                    {info.country && (
-                      <>
-                        <MapPin size={13} className="text-navy-500 shrink-0" />
-                        <span>{info.country}</span>
-                      </>
-                    )}
-                  </div>
-
-                  {/* Quản trị */}
-                  <div className="flex sm:justify-end">
-                    <Link
-                      href={`/dashboard/companies/${svc.id}` as Parameters<typeof Link>[0]["href"]}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold hover:bg-emerald-500/20 transition-colors whitespace-nowrap"
-                    >
-                      <ExternalLink size={12} />
-                      Quản trị
-                    </Link>
-                  </div>
+                  {/* Right: action */}
+                  <Link
+                    href={`/dashboard/companies/${svc.id}` as Parameters<typeof Link>[0]["href"]}
+                    className="shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-semibold hover:bg-emerald-500/20 transition-colors whitespace-nowrap"
+                  >
+                    <ExternalLink size={12} />
+                    Quản trị
+                  </Link>
                 </div>
               );
             })}
@@ -179,14 +159,12 @@ export default function ServicesPage() {
       {/* ── Đang xử lý ── */}
       {inProgress.length > 0 && (
         <section className="flex flex-col gap-3">
-          {complete.length > 0 && (
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-gold animate-pulse" />
-              <span className="text-xs font-semibold text-gold/80 uppercase tracking-widest">
-                Đang xử lý
-              </span>
-            </div>
-          )}
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-gold animate-pulse" />
+            <span className="text-xs font-semibold text-gold/80 uppercase tracking-widest">
+              Đang xử lý
+            </span>
+          </div>
 
           <div className="flex flex-col gap-3">
             {inProgress.map(svc => {
@@ -195,16 +173,29 @@ export default function ServicesPage() {
               const info = typeInfo(svc.type);
               return (
                 <div key={svc.id} className="bg-navy-800 rounded-2xl border border-navy-700 p-5 sm:p-6 flex flex-col gap-4">
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-3 min-w-0">
-                      <div className="w-9 h-9 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0">
-                        <span className="text-base">{info.flag}</span>
+                  <div className="flex items-center justify-between gap-4">
+                    {/* Left: icon + tên công ty + meta */}
+                    <div className="flex items-center gap-4 min-w-0">
+                      <div className="w-11 h-11 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0 text-xl">
+                        {info.flag}
                       </div>
                       <div className="min-w-0">
-                        <h3 className="text-sm font-semibold text-foreground truncate">{svc.name}</h3>
-                        <p className="text-xs text-navy-500 mt-0.5">{info.label}{info.country ? ` · ${info.country}` : ""}</p>
+                        <h3 className="text-base font-bold text-foreground truncate">{svc.name}</h3>
+                        <div className="flex items-center gap-2 mt-1 flex-wrap">
+                          <span className="text-[11px] text-navy-400">{info.label}</span>
+                          {info.country && (
+                            <>
+                              <span className="text-navy-600">·</span>
+                              <span className="text-[11px] text-navy-400 flex items-center gap-1">
+                                <MapPin size={10} className="text-navy-500" />{info.country}
+                              </span>
+                            </>
+                          )}
+                        </div>
                       </div>
                     </div>
+
+                    {/* Right */}
                     <div className="flex items-center gap-2 shrink-0">
                       <Badge variant={cfg.variant} className="text-xs px-2.5 py-1">{cfg.label}</Badge>
                       <Link
