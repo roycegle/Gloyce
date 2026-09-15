@@ -217,7 +217,6 @@ export default function CompanyDetailPage({ params }: { params: Promise<{ id: st
           </div>
           <div className="text-right shrink-0">
             <p className={`text-2xl font-black ${isComplete ? "text-emerald-400" : "text-gold"}`}>{pct}%</p>
-            <p className="text-xs text-navy-500 mt-0.5">{t("step", { current: service.current_step, total: service.total_steps })}</p>
           </div>
         </div>
 
@@ -278,32 +277,6 @@ export default function CompanyDetailPage({ params }: { params: Promise<{ id: st
             </div>
           )}
 
-          {/* Workflow steps */}
-          <div className="bg-navy-800 rounded-2xl border border-navy-700 divide-y divide-navy-700/60">
-            {Array.from({ length: service.total_steps }, (_, i) => {
-              const stepNum = i + 1;
-              const isDone = stepNum < service.current_step || isComplete;
-              const isActive = stepNum === service.current_step && !isComplete;
-              return (
-                <div key={i} className="flex items-center gap-4 px-5 py-4">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
-                    isDone ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
-                    : isActive ? "bg-gold/20 text-gold border border-gold/30"
-                    : "bg-navy-700 text-navy-500 border border-navy-600"
-                  }`}>
-                    {isDone ? <Check size={14} /> : stepNum}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className={`text-sm font-medium ${isDone ? "text-navy-400 line-through" : isActive ? "text-foreground" : "text-navy-500"}`}>
-                      Step {stepNum}
-                    </p>
-                  </div>
-                  {isDone && <CheckCircle2 size={15} className="text-emerald-400 shrink-0" />}
-                  {isActive && <span className="text-xs text-gold font-medium shrink-0">{t("inProgress")}</span>}
-                </div>
-              );
-            })}
-          </div>
         </div>
       )}
 

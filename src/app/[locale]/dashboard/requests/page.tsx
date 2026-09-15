@@ -299,9 +299,6 @@ export default function DashboardRequestsPage() {
                     <div className="flex items-center gap-2 mt-0.5 text-xs text-ink-500 flex-wrap">
                       <span className="flex items-center gap-1"><Calendar size={11} />{formatDate(req.created_at)}</span>
                       {req.price && <span className="text-ink-400 font-medium">{formatPrice(req.price, req.currency)}</span>}
-                      {isStandard && req.total_steps && (
-                        <span>{t("step", { current: req.current_step || 0, total: req.total_steps })}</span>
-                      )}
                     </div>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
@@ -321,16 +318,14 @@ export default function DashboardRequestsPage() {
                 {isExpanded && (
                   <div className="border-t border-ink-600 px-4 py-4 space-y-4">
 
-                    {/* Step progress (standard services) */}
+                    {/* Progress bar (standard services) */}
                     {isStandard && req.total_steps && (
                       <div>
-                        <p className="text-[11px] text-ink-500 mb-2 uppercase tracking-wider">{t("progressTitle")}</p>
                         <div className="flex gap-1">
                           {Array.from({ length: req.total_steps }).map((_, i) => (
                             <div key={i} className={`flex-1 h-1.5 rounded-full ${i < (req.current_step || 0) ? "bg-emerald-400" : i === (req.current_step || 0) ? "bg-amber-400" : "bg-[#1A2540]"}`} />
                           ))}
                         </div>
-                        <p className="text-[10px] text-ink-500 mt-1">{t("step", { current: req.current_step || 0, total: req.total_steps })}</p>
                       </div>
                     )}
 

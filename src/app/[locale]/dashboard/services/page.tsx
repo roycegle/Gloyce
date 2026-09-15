@@ -315,11 +315,6 @@ export default function ServicesPage() {
                       })}
                       <span className="ml-2 text-xs font-semibold text-gold shrink-0">{pct}%</span>
                     </div>
-                    {!isComplete && (
-                      <p className="text-xs text-navy-400">
-                        {service.current_step}/{service.total_steps}
-                      </p>
-                    )}
                     {isComplete && (
                       <div className="flex items-center gap-1.5 text-xs text-emerald-400">
                         <CheckCircle2 size={13} />

@@ -137,10 +137,7 @@ export default function DashboardOverviewPage() {
                   </div>
 
                   <div>
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-xs text-navy-500">
-                        {ts("step", { current: service.current_step, total: service.total_steps })}
-                      </span>
+                    <div className="flex items-center justify-end mb-1.5">
                       <span className="text-xs font-semibold text-gold">{pct}%</span>
                     </div>
                     <div className="h-1.5 bg-navy-700 rounded-full">
