@@ -471,9 +471,9 @@ export default function CompanyDetailPage({ params }: { params: Promise<{ id: st
                         <p className="text-sm font-semibold text-foreground">
                           {typeLabel[req.service_type] || req.service_type.replace(/_/g, " ")}
                         </p>
-                        {d.document_type && <p className="text-xs text-navy-400 mt-0.5">{d.document_type as string}</p>}
-                        {d.description && <p className="text-xs text-navy-500 mt-0.5">{d.description as string}</p>}
-                        {d.certification_type && <p className="text-xs text-navy-400 mt-0.5">{d.certification_type as string} → {d.destination_country as string}</p>}
+                        {!!d.document_type && <p className="text-xs text-navy-400 mt-0.5">{String(d.document_type)}</p>}
+                        {!!d.description && <p className="text-xs text-navy-500 mt-0.5">{String(d.description)}</p>}
+                        {!!d.certification_type && <p className="text-xs text-navy-400 mt-0.5">{String(d.certification_type)} → {String(d.destination_country)}</p>}
                         {req.price && (
                           <p className="text-xs text-gold mt-1 font-medium">
                             ${req.price.toLocaleString()} {req.currency || "USD"}
