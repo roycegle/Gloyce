@@ -62,18 +62,18 @@ export function DashboardSidebar() {
         "border-r",
         collapsed ? "w-16" : "w-60"
       )}
-      style={{ background: "#060C30", borderColor: "#111840" }}
+      style={{ background: "#EBF0FF", borderColor: "#C5D3F5" }}
     >
       {/* Logo */}
       <div
         className="flex items-center gap-2.5 px-4 py-4 h-16"
-        style={{ borderBottom: "1px solid #111840" }}
+        style={{ borderBottom: "1px solid #C5D3F5" }}
       >
         <div className="w-8 h-8 bg-gold rounded-lg flex items-center justify-center shrink-0">
-          <Globe className="w-5 h-5 text-[#060C30]" />
+          <Globe className="w-5 h-5 text-white" />
         </div>
         {!collapsed && (
-          <span className="text-base font-bold text-white">Gloyce</span>
+          <span className="text-base font-bold" style={{ color: "#1E3A8A" }}>Gloyce</span>
         )}
       </div>
 
@@ -92,10 +92,15 @@ export function DashboardSidebar() {
               className={cn(
                 "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors relative",
                 isActive
-                  ? "bg-gold/15 text-gold"
-                  : "text-ink-400 hover:text-ink-200 hover:bg-ink-700"
+                  ? ""
+                  : ""
               )}
-              style={isActive ? { border: "1px solid rgba(184,124,16,0.25)" } : { border: "1px solid transparent" }}
+              style={isActive
+                ? { background: "#FFFFFF", color: "#1E3A8A", border: "1px solid #B8C9F5", boxShadow: "0 1px 3px rgba(30,58,138,0.08)" }
+                : { color: "#4A5E9A", border: "1px solid transparent" }
+              }
+              onMouseEnter={(e) => { if (!isActive) { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.6)"; (e.currentTarget as HTMLAnchorElement).style.color = "#1E3A8A"; } }}
+              onMouseLeave={(e) => { if (!isActive) { (e.currentTarget as HTMLAnchorElement).style.background = ""; (e.currentTarget as HTMLAnchorElement).style.color = "#4A5E9A"; } }}
               title={collapsed ? item.label : undefined}
             >
               <Icon className="shrink-0" size={18} />
@@ -120,7 +125,7 @@ export function DashboardSidebar() {
       {/* Bottom section */}
       <div
         className="px-2 py-3 flex flex-col gap-2"
-        style={{ borderTop: "1px solid #111840" }}
+        style={{ borderTop: "1px solid #C5D3F5" }}
       >
         {!collapsed && <LanguageToggle className="mx-1" direction="up" />}
 
@@ -131,8 +136,8 @@ export function DashboardSidebar() {
           </div>
           {!collapsed && (
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-semibold text-white truncate">{userName}</p>
-              <p className="text-[10px] truncate" style={{ color: "#4A5A88" }}>
+              <p className="text-xs font-semibold truncate" style={{ color: "#1E3A8A" }}>{userName}</p>
+              <p className="text-[10px] truncate" style={{ color: "#7B90C8" }}>
                 {session?.user?.email}
               </p>
             </div>
@@ -145,9 +150,9 @@ export function DashboardSidebar() {
             "flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors",
             collapsed ? "justify-center" : ""
           )}
-          style={{ color: "#4A5A88" }}
+          style={{ color: "#7B90C8" }}
           onMouseEnter={(e) => (e.currentTarget.style.color = "#f87171")}
-          onMouseLeave={(e) => (e.currentTarget.style.color = "#4A5A88")}
+          onMouseLeave={(e) => (e.currentTarget.style.color = "#7B90C8")}
           title={collapsed ? "Sign out" : undefined}
         >
           <LogOut size={16} />
@@ -158,8 +163,8 @@ export function DashboardSidebar() {
         <button
           onClick={toggleCollapsed}
           className="flex items-center justify-center h-7 rounded-lg transition-colors mt-1"
-          style={{ color: "#3A4A6A" }}
-          onMouseEnter={(e) => (e.currentTarget.style.background = "#0F1840")}
+          style={{ color: "#7B90C8" }}
+          onMouseEnter={(e) => (e.currentTarget.style.background = "#D5E0FF")}
           onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
         >
           {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}

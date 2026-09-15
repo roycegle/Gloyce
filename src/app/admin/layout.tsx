@@ -42,19 +42,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <aside className={`
         fixed inset-y-0 left-0 z-30 flex flex-col w-60 transition-transform duration-200 md:relative md:translate-x-0
         ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
-      `} style={{ background: "#060C30", borderRight: "1px solid #111840" }}>
+      `} style={{ background: "#EBF0FF", borderRight: "1px solid #C5D3F5" }}>
         {/* Logo */}
-        <div className="flex items-center justify-between px-4 py-4 h-16" style={{ borderBottom: "1px solid #111840" }}>
+        <div className="flex items-center justify-between px-4 py-4 h-16" style={{ borderBottom: "1px solid #C5D3F5" }}>
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 bg-amber-500 rounded-lg flex items-center justify-center">
               <Globe className="w-5 h-5 text-white" />
             </div>
             <div>
-              <p className="text-sm font-bold text-white">Gloyce</p>
-              <p className="text-[10px] text-amber-400 font-medium">Admin</p>
+              <p className="text-sm font-bold" style={{ color: "#1E3A8A" }}>Gloyce</p>
+              <p className="text-[10px] text-amber-500 font-medium">Admin</p>
             </div>
           </div>
-          <button className="md:hidden text-navy-500" onClick={() => setSidebarOpen(false)}>
+          <button className="md:hidden" style={{ color: "#7B90C8" }} onClick={() => setSidebarOpen(false)}>
             <X size={18} />
           </button>
         </div>
@@ -71,10 +71,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 onClick={() => setSidebarOpen(false)}
                 className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors"
                 style={{
-                  background: isActive ? "rgba(245,158,11,0.12)" : "transparent",
-                  color: isActive ? "#F59E0B" : "#6B7BA4",
-                  border: isActive ? "1px solid rgba(245,158,11,0.2)" : "1px solid transparent",
+                  background: isActive ? "#FFFFFF" : "transparent",
+                  color: isActive ? "#1E3A8A" : "#4A5E9A",
+                  border: isActive ? "1px solid #B8C9F5" : "1px solid transparent",
+                  boxShadow: isActive ? "0 1px 3px rgba(30,58,138,0.08)" : "none",
                 }}
+                onMouseEnter={(e) => { if (!isActive) { (e.currentTarget as HTMLAnchorElement).style.background = "rgba(255,255,255,0.6)"; (e.currentTarget as HTMLAnchorElement).style.color = "#1E3A8A"; } }}
+                onMouseLeave={(e) => { if (!isActive) { (e.currentTarget as HTMLAnchorElement).style.background = "transparent"; (e.currentTarget as HTMLAnchorElement).style.color = "#4A5E9A"; } }}
               >
                 <Icon size={18} />
                 <span>{label}</span>
@@ -90,13 +93,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </nav>
 
         {/* Sign out */}
-        <div className="px-2 py-3" style={{ borderTop: "1px solid #111840" }}>
+        <div className="px-2 py-3" style={{ borderTop: "1px solid #C5D3F5" }}>
           <button
             onClick={() => signOut({ callbackUrl: "/en/auth/login" })}
             className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm w-full transition-colors"
-            style={{ color: "#4A5A88" }}
+            style={{ color: "#7B90C8" }}
             onMouseEnter={(e) => (e.currentTarget.style.color = "#f87171")}
-            onMouseLeave={(e) => (e.currentTarget.style.color = "#4A5A88")}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "#7B90C8")}
           >
             <LogOut size={16} />
             <span>Sign out</span>
