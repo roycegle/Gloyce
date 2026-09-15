@@ -3,15 +3,13 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { usePathname, Link } from "@/i18n/routing";
-import { LogOut, Menu, X, LayoutDashboard, Briefcase, ClipboardList, FileText, CreditCard, Settings } from "lucide-react";
+import { LogOut, Menu, X, LayoutDashboard, Briefcase, CreditCard, Settings } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { LanguageToggle } from "./LanguageToggle";
 
 const PATH_LABELS: Record<string, string> = {
   "/dashboard": "overview",
   "/dashboard/services": "services",
-  "/dashboard/requests": "requests",
-  "/dashboard/documents": "documents",
   "/dashboard/billing": "billing",
   "/dashboard/settings": "settings",
 };
@@ -27,8 +25,6 @@ export function DashboardTopbar() {
   const NAV = [
     { href: "/dashboard" as const, icon: LayoutDashboard, label: t("nav.overview") },
     { href: "/dashboard/services" as const, icon: Briefcase, label: t("nav.services") },
-    { href: "/dashboard/requests" as const, icon: ClipboardList, label: t("nav.requests") },
-    { href: "/dashboard/documents" as const, icon: FileText, label: t("nav.documents") },
     { href: "/dashboard/billing" as const, icon: CreditCard, label: t("nav.billing") },
     { href: "/dashboard/settings" as const, icon: Settings, label: t("nav.settings") },
   ];

@@ -289,7 +289,15 @@ export default function ServicesPage() {
                       {service.price && ` · $${service.price.toLocaleString()} ${service.currency || "USD"}`}
                     </p>
                   </div>
-                  <Badge variant={cfg.variant} className="text-sm shrink-0 px-3 py-1">{cfg.label}</Badge>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <Badge variant={cfg.variant} className="text-sm px-3 py-1">{cfg.label}</Badge>
+                    <Link
+                      href={`/dashboard/companies/${service.id}` as Parameters<typeof Link>[0]["href"]}
+                      className="flex items-center gap-1 text-xs text-gold hover:text-gold-light font-medium transition-colors"
+                    >
+                      Chi tiết <ChevronRight size={14} />
+                    </Link>
+                  </div>
                 </div>
 
                 {/* Progress dots + bar */}
