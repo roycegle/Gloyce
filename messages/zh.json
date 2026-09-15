@@ -245,7 +245,8 @@
       "nextBilling": "下次账单",
       "recentActivity": "近期动态",
       "yourServices": "您的服务",
-      "viewAll": "查看全部"
+      "viewAll": "查看全部",
+      "noServices": "暂无活跃服务。"
     },
     "services": {
       "title": "我的服务",
@@ -280,7 +281,8 @@
         "gov_submitted": "已提交政府",
         "needs_update": "需要更新",
         "completed": "已完成"
-      }
+      },
+      "browseServices": "浏览服务"
     },
     "documents": {
       "title": "文件",

@@ -264,8 +264,8 @@ export default function ServicesPage() {
               <p className="text-base font-semibold text-foreground mb-1">{t("noServicesTitle")}</p>
               <p className="text-sm text-navy-400 max-w-xs mx-auto leading-relaxed">{t("noServices")}</p>
             </div>
-            <Link href="/contact" className="mt-2 px-5 py-2.5 rounded-xl bg-gold/10 border border-gold/20 text-gold text-sm font-medium hover:bg-gold/20 transition-colors">
-              {t("contactUs")}
+            <Link href="/get-started" className="mt-2 px-5 py-2.5 rounded-xl bg-gold/10 border border-gold/20 text-gold text-sm font-medium hover:bg-gold/20 transition-colors">
+              {t("browseServices")}
             </Link>
           </div>
         ) : (

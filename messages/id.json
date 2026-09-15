@@ -245,7 +245,8 @@
       "nextBilling": "Tagihan berikutnya",
       "recentActivity": "Aktivitas terkini",
       "yourServices": "Layanan Anda",
-      "viewAll": "Lihat semua"
+      "viewAll": "Lihat semua",
+      "noServices": "Belum ada layanan aktif."
     },
     "services": {
       "title": "Layanan Saya",
@@ -280,7 +281,8 @@
         "gov_submitted": "Diajukan ke pemerintah",
         "needs_update": "Perlu diperbarui",
         "completed": "Selesai"
-      }
+      },
+      "browseServices": "Lihat Layanan"
     },
     "documents": {
       "title": "Dokumen",

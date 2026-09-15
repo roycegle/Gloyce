@@ -246,7 +246,8 @@
       "recentActivity": "Hoạt động gần đây",
       "yourServices": "Dịch vụ của bạn",
       "viewAll": "Xem tất cả",
-      "greetingGeneric": "Xin chào"
+      "greetingGeneric": "Xin chào",
+      "noServices": "Bạn chưa có dịch vụ nào."
     },
     "services": {
       "title": "Dịch vụ của tôi",
@@ -281,7 +282,8 @@
         "gov_submitted": "Đã nộp chính phủ",
         "needs_update": "Cần bổ sung",
         "completed": "Hoàn thành"
-      }
+      },
+      "browseServices": "Chọn dịch vụ"
     },
     "documents": {
       "title": "Tài liệu",

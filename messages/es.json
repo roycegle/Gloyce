@@ -245,7 +245,8 @@
       "nextBilling": "Próximo pago",
       "recentActivity": "Actividad reciente",
       "yourServices": "Tus servicios",
-      "viewAll": "Ver todo"
+      "viewAll": "Ver todo",
+      "noServices": "Sin servicios activos aún."
     },
     "services": {
       "title": "Mis servicios",
@@ -280,7 +281,8 @@
         "gov_submitted": "Presentado al gobierno",
         "needs_update": "Requiere actualización",
         "completed": "Completado"
-      }
+      },
+      "browseServices": "Ver servicios"
     },
     "documents": {
       "title": "Documentos",

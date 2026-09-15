@@ -116,8 +116,7 @@ export default function DashboardOverviewPage() {
 
           {services.length === 0 ? (
             <div className="bg-navy-800 rounded-xl border border-navy-700 p-8 text-center text-sm text-navy-500">
-              No active services yet.{" "}
-              <Link href="/contact" className="text-gold hover:underline">Contact us</Link> to get started.
+              {t("noServices")}
             </div>
           ) : (
             services.slice(0, 3).map((service) => {
