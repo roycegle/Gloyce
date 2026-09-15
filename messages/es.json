@@ -2,7 +2,7 @@
   "meta": {
     "siteName": "Gloyce",
     "defaultTitle": "Gloyce — Haz negocios globales, más fácil",
-    "defaultDescription": "Gloyce ayuda a empresas vietnamitas a constituirse, operar y gestionar flujos de dinero transfronterizos en EE.UU., Singapur y Hong Kong."
+    "defaultDescription": "Gloyce ayuda a empresas a constituirse, operar y gestionar flujos de dinero transfronterizos en EE.UU., Singapur y Hong Kong."
   },
   "nav": {
     "services": "Servicios",
@@ -19,13 +19,13 @@
   },
   "home": {
     "hero": {
-      "label": "Para empresas vietnamitas que van al mundo",
+      "label": "Para empresas que van al mundo",
       "title": "Expándete globalmente.",
       "titleAccent": "Opera globalmente.",
-      "subtitle": "Una plataforma para constituirse en EE.UU., Singapur y Hong Kong — con contabilidad, cumplimiento y asesoría para PYMES vietnamitas.",
+      "subtitle": "Una plataforma para constituirse en EE.UU., Singapur y Hong Kong — con contabilidad, cumplimiento y asesoría para PYMES con visión global.",
       "cta": "Comenzar",
       "ctaSecondary": "Explorar servicios",
-      "trust": "Más de 200 empresas vietnamitas confían en nosotros",
+      "trust": "Más de 200 empresas confían en nosotros",
       "trustPartners": "Socios de infraestructura:"
     },
     "stats": {
@@ -39,7 +39,7 @@
       "subtitle": "Tres niveles diseñados para crecer con tu negocio"
     },
     "testimonials": {
-      "title": "La confianza de vendedores vietnamitas en todo el mundo",
+      "title": "La confianza de vendedores en todo el mundo",
       "subtitle": "Escucha a empresas como la tuya"
     },
     "cta": {
@@ -130,15 +130,15 @@
   "about": {
     "hero": {
       "label": "Acerca de nosotros",
-      "title": "Construido para empresas vietnamitas que van al mundo"
+      "title": "Construido para empresas que van al mundo"
     },
     "mission": {
       "title": "Nuestra Misión",
-      "body": "Gloyce ayuda a emprendedores y empresas vietnamitas a constituirse, operar y expandirse transfronterizamente — sin tener que enlazar docenas de proveedores en cada país."
+      "body": "Gloyce ayuda a emprendedores y empresas a constituirse, operar y expandirse transfronterizamente — sin tener que enlazar docenas de proveedores en cada país."
     },
     "compliance": {
       "title": "Nuestro Compromiso con el Cumplimiento",
-      "body": "Todos los servicios están estructurados para cumplir con las regulaciones ODI (Inversión Directa en el Exterior) vietnamitas. Ayudamos a los clientes a registrarse correctamente ante el Banco Estatal de Vietnam y a cumplir los requisitos de repatriación de beneficios a tiempo."
+      "body": "Todos los servicios están estructurados para cumplir con las regulaciones de inversión extranjera aplicables. Ayudamos a los clientes a registrarse correctamente ante las autoridades pertinentes y a cumplir los requisitos de repatriación de beneficios a tiempo."
     },
     "values": {
       "title": "Nuestros Valores",
@@ -148,7 +148,7 @@
       },
       "compliance": {
         "title": "Cumplimiento",
-        "description": "Cada solución está diseñada para cumplir con la legislación vietnamita e internacional."
+        "description": "Cada solución está diseñada para cumplir con la legislación local e internacional."
       },
       "expertise": {
         "title": "Experiencia",
@@ -162,7 +162,7 @@
   },
   "contact": {
     "title": "Habla con nuestro equipo",
-    "subtitle": "Hablamos vietnamita, español e inglés. Reserva una llamada gratuita de 30 minutos o envíanos un mensaje.",
+    "subtitle": "Hablamos varios idiomas — vietnamita, inglés, chino, español e indonesio. Reserva una llamada gratuita de 30 minutos o envíanos un mensaje.",
     "info": {
       "email": "hello@gloyce.co",
       "phone": "+84 28 xxxx xxxx",

@@ -114,8 +114,8 @@ export default async function AccountingPage() {
                 "Đội ngũ kế toán của Gloyce am hiểu luật thuế Mỹ (liên bang và tiểu bang), với kinh nghiệm chuyên sâu phục vụ doanh nghiệp châu Á — giúp bạn nộp đúng thuế, không bỏ lỡ deadline và tối ưu chi phí trong khuôn khổ pháp luật.",
                 "Gloyce's accounting team specializes in US federal and state tax law, with deep expertise serving Asian-owned businesses — helping you file correctly, never miss a deadline, and optimize costs within legal boundaries.",
                 "Gloyce的会计团队专注于美国联邦和州税法，深耕服务越南籍业主企业——帮助您正确申报、不错过任何截止日期、并在法律框架内优化成本。",
-                "El equipo de contabilidad de Gloyce se especializa en la ley fiscal federal y estatal de EE.UU., con profunda experiencia sirviendo a empresas de propietarios vietnamitas — ayudándole a declarar correctamente, nunca perder un plazo y optimizar costos dentro de los límites legales.",
-                "Tim akuntansi Gloyce berspesialisasi dalam hukum pajak federal dan negara bagian AS, dengan keahlian mendalam melayani bisnis milik orang Vietnam — membantu Anda mengajukan dengan benar, tidak pernah melewati deadline, dan mengoptimalkan biaya dalam batas hukum."
+                "El equipo de contabilidad de Gloyce se especializa en la ley fiscal federal y estatal de EE.UU., con profunda experiencia sirviendo a empresas internacionales — ayudándole a declarar correctamente, nunca perder un plazo y optimizar costos dentro de los límites legales.",
+                "Tim akuntansi Gloyce berspesialisasi dalam hukum pajak federal dan negara bagian AS, dengan keahlian mendalam melayani bisnis internasional — membantu Anda mengajukan dengan benar, tidak pernah melewati deadline, dan mengoptimalkan biaya dalam batas hukum."
               )}
             </p>
           </div>

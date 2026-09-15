@@ -78,10 +78,10 @@ export const FAQ_CATEGORIES: FaqCategory[] = [
         },
         a: {
           vi: "EIN (Employer Identification Number) là mã số thuế liên bang của công ty — tương tự MST ở Việt Nam. Bạn cần EIN để mở tài khoản ngân hàng Mỹ, đăng ký Stripe/PayPal, ký hợp đồng với đối tác Mỹ và nộp báo cáo thuế liên bang. Gloyce lo toàn bộ quy trình xin EIN cho bạn.",
-          en: "An EIN (Employer Identification Number) is the company's federal tax ID — similar to Vietnam's business tax code. You need an EIN to open a US bank account, register with Stripe/PayPal, sign contracts with US partners, and file federal tax reports. Gloyce handles the entire EIN application process for you.",
-          zh: "EIN（雇主识别号码）是公司的联邦税号——类似于越南的企业税号。您需要EIN才能开设美国银行账户、在Stripe/PayPal注册、与美国合作伙伴签合同以及提交联邦税务报告。Gloyce为您处理整个EIN申请流程。",
-          es: "Un EIN (Número de Identificación del Empleador) es el ID fiscal federal de la empresa — similar al código tributario empresarial de Vietnam. Necesita un EIN para abrir una cuenta bancaria en EE.UU., registrarse en Stripe/PayPal, firmar contratos con socios estadounidenses y presentar informes fiscales federales. Gloyce gestiona todo el proceso de solicitud de EIN.",
-          id: "EIN (Employer Identification Number) adalah ID pajak federal perusahaan — mirip dengan kode pajak bisnis Vietnam. Anda memerlukan EIN untuk membuka rekening bank AS, mendaftar di Stripe/PayPal, menandatangani kontrak dengan mitra AS, dan mengajukan laporan pajak federal. Gloyce menangani seluruh proses permohonan EIN untuk Anda.",
+          en: "An EIN (Employer Identification Number) is the company's federal tax ID — similar to your local business tax code. You need an EIN to open a US bank account, register with Stripe/PayPal, sign contracts with US partners, and file federal tax reports. Gloyce handles the entire EIN application process for you.",
+          zh: "EIN（雇主识别号码）是公司的联邦税号——类似于您本地的企业税号。您需要EIN才能开设美国银行账户、在Stripe/PayPal注册、与美国合作伙伴签合同以及提交联邦税务报告。Gloyce为您处理整个EIN申请流程。",
+          es: "Un EIN (Número de Identificación del Empleador) es el ID fiscal federal de la empresa — similar al código tributario empresarial local. Necesita un EIN para abrir una cuenta bancaria en EE.UU., registrarse en Stripe/PayPal, firmar contratos con socios estadounidenses y presentar informes fiscales federales. Gloyce gestiona todo el proceso de solicitud de EIN.",
+          id: "EIN (Employer Identification Number) adalah ID pajak federal perusahaan — mirip dengan kode pajak bisnis lokal Anda. Anda memerlukan EIN untuk membuka rekening bank AS, mendaftar di Stripe/PayPal, menandatangani kontrak dengan mitra AS, dan mengajukan laporan pajak federal. Gloyce menangani seluruh proses permohonan EIN untuk Anda.",
         },
       },
       {

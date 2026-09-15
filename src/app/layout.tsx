@@ -20,7 +20,7 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "Gloyce — Go Global, Operate Globally",
   description:
-    "Gloyce helps Vietnamese businesses incorporate, operate, and move money globally in the US, Singapore, and Hong Kong.",
+    "Gloyce helps businesses incorporate, operate, and move money globally — in the US, Singapore, and Hong Kong.",
 };
 
 export default function RootLayout({

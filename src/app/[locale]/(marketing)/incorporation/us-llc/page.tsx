@@ -60,8 +60,8 @@ export default async function USLLCPage() {
     },
     {
       icon: Zap,
-      title: t("Hỗ trợ đa ngôn ngữ toàn trình", "Multilingual support", "越南语全程支持", "Soporte en vietnamita", "Dukungan bahasa Vietnam"),
-      desc: t("Hỗ trợ đa ngôn ngữ từ tư vấn đến nhận hồ sơ", "Full multilingual support from consultation to document delivery", "从咨询到文件交付提供越南语全程支持", "Soporte completo en vietnamita desde la consulta hasta la entrega de documentos", "Dukungan bahasa Vietnam penuh dari konsultasi hingga pengiriman dokumen"),
+      title: t("Hỗ trợ đa ngôn ngữ toàn trình", "Multilingual support", "多语言全程支持", "Soporte multilingüe", "Dukungan multibahasa"),
+      desc: t("Hỗ trợ đa ngôn ngữ từ tư vấn đến nhận hồ sơ", "Full multilingual support from consultation to document delivery", "从咨询到文件交付提供多语言全程支持", "Soporte multilingüe completo desde la consulta hasta la entrega de documentos", "Dukungan multibahasa penuh dari konsultasi hingga pengiriman dokumen"),
     },
     {
       icon: Check,
@@ -72,7 +72,7 @@ export default async function USLLCPage() {
 
   const faqs = [
     {
-      q: t("Người châu Á có thể mở LLC Mỹ không?", "Can Asian nationals open a US LLC?", "越南人可以在美国开设LLC吗？", "¿Los ciudadanos vietnamitas pueden abrir una LLC en EE.UU.?", "Apakah warga negara Vietnam bisa membuka LLC AS?"),
+      q: t("Người châu Á có thể mở LLC Mỹ không?", "Can non-US nationals open a US LLC?", "非美国公民可以开设美国LLC吗？", "¿Los no ciudadanos pueden abrir una LLC en EE.UU.?", "Apakah warga negara asing bisa membuka LLC AS?"),
       a: t(
         "Có. Người nước ngoài được phép thành lập và sở hữu 100% LLC tại Mỹ mà không cần visa, thẻ xanh hay SSN. LLC thuộc sở hữu nước ngoài cần nộp Form 5472 hàng năm với IRS — Gloyce lo toàn bộ phần này.",
         "Yes. Non-US residents can own 100% of a US LLC without a visa, green card or SSN. Foreign-owned LLCs must file Form 5472 annually with the IRS — Gloyce handles all of this for you.",
@@ -95,10 +95,10 @@ export default async function USLLCPage() {
       q: t("EIN là gì và tôi có cần không?", "What is an EIN and do I need one?", "什么是EIN，我需要吗？", "¿Qué es un EIN y lo necesito?", "Apa itu EIN dan apakah saya membutuhkannya?"),
       a: t(
         "EIN (Employer Identification Number) là mã số thuế liên bang Mỹ, tương đương mã số thuế doanh nghiệp. Bạn cần EIN để mở tài khoản ngân hàng Mỹ, khai báo thuế, và ký hợp đồng với Amazon/Stripe/PayPal.",
-        "An EIN (Employer Identification Number) is the US federal tax ID — equivalent to a Asian business tax code. You need it to open a US bank account, file taxes, and sign contracts with Amazon/Stripe/PayPal.",
-        "EIN（雇主识别号码）是美国联邦税号——相当于越南的企业税号。您需要EIN才能开设美国银行账户、申报税款以及与Amazon/Stripe/PayPal签订合同。",
-        "Un EIN (Número de Identificación del Empleador) es el ID fiscal federal de EE.UU. — equivalente al código fiscal empresarial vietnamita. Lo necesita para abrir una cuenta bancaria en EE.UU., presentar impuestos y firmar contratos con Amazon/Stripe/PayPal.",
-        "EIN (Employer Identification Number) adalah ID pajak federal AS — setara dengan kode pajak bisnis Vietnam. Anda membutuhkan EIN untuk membuka rekening bank AS, mengajukan pajak, dan menandatangani kontrak dengan Amazon/Stripe/PayPal."
+        "An EIN (Employer Identification Number) is the US federal tax ID — similar to your local business tax code. You need it to open a US bank account, file taxes, and sign contracts with Amazon/Stripe/PayPal.",
+        "EIN（雇主识别号码）是美国联邦税号——类似于您本地的企业税号。您需要EIN才能开设美国银行账户、申报税款以及与Amazon/Stripe/PayPal签订合同。",
+        "Un EIN (Número de Identificación del Empleador) es el ID fiscal federal de EE.UU. — equivalente al código fiscal empresarial local. Lo necesita para abrir una cuenta bancaria en EE.UU., presentar impuestos y firmar contratos con Amazon/Stripe/PayPal.",
+        "EIN (Employer Identification Number) adalah ID pajak federal AS — mirip dengan kode pajak bisnis lokal Anda. Anda membutuhkan EIN untuk membuka rekening bank AS, mengajukan pajak, dan menandatangani kontrak dengan Amazon/Stripe/PayPal."
       ),
     },
     {
@@ -152,9 +152,9 @@ export default async function USLLCPage() {
                 {
                   vi: ["Xử lý trong 7–14 ngày", "Giá trọn gói từ $499", "Hỗ trợ đa ngôn ngữ"],
                   en: ["7–14 day processing", "From $499 all-in", "Multilingual support"],
-                  zh: ["7-14天处理", "全包价格从$499起", "越南语支持"],
-                  es: ["Procesamiento en 7-14 días", "Todo incluido desde $499", "Soporte en vietnamita"],
-                  id: ["Proses 7-14 hari", "All-in dari $499", "Dukungan bahasa Vietnam"],
+                  zh: ["7-14天处理", "全包价格从$499起", "多语言支持"],
+                  es: ["Procesamiento en 7-14 días", "Todo incluido desde $499", "Soporte multilingüe"],
+                  id: ["Proses 7-14 hari", "All-in dari $499", "Dukungan multibahasa"],
                 },
                 ["7–14 day processing", "From $499 all-in", "Multilingual support"]
               ).map(f => (
@@ -172,9 +172,9 @@ export default async function USLLCPage() {
                 {
                   vi: ["Phí bang Delaware/Wyoming","Registered Agent (năm đầu)","EIN từ IRS","Operating Agreement chuẩn","Certificate of Formation","Hỗ trợ đa ngôn ngữ trọn trình","Form 5472 & BOI Report cơ bản"],
                   en: ["State filing fee (Delaware/Wyoming)","First-year Registered Agent","EIN from IRS","Standard Operating Agreement","Certificate of Formation","Full multilingual support","Form 5472 & BOI Report basics"],
-                  zh: ["州注册费（特拉华/怀俄明）","首年注册代理人","IRS颁发的EIN","标准运营协议","成立证书","全程越南语支持","5472表和BOI报告基础"],
-                  es: ["Tarifa de registro estatal (Delaware/Wyoming)","Agente Registrado primer año","EIN del IRS","Acuerdo Operativo estándar","Certificado de Constitución","Soporte completo en vietnamita","Form 5472 y BOI Report básicos"],
-                  id: ["Biaya pengajuan negara bagian (Delaware/Wyoming)","Registered Agent tahun pertama","EIN dari IRS","Operating Agreement standar","Certificate of Formation","Dukungan bahasa Vietnam penuh","Form 5472 & BOI Report dasar"],
+                  zh: ["州注册费（特拉华/怀俄明）","首年注册代理人","IRS颁发的EIN","标准运营协议","成立证书","全程多语言支持","5472表和BOI报告基础"],
+                  es: ["Tarifa de registro estatal (Delaware/Wyoming)","Agente Registrado primer año","EIN del IRS","Acuerdo Operativo estándar","Certificado de Constitución","Soporte multilingüe completo","Form 5472 y BOI Report básicos"],
+                  id: ["Biaya pengajuan negara bagian (Delaware/Wyoming)","Registered Agent tahun pertama","EIN dari IRS","Operating Agreement standar","Certificate of Formation","Dukungan multibahasa penuh","Form 5472 & BOI Report dasar"],
                 },
                 ["State filing fee (Delaware/Wyoming)","First-year Registered Agent","EIN from IRS","Standard Operating Agreement","Certificate of Formation","Full multilingual support","Form 5472 & BOI Report basics"]
               ).map(f => (

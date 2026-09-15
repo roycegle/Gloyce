@@ -2,7 +2,7 @@
   "meta": {
     "siteName": "Gloyce",
     "defaultTitle": "Gloyce — Bisnis Global, Lebih Mudah",
-    "defaultDescription": "Gloyce membantu bisnis Vietnam mendirikan perusahaan, beroperasi, dan mengelola aliran dana lintas batas di AS, Singapura, dan Hong Kong."
+    "defaultDescription": "Gloyce membantu bisnis mendirikan perusahaan, beroperasi, dan mengelola aliran dana lintas batas di AS, Singapura, dan Hong Kong."
   },
   "nav": {
     "services": "Layanan",
@@ -19,13 +19,13 @@
   },
   "home": {
     "hero": {
-      "label": "Untuk bisnis Vietnam yang go global",
+      "label": "Untuk bisnis yang go global",
       "title": "Go global.",
       "titleAccent": "Beroperasi secara global.",
-      "subtitle": "Satu platform untuk mendirikan perusahaan di AS, Singapura, dan Hong Kong — dilengkapi akuntansi, kepatuhan, dan konsultasi untuk UMKM Vietnam.",
+      "subtitle": "Satu platform untuk mendirikan perusahaan di AS, Singapura, dan Hong Kong — dilengkapi akuntansi, kepatuhan, dan konsultasi untuk UMKM yang ingin go global.",
       "cta": "Mulai Sekarang",
       "ctaSecondary": "Jelajahi Layanan",
-      "trust": "Dipercaya lebih dari 200 bisnis Vietnam",
+      "trust": "Dipercaya lebih dari 200 bisnis di seluruh dunia",
       "trustPartners": "Mitra infrastruktur:"
     },
     "stats": {
@@ -39,7 +39,7 @@
       "subtitle": "Tiga tingkatan yang dirancang untuk tumbuh bersama bisnis Anda"
     },
     "testimonials": {
-      "title": "Dipercaya oleh penjual Vietnam di seluruh dunia",
+      "title": "Dipercaya oleh penjual di seluruh dunia",
       "subtitle": "Dengar dari bisnis seperti Anda"
     },
     "cta": {
@@ -125,20 +125,20 @@
     "includes": "Termasuk:",
     "getStarted": "Mulai Sekarang",
     "contactUs": "Hubungi Kami",
-    "allPlansNote": "Semua paket disusun sesuai dengan peraturan ODI Vietnam."
+    "allPlansNote": "Semua paket disusun sesuai dengan peraturan investasi lokal dan internasional yang berlaku."
   },
   "about": {
     "hero": {
       "label": "Tentang Kami",
-      "title": "Dibangun untuk bisnis Vietnam yang go global"
+      "title": "Dibangun untuk bisnis yang go global"
     },
     "mission": {
       "title": "Misi Kami",
-      "body": "Gloyce membantu pengusaha dan bisnis Vietnam mendirikan, mengoperasikan, dan berkembang lintas batas — tanpa harus menyatukan lusinan penyedia layanan di setiap negara."
+      "body": "Gloyce membantu pengusaha dan bisnis mendirikan, mengoperasikan, dan berkembang lintas batas — tanpa harus menyatukan lusinan penyedia layanan di setiap negara."
     },
     "compliance": {
       "title": "Komitmen Kami terhadap Kepatuhan",
-      "body": "Semua layanan disusun untuk mematuhi regulasi ODI (Investasi Langsung ke Luar Negeri) Vietnam. Kami membantu klien mendaftar dengan benar ke Bank Negara Vietnam dan memenuhi persyaratan repatriasi keuntungan tepat waktu."
+      "body": "Semua layanan disusun untuk mematuhi regulasi investasi luar negeri lokal. Kami membantu klien mendaftar dengan benar ke otoritas terkait dan memenuhi persyaratan repatriasi keuntungan tepat waktu."
     },
     "values": {
       "title": "Nilai-Nilai Kami",
@@ -148,7 +148,7 @@
       },
       "compliance": {
         "title": "Kepatuhan",
-        "description": "Setiap solusi dirancang untuk mematuhi hukum Vietnam dan internasional."
+        "description": "Setiap solusi dirancang untuk mematuhi hukum lokal dan internasional."
       },
       "expertise": {
         "title": "Keahlian",
@@ -162,7 +162,7 @@
   },
   "contact": {
     "title": "Bicara dengan tim kami",
-    "subtitle": "Kami berbicara bahasa Vietnam, Indonesia, dan Inggris. Jadwalkan panggilan gratis 30 menit atau kirimkan pesan.",
+    "subtitle": "Kami berbicara berbagai bahasa — Vietnam, Inggris, Mandarin, Spanyol, dan Indonesia. Jadwalkan panggilan gratis 30 menit atau kirimkan pesan.",
     "info": {
       "email": "hello@gloyce.co",
       "phone": "+84 28 xxxx xxxx",

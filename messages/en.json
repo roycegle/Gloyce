@@ -2,7 +2,7 @@
   "meta": {
     "siteName": "Gloyce",
     "defaultTitle": "Gloyce — Go Global, Operate Globally",
-    "defaultDescription": "Gloyce helps Vietnamese businesses incorporate, operate, and move money globally in the US, Singapore, and Hong Kong."
+    "defaultDescription": "Gloyce helps businesses incorporate, operate, and move money globally — in the US, Singapore, and Hong Kong."
   },
   "nav": {
     "services": "Services",
@@ -19,13 +19,13 @@
   },
   "home": {
     "hero": {
-      "label": "For Vietnamese businesses going global",
+      "label": "For businesses going global",
       "title": "Go global.",
       "titleAccent": "Operate globally.",
-      "subtitle": "One platform to incorporate in the US, Singapore, and Hong Kong — with accounting, compliance, and advisory built for Vietnamese SMEs.",
+      "subtitle": "One platform to incorporate in the US, Singapore, and Hong Kong — with accounting, compliance, and advisory built for cross-border SMEs.",
       "cta": "Get Started",
       "ctaSecondary": "Explore Services",
-      "trust": "Trusted by 200+ Vietnamese businesses",
+      "trust": "Trusted by 200+ businesses worldwide",
       "trustPartners": "Infrastructure partners:"
     },
     "stats": {
@@ -39,7 +39,7 @@
       "subtitle": "Three tiers built to grow with your business"
     },
     "testimonials": {
-      "title": "Trusted by Vietnamese sellers worldwide",
+      "title": "Trusted by sellers worldwide",
       "subtitle": "Hear from businesses like yours"
     },
     "cta": {
@@ -125,20 +125,20 @@
     "includes": "Includes:",
     "getStarted": "Get Started",
     "contactUs": "Contact Us",
-    "allPlansNote": "All plans are structured in compliance with Vietnamese ODI regulations."
+    "allPlansNote": "All plans are structured for compliance with applicable local and international regulations."
   },
   "about": {
     "hero": {
       "label": "About Us",
-      "title": "Built for Vietnamese businesses going global"
+      "title": "Built for businesses going global"
     },
     "mission": {
       "title": "Our Mission",
-      "body": "Gloyce helps Vietnamese entrepreneurs and businesses incorporate, operate, and expand across borders — without stitching together dozens of providers in each country."
+      "body": "Gloyce helps entrepreneurs and businesses incorporate, operate, and expand across borders — without stitching together dozens of providers in each country."
     },
     "compliance": {
       "title": "Our Commitment to Compliance",
-      "body": "All services are structured to comply with Vietnamese ODI (Overseas Direct Investment) regulations. We help clients register properly with the State Bank of Vietnam and meet profit repatriation requirements on schedule."
+      "body": "All services are structured for compliance with local overseas investment regulations. We help clients register properly with relevant authorities and meet profit repatriation requirements on schedule."
     },
     "values": {
       "title": "Our Values",
@@ -148,7 +148,7 @@
       },
       "compliance": {
         "title": "Compliance",
-        "description": "Every solution is designed to comply with Vietnamese and international law."
+        "description": "Every solution is designed to comply with local and international law."
       },
       "expertise": {
         "title": "Expertise",
@@ -162,7 +162,7 @@
   },
   "contact": {
     "title": "Talk to our team",
-    "subtitle": "We speak Vietnamese and English. Book a free 30-minute call or send us a message.",
+    "subtitle": "We speak multiple languages — Vietnamese, English, Chinese, Spanish, and Indonesian. Book a free 30-minute call or send us a message.",
     "info": {
       "email": "hello@gloyce.co",
       "phone": "+84 28 xxxx xxxx",

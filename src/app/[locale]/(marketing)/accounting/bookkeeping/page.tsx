@@ -26,7 +26,7 @@ export default async function BookkeepingPage() {
           <div className="grid sm:grid-cols-2 gap-4">
             {(isVi
               ? [["Ghi chép toàn bộ giao dịch","Phân loại chi phí theo chuẩn kế toán"],["Đối chiếu sao kê ngân hàng hàng tháng","Báo cáo P&L, Balance Sheet hàng tháng"],["Hỗ trợ thuế quý & cuối năm","Kế toán viên người Việt"]]
-              : [["Full transaction recording","Expense categorization to accounting standards"],["Monthly bank statement reconciliation","Monthly P&L and Balance Sheet"],["Quarterly & year-end tax support","Vietnamese-speaking accountant"]]
+              : [["Full transaction recording","Expense categorization to accounting standards"],["Monthly bank statement reconciliation","Monthly P&L and Balance Sheet"],["Quarterly & year-end tax support","Multilingual accountant"]]
             ).map(([title, sub]) => (
               <div key={title} className="bg-ink-800 border border-ink-600 rounded-xl p-5">
                 <div className="flex items-center gap-2 mb-1"><Check size={14} className="text-gold" /><span className="font-semibold text-foreground text-sm">{title}</span></div>

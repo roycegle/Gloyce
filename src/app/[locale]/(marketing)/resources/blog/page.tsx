@@ -12,9 +12,9 @@ const POSTS: {
     title: {
       vi: "Delaware vs Wyoming — Chọn bang nào khi mở LLC cho doanh nghiệp châu Á?",
       en: "Delaware vs Wyoming — Which state for your Asian-owned LLC?",
-      zh: "特拉华州vs怀俄明州——越南企业LLC选择哪个州？",
-      es: "Delaware vs Wyoming — ¿Qué estado para su LLC de propiedad vietnamita?",
-      id: "Delaware vs Wyoming — Negara bagian mana untuk LLC milik Vietnam Anda?",
+      zh: "特拉华州vs怀俄明州——您的LLC选择哪个州？",
+      es: "Delaware vs Wyoming — ¿Qué estado elegir para su LLC?",
+      id: "Delaware vs Wyoming — Negara bagian mana yang tepat untuk LLC Anda?",
     },
     excerpt: {
       vi: "So sánh chi tiết hai bang phổ biến nhất: chi phí, bảo vệ tài sản, phù hợp với từng loại mô hình kinh doanh.",
