@@ -230,7 +230,7 @@
   "dashboard": {
     "nav": {
       "overview": "Tổng quan",
-      "services": "Dịch vụ của tôi",
+      "services": "Công ty của tôi",
       "requests": "Yêu cầu",
       "documents": "Tài liệu",
       "billing": "Thanh toán",
@@ -254,8 +254,8 @@
       "dueOn": "Hạn"
     },
     "services": {
-      "title": "Dịch vụ của tôi",
-      "noServices": "Bạn chưa có dịch vụ nào. Liên hệ chúng tôi để bắt đầu.",
+      "title": "Công ty của tôi",
+      "noServices": "Bạn chưa có công ty nào. Liên hệ chúng tôi để bắt đầu.",
       "status": {
         "active": "Đang hoạt động",
         "pending": "Chờ xem xét",
@@ -265,9 +265,9 @@
       "step": "Bước {current} / {total}",
       "nextAction": "Hành động tiếp theo:",
       "attachedDocuments": "Tài liệu đính kèm",
-      "noServicesTitle": "Chưa có dịch vụ nào",
+      "noServicesTitle": "Chưa có công ty nào",
       "contactUs": "Liên hệ Gloyce",
-      "myServices": "Dịch vụ của tôi",
+      "myServices": "Công ty của tôi",
       "formsToFill": "Biểu mẫu cần điền",
       "requiredForms": "Biểu mẫu yêu cầu",
       "fillForm": "Điền biểu mẫu",
@@ -287,7 +287,7 @@
         "needs_update": "Cần bổ sung",
         "completed": "Hoàn thành"
       },
-      "browseServices": "Chọn dịch vụ"
+      "browseServices": "Đăng ký công ty"
     },
     "documents": {
       "title": "Tài liệu",

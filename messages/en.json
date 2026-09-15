@@ -230,7 +230,7 @@
   "dashboard": {
     "nav": {
       "overview": "Overview",
-      "services": "My Services",
+      "services": "My Companies",
       "requests": "Requests",
       "documents": "Documents",
       "billing": "Billing",
@@ -254,8 +254,8 @@
       "dueOn": "Due"
     },
     "services": {
-      "title": "My Services",
-      "noServices": "You have no active services. Contact us to get started.",
+      "title": "My Companies",
+      "noServices": "You have no registered companies yet. Contact us to get started.",
       "status": {
         "active": "Active",
         "pending": "Pending Review",
@@ -265,9 +265,9 @@
       "step": "Step {current} of {total}",
       "nextAction": "Next action:",
       "attachedDocuments": "Attached documents",
-      "noServicesTitle": "No active services yet",
+      "noServicesTitle": "No companies yet",
       "contactUs": "Contact Gloyce",
-      "myServices": "My Services",
+      "myServices": "My Companies",
       "formsToFill": "Forms to Fill",
       "requiredForms": "Required forms",
       "fillForm": "Fill out",
@@ -287,7 +287,7 @@
         "needs_update": "Update Required",
         "completed": "Complete"
       },
-      "browseServices": "Browse Services"
+      "browseServices": "Register a Company"
     },
     "documents": {
       "title": "Documents",
