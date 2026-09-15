@@ -7,7 +7,10 @@ import { signOut, useSession } from "next-auth/react";
 import { LanguageToggle } from "./LanguageToggle";
 import { cn } from "@/lib/utils";
 import {
+  LayoutDashboard,
   Briefcase,
+  FileText,
+  ClipboardList,
   CreditCard,
   Settings,
   LogOut,
@@ -15,7 +18,6 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-
 export function DashboardSidebar() {
   const t = useTranslations("dashboard.nav");
   const pathname = usePathname();
@@ -34,7 +36,10 @@ export function DashboardSidebar() {
   };
 
   const NAV = [
-    { href: "/dashboard" as const, icon: Briefcase, label: t("companies") },
+    { href: "/dashboard" as const, icon: LayoutDashboard, label: t("overview") },
+    { href: "/dashboard/services" as const, icon: Briefcase, label: t("services") },
+    { href: "/dashboard/requests" as const, icon: ClipboardList, label: t("requests") },
+    { href: "/dashboard/documents" as const, icon: FileText, label: t("documents") },
     { href: "/dashboard/billing" as const, icon: CreditCard, label: t("billing") },
     { href: "/dashboard/settings" as const, icon: Settings, label: t("settings") },
   ];
@@ -75,7 +80,7 @@ export function DashboardSidebar() {
         {NAV.map((item) => {
           const Icon = item.icon;
           const isActive =
-            (item.href === "/dashboard" && (pathname === "/dashboard" || pathname.startsWith("/dashboard/companies"))) ||
+            pathname === item.href ||
             (item.href !== "/dashboard" && pathname.startsWith(item.href));
 
           return (

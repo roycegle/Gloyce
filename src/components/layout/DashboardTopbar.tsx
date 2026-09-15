@@ -8,7 +8,11 @@ import { signOut } from "next-auth/react";
 import { LanguageToggle } from "./LanguageToggle";
 
 const PATH_LABELS: Record<string, string> = {
-  "/dashboard": "companies",
+  "/dashboard": "overview",
+  "/dashboard/services": "services",
+  "/dashboard/requests": "requests",
+  "/dashboard/documents": "documents",
+  "/dashboard/messages": "messages",
   "/dashboard/billing": "billing",
   "/dashboard/settings": "settings",
 };
@@ -17,9 +21,7 @@ export function DashboardTopbar() {
   const t = useTranslations("dashboard");
   const pathname = usePathname();
 
-  const titleKey = pathname.startsWith("/dashboard/companies")
-    ? "companies"
-    : PATH_LABELS[pathname] || "companies";
+  const titleKey = PATH_LABELS[pathname] || "overview";
   const title = t(`nav.${titleKey}` as Parameters<typeof t>[0]);
 
   return (

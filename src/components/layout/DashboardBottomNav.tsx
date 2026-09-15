@@ -5,6 +5,7 @@ import { usePathname, Link } from "@/i18n/routing";
 import { signOut, useSession } from "next-auth/react";
 import { LanguageToggle } from "./LanguageToggle";
 import {
+  LayoutDashboard,
   Briefcase,
   CreditCard,
   Settings,
@@ -12,9 +13,10 @@ import {
 } from "lucide-react";
 
 const NAV_ITEMS = [
-  { href: "/dashboard" as const, icon: Briefcase, key: "companies", badge: 0 },
-  { href: "/dashboard/billing" as const, icon: CreditCard, key: "billing", badge: 0 },
-  { href: "/dashboard/settings" as const, icon: Settings, key: "settings", badge: 0 },
+  { href: "/dashboard" as const, icon: LayoutDashboard, key: "overview" },
+  { href: "/dashboard/services" as const, icon: Briefcase, key: "services" },
+  { href: "/dashboard/billing" as const, icon: CreditCard, key: "billing" },
+  { href: "/dashboard/settings" as const, icon: Settings, key: "settings" },
 ];
 
 export function DashboardBottomNav() {
@@ -38,9 +40,9 @@ export function DashboardBottomNav() {
       <div className="flex items-stretch">
         {/* Nav tabs */}
         <div className="flex flex-1">
-          {NAV_ITEMS.map(({ href, icon: Icon, key, badge }) => {
+          {NAV_ITEMS.map(({ href, icon: Icon, key }) => {
             const isActive =
-              (href === "/dashboard" && (pathname === "/dashboard" || pathname.startsWith("/dashboard/companies"))) ||
+              pathname === href ||
               (href !== "/dashboard" && pathname.startsWith(href));
 
             return (
@@ -53,16 +55,7 @@ export function DashboardBottomNav() {
                 {isActive && (
                   <span className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-gold rounded-full" />
                 )}
-
-                <div className="relative">
-                  <Icon size={20} strokeWidth={isActive ? 2.5 : 1.8} />
-                  {badge > 0 && (
-                    <span className="absolute -top-1 -right-1.5 w-4 h-4 bg-gold rounded-full text-[9px] font-bold flex items-center justify-center" style={{ color: "#060C30" }}>
-                      {badge}
-                    </span>
-                  )}
-                </div>
-
+                <Icon size={20} strokeWidth={isActive ? 2.5 : 1.8} />
                 <span className="text-[9px] font-medium tracking-wide leading-none hidden sm:block">
                   {t(key as Parameters<typeof t>[0])}
                 </span>
@@ -72,9 +65,7 @@ export function DashboardBottomNav() {
         </div>
 
         {/* Right side: language + user — desktop only */}
-        <div
-          className="hidden md:flex items-center gap-3 px-4 border-l border-[#111840]"
-        >
+        <div className="hidden md:flex items-center gap-3 px-4 border-l border-[#111840]">
           <LanguageToggle direction="up" className="w-28" />
 
           <div className="flex items-center gap-2.5">
