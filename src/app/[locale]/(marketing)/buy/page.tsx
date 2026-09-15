@@ -3,7 +3,8 @@
 import { useState, useEffect, Suspense } from "react";
 import { Link } from "@/i18n/routing";
 import { useSearchParams, useRouter } from "next/navigation";
-import { ChevronLeft, ChevronRight, Check, Loader2, Building2, Globe, CreditCard, Calculator, FileText, Shield, Zap } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { ChevronLeft, ChevronRight, Check, Loader2, CreditCard, User } from "lucide-react";
 
 const SERVICE_META: Record<string, { name: string; price: number; description: string; duration: string; isMonthly?: boolean }> = {
   us_llc_standard:  { name: "US LLC — Standard",              price: 799,  description: "LLC formation, EIN, registered agent 1yr", duration: "7–14 days" },
@@ -35,8 +36,11 @@ type FormData = {
 function BuyContent() {
   const params = useSearchParams();
   const router = useRouter();
+  const { data: session, status: sessionStatus } = useSession();
   const serviceKey = params.get("service") || "";
   const service = SERVICE_META[serviceKey];
+
+  const isLoggedIn = sessionStatus === "authenticated" && !!session?.user;
 
   const [step, setStep] = useState(1);
   const [form, setForm] = useState<FormData>({ name: "", email: "", phone: "", company: "", country: "Vietnam" });
@@ -50,11 +54,38 @@ function BuyContent() {
     }
   }, [service, router]);
 
-  if (!service) return null;
+  // Pre-fill form when session loads
+  useEffect(() => {
+    if (session?.user) {
+      setForm(f => ({
+        ...f,
+        name: session.user?.name || f.name,
+        email: session.user?.email || f.email,
+      }));
+    }
+  }, [session]);
 
-  const STEPS = ["Service", "Your info", "Review", "Done"];
+  if (!service || sessionStatus === "loading") return (
+    <div className="min-h-[60vh] flex items-center justify-center">
+      <Loader2 size={24} className="animate-spin text-gold" />
+    </div>
+  );
+
+  // Steps: logged in = [Service, Review, Done]; guest = [Service, Your info, Review, Done]
+  const STEP_LABELS = isLoggedIn
+    ? ["Service", "Review", "Done"]
+    : ["Service", "Your info", "Review", "Done"];
+
+  // Map display step (1-based) to visual step index
+  // Logged in: step 1→0, step 3→1 (skip user info), step 4→2
+  // Guest: step 1→0, step 2→1, step 3→2, step 4→3
+  const getVisualStep = () => {
+    if (isLoggedIn) return step === 1 ? 1 : step === 3 ? 2 : 3;
+    return step;
+  };
 
   const validate = () => {
+    if (isLoggedIn) return true;
     const e: Partial<FormData> = {};
     if (!form.name.trim()) e.name = "Full name is required.";
     if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = "Valid email is required.";
@@ -64,14 +95,18 @@ function BuyContent() {
   };
 
   const handleSubmit = async () => {
-    if (!validate()) return;
     setApiError("");
     setSubmitting(true);
 
-    const res = await fetch("/api/purchase", {
+    const endpoint = isLoggedIn ? "/api/dashboard/purchase" : "/api/purchase";
+    const body = isLoggedIn
+      ? { serviceKey }
+      : { ...form, serviceKey };
+
+    const res = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...form, serviceKey }),
+      body: JSON.stringify(body),
     });
     const data = await res.json();
 
@@ -85,6 +120,8 @@ function BuyContent() {
     setSubmitting(false);
   };
 
+  const visualStep = getVisualStep();
+
   return (
     <div>
       <div className="max-w-2xl mx-auto px-4 py-4">
@@ -96,10 +133,10 @@ function BuyContent() {
         {/* Progress steps */}
         {step < 4 && (
           <div className="flex items-center gap-0 mb-10">
-            {STEPS.slice(0, 3).map((label, i) => {
+            {STEP_LABELS.slice(0, -1).map((label, i) => {
               const num = i + 1;
-              const done = step > num;
-              const active = step === num;
+              const done = visualStep > num;
+              const active = visualStep === num;
               return (
                 <div key={label} className="flex items-center flex-1 last:flex-none">
                   <div className="flex flex-col items-center">
@@ -112,10 +149,18 @@ function BuyContent() {
                     </div>
                     <span className={`text-xs mt-1 ${active ? "text-foreground" : "text-navy-600"}`}>{label}</span>
                   </div>
-                  {i < 2 && <div className={`flex-1 h-0.5 mx-2 mt-[-18px] ${done ? "bg-emerald-500/40" : "bg-navy-800"}`} />}
+                  {i < STEP_LABELS.length - 2 && <div className={`flex-1 h-0.5 mx-2 mt-[-18px] ${done ? "bg-emerald-500/40" : "bg-navy-800"}`} />}
                 </div>
               );
             })}
+          </div>
+        )}
+
+        {/* Logged-in notice on step 1 */}
+        {step === 1 && isLoggedIn && (
+          <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-sm text-emerald-400 mb-4">
+            <User size={15} className="shrink-0" />
+            <span>Signed in as <strong>{session?.user?.name || session?.user?.email}</strong> — no need to re-enter your info.</span>
           </div>
         )}
 
@@ -123,7 +168,7 @@ function BuyContent() {
         {step === 1 && (
           <div>
             <h1 className="text-2xl font-bold text-foreground mb-2">You selected</h1>
-            <p className="text-navy-400 mb-6">Review your chosen service before providing your details.</p>
+            <p className="text-navy-400 mb-6">Review your chosen service before confirming.</p>
 
             <div className="bg-navy-800 border border-navy-700 rounded-2xl p-6 mb-6">
               <div className="flex items-start justify-between mb-3">
@@ -143,15 +188,17 @@ function BuyContent() {
               </div>
             </div>
 
-            <div className="bg-navy-800/50 border border-navy-700 rounded-xl p-4 mb-6 text-sm text-navy-400">
-              <p className="font-medium text-foreground mb-1">What happens next?</p>
-              <ol className="list-decimal list-inside flex flex-col gap-1">
-                <li>We create your account and send you a setup email</li>
-                <li>You set your password and log into your dashboard</li>
-                <li>Fill in the required forms for your service</li>
-                <li>We process your order and send updates along the way</li>
-              </ol>
-            </div>
+            {!isLoggedIn && (
+              <div className="bg-navy-800/50 border border-navy-700 rounded-xl p-4 mb-6 text-sm text-navy-400">
+                <p className="font-medium text-foreground mb-1">What happens next?</p>
+                <ol className="list-decimal list-inside flex flex-col gap-1">
+                  <li>We create your account and send you a setup email</li>
+                  <li>You set your password and log into your dashboard</li>
+                  <li>Fill in the required forms for your service</li>
+                  <li>We process your order and send updates along the way</li>
+                </ol>
+              </div>
+            )}
 
             <div className="flex gap-3">
               <Link
@@ -161,17 +208,17 @@ function BuyContent() {
                 Change service
               </Link>
               <button
-                onClick={() => setStep(2)}
+                onClick={() => setStep(isLoggedIn ? 3 : 2)}
                 className="flex-1 py-3 rounded-xl bg-gold text-ink-950 font-semibold text-sm hover:bg-amber-400 transition-colors flex items-center justify-center gap-2"
               >
-                Continue <ChevronRight size={16} />
+                {isLoggedIn ? "Review order" : "Continue"} <ChevronRight size={16} />
               </button>
             </div>
           </div>
         )}
 
-        {/* Step 2: Contact info */}
-        {step === 2 && (
+        {/* Step 2: Contact info — guests only */}
+        {step === 2 && !isLoggedIn && (
           <div>
             <h1 className="text-2xl font-bold text-foreground mb-2">Your information</h1>
             <p className="text-navy-400 mb-6">We'll create your Gloyce account and email you login instructions.</p>
@@ -255,7 +302,9 @@ function BuyContent() {
         {step === 3 && (
           <div>
             <h1 className="text-2xl font-bold text-foreground mb-2">Review your order</h1>
-            <p className="text-navy-400 mb-6">Please confirm all details before we create your account.</p>
+            <p className="text-navy-400 mb-6">
+              {isLoggedIn ? "Confirm to add this service to your account." : "Please confirm all details before we create your account."}
+            </p>
 
             <div className="bg-navy-800 border border-navy-700 rounded-2xl p-6 mb-4">
               <h3 className="text-xs font-medium text-navy-500 uppercase tracking-wide mb-3">Service</h3>
@@ -273,35 +322,50 @@ function BuyContent() {
 
             <div className="bg-navy-800 border border-navy-700 rounded-2xl p-6 mb-6">
               <h3 className="text-xs font-medium text-navy-500 uppercase tracking-wide mb-3">Your details</h3>
-              <div className="grid grid-cols-2 gap-3 text-sm">
-                <div>
-                  <p className="text-navy-500 text-xs">Name</p>
-                  <p className="text-foreground font-medium">{form.name}</p>
-                </div>
-                <div>
-                  <p className="text-navy-500 text-xs">Email</p>
-                  <p className="text-foreground font-medium truncate">{form.email}</p>
-                </div>
-                <div>
-                  <p className="text-navy-500 text-xs">Phone</p>
-                  <p className="text-foreground font-medium">{form.phone}</p>
-                </div>
-                <div>
-                  <p className="text-navy-500 text-xs">Country</p>
-                  <p className="text-foreground font-medium">{form.country}</p>
-                </div>
-                {form.company && (
-                  <div className="col-span-2">
-                    <p className="text-navy-500 text-xs">Company</p>
-                    <p className="text-foreground font-medium">{form.company}</p>
+              {isLoggedIn ? (
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-gold/10 border border-gold/20 flex items-center justify-center text-sm font-bold text-gold shrink-0">
+                    {(session?.user?.name || session?.user?.email || "U")[0].toUpperCase()}
                   </div>
-                )}
-              </div>
+                  <div>
+                    <p className="text-sm font-medium text-foreground">{session?.user?.name || "—"}</p>
+                    <p className="text-xs text-navy-400">{session?.user?.email}</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  <div>
+                    <p className="text-navy-500 text-xs">Name</p>
+                    <p className="text-foreground font-medium">{form.name}</p>
+                  </div>
+                  <div>
+                    <p className="text-navy-500 text-xs">Email</p>
+                    <p className="text-foreground font-medium truncate">{form.email}</p>
+                  </div>
+                  <div>
+                    <p className="text-navy-500 text-xs">Phone</p>
+                    <p className="text-foreground font-medium">{form.phone}</p>
+                  </div>
+                  <div>
+                    <p className="text-navy-500 text-xs">Country</p>
+                    <p className="text-foreground font-medium">{form.country}</p>
+                  </div>
+                  {form.company && (
+                    <div className="col-span-2">
+                      <p className="text-navy-500 text-xs">Company</p>
+                      <p className="text-foreground font-medium">{form.company}</p>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4 mb-6 text-sm text-navy-400">
               <p className="font-medium text-amber-400 mb-1">Invoice will be sent separately</p>
-              <p>Your invoice of <strong className="text-foreground">${service.price.toLocaleString()}</strong> will be sent to {form.email} and is due within 7 days. Service begins once payment is confirmed.</p>
+              <p>
+                Your invoice of <strong className="text-foreground">${service.price.toLocaleString()}</strong> will be sent to{" "}
+                <strong className="text-foreground">{isLoggedIn ? session?.user?.email : form.email}</strong> and is due within 7 days. Service begins once payment is confirmed.
+              </p>
             </div>
 
             {apiError && (
@@ -317,10 +381,10 @@ function BuyContent() {
 
             <div className="flex gap-3">
               <button
-                onClick={() => setStep(2)}
+                onClick={() => setStep(isLoggedIn ? 1 : 2)}
                 className="px-5 py-3 rounded-xl border border-navy-700 text-navy-400 text-sm font-medium hover:text-foreground hover:border-navy-600 transition-colors flex items-center gap-1.5"
               >
-                <ChevronLeft size={14} /> Edit
+                <ChevronLeft size={14} /> {isLoggedIn ? "Back" : "Edit"}
               </button>
               <button
                 onClick={handleSubmit}
@@ -328,9 +392,9 @@ function BuyContent() {
                 className="flex-1 py-3 rounded-xl bg-gold text-ink-950 font-semibold text-sm hover:bg-amber-400 transition-colors flex items-center justify-center gap-2 disabled:opacity-60"
               >
                 {submitting ? (
-                  <><Loader2 size={16} className="animate-spin" /> Creating your account…</>
+                  <><Loader2 size={16} className="animate-spin" /> {isLoggedIn ? "Adding service…" : "Creating your account…"}</>
                 ) : (
-                  <>Confirm &amp; create account <ChevronRight size={16} /></>
+                  <><CreditCard size={16} /> {isLoggedIn ? "Confirm & add service" : "Confirm & create account"}</>
                 )}
               </button>
             </div>
@@ -344,34 +408,53 @@ function BuyContent() {
               <Check size={28} className="text-emerald-400" />
             </div>
             <h1 className="text-2xl font-bold text-foreground mb-3">Order received!</h1>
-            <p className="text-navy-400 mb-2">
-              Check your inbox at <strong className="text-foreground">{form.email}</strong>
-            </p>
-            <p className="text-navy-500 text-sm mb-8">
-              We've sent you an email with a link to set your password and access your dashboard. The link expires in 48 hours.
-            </p>
 
-            <div className="bg-navy-800 border border-navy-700 rounded-2xl p-6 text-left mb-6 max-w-sm mx-auto">
-              <h3 className="font-semibold text-foreground mb-3">What's next</h3>
-              <ol className="flex flex-col gap-3">
-                {[
-                  "Check your email for setup link",
-                  "Set your password",
-                  "Log in to your dashboard",
-                  "Fill in your service forms",
-                  "Pay your invoice to begin",
-                ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 text-sm text-navy-400">
-                    <div className="w-5 h-5 rounded-full bg-navy-700 border border-navy-600 flex items-center justify-center text-xs text-gold font-bold flex-shrink-0">
-                      {i + 1}
-                    </div>
-                    {item}
-                  </li>
-                ))}
-              </ol>
-            </div>
+            {isLoggedIn ? (
+              <>
+                <p className="text-navy-400 mb-2">
+                  {service.name} has been added to your account.
+                </p>
+                <p className="text-navy-500 text-sm mb-8">
+                  Your invoice will be sent to <strong className="text-foreground">{session?.user?.email}</strong>. Fill in the required forms in your dashboard to get started.
+                </p>
+                <Link
+                  href="/dashboard"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gold text-ink-950 font-semibold text-sm hover:bg-amber-400 transition-colors"
+                >
+                  Go to Dashboard <ChevronRight size={16} />
+                </Link>
+              </>
+            ) : (
+              <>
+                <p className="text-navy-400 mb-2">
+                  Check your inbox at <strong className="text-foreground">{form.email}</strong>
+                </p>
+                <p className="text-navy-500 text-sm mb-8">
+                  We've sent you an email with a link to set your password and access your dashboard. The link expires in 48 hours.
+                </p>
+                <div className="bg-navy-800 border border-navy-700 rounded-2xl p-6 text-left mb-6 max-w-sm mx-auto">
+                  <h3 className="font-semibold text-foreground mb-3">What's next</h3>
+                  <ol className="flex flex-col gap-3">
+                    {[
+                      "Check your email for setup link",
+                      "Set your password",
+                      "Log in to your dashboard",
+                      "Fill in your service forms",
+                      "Pay your invoice to begin",
+                    ].map((item, i) => (
+                      <li key={i} className="flex items-center gap-3 text-sm text-navy-400">
+                        <div className="w-5 h-5 rounded-full bg-navy-700 border border-navy-600 flex items-center justify-center text-xs text-gold font-bold flex-shrink-0">
+                          {i + 1}
+                        </div>
+                        {item}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              </>
+            )}
 
-            <p className="text-xs text-navy-600">
+            <p className="text-xs text-navy-600 mt-4">
               Questions? Email <a href="mailto:hello@gloyce.com" className="text-gold hover:underline">hello@gloyce.com</a>
             </p>
           </div>

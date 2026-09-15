@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   ClipboardList, Plus, Check, Clock, XCircle, ChevronDown, ChevronUp,
   FileText, Stamp, Calendar, AlertCircle, Download, ExternalLink,
@@ -24,11 +25,6 @@ interface UnifiedRequest {
   created_at: string;
 }
 
-const SR_TYPE_LABEL: Record<string, string> = {
-  document_request: "Yêu cầu tài liệu",
-  certification: "Yêu cầu chứng thực",
-};
-
 const SR_TYPE_ICON: Record<string, typeof FileText> = {
   document_request: FileText,
   certification: Stamp,
@@ -44,28 +40,20 @@ const SVC_TYPE_ICON: Record<string, typeof Briefcase> = {
   payment_gateway: CreditCard,
 };
 
-const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
-  pending:     { label: "Chờ xử lý",  color: "bg-amber-500/15 text-amber-400 border-amber-500/30" },
-  in_progress: { label: "Đang xử lý", color: "bg-blue-500/15 text-blue-400 border-blue-500/30" },
-  completed:   { label: "Hoàn thành", color: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30" },
-  rejected:    { label: "Từ chối",     color: "bg-red-500/15 text-red-400 border-red-500/30" },
+const STATUS_COLOR: Record<string, string> = {
+  pending:     "bg-amber-500/15 text-amber-400 border-amber-500/30",
+  in_progress: "bg-blue-500/15 text-blue-400 border-blue-500/30",
+  completed:   "bg-emerald-500/15 text-emerald-400 border-emerald-500/30",
+  rejected:    "bg-red-500/15 text-red-400 border-red-500/30",
 };
 
-const PAYMENT_CONFIG: Record<string, { label: string; color: string; desc: string }> = {
-  awaiting: {
-    label: "Chờ thanh toán",
-    color: "bg-orange-500/15 text-orange-400 border-orange-500/30",
-    desc: "Gloyce đã báo giá. Vui lòng liên hệ để thanh toán.",
-  },
-  paid: {
-    label: "Đã thanh toán",
-    color: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-    desc: "Thanh toán được xác nhận. Đang xử lý yêu cầu.",
-  },
+const PAYMENT_COLOR: Record<string, string> = {
+  awaiting: "bg-orange-500/15 text-orange-400 border-orange-500/30",
+  paid:     "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
 };
 
 function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
+  return new Date(iso).toLocaleDateString(undefined, { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" });
 }
 
 function formatPrice(price?: number, currency?: string) {
@@ -75,6 +63,7 @@ function formatPrice(price?: number, currency?: string) {
 
 // ── New Request Modal ─────────────────────────────────────────────────────────
 function NewRequestModal({ onClose, onCreated }: { onClose: () => void; onCreated: () => void }) {
+  const t = useTranslations("dashboard.requests.modal");
   const [type, setType] = useState<"certification" | "document_request">("document_request");
   const [submitting, setSubmitting] = useState(false);
 
@@ -89,9 +78,11 @@ function NewRequestModal({ onClose, onCreated }: { onClose: () => void; onCreate
   const [certCopies, setCertCopies] = useState("1");
   const [certNotes, setCertNotes] = useState("");
 
+  const tSrType = useTranslations("dashboard.requests.srType");
+
   const submit = async () => {
-    if (type === "document_request" && (!docType || !docDesc)) { toast.error("Điền đầy đủ thông tin"); return; }
-    if (type === "certification" && (!certType || !certCountry)) { toast.error("Điền đầy đủ thông tin"); return; }
+    if (type === "document_request" && (!docType || !docDesc)) { toast.error(t("validationError")); return; }
+    if (type === "certification" && (!certType || !certCountry)) { toast.error(t("validationError")); return; }
 
     setSubmitting(true);
     const details = type === "document_request"
@@ -105,11 +96,11 @@ function NewRequestModal({ onClose, onCreated }: { onClose: () => void; onCreate
     });
     setSubmitting(false);
     if (res.ok) {
-      toast.success("Yêu cầu đã được gửi thành công");
+      toast.success(t("successToast"));
       onCreated(); onClose();
     } else {
       const d = await res.json().catch(() => ({}));
-      toast.error((d as { error?: string }).error || "Gửi yêu cầu thất bại");
+      toast.error((d as { error?: string }).error || t("errorToast"));
     }
   };
 
@@ -117,22 +108,22 @@ function NewRequestModal({ onClose, onCreated }: { onClose: () => void; onCreate
     <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
       <div className="bg-white border border-ink-600 rounded-2xl w-full max-w-md max-h-[90vh] flex flex-col">
         <div className="p-5 border-b border-ink-600 flex items-center justify-between shrink-0">
-          <h2 className="text-base font-bold text-ink-100">Tạo yêu cầu mới</h2>
-          <button onClick={onClose} className="text-ink-500 hover:text-ink-300 text-sm">Đóng</button>
+          <h2 className="text-base font-bold text-ink-100">{t("title")}</h2>
+          <button onClick={onClose} className="text-ink-500 hover:text-ink-300 text-sm">{t("close")}</button>
         </div>
         <div className="overflow-y-auto flex-1 p-5 space-y-4">
           <div>
-            <p className="text-[11px] text-ink-500 mb-2 uppercase tracking-wider">Loại yêu cầu</p>
+            <p className="text-[11px] text-ink-500 mb-2 uppercase tracking-wider">{t("requestType")}</p>
             <div className="grid grid-cols-2 gap-2">
-              {(["document_request", "certification"] as const).map(t => (
-                <button key={t} onClick={() => setType(t)}
-                  className={`p-3 rounded-xl border text-left transition-colors ${type === t ? "border-amber-500/40 bg-amber-500/10" : "border-ink-600 bg-ink-900 hover:border-ink-400"}`}>
+              {(["document_request", "certification"] as const).map(tp => (
+                <button key={tp} onClick={() => setType(tp)}
+                  className={`p-3 rounded-xl border text-left transition-colors ${type === tp ? "border-amber-500/40 bg-amber-500/10" : "border-ink-600 bg-ink-900 hover:border-ink-400"}`}>
                   <div className="flex items-center gap-2 mb-1">
-                    {t === "document_request" ? <FileText size={14} className="text-amber-400" /> : <Stamp size={14} className="text-amber-400" />}
-                    <span className="text-xs font-semibold text-ink-200">{SR_TYPE_LABEL[t]}</span>
+                    {tp === "document_request" ? <FileText size={14} className="text-amber-400" /> : <Stamp size={14} className="text-amber-400" />}
+                    <span className="text-xs font-semibold text-ink-200">{tSrType(tp as "document_request" | "certification")}</span>
                   </div>
                   <p className="text-[10px] text-ink-500 leading-relaxed">
-                    {t === "document_request" ? "Yêu cầu Gloyce chuẩn bị tài liệu pháp lý" : "Chứng thực/hợp pháp hóa tài liệu hiện có"}
+                    {tp === "document_request" ? t("docRequestDesc") : t("certDesc")}
                   </p>
                 </button>
               ))}
@@ -141,21 +132,21 @@ function NewRequestModal({ onClose, onCreated }: { onClose: () => void; onCreate
           {type === "document_request" && (
             <>
               <div>
-                <label className="text-[11px] text-ink-500 mb-1 block">Loại tài liệu cần *</label>
+                <label className="text-[11px] text-ink-500 mb-1 block">{t("docTypeLabel")}</label>
                 <input value={docType} onChange={e => setDocType(e.target.value)} placeholder="VD: Certificate of Incorporation, EIN Letter..."
                   className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-ink-200 placeholder:text-ink-500 focus:outline-none focus:ring-1 focus:ring-amber-500/40" />
               </div>
               <div>
-                <label className="text-[11px] text-ink-500 mb-1 block">Mô tả chi tiết *</label>
-                <textarea value={docDesc} onChange={e => setDocDesc(e.target.value)} rows={3} placeholder="Mô tả mục đích, deadline nếu có..."
+                <label className="text-[11px] text-ink-500 mb-1 block">{t("docDescLabel")}</label>
+                <textarea value={docDesc} onChange={e => setDocDesc(e.target.value)} rows={3} placeholder="..."
                   className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-ink-200 placeholder:text-ink-500 focus:outline-none focus:ring-1 focus:ring-amber-500/40 resize-none" />
               </div>
               <div>
-                <label className="text-[11px] text-ink-500 mb-1 block">Mức độ ưu tiên</label>
+                <label className="text-[11px] text-ink-500 mb-1 block">{t("urgencyLabel")}</label>
                 <select value={urgency} onChange={e => setUrgency(e.target.value)}
                   className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-ink-200 focus:outline-none focus:ring-1 focus:ring-amber-500/40">
-                  <option value="normal">Bình thường</option>
-                  <option value="urgent">Gấp (cần sớm)</option>
+                  <option value="normal">{t("urgencyNormal")}</option>
+                  <option value="urgent">{t("urgencyUrgent")}</option>
                 </select>
               </div>
             </>
@@ -163,56 +154,56 @@ function NewRequestModal({ onClose, onCreated }: { onClose: () => void; onCreate
           {type === "certification" && (
             <>
               <div>
-                <label className="text-[11px] text-ink-500 mb-1 block">Loại chứng thực *</label>
+                <label className="text-[11px] text-ink-500 mb-1 block">{t("certTypeLabel")}</label>
                 <select value={certType} onChange={e => setCertType(e.target.value)}
                   className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-ink-200 focus:outline-none focus:ring-1 focus:ring-amber-500/40">
-                  <option value="">-- Chọn loại --</option>
-                  <option value="notarization">Công chứng (Notarization)</option>
-                  <option value="apostille">Hợp pháp hóa lãnh sự (Apostille)</option>
-                  <option value="consular_legalization">Hợp pháp hóa Lãnh sự quán</option>
-                  <option value="certified_translation">Dịch thuật có chứng nhận</option>
-                  <option value="other">Khác</option>
+                  <option value="">{t("certTypePlaceholder")}</option>
+                  <option value="notarization">{t("notarization")}</option>
+                  <option value="apostille">{t("apostille")}</option>
+                  <option value="consular_legalization">{t("consular")}</option>
+                  <option value="certified_translation">{t("translation")}</option>
+                  <option value="other">{t("other")}</option>
                 </select>
               </div>
               <div>
-                <label className="text-[11px] text-ink-500 mb-1 block">Quốc gia sử dụng tài liệu *</label>
-                <input value={certCountry} onChange={e => setCertCountry(e.target.value)} placeholder="VD: Vietnam, USA, Singapore..."
+                <label className="text-[11px] text-ink-500 mb-1 block">{t("destCountryLabel")}</label>
+                <input value={certCountry} onChange={e => setCertCountry(e.target.value)} placeholder="Vietnam, USA, Singapore..."
                   className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-ink-200 placeholder:text-ink-500 focus:outline-none focus:ring-1 focus:ring-amber-500/40" />
               </div>
               <div>
-                <label className="text-[11px] text-ink-500 mb-1 block">Mục đích sử dụng</label>
-                <input value={certPurpose} onChange={e => setCertPurpose(e.target.value)} placeholder="VD: Mở tài khoản ngân hàng, visa..."
+                <label className="text-[11px] text-ink-500 mb-1 block">{t("purposeLabel")}</label>
+                <input value={certPurpose} onChange={e => setCertPurpose(e.target.value)} placeholder="..."
                   className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-ink-200 placeholder:text-ink-500 focus:outline-none focus:ring-1 focus:ring-amber-500/40" />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-[11px] text-ink-500 mb-1 block">Nhận kết quả qua</label>
+                  <label className="text-[11px] text-ink-500 mb-1 block">{t("deliveryLabel")}</label>
                   <select value={certDelivery} onChange={e => setCertDelivery(e.target.value)}
                     className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-ink-200 focus:outline-none focus:ring-1 focus:ring-amber-500/40">
-                    <option value="email">Email (bản số)</option>
-                    <option value="pickup">Nhận trực tiếp</option>
-                    <option value="courier">Chuyển phát</option>
+                    <option value="email">{t("deliveryEmail")}</option>
+                    <option value="pickup">{t("deliveryPickup")}</option>
+                    <option value="courier">{t("deliveryCourier")}</option>
                   </select>
                 </div>
                 <div>
-                  <label className="text-[11px] text-ink-500 mb-1 block">Số bản</label>
+                  <label className="text-[11px] text-ink-500 mb-1 block">{t("copiesLabel")}</label>
                   <input type="number" min="1" max="20" value={certCopies} onChange={e => setCertCopies(e.target.value)}
                     className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-ink-200 focus:outline-none focus:ring-1 focus:ring-amber-500/40" />
                 </div>
               </div>
               <div>
-                <label className="text-[11px] text-ink-500 mb-1 block">Ghi chú thêm</label>
-                <textarea value={certNotes} onChange={e => setCertNotes(e.target.value)} rows={2} placeholder="Deadline, yêu cầu đặc biệt..."
+                <label className="text-[11px] text-ink-500 mb-1 block">{t("notesLabel")}</label>
+                <textarea value={certNotes} onChange={e => setCertNotes(e.target.value)} rows={2} placeholder="..."
                   className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-ink-200 placeholder:text-ink-500 focus:outline-none focus:ring-1 focus:ring-amber-500/40 resize-none" />
               </div>
             </>
           )}
         </div>
         <div className="p-5 border-t border-ink-600 flex gap-2 justify-end shrink-0">
-          <button onClick={onClose} className="px-4 py-2 text-sm text-ink-400 hover:text-ink-200 transition-colors">Hủy</button>
+          <button onClick={onClose} className="px-4 py-2 text-sm text-ink-400 hover:text-ink-200 transition-colors">{t("cancel")}</button>
           <button onClick={submit} disabled={submitting}
             className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-medium hover:bg-amber-500/20 disabled:opacity-50 transition-colors">
-            {submitting ? "Đang gửi..." : "Gửi yêu cầu"}
+            {submitting ? t("submitting") : t("submit")}
           </button>
         </div>
       </div>
@@ -222,6 +213,7 @@ function NewRequestModal({ onClose, onCreated }: { onClose: () => void; onCreate
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
 export default function DashboardRequestsPage() {
+  const t = useTranslations("dashboard.requests");
   const [requests, setRequests] = useState<UnifiedRequest[]>([]);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState<string | null>(null);
@@ -243,31 +235,31 @@ export default function DashboardRequestsPage() {
 
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-xl font-bold text-ink-100">Yêu cầu dịch vụ</h1>
-          <p className="text-sm text-ink-500 mt-0.5">Tất cả dịch vụ và yêu cầu — theo dõi tiến trình và kết quả</p>
+          <h1 className="text-xl font-bold text-ink-100">{t("title")}</h1>
+          <p className="text-sm text-ink-500 mt-0.5">{t("subtitle")}</p>
         </div>
         <div className="flex items-center gap-2">
-          <button onClick={load} disabled={loading} title="Làm mới"
+          <button onClick={load} disabled={loading} title={t("refresh")}
             className="p-2 rounded-lg border border-ink-600 text-ink-400 hover:text-ink-200 disabled:opacity-50 transition-colors">
             <RefreshCw size={15} className={loading ? "animate-spin" : ""} />
           </button>
           <button onClick={() => setShowNew(true)}
             className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm font-medium hover:bg-amber-500/20 transition-colors">
-            <Plus size={15} />Tạo yêu cầu
+            <Plus size={15} />{t("newRequest")}
           </button>
         </div>
       </div>
 
       {loading ? (
-        <div className="bg-white rounded-xl border border-ink-600 p-12 text-center text-sm text-ink-500">Đang tải...</div>
+        <div className="bg-white rounded-xl border border-ink-600 p-12 text-center text-sm text-ink-500">{t("loading")}</div>
       ) : requests.length === 0 ? (
         <div className="bg-white rounded-xl border border-ink-600 p-16 text-center">
           <ClipboardList size={32} className="mx-auto mb-3 text-ink-500" />
-          <p className="text-ink-300 font-medium text-sm mb-1">Chưa có yêu cầu nào</p>
-          <p className="text-ink-500 text-xs mb-4">Tạo yêu cầu đầu tiên để Gloyce bắt đầu xử lý</p>
+          <p className="text-ink-300 font-medium text-sm mb-1">{t("emptyTitle")}</p>
+          <p className="text-ink-500 text-xs mb-4">{t("emptyDesc")}</p>
           <button onClick={() => setShowNew(true)}
             className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm font-medium hover:bg-amber-500/20 transition-colors">
-            <Plus size={14} />Tạo yêu cầu mới
+            <Plus size={14} />{t("emptyBtn")}
           </button>
         </div>
       ) : (
@@ -279,11 +271,12 @@ export default function DashboardRequestsPage() {
             const TypeIcon = isStandard
               ? (SVC_TYPE_ICON[req.service_type] || Briefcase)
               : (SR_TYPE_ICON[req.service_type] || FileText);
-            const statusCfg = STATUS_CONFIG[req.status] || STATUS_CONFIG.pending;
+            const statusColor = STATUS_COLOR[req.status] || STATUS_COLOR.pending;
             const StatusIcon = req.status === "completed" ? Check : req.status === "in_progress" ? Clock : req.status === "rejected" ? XCircle : AlertCircle;
             const d = req.details || {};
-            const payCfg = req.payment_status && req.payment_status !== "none" ? PAYMENT_CONFIG[req.payment_status] : null;
-            const title = req.display_name || SR_TYPE_LABEL[req.service_type] || req.service_type;
+            const hasPayment = req.payment_status && req.payment_status !== "none";
+            const payColor = hasPayment ? PAYMENT_COLOR[req.payment_status!] : null;
+            const title = req.display_name || t(`srType.${req.service_type}` as Parameters<typeof t>[0]) || req.service_type;
 
             return (
               <div key={req.id} className="bg-white rounded-xl border border-ink-600 overflow-hidden">
@@ -297,28 +290,28 @@ export default function DashboardRequestsPage() {
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="text-sm font-semibold text-ink-200">{title}</span>
                       {isStandard && (
-                        <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-blue-500/15 text-blue-400 border border-blue-500/20">Dịch vụ</span>
+                        <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-blue-500/15 text-blue-400 border border-blue-500/20">{t("serviceBadge")}</span>
                       )}
                       {isSR && (d.urgency as string) === "urgent" && (
-                        <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-500/15 text-red-400 border border-red-500/30">GẤP</span>
+                        <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-500/15 text-red-400 border border-red-500/30">{t("urgentBadge")}</span>
                       )}
                     </div>
                     <div className="flex items-center gap-2 mt-0.5 text-xs text-ink-500 flex-wrap">
                       <span className="flex items-center gap-1"><Calendar size={11} />{formatDate(req.created_at)}</span>
                       {req.price && <span className="text-ink-400 font-medium">{formatPrice(req.price, req.currency)}</span>}
                       {isStandard && req.total_steps && (
-                        <span>Bước {req.current_step || 0}/{req.total_steps}</span>
+                        <span>{t("step", { current: req.current_step || 0, total: req.total_steps })}</span>
                       )}
                     </div>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
-                    {payCfg && (
-                      <span className={`px-2 py-0.5 rounded-lg text-[10px] font-medium border ${payCfg.color} hidden sm:flex items-center gap-1`}>
-                        <CreditCard size={9} />{payCfg.label}
+                    {payColor && (
+                      <span className={`px-2 py-0.5 rounded-lg text-[10px] font-medium border ${payColor} hidden sm:flex items-center gap-1`}>
+                        <CreditCard size={9} />{t(`payment.${req.payment_status}` as Parameters<typeof t>[0])}
                       </span>
                     )}
-                    <span className={`px-2.5 py-1 rounded-lg text-xs font-medium border ${statusCfg.color} flex items-center gap-1`}>
-                      <StatusIcon size={11} />{statusCfg.label}
+                    <span className={`px-2.5 py-1 rounded-lg text-xs font-medium border ${statusColor} flex items-center gap-1`}>
+                      <StatusIcon size={11} />{t(`status.${req.status}` as Parameters<typeof t>[0])}
                     </span>
                     {isExpanded ? <ChevronUp size={16} className="text-ink-500" /> : <ChevronDown size={16} className="text-ink-500" />}
                   </div>
@@ -331,13 +324,13 @@ export default function DashboardRequestsPage() {
                     {/* Step progress (standard services) */}
                     {isStandard && req.total_steps && (
                       <div>
-                        <p className="text-[11px] text-ink-500 mb-2 uppercase tracking-wider">Tiến trình thực hiện</p>
+                        <p className="text-[11px] text-ink-500 mb-2 uppercase tracking-wider">{t("progressTitle")}</p>
                         <div className="flex gap-1">
                           {Array.from({ length: req.total_steps }).map((_, i) => (
                             <div key={i} className={`flex-1 h-1.5 rounded-full ${i < (req.current_step || 0) ? "bg-emerald-400" : i === (req.current_step || 0) ? "bg-amber-400" : "bg-[#1A2540]"}`} />
                           ))}
                         </div>
-                        <p className="text-[10px] text-ink-500 mt-1">Bước {req.current_step || 0} / {req.total_steps}</p>
+                        <p className="text-[10px] text-ink-500 mt-1">{t("step", { current: req.current_step || 0, total: req.total_steps })}</p>
                       </div>
                     )}
 
@@ -345,10 +338,10 @@ export default function DashboardRequestsPage() {
                     {isSR && (
                       <div className="flex items-center gap-0 text-[10px]">
                         {[
-                          { key: "pending", label: "Chờ xử lý" },
-                          { key: "awaiting_payment", label: "Thanh toán" },
-                          { key: "in_progress", label: "Đang xử lý" },
-                          { key: "completed", label: "Hoàn thành" },
+                          { key: "pending", label: t("workflowStep.pending") },
+                          { key: "awaiting_payment", label: t("workflowStep.payment") },
+                          { key: "in_progress", label: t("workflowStep.in_progress") },
+                          { key: "completed", label: t("workflowStep.completed") },
                         ].map((step, i, arr) => {
                           const isPayStep = step.key === "awaiting_payment";
                           const reachedPayment = req.payment_status && req.payment_status !== "none";
@@ -377,26 +370,28 @@ export default function DashboardRequestsPage() {
                     )}
 
                     {/* Payment info */}
-                    {payCfg && (
-                      <div className={`p-3 rounded-lg border ${payCfg.color}`} style={{ backgroundColor: "rgba(0,0,0,0.2)" }}>
+                    {hasPayment && payColor && (
+                      <div className={`p-3 rounded-lg border ${payColor}`} style={{ backgroundColor: "rgba(0,0,0,0.2)" }}>
                         <div className="flex items-start gap-2">
                           <DollarSign size={14} className="shrink-0 mt-0.5" />
                           <div>
-                            <p className="text-sm font-semibold">{req.price ? formatPrice(req.price, req.currency) : ""} — {payCfg.label}</p>
-                            <p className="text-xs mt-0.5 opacity-80">{payCfg.desc}</p>
+                            <p className="text-sm font-semibold">
+                              {req.price ? formatPrice(req.price, req.currency) : ""} — {t(`payment.${req.payment_status}` as Parameters<typeof t>[0])}
+                            </p>
+                            <p className="text-xs mt-0.5 opacity-80">{t(`payment.${req.payment_status}Desc` as Parameters<typeof t>[0])}</p>
                             {req.payment_status === "awaiting" && (
-                              <p className="text-xs mt-1.5 opacity-70">Liên hệ Gloyce qua email hoặc Zalo để hoàn tất thanh toán.</p>
+                              <p className="text-xs mt-1.5 opacity-70">{t("payment.contactNote")}</p>
                             )}
                           </div>
                         </div>
                       </div>
                     )}
 
-                    {/* Standard service: show invoice note */}
+                    {/* Standard service: price note */}
                     {isStandard && (!req.payment_status || req.payment_status === "none") && req.price && (
                       <div className="flex items-center gap-2 text-xs text-ink-500 p-2 rounded-lg border border-ink-600">
                         <CreditCard size={12} className="shrink-0" />
-                        <span>Giá dịch vụ: <span className="text-ink-300 font-medium">{formatPrice(req.price, req.currency)}</span> — thanh toán qua hóa đơn</span>
+                        <span>{t("servicePriceNote", { price: formatPrice(req.price, req.currency) })}</span>
                       </div>
                     )}
 
@@ -405,18 +400,48 @@ export default function DashboardRequestsPage() {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {req.service_type === "document_request" && (
                           <>
-                            <div><p className="text-[11px] text-ink-500 mb-0.5">Loại tài liệu</p><p className="text-sm text-ink-200 font-medium">{d.document_type as string || "—"}</p></div>
-                            <div><p className="text-[11px] text-ink-500 mb-0.5">Ưu tiên</p><p className="text-sm text-ink-200">{(d.urgency as string) === "urgent" ? "Gấp" : "Bình thường"}</p></div>
-                            <div className="sm:col-span-2"><p className="text-[11px] text-ink-500 mb-0.5">Mô tả</p><p className="text-sm text-ink-300 leading-relaxed">{d.description as string || "—"}</p></div>
+                            <div>
+                              <p className="text-[11px] text-ink-500 mb-0.5">{t("details.documentType")}</p>
+                              <p className="text-sm text-ink-200 font-medium">{d.document_type as string || "—"}</p>
+                            </div>
+                            <div>
+                              <p className="text-[11px] text-ink-500 mb-0.5">{t("details.priority")}</p>
+                              <p className="text-sm text-ink-200">
+                                {(d.urgency as string) === "urgent" ? t("details.urgentLabel") : t("details.normalLabel")}
+                              </p>
+                            </div>
+                            <div className="sm:col-span-2">
+                              <p className="text-[11px] text-ink-500 mb-0.5">{t("details.description")}</p>
+                              <p className="text-sm text-ink-300 leading-relaxed">{d.description as string || "—"}</p>
+                            </div>
                           </>
                         )}
                         {req.service_type === "certification" && (
                           <>
-                            <div><p className="text-[11px] text-ink-500 mb-0.5">Loại chứng thực</p><p className="text-sm text-ink-200 font-medium">{d.certification_type as string || "—"}</p></div>
-                            <div><p className="text-[11px] text-ink-500 mb-0.5">Quốc gia đích</p><p className="text-sm text-ink-200">{d.destination_country as string || "—"}</p></div>
-                            {d.purpose && <div><p className="text-[11px] text-ink-500 mb-0.5">Mục đích</p><p className="text-sm text-ink-300">{d.purpose as string}</p></div>}
-                            <div><p className="text-[11px] text-ink-500 mb-0.5">Nhận kết quả</p><p className="text-sm text-ink-300">{d.delivery_method as string || "—"} · {d.copies as string || 1} bản</p></div>
-                            {d.notes && <div className="sm:col-span-2"><p className="text-[11px] text-ink-500 mb-0.5">Ghi chú</p><p className="text-sm text-ink-300">{d.notes as string}</p></div>}
+                            <div>
+                              <p className="text-[11px] text-ink-500 mb-0.5">{t("details.certType")}</p>
+                              <p className="text-sm text-ink-200 font-medium">{d.certification_type as string || "—"}</p>
+                            </div>
+                            <div>
+                              <p className="text-[11px] text-ink-500 mb-0.5">{t("details.destCountry")}</p>
+                              <p className="text-sm text-ink-200">{d.destination_country as string || "—"}</p>
+                            </div>
+                            {d.purpose && (
+                              <div>
+                                <p className="text-[11px] text-ink-500 mb-0.5">{t("details.purpose")}</p>
+                                <p className="text-sm text-ink-300">{d.purpose as string}</p>
+                              </div>
+                            )}
+                            <div>
+                              <p className="text-[11px] text-ink-500 mb-0.5">{t("details.delivery")}</p>
+                              <p className="text-sm text-ink-300">{d.delivery_method as string || "—"} · {d.copies as string || 1} {t("details.copies")}</p>
+                            </div>
+                            {d.notes && (
+                              <div className="sm:col-span-2">
+                                <p className="text-[11px] text-ink-500 mb-0.5">{t("details.notes")}</p>
+                                <p className="text-sm text-ink-300">{d.notes as string}</p>
+                              </div>
+                            )}
                           </>
                         )}
                       </div>
@@ -425,7 +450,7 @@ export default function DashboardRequestsPage() {
                     {/* Admin note */}
                     {(d.admin_notes as string) && (
                       <div className="p-3 rounded-lg bg-blue-500/5 border border-blue-500/20">
-                        <p className="text-[11px] text-blue-400 mb-0.5 uppercase tracking-wider">Ghi chú từ Gloyce</p>
+                        <p className="text-[11px] text-blue-400 mb-0.5 uppercase tracking-wider">{t("adminNotes")}</p>
                         <p className="text-sm text-ink-300">{d.admin_notes as string}</p>
                       </div>
                     )}
@@ -434,7 +459,7 @@ export default function DashboardRequestsPage() {
                     {req.status === "completed" && (d.result_url as string) && (
                       <div className="p-3 rounded-lg bg-emerald-500/5 border border-emerald-500/20">
                         <p className="text-[11px] text-emerald-400 mb-2 uppercase tracking-wider flex items-center gap-1">
-                          <Check size={11} />Kết quả đã có
+                          <Check size={11} />{t("resultReady")}
                         </p>
                         <div className="flex items-center gap-2">
                           <FileText size={14} className="text-emerald-400 shrink-0" />
@@ -442,15 +467,15 @@ export default function DashboardRequestsPage() {
                           <div className="flex gap-1 shrink-0">
                             <a href={d.result_url as string} target="_blank" rel="noopener noreferrer"
                               className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#1A2540] border border-[#2A3A5A] text-xs text-ink-300 hover:text-white transition-colors">
-                              <ExternalLink size={11} />Xem
+                              <ExternalLink size={11} />{t("viewBtn")}
                             </a>
                             <a href={d.result_url as string} download
                               className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-xs text-emerald-400 hover:bg-emerald-500/20 transition-colors">
-                              <Download size={11} />Tải về
+                              <Download size={11} />{t("downloadBtn")}
                             </a>
                           </div>
                         </div>
-                        <p className="text-[10px] text-ink-500 mt-1.5">File này cũng có trong tab Documents của bạn.</p>
+                        <p className="text-[10px] text-ink-500 mt-1.5">{t("resultInDocs")}</p>
                       </div>
                     )}
 
@@ -458,9 +483,9 @@ export default function DashboardRequestsPage() {
                       <div className="p-3 rounded-lg bg-red-500/5 border border-red-500/20 flex items-start gap-2">
                         <XCircle size={14} className="text-red-400 shrink-0 mt-0.5" />
                         <div>
-                          <p className="text-sm font-medium text-red-400">Yêu cầu bị từ chối</p>
+                          <p className="text-sm font-medium text-red-400">{t("rejectedTitle")}</p>
                           {(d.admin_notes as string) && <p className="text-xs text-ink-400 mt-0.5">{d.admin_notes as string}</p>}
-                          <p className="text-xs text-ink-500 mt-1">Liên hệ Gloyce để biết thêm chi tiết hoặc tạo yêu cầu mới.</p>
+                          <p className="text-xs text-ink-500 mt-1">{t("contactForDetails")}</p>
                         </div>
                       </div>
                     )}
