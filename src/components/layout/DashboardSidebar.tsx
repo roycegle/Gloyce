@@ -93,7 +93,7 @@ export function DashboardSidebar() {
                 "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors relative",
                 isActive
                   ? "bg-gold/15 text-gold"
-                  : "text-[#6B7BA4] hover:text-[#C4D0F0] hover:bg-[#0F1840]"
+                  : "text-ink-400 hover:text-ink-200 hover:bg-ink-700"
               )}
               style={isActive ? { border: "1px solid rgba(184,124,16,0.25)" } : { border: "1px solid transparent" }}
               title={collapsed ? item.label : undefined}

@@ -139,7 +139,7 @@ export default function FormsPage() {
 
       {showForm && (
         <div className="bg-ink-800 rounded-xl border border-ink-600 p-5 mb-6">
-          <h3 className="font-semibold text-slate-200 mb-4">New Form Template</h3>
+          <h3 className="font-semibold text-ink-100 mb-4">New Form Template</h3>
           <div className="grid grid-cols-2 gap-3 mb-4">
             <div className="col-span-2">
               <label className="text-xs font-medium text-ink-400 mb-1 block">Template Name *</label>
@@ -167,7 +167,7 @@ export default function FormsPage() {
             </div>
           </div>
           <div className="flex gap-2 justify-end">
-            <button onClick={() => setShowForm(false)} className="px-3 py-1.5 text-sm text-ink-400 hover:text-slate-300">Cancel</button>
+            <button onClick={() => setShowForm(false)} className="px-3 py-1.5 text-sm text-ink-400 hover:text-ink-300">Cancel</button>
             <button onClick={create} disabled={saving || !form.name} className="px-4 py-1.5 bg-amber-500 text-white text-sm rounded-lg hover:bg-amber-600 disabled:opacity-50">Create Template</button>
           </div>
         </div>
@@ -226,7 +226,7 @@ export default function FormsPage() {
                           <GripVertical size={14} className="text-ink-400 shrink-0" />
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <span className="text-sm font-medium text-slate-200">{f.label}</span>
+                              <span className="text-sm font-medium text-ink-100">{f.label}</span>
                               {f.required && <span className="text-[10px] text-red-500 font-medium">REQUIRED</span>}
                               <span className="text-[10px] text-ink-400 uppercase px-1.5 py-0.5 bg-ink-700 rounded">{f.field_type}</span>
                             </div>

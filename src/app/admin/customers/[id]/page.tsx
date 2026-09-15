@@ -240,7 +240,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
       <div className="flex gap-1 mb-6 border-b border-ink-600 overflow-x-auto">
         {tabs.map(({ key, label, count }) => (
           <button key={key} onClick={() => setTab(key)}
-            className={`px-3 py-2 text-sm font-medium whitespace-nowrap border-b-2 transition-colors flex items-center gap-1.5 ${tab === key ? "border-amber-500 text-amber-600" : "border-transparent text-ink-400 hover:text-slate-300"}`}>
+            className={`px-3 py-2 text-sm font-medium whitespace-nowrap border-b-2 transition-colors flex items-center gap-1.5 ${tab === key ? "border-amber-500 text-amber-600" : "border-transparent text-ink-400 hover:text-ink-300"}`}>
             {label}
             {count !== undefined && count > 0 && <span className={`text-xs rounded-full px-1.5 py-0.5 ${tab === key ? "bg-amber-100 text-amber-700" : "bg-ink-700 text-ink-400"}`}>{count}</span>}
           </button>
@@ -251,19 +251,19 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
       {tab === "overview" && (
         <div className="grid md:grid-cols-2 gap-4">
           <div className="bg-ink-800 rounded-xl border border-ink-600 p-5">
-            <h2 className="font-semibold text-slate-200 mb-4">Customer Info</h2>
+            <h2 className="font-semibold text-ink-100 mb-4">Customer Info</h2>
             <dl className="flex flex-col gap-3 text-sm">
               {[["Name", user.name], ["Email", user.email], ["Phone", user.phone || "—"], ["Company", user.company || "—"], ["Status", user.status], ["Registered", new Date(user.created_at).toLocaleDateString()]].map(([k, v]) => (
                 <div key={k} className="flex justify-between">
                   <dt className="text-ink-400">{k}</dt>
-                  <dd className="font-medium text-slate-300 capitalize">{v}</dd>
+                  <dd className="font-medium text-ink-300 capitalize">{v}</dd>
                 </div>
               ))}
             </dl>
           </div>
           <div className="flex flex-col gap-4">
             <div className="bg-ink-800 rounded-xl border border-ink-600 p-5">
-              <h2 className="font-semibold text-slate-200 mb-3 flex items-center gap-2"><DollarSign size={15} className="text-green-500" /> Billing Summary</h2>
+              <h2 className="font-semibold text-ink-100 mb-3 flex items-center gap-2"><DollarSign size={15} className="text-green-500" /> Billing Summary</h2>
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-ink-900 rounded-lg p-3 text-center">
                   <p className="text-lg font-bold text-foreground">${totalBilled.toLocaleString()}</p>
@@ -276,12 +276,12 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
               </div>
             </div>
             <div className="bg-ink-800 rounded-xl border border-ink-600 p-5">
-              <h2 className="font-semibold text-slate-200 mb-3 flex items-center gap-2"><ClipboardList size={15} className="text-amber-500" /> Open Requests</h2>
+              <h2 className="font-semibold text-ink-100 mb-3 flex items-center gap-2"><ClipboardList size={15} className="text-amber-500" /> Open Requests</h2>
               {requests.filter(r => r.status !== "completed").length === 0
                 ? <p className="text-sm text-ink-400">No open requests</p>
                 : requests.filter(r => r.status !== "completed").slice(0, 3).map(r => (
                   <div key={r.id} className="flex items-center justify-between py-1.5 text-sm">
-                    <span className="text-slate-300 capitalize">{r.service_type}</span>
+                    <span className="text-ink-300 capitalize">{r.service_type}</span>
                     <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${STATUS_BADGE[r.status] || "bg-ink-700 text-ink-400"}`}>{r.status}</span>
                   </div>
                 ))}
@@ -298,7 +298,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
           </div>
           {showServiceForm && (
             <div className="bg-ink-800 rounded-xl border border-ink-600 p-5 mb-4">
-              <h3 className="font-semibold text-slate-200 mb-4">New Service</h3>
+              <h3 className="font-semibold text-ink-100 mb-4">New Service</h3>
               <div className="grid grid-cols-2 gap-3 mb-4">
                 <div><label className="text-xs font-medium text-ink-400 mb-1 block">Service Type</label>
                   <select value={newService.type} onChange={(e) => setNewService({ ...newService, type: e.target.value })} className="w-full border border-ink-600 rounded-lg px-3 py-2 text-sm">
@@ -330,7 +330,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                   <input type="number" value={newService.total_steps} onChange={(e) => setNewService({ ...newService, total_steps: e.target.value })} className="w-full border border-ink-600 rounded-lg px-3 py-2 text-sm" /></div>
               </div>
               <div className="flex gap-2 justify-end">
-                <button onClick={() => setShowServiceForm(false)} className="px-3 py-1.5 text-sm text-ink-400 hover:text-slate-300">Cancel</button>
+                <button onClick={() => setShowServiceForm(false)} className="px-3 py-1.5 text-sm text-ink-400 hover:text-ink-300">Cancel</button>
                 <button onClick={createService} disabled={saving || !newService.name} className="px-4 py-1.5 bg-amber-500 text-white text-sm rounded-lg hover:bg-amber-600 disabled:opacity-50">Create</button>
               </div>
             </div>
@@ -374,7 +374,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
           </div>
           {showInvoiceForm && (
             <div className="bg-ink-800 rounded-xl border border-ink-600 p-5 mb-4">
-              <h3 className="font-semibold text-slate-200 mb-4">New Invoice</h3>
+              <h3 className="font-semibold text-ink-100 mb-4">New Invoice</h3>
               <div className="grid grid-cols-2 gap-3 mb-4">
                 <div><label className="text-xs font-medium text-ink-400 mb-1 block">Amount (USD)</label>
                   <input type="number" value={newInvoice.amount} onChange={(e) => setNewInvoice({ ...newInvoice, amount: e.target.value })} placeholder="500" className="w-full border border-ink-600 rounded-lg px-3 py-2 text-sm" /></div>
@@ -389,7 +389,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                   </select></div>
               </div>
               <div className="flex gap-2 justify-end">
-                <button onClick={() => setShowInvoiceForm(false)} className="px-3 py-1.5 text-sm text-ink-400 hover:text-slate-300">Cancel</button>
+                <button onClick={() => setShowInvoiceForm(false)} className="px-3 py-1.5 text-sm text-ink-400 hover:text-ink-300">Cancel</button>
                 <button onClick={createInvoice} disabled={saving || !newInvoice.amount} className="px-4 py-1.5 bg-amber-500 text-white text-sm rounded-lg hover:bg-amber-600 disabled:opacity-50">Create Invoice</button>
               </div>
             </div>
@@ -409,7 +409,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                     {invoices.map((inv) => (
                       <tr key={inv.id} className="border-b border-ink-600">
                         <td className="px-4 py-3">
-                          <p className="font-medium text-slate-200">{inv.description || "—"}</p>
+                          <p className="font-medium text-ink-100">{inv.description || "—"}</p>
                           {inv.services && <p className="text-xs text-ink-400">{inv.services.name}</p>}
                         </td>
                         <td className="px-4 py-3 font-semibold text-foreground">${inv.amount.toLocaleString()}</td>
@@ -443,7 +443,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-blue-500/15 text-blue-400 border border-blue-500/30">Dịch vụ mua</span>
-                      <p className="text-sm font-semibold text-slate-200">{svc.name}</p>
+                      <p className="text-sm font-semibold text-ink-100">{svc.name}</p>
                     </div>
                     <p className="text-xs text-ink-400 mt-0.5">{new Date(svc.created_at).toLocaleDateString("vi-VN")}</p>
                   </div>
@@ -463,12 +463,12 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                 )}
                 {resultUploadId === `svc-${svc.id}` && (
                   <div className="mt-3 p-3 rounded-lg bg-ink-900 border border-ink-600">
-                    <p className="text-xs font-medium text-slate-300 mb-2">Upload file kết quả — tự động đánh dấu hoàn thành</p>
+                    <p className="text-xs font-medium text-ink-300 mb-2">Upload file kết quả — tự động đánh dấu hoàn thành</p>
                     <input ref={resultFileRef} type="file"
                       onChange={e => setResultFile(e.target.files?.[0] || null)}
                       className="w-full text-xs border border-ink-600 rounded-lg px-3 py-2 mb-2 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100" />
                     <div className="flex gap-2">
-                      <button onClick={() => { setResultUploadId(null); setResultFile(null); }} className="px-3 py-1.5 text-xs text-ink-400 hover:text-slate-300">Hủy</button>
+                      <button onClick={() => { setResultUploadId(null); setResultFile(null); }} className="px-3 py-1.5 text-xs text-ink-400 hover:text-ink-300">Hủy</button>
                       <button onClick={() => uploadResult(svc.id, "service")} disabled={!resultFile || resultUploading}
                         className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium hover:bg-emerald-500/20 disabled:opacity-50">
                         <Upload size={12} />{resultUploading ? "Đang upload..." : "Upload & Hoàn thành"}
@@ -501,7 +501,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-amber-500/15 text-amber-400 border border-amber-500/30">Yêu cầu đặc biệt</span>
-                        <p className="text-sm font-semibold text-slate-200">
+                        <p className="text-sm font-semibold text-ink-100">
                           {TYPE_LABEL[r.service_type] || r.service_type}
                           {(d.urgency as string) === "urgent" && <span className="ml-2 px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-500/15 text-red-400 border border-red-500/30">GẤP</span>}
                         </p>
@@ -517,11 +517,11 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                       {sourceDoc ? (
                         <div className="flex items-center gap-2">
                           <FileText size={14} className="text-amber-400 shrink-0" />
-                          <span className="text-sm text-slate-200 flex-1 truncate">{sourceDoc.name}</span>
+                          <span className="text-sm text-ink-100 flex-1 truncate">{sourceDoc.name}</span>
                           {sourceDoc.file_url && (
                             <div className="flex items-center gap-1 shrink-0">
                               <a href={sourceDoc.file_url} target="_blank" rel="noopener noreferrer"
-                                className="flex items-center gap-1 px-2 py-1 rounded bg-ink-700 text-xs text-ink-300 hover:text-slate-200">
+                                className="flex items-center gap-1 px-2 py-1 rounded bg-ink-700 text-xs text-ink-300 hover:text-ink-100">
                                 <ExternalLink size={11} />Xem
                               </a>
                               <a href={sourceDoc.file_url} download
@@ -565,13 +565,13 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                   {/* Result upload panel */}
                   {resultUploadId === r.id && (
                     <div className="mt-3 p-3 rounded-lg bg-ink-900 border border-ink-600">
-                      <p className="text-xs font-medium text-slate-300 mb-2">Upload file kết quả — tự động đánh dấu hoàn thành</p>
+                      <p className="text-xs font-medium text-ink-300 mb-2">Upload file kết quả — tự động đánh dấu hoàn thành</p>
                       <input ref={resultFileRef} type="file"
                         onChange={e => setResultFile(e.target.files?.[0] || null)}
                         className="w-full text-xs border border-ink-600 rounded-lg px-3 py-2 mb-2 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:bg-amber-50 file:text-amber-700 hover:file:bg-amber-100" />
                       <div className="flex gap-2">
                         <button onClick={() => { setResultUploadId(null); setResultFile(null); }}
-                          className="px-3 py-1.5 text-xs text-ink-400 hover:text-slate-300">Hủy</button>
+                          className="px-3 py-1.5 text-xs text-ink-400 hover:text-ink-300">Hủy</button>
                         <button onClick={() => uploadResult(r.id, "service_request")} disabled={!resultFile || resultUploading}
                           className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium hover:bg-emerald-500/20 disabled:opacity-50">
                           <Upload size={12} />{resultUploading ? "Đang upload..." : "Upload & Hoàn thành"}
@@ -585,7 +585,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                       <CheckCircle size={13} className="text-emerald-400 shrink-0" />
                       <span className="text-xs text-emerald-400 flex-1 truncate">Kết quả: {(d.result_filename as string) || "file"}</span>
                       <a href={d.result_url as string} target="_blank" rel="noopener noreferrer"
-                        className="text-xs text-ink-400 hover:text-slate-200">Xem</a>
+                        className="text-xs text-ink-400 hover:text-ink-100">Xem</a>
                     </div>
                   )}
                   {(r.status === "completed" || r.status === "rejected") && !(d.result_url) && (
@@ -618,7 +618,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
           </div>
           {showDocUpload && (
             <div className="bg-ink-800 rounded-xl border border-ink-600 p-5 mb-4">
-              <h3 className="font-semibold text-slate-200 mb-4">Upload Document to Customer Folder</h3>
+              <h3 className="font-semibold text-ink-100 mb-4">Upload Document to Customer Folder</h3>
               <div className="grid grid-cols-2 gap-3 mb-4">
                 <div className="col-span-2">
                   <label className="text-xs font-medium text-ink-400 mb-1 block">File *</label>
@@ -644,7 +644,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                   </select></div>
               </div>
               <div className="flex gap-2 justify-end">
-                <button onClick={() => { setShowDocUpload(false); setDocFile(null); }} className="px-3 py-1.5 text-sm text-ink-400 hover:text-slate-300">Cancel</button>
+                <button onClick={() => { setShowDocUpload(false); setDocFile(null); }} className="px-3 py-1.5 text-sm text-ink-400 hover:text-ink-300">Cancel</button>
                 <button onClick={uploadDocument} disabled={saving || !docFile} className="px-4 py-1.5 bg-amber-500 text-white text-sm rounded-lg hover:bg-amber-600 disabled:opacity-50">{saving ? "Uploading..." : "Upload"}</button>
               </div>
             </div>
@@ -663,7 +663,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                   <tbody>
                     {documents.map((d) => (
                       <tr key={d.id} className="border-b border-ink-600">
-                        <td className="px-4 py-3"><div className="flex items-center gap-2"><FileText size={15} className="text-ink-400" /><span className="font-medium text-slate-200">{d.name}</span></div></td>
+                        <td className="px-4 py-3"><div className="flex items-center gap-2"><FileText size={15} className="text-ink-400" /><span className="font-medium text-ink-100">{d.name}</span></div></td>
                         <td className="px-4 py-3 text-ink-400 capitalize hidden md:table-cell">{d.category || "—"}</td>
                         <td className="px-4 py-3 text-ink-400 hidden lg:table-cell">{new Date(d.created_at).toLocaleDateString()}</td>
                         <td className="px-4 py-3"><span className={`px-2 py-0.5 rounded-full text-xs font-medium capitalize ${STATUS_BADGE[d.status] || "bg-ink-700 text-ink-400"}`}>{d.status}</span></td>
@@ -690,7 +690,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
           </div>
           {showFormAssign && (
             <div className="bg-ink-800 rounded-xl border border-ink-600 p-5 mb-4">
-              <h3 className="font-semibold text-slate-200 mb-4">Assign Form Template</h3>
+              <h3 className="font-semibold text-ink-100 mb-4">Assign Form Template</h3>
               <div className="grid grid-cols-2 gap-3 mb-4">
                 <div className="col-span-2"><label className="text-xs font-medium text-ink-400 mb-1 block">Form Template</label>
                   <select value={assignForm.template_id} onChange={(e) => setAssignForm({ ...assignForm, template_id: e.target.value })} className="w-full border border-ink-600 rounded-lg px-3 py-2 text-sm">
@@ -708,7 +708,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                   <input value={assignForm.notes} onChange={(e) => setAssignForm({ ...assignForm, notes: e.target.value })} placeholder="Instructions for the customer..." className="w-full border border-ink-600 rounded-lg px-3 py-2 text-sm" /></div>
               </div>
               <div className="flex gap-2 justify-end">
-                <button onClick={() => setShowFormAssign(false)} className="px-3 py-1.5 text-sm text-ink-400 hover:text-slate-300">Cancel</button>
+                <button onClick={() => setShowFormAssign(false)} className="px-3 py-1.5 text-sm text-ink-400 hover:text-ink-300">Cancel</button>
                 <button onClick={assignTemplate} disabled={saving || !assignForm.template_id} className="px-4 py-1.5 bg-amber-500 text-white text-sm rounded-lg hover:bg-amber-600 disabled:opacity-50">Assign</button>
               </div>
             </div>
@@ -740,7 +740,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                       <button onClick={() => expandForm(f.id)} className="w-full flex items-center gap-3 px-5 py-4 text-left hover:bg-ink-700/50 transition-colors">
                         <FileText size={18} className="text-ink-400 shrink-0" />
                         <div className="flex-1 min-w-0">
-                          <p className="font-medium text-slate-200 truncate">{f.form_templates?.name || "—"}</p>
+                          <p className="font-medium text-ink-100 truncate">{f.form_templates?.name || "—"}</p>
                           <p className="text-xs text-ink-400">{f.form_templates?.category || ""}{f.due_date ? ` · Due ${new Date(f.due_date).toLocaleDateString()}` : ""}</p>
                         </div>
                         <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium shrink-0 ${FORM_STATUS[f.status] || "bg-ink-700 text-ink-400"}`}>{FORM_STATUS_LABEL[f.status] || f.status}</span>
@@ -762,7 +762,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                                     {formDetail.fields.map((field) => (
                                       <div key={field.id} className="bg-ink-900 rounded-lg px-4 py-3">
                                         <p className="text-xs text-ink-400 mb-1">{field.label}{field.required && <span className="text-red-400 ml-0.5">*</span>}</p>
-                                        <p className="text-sm text-slate-200 whitespace-pre-wrap">{formDetail.responses?.[field.id] || <span className="text-ink-500 italic">Chưa điền</span>}</p>
+                                        <p className="text-sm text-ink-100 whitespace-pre-wrap">{formDetail.responses?.[field.id] || <span className="text-ink-500 italic">Chưa điền</span>}</p>
                                       </div>
                                     ))}
                                   </div>
@@ -792,7 +792,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                                     onChange={(e) => setReviewNotes(n => ({ ...n, [f.id]: e.target.value }))}
                                     placeholder="Ghi chú nếu cần bổ sung (bắt buộc khi từ chối)..."
                                     rows={2}
-                                    className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-ink-500 resize-none"
+                                    className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-ink-100 placeholder:text-ink-500 resize-none"
                                   />
                                   <div className="flex gap-2">
                                     <button
@@ -817,7 +817,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                                     onChange={(e) => setGovNotes(n => ({ ...n, [f.id]: e.target.value }))}
                                     placeholder="Ghi chú về việc nộp hồ sơ (tùy chọn)..."
                                     rows={2}
-                                    className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-ink-500 resize-none"
+                                    className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-ink-100 placeholder:text-ink-500 resize-none"
                                   />
                                   <button
                                     onClick={() => patchForm(f.id, { status: "gov_submitted", gov_submission_notes: govNotes[f.id] || "" })}
@@ -835,7 +835,7 @@ export default function CustomerDetailPage({ params }: { params: Promise<{ id: s
                                     onChange={(e) => setGovNotes(n => ({ ...n, [f.id]: e.target.value }))}
                                     placeholder="Ghi chú nếu chính phủ yêu cầu bổ sung..."
                                     rows={2}
-                                    className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder-ink-500 resize-none"
+                                    className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-ink-100 placeholder:text-ink-500 resize-none"
                                   />
                                   <div className="flex gap-2">
                                     <button

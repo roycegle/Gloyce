@@ -81,7 +81,7 @@ export default function StaffPage() {
 
       {showForm && (
         <div className="bg-ink-800 rounded-xl border border-ink-600 p-5 mb-6">
-          <h3 className="font-semibold text-slate-200 mb-4 flex items-center gap-2"><Shield size={16} className="text-amber-500" /> New Staff Member</h3>
+          <h3 className="font-semibold text-ink-100 mb-4 flex items-center gap-2"><Shield size={16} className="text-amber-500" /> New Staff Member</h3>
           <div className="grid grid-cols-2 gap-3 mb-4">
             <div><label className="text-xs font-medium text-ink-400 mb-1 block">Full Name</label>
               <input value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} placeholder="Jane Smith" className="w-full border border-ink-600 rounded-lg px-3 py-2 text-sm" /></div>
@@ -97,13 +97,13 @@ export default function StaffPage() {
                 <label key={p.key} className="flex items-start gap-3 cursor-pointer">
                   <input type="checkbox" checked={form.permissions.includes(p.key)} onChange={() => togglePerm(p.key, form.permissions, (perms) => setForm({ ...form, permissions: perms }))}
                     className="mt-0.5 accent-amber-500" />
-                  <div><p className="text-sm font-medium text-slate-200">{p.label}</p><p className="text-xs text-ink-400">{p.desc}</p></div>
+                  <div><p className="text-sm font-medium text-ink-100">{p.label}</p><p className="text-xs text-ink-400">{p.desc}</p></div>
                 </label>
               ))}
             </div>
           </div>
           <div className="flex gap-2 justify-end">
-            <button onClick={() => setShowForm(false)} className="px-3 py-1.5 text-sm text-ink-400 hover:text-slate-300">Cancel</button>
+            <button onClick={() => setShowForm(false)} className="px-3 py-1.5 text-sm text-ink-400 hover:text-ink-300">Cancel</button>
             <button onClick={createStaff} disabled={saving || !form.name || !form.email || !form.password} className="px-4 py-1.5 bg-amber-500 text-white text-sm rounded-lg hover:bg-amber-600 disabled:opacity-50">Create</button>
           </div>
         </div>
@@ -129,12 +129,12 @@ export default function StaffPage() {
                               {ALL_PERMISSIONS.map(p => (
                                 <label key={p.key} className="flex items-start gap-3 cursor-pointer">
                                   <input type="checkbox" checked={editPerms.includes(p.key)} onChange={() => togglePerm(p.key, editPerms, setEditPerms)} className="mt-0.5 accent-amber-500" />
-                                  <div><p className="text-sm font-medium text-slate-200">{p.label}</p><p className="text-xs text-ink-400">{p.desc}</p></div>
+                                  <div><p className="text-sm font-medium text-ink-100">{p.label}</p><p className="text-xs text-ink-400">{p.desc}</p></div>
                                 </label>
                               ))}
                             </div>
                             <div className="flex gap-2">
-                              <button onClick={() => setEditId(null)} className="px-3 py-1.5 text-xs text-ink-400 hover:text-slate-300">Cancel</button>
+                              <button onClick={() => setEditId(null)} className="px-3 py-1.5 text-xs text-ink-400 hover:text-ink-300">Cancel</button>
                               <button onClick={() => updatePerms(s.id)} disabled={saving} className="px-3 py-1.5 bg-amber-500 text-white text-xs rounded-lg hover:bg-amber-600">Save</button>
                             </div>
                           </div>

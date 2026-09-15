@@ -115,23 +115,23 @@ function NewRequestModal({ onClose, onCreated }: { onClose: () => void; onCreate
 
   return (
     <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
-      <div className="bg-[#0D1733] border border-[#1E2A4A] rounded-2xl w-full max-w-md max-h-[90vh] flex flex-col">
-        <div className="p-5 border-b border-[#1E2A4A] flex items-center justify-between shrink-0">
-          <h2 className="text-base font-bold text-slate-100">Tạo yêu cầu mới</h2>
-          <button onClick={onClose} className="text-slate-500 hover:text-slate-300 text-sm">Đóng</button>
+      <div className="bg-white border border-ink-600 rounded-2xl w-full max-w-md max-h-[90vh] flex flex-col">
+        <div className="p-5 border-b border-ink-600 flex items-center justify-between shrink-0">
+          <h2 className="text-base font-bold text-ink-100">Tạo yêu cầu mới</h2>
+          <button onClick={onClose} className="text-ink-500 hover:text-ink-300 text-sm">Đóng</button>
         </div>
         <div className="overflow-y-auto flex-1 p-5 space-y-4">
           <div>
-            <p className="text-[11px] text-slate-500 mb-2 uppercase tracking-wider">Loại yêu cầu</p>
+            <p className="text-[11px] text-ink-500 mb-2 uppercase tracking-wider">Loại yêu cầu</p>
             <div className="grid grid-cols-2 gap-2">
               {(["document_request", "certification"] as const).map(t => (
                 <button key={t} onClick={() => setType(t)}
-                  className={`p-3 rounded-xl border text-left transition-colors ${type === t ? "border-amber-500/40 bg-amber-500/10" : "border-[#1E2A4A] bg-[#060C30] hover:border-[#2A3A5A]"}`}>
+                  className={`p-3 rounded-xl border text-left transition-colors ${type === t ? "border-amber-500/40 bg-amber-500/10" : "border-ink-600 bg-ink-900 hover:border-ink-400"}`}>
                   <div className="flex items-center gap-2 mb-1">
                     {t === "document_request" ? <FileText size={14} className="text-amber-400" /> : <Stamp size={14} className="text-amber-400" />}
-                    <span className="text-xs font-semibold text-slate-200">{SR_TYPE_LABEL[t]}</span>
+                    <span className="text-xs font-semibold text-ink-200">{SR_TYPE_LABEL[t]}</span>
                   </div>
-                  <p className="text-[10px] text-slate-500 leading-relaxed">
+                  <p className="text-[10px] text-ink-500 leading-relaxed">
                     {t === "document_request" ? "Yêu cầu Gloyce chuẩn bị tài liệu pháp lý" : "Chứng thực/hợp pháp hóa tài liệu hiện có"}
                   </p>
                 </button>
@@ -141,19 +141,19 @@ function NewRequestModal({ onClose, onCreated }: { onClose: () => void; onCreate
           {type === "document_request" && (
             <>
               <div>
-                <label className="text-[11px] text-slate-500 mb-1 block">Loại tài liệu cần *</label>
+                <label className="text-[11px] text-ink-500 mb-1 block">Loại tài liệu cần *</label>
                 <input value={docType} onChange={e => setDocType(e.target.value)} placeholder="VD: Certificate of Incorporation, EIN Letter..."
-                  className="w-full bg-[#060C30] border border-[#1E2A4A] rounded-lg px-3 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-amber-500/40" />
+                  className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-ink-200 placeholder:text-ink-500 focus:outline-none focus:ring-1 focus:ring-amber-500/40" />
               </div>
               <div>
-                <label className="text-[11px] text-slate-500 mb-1 block">Mô tả chi tiết *</label>
+                <label className="text-[11px] text-ink-500 mb-1 block">Mô tả chi tiết *</label>
                 <textarea value={docDesc} onChange={e => setDocDesc(e.target.value)} rows={3} placeholder="Mô tả mục đích, deadline nếu có..."
-                  className="w-full bg-[#060C30] border border-[#1E2A4A] rounded-lg px-3 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-amber-500/40 resize-none" />
+                  className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-ink-200 placeholder:text-ink-500 focus:outline-none focus:ring-1 focus:ring-amber-500/40 resize-none" />
               </div>
               <div>
-                <label className="text-[11px] text-slate-500 mb-1 block">Mức độ ưu tiên</label>
+                <label className="text-[11px] text-ink-500 mb-1 block">Mức độ ưu tiên</label>
                 <select value={urgency} onChange={e => setUrgency(e.target.value)}
-                  className="w-full bg-[#060C30] border border-[#1E2A4A] rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:ring-1 focus:ring-amber-500/40">
+                  className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-ink-200 focus:outline-none focus:ring-1 focus:ring-amber-500/40">
                   <option value="normal">Bình thường</option>
                   <option value="urgent">Gấp (cần sớm)</option>
                 </select>
@@ -163,9 +163,9 @@ function NewRequestModal({ onClose, onCreated }: { onClose: () => void; onCreate
           {type === "certification" && (
             <>
               <div>
-                <label className="text-[11px] text-slate-500 mb-1 block">Loại chứng thực *</label>
+                <label className="text-[11px] text-ink-500 mb-1 block">Loại chứng thực *</label>
                 <select value={certType} onChange={e => setCertType(e.target.value)}
-                  className="w-full bg-[#060C30] border border-[#1E2A4A] rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:ring-1 focus:ring-amber-500/40">
+                  className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-ink-200 focus:outline-none focus:ring-1 focus:ring-amber-500/40">
                   <option value="">-- Chọn loại --</option>
                   <option value="notarization">Công chứng (Notarization)</option>
                   <option value="apostille">Hợp pháp hóa lãnh sự (Apostille)</option>
@@ -175,41 +175,41 @@ function NewRequestModal({ onClose, onCreated }: { onClose: () => void; onCreate
                 </select>
               </div>
               <div>
-                <label className="text-[11px] text-slate-500 mb-1 block">Quốc gia sử dụng tài liệu *</label>
+                <label className="text-[11px] text-ink-500 mb-1 block">Quốc gia sử dụng tài liệu *</label>
                 <input value={certCountry} onChange={e => setCertCountry(e.target.value)} placeholder="VD: Vietnam, USA, Singapore..."
-                  className="w-full bg-[#060C30] border border-[#1E2A4A] rounded-lg px-3 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-amber-500/40" />
+                  className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-ink-200 placeholder:text-ink-500 focus:outline-none focus:ring-1 focus:ring-amber-500/40" />
               </div>
               <div>
-                <label className="text-[11px] text-slate-500 mb-1 block">Mục đích sử dụng</label>
+                <label className="text-[11px] text-ink-500 mb-1 block">Mục đích sử dụng</label>
                 <input value={certPurpose} onChange={e => setCertPurpose(e.target.value)} placeholder="VD: Mở tài khoản ngân hàng, visa..."
-                  className="w-full bg-[#060C30] border border-[#1E2A4A] rounded-lg px-3 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-amber-500/40" />
+                  className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-ink-200 placeholder:text-ink-500 focus:outline-none focus:ring-1 focus:ring-amber-500/40" />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-[11px] text-slate-500 mb-1 block">Nhận kết quả qua</label>
+                  <label className="text-[11px] text-ink-500 mb-1 block">Nhận kết quả qua</label>
                   <select value={certDelivery} onChange={e => setCertDelivery(e.target.value)}
-                    className="w-full bg-[#060C30] border border-[#1E2A4A] rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:ring-1 focus:ring-amber-500/40">
+                    className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-ink-200 focus:outline-none focus:ring-1 focus:ring-amber-500/40">
                     <option value="email">Email (bản số)</option>
                     <option value="pickup">Nhận trực tiếp</option>
                     <option value="courier">Chuyển phát</option>
                   </select>
                 </div>
                 <div>
-                  <label className="text-[11px] text-slate-500 mb-1 block">Số bản</label>
+                  <label className="text-[11px] text-ink-500 mb-1 block">Số bản</label>
                   <input type="number" min="1" max="20" value={certCopies} onChange={e => setCertCopies(e.target.value)}
-                    className="w-full bg-[#060C30] border border-[#1E2A4A] rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:ring-1 focus:ring-amber-500/40" />
+                    className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-ink-200 focus:outline-none focus:ring-1 focus:ring-amber-500/40" />
                 </div>
               </div>
               <div>
-                <label className="text-[11px] text-slate-500 mb-1 block">Ghi chú thêm</label>
+                <label className="text-[11px] text-ink-500 mb-1 block">Ghi chú thêm</label>
                 <textarea value={certNotes} onChange={e => setCertNotes(e.target.value)} rows={2} placeholder="Deadline, yêu cầu đặc biệt..."
-                  className="w-full bg-[#060C30] border border-[#1E2A4A] rounded-lg px-3 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:ring-1 focus:ring-amber-500/40 resize-none" />
+                  className="w-full bg-ink-900 border border-ink-600 rounded-lg px-3 py-2 text-sm text-ink-200 placeholder:text-ink-500 focus:outline-none focus:ring-1 focus:ring-amber-500/40 resize-none" />
               </div>
             </>
           )}
         </div>
-        <div className="p-5 border-t border-[#1E2A4A] flex gap-2 justify-end shrink-0">
-          <button onClick={onClose} className="px-4 py-2 text-sm text-slate-400 hover:text-slate-200 transition-colors">Hủy</button>
+        <div className="p-5 border-t border-ink-600 flex gap-2 justify-end shrink-0">
+          <button onClick={onClose} className="px-4 py-2 text-sm text-ink-400 hover:text-ink-200 transition-colors">Hủy</button>
           <button onClick={submit} disabled={submitting}
             className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-medium hover:bg-amber-500/20 disabled:opacity-50 transition-colors">
             {submitting ? "Đang gửi..." : "Gửi yêu cầu"}
@@ -243,12 +243,12 @@ export default function DashboardRequestsPage() {
 
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-xl font-bold text-slate-100">Yêu cầu dịch vụ</h1>
-          <p className="text-sm text-slate-500 mt-0.5">Tất cả dịch vụ và yêu cầu — theo dõi tiến trình và kết quả</p>
+          <h1 className="text-xl font-bold text-ink-100">Yêu cầu dịch vụ</h1>
+          <p className="text-sm text-ink-500 mt-0.5">Tất cả dịch vụ và yêu cầu — theo dõi tiến trình và kết quả</p>
         </div>
         <div className="flex items-center gap-2">
           <button onClick={load} disabled={loading} title="Làm mới"
-            className="p-2 rounded-lg border border-[#1E2A4A] text-slate-400 hover:text-slate-200 disabled:opacity-50 transition-colors">
+            className="p-2 rounded-lg border border-ink-600 text-ink-400 hover:text-ink-200 disabled:opacity-50 transition-colors">
             <RefreshCw size={15} className={loading ? "animate-spin" : ""} />
           </button>
           <button onClick={() => setShowNew(true)}
@@ -259,12 +259,12 @@ export default function DashboardRequestsPage() {
       </div>
 
       {loading ? (
-        <div className="bg-[#0D1733] rounded-xl border border-[#1E2A4A] p-12 text-center text-sm text-slate-500">Đang tải...</div>
+        <div className="bg-white rounded-xl border border-ink-600 p-12 text-center text-sm text-ink-500">Đang tải...</div>
       ) : requests.length === 0 ? (
-        <div className="bg-[#0D1733] rounded-xl border border-[#1E2A4A] p-16 text-center">
-          <ClipboardList size={32} className="mx-auto mb-3 text-slate-600" />
-          <p className="text-slate-300 font-medium text-sm mb-1">Chưa có yêu cầu nào</p>
-          <p className="text-slate-500 text-xs mb-4">Tạo yêu cầu đầu tiên để Gloyce bắt đầu xử lý</p>
+        <div className="bg-white rounded-xl border border-ink-600 p-16 text-center">
+          <ClipboardList size={32} className="mx-auto mb-3 text-ink-500" />
+          <p className="text-ink-300 font-medium text-sm mb-1">Chưa có yêu cầu nào</p>
+          <p className="text-ink-500 text-xs mb-4">Tạo yêu cầu đầu tiên để Gloyce bắt đầu xử lý</p>
           <button onClick={() => setShowNew(true)}
             className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm font-medium hover:bg-amber-500/20 transition-colors">
             <Plus size={14} />Tạo yêu cầu mới
@@ -286,7 +286,7 @@ export default function DashboardRequestsPage() {
             const title = req.display_name || SR_TYPE_LABEL[req.service_type] || req.service_type;
 
             return (
-              <div key={req.id} className="bg-[#0D1733] rounded-xl border border-[#1E2A4A] overflow-hidden">
+              <div key={req.id} className="bg-white rounded-xl border border-ink-600 overflow-hidden">
                 {/* Header */}
                 <div className="flex items-center gap-3 px-4 py-4 cursor-pointer hover:bg-[#111840] transition-colors"
                   onClick={() => setExpanded(isExpanded ? null : req.id)}>
@@ -295,7 +295,7 @@ export default function DashboardRequestsPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-sm font-semibold text-slate-200">{title}</span>
+                      <span className="text-sm font-semibold text-ink-200">{title}</span>
                       {isStandard && (
                         <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-blue-500/15 text-blue-400 border border-blue-500/20">Dịch vụ</span>
                       )}
@@ -303,9 +303,9 @@ export default function DashboardRequestsPage() {
                         <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-red-500/15 text-red-400 border border-red-500/30">GẤP</span>
                       )}
                     </div>
-                    <div className="flex items-center gap-2 mt-0.5 text-xs text-slate-500 flex-wrap">
+                    <div className="flex items-center gap-2 mt-0.5 text-xs text-ink-500 flex-wrap">
                       <span className="flex items-center gap-1"><Calendar size={11} />{formatDate(req.created_at)}</span>
-                      {req.price && <span className="text-slate-400 font-medium">{formatPrice(req.price, req.currency)}</span>}
+                      {req.price && <span className="text-ink-400 font-medium">{formatPrice(req.price, req.currency)}</span>}
                       {isStandard && req.total_steps && (
                         <span>Bước {req.current_step || 0}/{req.total_steps}</span>
                       )}
@@ -320,24 +320,24 @@ export default function DashboardRequestsPage() {
                     <span className={`px-2.5 py-1 rounded-lg text-xs font-medium border ${statusCfg.color} flex items-center gap-1`}>
                       <StatusIcon size={11} />{statusCfg.label}
                     </span>
-                    {isExpanded ? <ChevronUp size={16} className="text-slate-500" /> : <ChevronDown size={16} className="text-slate-500" />}
+                    {isExpanded ? <ChevronUp size={16} className="text-ink-500" /> : <ChevronDown size={16} className="text-ink-500" />}
                   </div>
                 </div>
 
                 {/* Expanded */}
                 {isExpanded && (
-                  <div className="border-t border-[#1E2A4A] px-4 py-4 space-y-4">
+                  <div className="border-t border-ink-600 px-4 py-4 space-y-4">
 
                     {/* Step progress (standard services) */}
                     {isStandard && req.total_steps && (
                       <div>
-                        <p className="text-[11px] text-slate-500 mb-2 uppercase tracking-wider">Tiến trình thực hiện</p>
+                        <p className="text-[11px] text-ink-500 mb-2 uppercase tracking-wider">Tiến trình thực hiện</p>
                         <div className="flex gap-1">
                           {Array.from({ length: req.total_steps }).map((_, i) => (
                             <div key={i} className={`flex-1 h-1.5 rounded-full ${i < (req.current_step || 0) ? "bg-emerald-400" : i === (req.current_step || 0) ? "bg-amber-400" : "bg-[#1A2540]"}`} />
                           ))}
                         </div>
-                        <p className="text-[10px] text-slate-500 mt-1">Bước {req.current_step || 0} / {req.total_steps}</p>
+                        <p className="text-[10px] text-ink-500 mt-1">Bước {req.current_step || 0} / {req.total_steps}</p>
                       </div>
                     )}
 
@@ -367,7 +367,7 @@ export default function DashboardRequestsPage() {
                             <div key={step.key} className="flex items-center flex-1 min-w-0">
                               <div className={`flex flex-col items-center gap-0.5 flex-1 min-w-0 ${done ? "opacity-60" : active ? "opacity-100" : "opacity-30"}`}>
                                 <div className={`w-2.5 h-2.5 rounded-full border flex-shrink-0 ${done ? "bg-emerald-400 border-emerald-400" : active ? "bg-amber-400 border-amber-400" : "bg-[#1A2540] border-[#2A3A5A]"}`} />
-                                <span className={`truncate max-w-full text-center leading-tight ${active ? "text-amber-400" : "text-slate-500"}`}>{step.label}</span>
+                                <span className={`truncate max-w-full text-center leading-tight ${active ? "text-amber-400" : "text-ink-500"}`}>{step.label}</span>
                               </div>
                               {i < arr.length - 1 && <div className={`h-px flex-1 mx-1 ${done ? "bg-[#2A3A5A]" : "bg-[#1A2540]"}`} />}
                             </div>
@@ -394,9 +394,9 @@ export default function DashboardRequestsPage() {
 
                     {/* Standard service: show invoice note */}
                     {isStandard && (!req.payment_status || req.payment_status === "none") && req.price && (
-                      <div className="flex items-center gap-2 text-xs text-slate-500 p-2 rounded-lg border border-[#1E2A4A]">
+                      <div className="flex items-center gap-2 text-xs text-ink-500 p-2 rounded-lg border border-ink-600">
                         <CreditCard size={12} className="shrink-0" />
-                        <span>Giá dịch vụ: <span className="text-slate-300 font-medium">{formatPrice(req.price, req.currency)}</span> — thanh toán qua hóa đơn</span>
+                        <span>Giá dịch vụ: <span className="text-ink-300 font-medium">{formatPrice(req.price, req.currency)}</span> — thanh toán qua hóa đơn</span>
                       </div>
                     )}
 
@@ -405,18 +405,18 @@ export default function DashboardRequestsPage() {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {req.service_type === "document_request" && (
                           <>
-                            <div><p className="text-[11px] text-slate-500 mb-0.5">Loại tài liệu</p><p className="text-sm text-slate-200 font-medium">{d.document_type as string || "—"}</p></div>
-                            <div><p className="text-[11px] text-slate-500 mb-0.5">Ưu tiên</p><p className="text-sm text-slate-200">{(d.urgency as string) === "urgent" ? "Gấp" : "Bình thường"}</p></div>
-                            <div className="sm:col-span-2"><p className="text-[11px] text-slate-500 mb-0.5">Mô tả</p><p className="text-sm text-slate-300 leading-relaxed">{d.description as string || "—"}</p></div>
+                            <div><p className="text-[11px] text-ink-500 mb-0.5">Loại tài liệu</p><p className="text-sm text-ink-200 font-medium">{d.document_type as string || "—"}</p></div>
+                            <div><p className="text-[11px] text-ink-500 mb-0.5">Ưu tiên</p><p className="text-sm text-ink-200">{(d.urgency as string) === "urgent" ? "Gấp" : "Bình thường"}</p></div>
+                            <div className="sm:col-span-2"><p className="text-[11px] text-ink-500 mb-0.5">Mô tả</p><p className="text-sm text-ink-300 leading-relaxed">{d.description as string || "—"}</p></div>
                           </>
                         )}
                         {req.service_type === "certification" && (
                           <>
-                            <div><p className="text-[11px] text-slate-500 mb-0.5">Loại chứng thực</p><p className="text-sm text-slate-200 font-medium">{d.certification_type as string || "—"}</p></div>
-                            <div><p className="text-[11px] text-slate-500 mb-0.5">Quốc gia đích</p><p className="text-sm text-slate-200">{d.destination_country as string || "—"}</p></div>
-                            {d.purpose && <div><p className="text-[11px] text-slate-500 mb-0.5">Mục đích</p><p className="text-sm text-slate-300">{d.purpose as string}</p></div>}
-                            <div><p className="text-[11px] text-slate-500 mb-0.5">Nhận kết quả</p><p className="text-sm text-slate-300">{d.delivery_method as string || "—"} · {d.copies as string || 1} bản</p></div>
-                            {d.notes && <div className="sm:col-span-2"><p className="text-[11px] text-slate-500 mb-0.5">Ghi chú</p><p className="text-sm text-slate-300">{d.notes as string}</p></div>}
+                            <div><p className="text-[11px] text-ink-500 mb-0.5">Loại chứng thực</p><p className="text-sm text-ink-200 font-medium">{d.certification_type as string || "—"}</p></div>
+                            <div><p className="text-[11px] text-ink-500 mb-0.5">Quốc gia đích</p><p className="text-sm text-ink-200">{d.destination_country as string || "—"}</p></div>
+                            {d.purpose && <div><p className="text-[11px] text-ink-500 mb-0.5">Mục đích</p><p className="text-sm text-ink-300">{d.purpose as string}</p></div>}
+                            <div><p className="text-[11px] text-ink-500 mb-0.5">Nhận kết quả</p><p className="text-sm text-ink-300">{d.delivery_method as string || "—"} · {d.copies as string || 1} bản</p></div>
+                            {d.notes && <div className="sm:col-span-2"><p className="text-[11px] text-ink-500 mb-0.5">Ghi chú</p><p className="text-sm text-ink-300">{d.notes as string}</p></div>}
                           </>
                         )}
                       </div>
@@ -426,7 +426,7 @@ export default function DashboardRequestsPage() {
                     {(d.admin_notes as string) && (
                       <div className="p-3 rounded-lg bg-blue-500/5 border border-blue-500/20">
                         <p className="text-[11px] text-blue-400 mb-0.5 uppercase tracking-wider">Ghi chú từ Gloyce</p>
-                        <p className="text-sm text-slate-300">{d.admin_notes as string}</p>
+                        <p className="text-sm text-ink-300">{d.admin_notes as string}</p>
                       </div>
                     )}
 
@@ -438,10 +438,10 @@ export default function DashboardRequestsPage() {
                         </p>
                         <div className="flex items-center gap-2">
                           <FileText size={14} className="text-emerald-400 shrink-0" />
-                          <span className="text-sm text-slate-300 flex-1 truncate">{(d.result_filename as string) || "file"}</span>
+                          <span className="text-sm text-ink-300 flex-1 truncate">{(d.result_filename as string) || "file"}</span>
                           <div className="flex gap-1 shrink-0">
                             <a href={d.result_url as string} target="_blank" rel="noopener noreferrer"
-                              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#1A2540] border border-[#2A3A5A] text-xs text-slate-300 hover:text-white transition-colors">
+                              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#1A2540] border border-[#2A3A5A] text-xs text-ink-300 hover:text-white transition-colors">
                               <ExternalLink size={11} />Xem
                             </a>
                             <a href={d.result_url as string} download
@@ -450,7 +450,7 @@ export default function DashboardRequestsPage() {
                             </a>
                           </div>
                         </div>
-                        <p className="text-[10px] text-slate-500 mt-1.5">File này cũng có trong tab Documents của bạn.</p>
+                        <p className="text-[10px] text-ink-500 mt-1.5">File này cũng có trong tab Documents của bạn.</p>
                       </div>
                     )}
 
@@ -459,8 +459,8 @@ export default function DashboardRequestsPage() {
                         <XCircle size={14} className="text-red-400 shrink-0 mt-0.5" />
                         <div>
                           <p className="text-sm font-medium text-red-400">Yêu cầu bị từ chối</p>
-                          {(d.admin_notes as string) && <p className="text-xs text-slate-400 mt-0.5">{d.admin_notes as string}</p>}
-                          <p className="text-xs text-slate-500 mt-1">Liên hệ Gloyce để biết thêm chi tiết hoặc tạo yêu cầu mới.</p>
+                          {(d.admin_notes as string) && <p className="text-xs text-ink-400 mt-0.5">{d.admin_notes as string}</p>}
+                          <p className="text-xs text-ink-500 mt-1">Liên hệ Gloyce để biết thêm chi tiết hoặc tạo yêu cầu mới.</p>
                         </div>
                       </div>
                     )}

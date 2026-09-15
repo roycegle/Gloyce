@@ -82,7 +82,7 @@ export default function ServicesPage() {
                   <td className="px-4 py-3 hidden md:table-cell">
                     {s.users ? (
                       <div>
-                        <p className="font-medium text-slate-300">{s.users.name}</p>
+                        <p className="font-medium text-ink-300">{s.users.name}</p>
                         <p className="text-xs text-ink-400">{s.users.email}</p>
                       </div>
                     ) : "—"}

@@ -52,25 +52,25 @@ export default function AdminDashboard() {
 
       <div className="grid md:grid-cols-2 gap-6">
         <div className="bg-ink-800 rounded-xl border border-ink-600 p-5">
-          <h2 className="font-semibold text-slate-200 mb-4">Quick Actions</h2>
+          <h2 className="font-semibold text-ink-100 mb-4">Quick Actions</h2>
           <div className="flex flex-col gap-2">
-            <Link href="/admin/customers" className="flex items-center gap-3 p-3 rounded-lg hover:bg-ink-900 text-sm text-slate-300">
+            <Link href="/admin/customers" className="flex items-center gap-3 p-3 rounded-lg hover:bg-ink-900 text-sm text-ink-300">
               <Users size={16} className="text-blue-500" /> View all customers
             </Link>
-            <Link href="/admin/customers?status=pending" className="flex items-center gap-3 p-3 rounded-lg hover:bg-ink-900 text-sm text-slate-300">
+            <Link href="/admin/customers?status=pending" className="flex items-center gap-3 p-3 rounded-lg hover:bg-ink-900 text-sm text-ink-300">
               <Clock size={16} className="text-amber-500" /> Approve pending accounts
             </Link>
-            <Link href="/admin/services" className="flex items-center gap-3 p-3 rounded-lg hover:bg-ink-900 text-sm text-slate-300">
+            <Link href="/admin/services" className="flex items-center gap-3 p-3 rounded-lg hover:bg-ink-900 text-sm text-ink-300">
               <Briefcase size={16} className="text-green-500" /> Manage services
             </Link>
-            <Link href="/admin/messages" className="flex items-center gap-3 p-3 rounded-lg hover:bg-ink-900 text-sm text-slate-300">
+            <Link href="/admin/messages" className="flex items-center gap-3 p-3 rounded-lg hover:bg-ink-900 text-sm text-ink-300">
               <MessageSquare size={16} className="text-purple-500" /> Reply to messages
             </Link>
           </div>
         </div>
 
         <div className="bg-ink-800 rounded-xl border border-ink-600 p-5">
-          <h2 className="font-semibold text-slate-200 mb-3">Getting Started</h2>
+          <h2 className="font-semibold text-ink-100 mb-3">Getting Started</h2>
           <ol className="flex flex-col gap-3 text-sm text-ink-300 list-none">
             {[
               "Customer signs up → status is 'pending'",
