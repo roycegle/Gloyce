@@ -250,7 +250,10 @@
       "noServices": "暂无活跃服务。",
       "noPendingInvoices": "没有待付款发票。",
       "viewAllInvoices": "查看所有发票",
-      "dueOn": "到期"
+      "dueOn": "到期",
+      "companiesInProgress": "处理中",
+      "companiesActive": "已注册公司",
+      "registeredAndOperating": "运营中"
     },
     "services": {
       "title": "我的公司",

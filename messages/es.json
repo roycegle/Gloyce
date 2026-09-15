@@ -250,7 +250,10 @@
       "noServices": "Sin servicios activos aún.",
       "noPendingInvoices": "Sin facturas pendientes.",
       "viewAllInvoices": "Ver todas las facturas",
-      "dueOn": "Vence"
+      "dueOn": "Vence",
+      "companiesInProgress": "En proceso",
+      "companiesActive": "Empresas registradas",
+      "registeredAndOperating": "Activa y operativa"
     },
     "services": {
       "title": "Mis empresas",

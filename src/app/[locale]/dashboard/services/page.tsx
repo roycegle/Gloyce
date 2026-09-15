@@ -13,6 +13,7 @@ interface Service {
   id: string;
   type: string;
   name: string;
+  company_name?: string;
   status: string;
   current_step: number;
   total_steps: number;
@@ -34,6 +35,10 @@ const TYPE_INFO: Record<string, { label: string; country: string; flag: string }
   odi:             { label: "ODI Registration",     country: "Vietnam",       flag: "🇻🇳" },
   certification:   { label: "Document Cert.",       country: "",              flag: "📋" },
 };
+
+function displayName(svc: { company_name?: string; name: string }) {
+  return svc.company_name || svc.name;
+}
 
 function fmt(iso?: string, locale?: string) {
   if (!iso) return "";
@@ -122,7 +127,7 @@ export default function ServicesPage() {
                       {info.flag}
                     </div>
                     <div className="min-w-0">
-                      <h3 className="text-base font-bold text-foreground truncate">{svc.name}</h3>
+                      <h3 className="text-base font-bold text-foreground truncate">{displayName(svc)}</h3>
                       <div className="flex items-center gap-2 mt-1 flex-wrap">
                         <span className="text-[11px] text-navy-400">{info.label}</span>
                         {info.country && (
@@ -180,7 +185,7 @@ export default function ServicesPage() {
                         {info.flag}
                       </div>
                       <div className="min-w-0">
-                        <h3 className="text-base font-bold text-foreground truncate">{svc.name}</h3>
+                        <h3 className="text-base font-bold text-foreground truncate">{displayName(svc)}</h3>
                         <div className="flex items-center gap-2 mt-1 flex-wrap">
                           <span className="text-[11px] text-navy-400">{info.label}</span>
                           {info.country && (

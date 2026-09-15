@@ -14,7 +14,7 @@ import { Link } from "@/i18n/routing";
 
 /* ── types ── */
 interface Service {
-  id: string; type: string; name: string; status: string;
+  id: string; type: string; name: string; company_name?: string; status: string;
   current_step: number; total_steps: number;
   price?: number; currency?: string; notes?: string; created_at: string;
 }
@@ -217,9 +217,9 @@ export default function CompanyDetailPage({ params }: { params: Promise<{ id: st
       </Link>
 
       {/* Title */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 flex-wrap">
         <div className="text-2xl">{info.flag}</div>
-        <h1 className="text-xl font-bold text-foreground">{service.name}</h1>
+        <h1 className="text-xl font-bold text-foreground">{service.company_name || service.name}</h1>
         <Badge variant={svcCfg.variant} className="text-xs">{svcCfg.label}</Badge>
       </div>
 

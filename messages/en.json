@@ -251,7 +251,10 @@
       "noServices": "No active services yet.",
       "noPendingInvoices": "No pending invoices.",
       "viewAllInvoices": "View all invoices",
-      "dueOn": "Due"
+      "dueOn": "Due",
+      "companiesInProgress": "In progress",
+      "companiesActive": "Registered companies",
+      "registeredAndOperating": "Active & operating"
     },
     "services": {
       "title": "My Companies",

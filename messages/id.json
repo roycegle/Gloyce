@@ -250,7 +250,10 @@
       "noServices": "Belum ada layanan aktif.",
       "noPendingInvoices": "Tidak ada tagihan tertunda.",
       "viewAllInvoices": "Lihat semua faktur",
-      "dueOn": "Jatuh"
+      "dueOn": "Jatuh",
+      "companiesInProgress": "Sedang diproses",
+      "companiesActive": "Perusahaan terdaftar",
+      "registeredAndOperating": "Aktif & beroperasi"
     },
     "services": {
       "title": "Perusahaan Saya",

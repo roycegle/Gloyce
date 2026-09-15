@@ -13,7 +13,7 @@ export async function GET(
 
   const { data: service, error: svcErr } = await supabaseAdmin
     .from("services")
-    .select("id,type,name,status,current_step,total_steps,price,currency,notes,created_at")
+    .select("id,type,name,company_name,status,current_step,total_steps,price,currency,notes,created_at")
     .eq("id", serviceId)
     .eq("user_id", auth.userId)
     .single();

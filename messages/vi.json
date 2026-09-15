@@ -251,7 +251,10 @@
       "noServices": "Bạn chưa có dịch vụ nào.",
       "noPendingInvoices": "Không có hóa đơn chờ thanh toán.",
       "viewAllInvoices": "Xem tất cả hóa đơn",
-      "dueOn": "Hạn"
+      "dueOn": "Hạn",
+      "companiesInProgress": "Đang xử lý",
+      "companiesActive": "Công ty đã đăng ký",
+      "registeredAndOperating": "Đang hoạt động"
     },
     "services": {
       "title": "Công ty của tôi",

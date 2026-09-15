@@ -5,99 +5,131 @@ import { useTranslations, useLocale } from "next-intl";
 import { useSession } from "next-auth/react";
 import { Badge } from "@/components/ui/badge";
 import {
-  Briefcase,
-  FileText,
-  CreditCard,
-  ChevronRight,
-  AlertCircle,
+  Building2, CreditCard, ChevronRight,
+  CheckCircle2, Clock, AlertCircle, MapPin,
 } from "lucide-react";
 import { Link } from "@/i18n/routing";
 
 interface Service {
-  id: string;
-  name: string;
-  status: string;
-  current_step: number;
-  total_steps: number;
-  notes?: string;
-  created_at: string;
-  price?: number;
-  currency?: string;
+  id: string; type: string; name: string; company_name?: string;
+  status: string; current_step: number; total_steps: number;
+  notes?: string; created_at: string;
 }
-
 interface Invoice {
-  id: string;
-  amount: number;
-  currency: string;
-  status: string;
-  due_date?: string;
+  id: string; amount: number; currency: string; status: string;
+  description?: string; due_date?: string;
 }
 
-function formatDate(iso: string, locale: string) {
+const TYPE_INFO: Record<string, { label: string; country: string; flag: string }> = {
+  us_llc_standard: { label: "US LLC",              country: "United States", flag: "🇺🇸" },
+  us_llc_premium:  { label: "US LLC",              country: "United States", flag: "🇺🇸" },
+  us_llc:          { label: "US LLC",              country: "United States", flag: "🇺🇸" },
+  singapore:       { label: "Singapore Pte. Ltd.", country: "Singapore",     flag: "🇸🇬" },
+  hong_kong:       { label: "Hong Kong Limited",   country: "Hong Kong",     flag: "🇭🇰" },
+  us_bank:         { label: "US Bank Account",     country: "United States", flag: "🇺🇸" },
+  payment_gateway: { label: "Payment Gateway",     country: "",              flag: "🌐" },
+  accounting_basic:{ label: "Accounting — Basic",  country: "",              flag: "📊" },
+  accounting_pro:  { label: "Accounting — Pro",    country: "",              flag: "📊" },
+  odi:             { label: "ODI Registration",    country: "Vietnam",       flag: "🇻🇳" },
+  certification:   { label: "Document Cert.",      country: "",              flag: "📋" },
+};
+function typeInfo(type: string) {
+  return TYPE_INFO[type] ?? { label: type.replace(/_/g, " "), country: "", flag: "🏢" };
+}
+function displayName(svc: Pick<Service, "company_name" | "name">) {
+  return svc.company_name || svc.name;
+}
+function fmt(iso: string, locale: string) {
   return new Date(iso).toLocaleDateString(locale, { day: "2-digit", month: "2-digit", year: "numeric" });
 }
 
 export default function DashboardOverviewPage() {
-  const t = useTranslations("dashboard.overview");
+  const t  = useTranslations("dashboard.overview");
   const ts = useTranslations("dashboard.services");
   const locale = useLocale();
   const { data: session } = useSession();
-  const userName = session?.user?.name?.split(" ")[0] ?? "";
+  const firstName = session?.user?.name?.split(" ")[0] ?? "";
 
-  const [services, setServices] = useState<Service[]>([]);
-  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [services, setServices]   = useState<Service[]>([]);
+  const [invoices, setInvoices]   = useState<Invoice[]>([]);
+  const [loading,  setLoading]    = useState(true);
 
   useEffect(() => {
-    fetch("/api/dashboard/services").then(r => r.json()).then(d => setServices(Array.isArray(d) ? d : []));
-    fetch("/api/dashboard/invoices").then(r => r.json()).then(d => setInvoices(Array.isArray(d) ? d : []));
+    Promise.all([
+      fetch("/api/dashboard/services").then(r => r.json()),
+      fetch("/api/dashboard/invoices").then(r => r.json()),
+    ]).then(([s, i]) => {
+      setServices(Array.isArray(s) ? s : []);
+      setInvoices(Array.isArray(i) ? i : []);
+      setLoading(false);
+    }).catch(() => setLoading(false));
   }, []);
 
-  const STATUS_CONFIG = {
-    active: { label: ts("status.active"), variant: "success" as const },
-    pending: { label: ts("status.pending"), variant: "warning" as const },
-    action_required: { label: ts("status.action_required"), variant: "danger" as const },
-    complete: { label: ts("status.complete"), variant: "default" as const },
-    completed: { label: ts("status.complete"), variant: "default" as const },
+  const STATUS_CFG: Record<string, { label: string; variant: "success"|"warning"|"danger"|"default"; icon: typeof CheckCircle2 }> = {
+    active:          { label: ts("status.active"),          variant: "success",  icon: CheckCircle2 },
+    pending:         { label: ts("status.pending"),         variant: "warning",  icon: Clock        },
+    action_required: { label: ts("status.action_required"), variant: "danger",   icon: AlertCircle  },
+    complete:        { label: ts("status.complete"),        variant: "success",  icon: CheckCircle2 },
+    completed:       { label: ts("status.complete"),        variant: "success",  icon: CheckCircle2 },
   };
 
-  const pendingInvoices = invoices.filter(i => i.status === "pending");
-  const nextDue = pendingInvoices.sort((a, b) => new Date(a.due_date || "").getTime() - new Date(b.due_date || "").getTime())[0];
-  const activeServices = services.filter(s => s.status === "active" || s.status === "pending").length;
-
-  const STAT_CARDS = [
-    { label: t("activeServices"), value: String(activeServices), icon: Briefcase, color: "text-gold", bg: "bg-gold/10 border-gold/20" },
-    { label: t("pendingDocuments"), value: "—", icon: FileText, color: "text-amber-400", bg: "bg-amber-500/10 border-amber-500/20" },
-    {
-      label: t("nextBilling"),
-      value: nextDue ? `$${nextDue.amount.toLocaleString()}` : "—",
-      icon: CreditCard,
-      color: "text-emerald-400",
-      bg: "bg-emerald-500/10 border-emerald-500/20",
-    },
-  ];
+  const active   = services.filter(s => s.status === "active" || s.status === "pending").length;
+  const complete = services.filter(s => s.status === "complete" || s.status === "completed").length;
+  const pending  = invoices.filter(i => i.status === "pending");
+  const totalOwed = pending.reduce((sum, i) => sum + i.amount, 0);
 
   return (
-    <div className="flex flex-col gap-6 max-w-5xl">
-      {/* Greeting */}
-      <div>
-        <h2 className="text-xl font-bold text-foreground">
-          {userName ? t("greeting", { name: userName }) : t("greetingGeneric")} 👋
-        </h2>
-        <p className="text-sm text-navy-400 mt-0.5">{t("title")}</p>
+    <div className="flex flex-col gap-8 max-w-5xl">
+
+      {/* ── Greeting ── */}
+      <div className="flex items-center justify-between gap-4">
+        <div>
+          <h2 className="text-xl font-bold text-foreground">
+            {firstName ? t("greeting", { name: firstName }) : t("greetingGeneric")}
+          </h2>
+          <p className="text-sm text-navy-400 mt-0.5">{t("title")}</p>
+        </div>
       </div>
 
-      {/* Stat cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        {STAT_CARDS.map((card) => {
+      {/* ── Stat strip ── */}
+      <div className="grid grid-cols-3 gap-3 sm:gap-4">
+        {[
+          {
+            label: t("activeServices"),
+            value: loading ? "—" : String(active),
+            sub: t("companiesInProgress"),
+            icon: Building2,
+            color: "text-gold",
+            ring: "border-gold/20 bg-gold/5",
+          },
+          {
+            label: t("companiesActive"),
+            value: loading ? "—" : String(complete),
+            sub: t("registeredAndOperating"),
+            icon: CheckCircle2,
+            color: "text-emerald-400",
+            ring: "border-emerald-500/20 bg-emerald-500/5",
+          },
+          {
+            label: t("nextBilling"),
+            value: loading ? "—" : (totalOwed > 0 ? `$${totalOwed.toLocaleString()}` : "—"),
+            sub: pending.length > 0 ? `${pending.length} invoice${pending.length > 1 ? "s" : ""}` : t("noPendingInvoices"),
+            icon: CreditCard,
+            color: pending.length > 0 ? "text-amber-400" : "text-navy-500",
+            ring: pending.length > 0 ? "border-amber-500/20 bg-amber-500/5" : "border-navy-700 bg-navy-800",
+          },
+        ].map(card => {
           const Icon = card.icon;
           return (
-            <div key={card.label} className="bg-navy-800 rounded-xl border border-navy-700 p-4 flex flex-col gap-3">
-              <div className={`w-9 h-9 rounded-lg border flex items-center justify-center ${card.bg}`}>
-                <Icon size={16} className={card.color} />
+            <div key={card.label}
+              className={`rounded-2xl border p-4 sm:p-5 flex flex-col gap-4 ${card.ring}`}>
+              <div className={`w-8 h-8 rounded-lg bg-navy-800/60 border border-navy-700/60 flex items-center justify-center`}>
+                <Icon size={15} className={card.color} />
               </div>
               <div>
-                <p className="text-2xl font-bold text-foreground">{card.value}</p>
-                <p className="text-xs text-navy-400 mt-0.5 leading-tight">{card.label}</p>
+                <p className="text-2xl font-black text-foreground tabular-nums">{card.value}</p>
+                <p className="text-xs font-medium text-navy-400 mt-0.5 leading-tight">{card.label}</p>
+                <p className="text-[10px] text-navy-600 mt-0.5">{card.sub}</p>
               </div>
             </div>
           );
@@ -105,84 +137,125 @@ export default function DashboardOverviewPage() {
       </div>
 
       <div className="grid lg:grid-cols-5 gap-6">
-        {/* Services */}
+
+        {/* ── Companies list ── */}
         <div className="lg:col-span-3 flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-foreground">{t("yourServices")}</h3>
-            <Link href="/dashboard/services" className="text-xs text-gold hover:text-gold-light flex items-center gap-1">
+            <h3 className="text-xs font-semibold text-navy-400 uppercase tracking-widest">{t("yourServices")}</h3>
+            <Link href="/dashboard/services"
+              className="text-xs text-gold hover:text-gold-light flex items-center gap-1 font-medium">
               {t("viewAll")} <ChevronRight size={12} />
             </Link>
           </div>
 
-          {services.length === 0 ? (
-            <div className="bg-navy-800 rounded-xl border border-navy-700 p-8 text-center text-sm text-navy-500">
-              {t("noServices")}
+          {loading ? (
+            <div className="bg-navy-800/60 rounded-2xl border border-navy-700 h-32 animate-pulse" />
+          ) : services.length === 0 ? (
+            <div className="bg-navy-800 rounded-2xl border border-navy-700 p-10 text-center">
+              <p className="text-sm text-navy-500">{t("noServices")}</p>
+              <Link href="/get-started" className="mt-3 inline-flex text-xs text-gold hover:text-gold-light">
+                {ts("browseServices")} →
+              </Link>
             </div>
           ) : (
-            services.slice(0, 3).map((service) => {
-              const cfg = STATUS_CONFIG[service.status as keyof typeof STATUS_CONFIG] || { label: service.status, variant: "default" as const };
-              const pct = service.total_steps > 0 ? Math.round((service.current_step / service.total_steps) * 100) : 0;
+            <div className="bg-navy-800 rounded-2xl border border-navy-700 overflow-hidden">
+              {services.slice(0, 4).map((svc, i) => {
+                const cfg  = STATUS_CFG[svc.status] || { label: svc.status, variant: "default" as const, icon: Clock };
+                const pct  = svc.total_steps > 0 ? Math.round((svc.current_step / svc.total_steps) * 100) : 0;
+                const done = svc.status === "complete" || svc.status === "completed";
+                const info = typeInfo(svc.type);
+                const Icon = cfg.icon;
 
-              return (
-                <div key={service.id} className="bg-navy-800 rounded-xl border border-navy-700 p-4 flex flex-col gap-3">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="min-w-0">
-                      <p className="text-sm font-semibold text-foreground truncate">{service.name}</p>
-                      <p className="text-xs text-navy-500 mt-0.5">
-                        {formatDate(service.created_at, locale)}
-                        {service.price ? ` · $${service.price.toLocaleString()} ${service.currency || "USD"}` : ""}
-                      </p>
-                    </div>
-                    <Badge variant={cfg.variant} className="shrink-0 text-xs">{cfg.label}</Badge>
-                  </div>
+                return (
+                  <Link
+                    key={svc.id}
+                    href={`/dashboard/companies/${svc.id}` as Parameters<typeof Link>[0]["href"]}
+                    className={`flex items-center gap-4 px-4 py-3.5 hover:bg-navy-700/40 transition-colors group ${i > 0 ? "border-t border-navy-700/60" : ""}`}
+                  >
+                    {/* flag */}
+                    <div className="text-lg shrink-0 w-8 text-center">{info.flag}</div>
 
-                  <div>
-                    <div className="flex items-center justify-end mb-1.5">
-                      <span className="text-xs font-semibold text-gold">{pct}%</span>
+                    {/* name + meta */}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold text-foreground truncate">{displayName(svc)}</p>
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <span className="text-[11px] text-navy-500">{info.label}</span>
+                        {info.country && (
+                          <>
+                            <span className="text-navy-700">·</span>
+                            <span className="text-[11px] text-navy-500 flex items-center gap-1">
+                              <MapPin size={9} />{info.country}
+                            </span>
+                          </>
+                        )}
+                      </div>
                     </div>
-                    <div className="h-1.5 bg-navy-700 rounded-full">
-                      <div className="h-1.5 bg-gold rounded-full transition-all" style={{ width: `${pct}%` }} />
-                    </div>
-                  </div>
 
-                  {service.notes && (
-                    <div className="flex items-start gap-2 p-3 rounded-lg bg-amber-500/5 border border-amber-500/15 text-xs text-amber-300">
-                      <AlertCircle size={14} className="shrink-0 mt-0.5 text-amber-400" />
-                      <span>{service.notes}</span>
+                    {/* right: progress or complete + chevron */}
+                    <div className="flex items-center gap-3 shrink-0">
+                      {done ? (
+                        <div className="flex items-center gap-1 text-emerald-400">
+                          <Icon size={13} />
+                          <span className="text-xs font-medium hidden sm:block">{cfg.label}</span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-2">
+                          <div className="w-20 h-1.5 bg-navy-700 rounded-full hidden sm:block">
+                            <div className="h-1.5 bg-gold rounded-full" style={{ width: `${pct}%` }} />
+                          </div>
+                          <span className="text-xs font-semibold text-gold">{pct}%</span>
+                        </div>
+                      )}
+                      <ChevronRight size={14} className="text-navy-600 group-hover:text-navy-400 transition-colors" />
                     </div>
-                  )}
-                </div>
-              );
-            })
+                  </Link>
+                );
+              })}
+            </div>
           )}
         </div>
 
-        {/* Billing summary */}
+        {/* ── Billing ── */}
         <div className="lg:col-span-2 flex flex-col gap-3">
-          <h3 className="text-sm font-semibold text-foreground">{t("nextBilling")}</h3>
+          <div className="flex items-center justify-between">
+            <h3 className="text-xs font-semibold text-navy-400 uppercase tracking-widest">{t("nextBilling")}</h3>
+            <Link href="/dashboard/billing"
+              className="text-xs text-gold hover:text-gold-light flex items-center gap-1 font-medium">
+              {t("viewAllInvoices")} <ChevronRight size={12} />
+            </Link>
+          </div>
 
-          {pendingInvoices.length === 0 ? (
-            <div className="bg-navy-800 rounded-xl border border-navy-700 p-6 text-center text-sm text-navy-500">
-              {t("noPendingInvoices")}
+          {loading ? (
+            <div className="bg-navy-800/60 rounded-2xl border border-navy-700 h-32 animate-pulse" />
+          ) : pending.length === 0 ? (
+            <div className="bg-navy-800 rounded-2xl border border-navy-700 p-8 flex flex-col items-center gap-2 text-center">
+              <CheckCircle2 size={22} className="text-emerald-400" />
+              <p className="text-sm text-navy-400">{t("noPendingInvoices")}</p>
             </div>
           ) : (
-            <div className="bg-navy-800 rounded-xl border border-navy-700 divide-y divide-navy-700">
-              {pendingInvoices.slice(0, 4).map(inv => (
-                <div key={inv.id} className="flex items-center justify-between p-4 gap-4">
-                  <div>
-                    <p className="text-sm font-semibold text-foreground">${inv.amount.toLocaleString()} {inv.currency}</p>
-                    {inv.due_date && <p className="text-xs text-navy-500 mt-0.5">{t("dueOn")} {formatDate(inv.due_date, locale)}</p>}
+            <div className="bg-navy-800 rounded-2xl border border-navy-700 overflow-hidden">
+              {pending.slice(0, 4).map((inv, i) => (
+                <div key={inv.id}
+                  className={`flex items-center justify-between px-4 py-3.5 gap-4 ${i > 0 ? "border-t border-navy-700/60" : ""}`}>
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-foreground">
+                      ${inv.amount.toLocaleString()} <span className="text-navy-500 font-normal text-xs">{inv.currency}</span>
+                    </p>
+                    {inv.due_date && (
+                      <p className="text-[11px] text-navy-500 mt-0.5">
+                        {t("dueOn")} {fmt(inv.due_date, locale)}
+                      </p>
+                    )}
                   </div>
-                  <Badge variant="warning" className="text-xs">{ts("formStatus.pending")}</Badge>
+                  <Badge variant="warning" className="text-[10px] shrink-0">
+                    {ts("formStatus.pending")}
+                  </Badge>
                 </div>
               ))}
             </div>
           )}
-
-          <Link href="/dashboard/billing" className="text-xs text-gold hover:text-gold-light flex items-center gap-1 self-end">
-            {t("viewAllInvoices")} <ChevronRight size={12} />
-          </Link>
         </div>
+
       </div>
     </div>
   );
