@@ -57,7 +57,7 @@ export function DashboardSidebar() {
         "hidden md:flex flex-col h-screen sticky top-0 shrink-0 transition-all duration-200",
         collapsed ? "w-16" : "w-56"
       )}
-      style={{ background: "#EBF0FF", borderRight: "1px solid #D3DDF7" }}
+      style={{ background: "#EBF0FF", boxShadow: "2px 0 12px rgba(30,58,138,0.07)" }}
     >
       {/* Logo */}
       <div
