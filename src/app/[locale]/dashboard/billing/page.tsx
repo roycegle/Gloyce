@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CreditCard, RefreshCw } from "lucide-react";
+import { CreditCard, RefreshCw, CheckCircle } from "lucide-react";
 import { Link } from "@/i18n/routing";
+import { toast } from "sonner";
 
 interface Invoice {
   id: string;
@@ -16,7 +17,9 @@ interface Invoice {
   due_date?: string;
   paid_at?: string;
   created_at: string;
+  service_request_id?: string;
   services?: { name: string; type: string };
+  service_requests?: { id: string; service_type: string };
 }
 
 function formatDate(iso?: string, locale?: string) {
@@ -29,19 +32,32 @@ export default function BillingPage() {
   const locale = useLocale();
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [loading, setLoading] = useState(true);
+  const [paying, setPaying] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetch("/api/dashboard/invoices")
-      .then(r => r.json())
-      .then(d => { setInvoices(Array.isArray(d) ? d : []); setLoading(false); })
-      .catch(() => setLoading(false));
-  }, []);
+  const loadInvoices = () => fetch("/api/dashboard/invoices")
+    .then(r => r.json())
+    .then(d => { setInvoices(Array.isArray(d) ? d : []); setLoading(false); })
+    .catch(() => setLoading(false));
+
+  useEffect(() => { loadInvoices(); }, []);
+
+  const pay = async (invoiceId: string) => {
+    setPaying(invoiceId);
+    const res = await fetch(`/api/dashboard/invoices/${invoiceId}`, { method: "PATCH" });
+    setPaying(null);
+    if (res.ok) {
+      toast.success("Đã xác nhận thanh toán. Gloyce sẽ bắt đầu xử lý yêu cầu của bạn.");
+      loadInvoices();
+    } else {
+      toast.error("Có lỗi xảy ra, vui lòng thử lại.");
+    }
+  };
 
   const STATUS_CONFIG: Record<string, { label: string; variant: "success" | "warning" | "danger" | "default" }> = {
-    paid: { label: t("status.paid"), variant: "success" },
-    pending: { label: t("status.pending"), variant: "warning" },
-    overdue: { label: t("status.overdue"), variant: "danger" },
-    cancelled: { label: "Cancelled", variant: "default" },
+    paid: { label: "Đã thanh toán", variant: "success" },
+    pending: { label: "Chờ thanh toán", variant: "warning" },
+    overdue: { label: "Quá hạn", variant: "danger" },
+    cancelled: { label: "Đã hủy", variant: "default" },
   };
 
   const totalPaid = invoices.filter(i => i.status === "paid").reduce((s, i) => s + i.amount, 0);
@@ -88,38 +104,64 @@ export default function BillingPage() {
           ) : (
             <>
               <div className="hidden sm:grid grid-cols-12 gap-2 px-4 py-3 bg-navy-900 border-b border-navy-700 text-xs font-semibold text-navy-500 uppercase tracking-wider">
-                <span className="col-span-5">Description</span>
-                <span className="col-span-2">Amount</span>
-                <span className="col-span-3">Due Date</span>
-                <span className="col-span-2">Status</span>
+                <span className="col-span-4">Mô tả</span>
+                <span className="col-span-2">Số tiền</span>
+                <span className="col-span-2">Ngày</span>
+                <span className="col-span-2">Trạng thái</span>
+                <span className="col-span-2"></span>
               </div>
               {invoices.map((inv) => {
                 const cfg = STATUS_CONFIG[inv.status] || { label: inv.status, variant: "default" as const };
+                const isPending = inv.status === "pending";
+                const isPayingThis = paying === inv.id;
+                const label = inv.description || inv.service_requests?.service_type?.replace(/_/g, " ") || inv.services?.name || "Invoice";
                 return (
-                  <div key={inv.id} className="border-b border-navy-700/50 last:border-0">
+                  <div key={inv.id} className={`border-b border-navy-700/50 last:border-0 ${isPending ? "bg-amber-500/3" : ""}`}>
+                    {/* Mobile */}
                     <div className="sm:hidden px-4 py-4 flex flex-col gap-2">
                       <div className="flex items-start justify-between gap-2">
                         <div className="min-w-0">
-                          <p className="text-xs text-navy-300 leading-tight">{inv.description || inv.services?.name || "Invoice"}</p>
+                          <p className="text-xs text-navy-300 leading-tight capitalize">{label}</p>
                           {inv.services && <p className="text-[10px] text-navy-500 mt-0.5">{inv.services.type.toUpperCase()}</p>}
                         </div>
                         <Badge variant={cfg.variant} className="text-[10px] py-0 shrink-0">{cfg.label}</Badge>
                       </div>
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between gap-3">
                         <div>
-                          <p className="text-base font-bold text-foreground">${inv.amount.toLocaleString()} {inv.currency}</p>
-                          <p className="text-xs text-navy-500">{formatDate(inv.due_date, locale)}</p>
+                          <p className="text-base font-bold text-foreground">{inv.amount.toLocaleString()} {inv.currency}</p>
+                          <p className="text-xs text-navy-500">{inv.due_date ? formatDate(inv.due_date, locale) : inv.paid_at ? `Paid ${formatDate(inv.paid_at, locale)}` : "—"}</p>
                         </div>
+                        {isPending && (
+                          <button
+                            onClick={() => pay(inv.id)}
+                            disabled={isPayingThis}
+                            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gold/10 border border-gold/30 text-gold text-xs font-semibold hover:bg-gold/20 transition-colors disabled:opacity-50"
+                          >
+                            {isPayingThis ? "..." : <><CheckCircle size={13} /> Thanh toán</>}
+                          </button>
+                        )}
                       </div>
                     </div>
+                    {/* Desktop */}
                     <div className="hidden sm:grid grid-cols-12 gap-2 px-4 py-4 items-center">
-                      <div className="col-span-5">
-                        <p className="text-xs text-navy-300">{inv.description || inv.services?.name || "Invoice"}</p>
+                      <div className="col-span-4">
+                        <p className="text-xs text-navy-300 capitalize">{label}</p>
                         {inv.services && <p className="text-[10px] text-navy-500 mt-0.5">{inv.services.type.toUpperCase()}</p>}
                       </div>
-                      <span className="col-span-2 text-sm font-semibold text-foreground">${inv.amount.toLocaleString()}</span>
-                      <span className="col-span-3 text-xs text-navy-500">{formatDate(inv.due_date, locale)}</span>
+                      <span className="col-span-2 text-sm font-semibold text-foreground">{inv.amount.toLocaleString()} {inv.currency}</span>
+                      <span className="col-span-2 text-xs text-navy-500">{inv.due_date ? formatDate(inv.due_date, locale) : inv.paid_at ? formatDate(inv.paid_at, locale) : "—"}</span>
                       <span className="col-span-2"><Badge variant={cfg.variant} className="text-[10px] py-0">{cfg.label}</Badge></span>
+                      <span className="col-span-2 flex justify-end">
+                        {isPending && (
+                          <button
+                            onClick={() => pay(inv.id)}
+                            disabled={isPayingThis}
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gold/10 border border-gold/30 text-gold text-xs font-semibold hover:bg-gold/20 transition-colors disabled:opacity-50"
+                          >
+                            {isPayingThis ? "..." : <><CheckCircle size={12} /> Thanh toán</>}
+                          </button>
+                        )}
+                      </span>
                     </div>
                   </div>
                 );

@@ -8,7 +8,7 @@ export async function GET() {
 
   const { data, error } = await supabaseAdmin
     .from("invoices")
-    .select("id,amount,currency,status,description,due_date,paid_at,created_at,services(name,type)")
+    .select("id,amount,currency,status,description,due_date,paid_at,created_at,service_request_id,services(name,type),service_requests(id,service_type)")
     .eq("user_id", auth.userId)
     .order("created_at", { ascending: false });
 
