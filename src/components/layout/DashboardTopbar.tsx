@@ -5,10 +5,12 @@ import { usePathname } from "@/i18n/routing";
 import { LogOut } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { signOut } from "next-auth/react";
+import { LanguageToggle } from "./LanguageToggle";
 
 const PATH_LABELS: Record<string, string> = {
   "/dashboard": "overview",
   "/dashboard/services": "services",
+  "/dashboard/requests": "requests",
   "/dashboard/documents": "documents",
   "/dashboard/messages": "messages",
   "/dashboard/billing": "billing",
@@ -27,8 +29,14 @@ export function DashboardTopbar() {
       <h1 className="text-base font-semibold text-foreground">{title}</h1>
 
       <div className="flex items-center gap-2">
+        {/* Language toggle — mobile only (desktop has it in sidebar) */}
+        <div className="md:hidden">
+          <LanguageToggle direction="down" />
+        </div>
+
         <Badge variant="gold" className="text-xs hidden sm:flex">Demo</Badge>
-        {/* Logout — visible on mobile, hidden on desktop (desktop has it in bottom nav) */}
+
+        {/* Logout — visible on mobile, hidden on desktop */}
         <button
           onClick={() => signOut({ callbackUrl: "/en/auth/login" })}
           className="md:hidden p-2 text-navy-400 hover:text-red-400 rounded-lg hover:bg-navy-700 transition-colors"

@@ -10,7 +10,7 @@ import {
   LayoutDashboard,
   Briefcase,
   FileText,
-  MessageSquare,
+  ClipboardList,
   CreditCard,
   Settings,
   LogOut,
@@ -40,8 +40,8 @@ export function DashboardSidebar() {
   const NAV = [
     { href: "/dashboard" as const, icon: LayoutDashboard, label: t("overview") },
     { href: "/dashboard/services" as const, icon: Briefcase, label: t("services") },
+    { href: "/dashboard/requests" as const, icon: ClipboardList, label: t("requests") },
     { href: "/dashboard/documents" as const, icon: FileText, label: t("documents") },
-    { href: "/dashboard/messages" as const, icon: MessageSquare, label: t("messages"), badge: 2 },
     { href: "/dashboard/billing" as const, icon: CreditCard, label: t("billing") },
     { href: "/dashboard/settings" as const, icon: Settings, label: t("settings") },
   ];
