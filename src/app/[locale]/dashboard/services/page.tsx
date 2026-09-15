@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, Circle, Clock, Briefcase, ClipboardList, ChevronRight, X, Save, Check } from "lucide-react";
+import { Briefcase, ClipboardList, ChevronRight, X, Save, Check, CheckCircle2 } from "lucide-react";
 import { Link } from "@/i18n/routing";
 
 interface Service {
@@ -123,13 +123,13 @@ export default function ServicesPage() {
   };
 
   const FORM_STATUS: Record<string, { label: string; variant: "success" | "warning" | "danger" | "default" }> = {
-    pending: { label: "Chờ điền", variant: "warning" },
-    draft: { label: "Bản nháp", variant: "default" },
-    submitted: { label: "Đã nộp — Chờ duyệt", variant: "success" },
-    approved: { label: "Đã duyệt — Chuẩn bị nộp chính phủ", variant: "success" },
-    gov_submitted: { label: "Đã nộp chính phủ", variant: "default" },
-    needs_update: { label: "Cần bổ sung hồ sơ", variant: "danger" },
-    completed: { label: "Hoàn thành", variant: "default" },
+    pending: { label: t("formStatus.pending"), variant: "warning" },
+    draft: { label: t("formStatus.draft"), variant: "default" },
+    submitted: { label: t("formStatus.submitted"), variant: "success" },
+    approved: { label: t("formStatus.approved"), variant: "success" },
+    gov_submitted: { label: t("formStatus.gov_submitted"), variant: "default" },
+    needs_update: { label: t("formStatus.needs_update"), variant: "danger" },
+    completed: { label: t("formStatus.completed"), variant: "default" },
   };
 
   if (loading) return (
@@ -144,7 +144,7 @@ export default function ServicesPage() {
     return (
       <div className="max-w-2xl">
         <button onClick={() => setActiveForm(null)} className="flex items-center gap-1.5 text-sm text-navy-400 hover:text-foreground mb-5">
-          <X size={14} /> Close form
+          <X size={14} /> {t("closeForm")}
         </button>
         <div className="bg-navy-800 rounded-2xl border border-navy-700 p-6">
           <div className="mb-6">
@@ -153,13 +153,13 @@ export default function ServicesPage() {
             {activeForm.notes && <div className="mt-3 p-3 rounded-xl bg-amber-500/5 border border-amber-500/15 text-xs text-amber-400">{activeForm.notes}</div>}
             {activeForm.admin_review_notes && (
               <div className="mt-3 p-3 rounded-xl bg-red-500/5 border border-red-500/20 text-xs text-red-400">
-                <p className="font-semibold mb-0.5">Yêu cầu bổ sung từ Gloyce:</p>
+                <p className="font-semibold mb-0.5">{t("adminFeedback")}</p>
                 <p>{activeForm.admin_review_notes}</p>
               </div>
             )}
             {activeForm.gov_submission_notes && (
               <div className="mt-3 p-3 rounded-xl bg-purple-500/5 border border-purple-500/20 text-xs text-purple-400">
-                <p className="font-semibold mb-0.5">Yêu cầu từ cơ quan chính phủ:</p>
+                <p className="font-semibold mb-0.5">{t("govFeedback")}</p>
                 <p>{activeForm.gov_submission_notes}</p>
               </div>
             )}
@@ -171,7 +171,7 @@ export default function ServicesPage() {
               <div className="w-12 h-12 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center">
                 <Check size={20} className="text-emerald-400" />
               </div>
-              <p className="text-sm font-medium text-foreground">Form submitted successfully!</p>
+              <p className="text-sm font-medium text-foreground">{t("submittedSuccess")}</p>
             </div>
           ) : (
             <div className="flex flex-col gap-5">
@@ -214,11 +214,11 @@ export default function ServicesPage() {
               <div className="flex gap-3 pt-2 border-t border-navy-700">
                 <button onClick={() => saveForm(false)} disabled={submitting}
                   className="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-navy-600 text-sm text-navy-300 hover:text-foreground transition-colors disabled:opacity-50">
-                  <Save size={14} /> Save draft
+                  <Save size={14} /> {t("saveDraft")}
                 </button>
                 <button onClick={() => saveForm(true)} disabled={submitting}
                   className="flex items-center gap-1.5 px-5 py-2 rounded-xl bg-gold/10 border border-gold/20 text-gold text-sm font-medium hover:bg-gold/20 transition-colors disabled:opacity-50">
-                  {submitting ? "Submitting..." : "Submit form"}
+                  {submitting ? "..." : t("submitForm")}
                 </button>
               </div>
             </div>
@@ -242,7 +242,7 @@ export default function ServicesPage() {
 
       {/* Tab toggle */}
       <div className="flex gap-1 p-1 bg-navy-800 border border-navy-700 rounded-xl w-fit">
-        {([["services", "My Services"], ["forms", "Forms to Fill"]] as const).map(([key, label]) => (
+        {([["services", t("myServices")], ["forms", t("formsToFill")]] as const).map(([key, label]) => (
           <button key={key} onClick={() => setView(key)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-1.5 ${view === key ? "bg-navy-700 text-foreground" : "text-navy-400 hover:text-foreground"}`}>
             {label}
@@ -272,16 +272,16 @@ export default function ServicesPage() {
           services.map((service) => {
             const cfg = STATUS_CONFIG[service.status] || { label: service.status, variant: "default" as const };
             const pct = service.total_steps > 0 ? Math.round((service.current_step / service.total_steps) * 100) : 0;
-            const steps = Array.from({ length: service.total_steps }, (_, i) => i + 1);
+            const isComplete = service.status === "complete" || service.status === "completed";
             const relatedForms = forms.filter(f => f.services?.id === service.id);
 
             return (
-              <div key={service.id} className="bg-navy-800 rounded-2xl border border-navy-700 p-5 sm:p-6 flex flex-col gap-5">
+              <div key={service.id} className="bg-navy-800 rounded-2xl border border-navy-700 p-5 sm:p-6 flex flex-col gap-4">
+                {/* Header */}
                 <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2 mb-1 flex-wrap">
-                      <Badge variant="gold" className="text-[10px] tracking-widest">{service.type.toUpperCase()}</Badge>
-                      <Badge variant={cfg.variant} className="text-xs">{cfg.label}</Badge>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                      <Badge variant="gold" className="text-[10px] tracking-widest">{service.type.replace(/_/g, " ").toUpperCase()}</Badge>
                     </div>
                     <h3 className="text-base font-semibold text-foreground">{service.name}</h3>
                     <p className="text-xs text-navy-500 mt-0.5">
@@ -289,33 +289,45 @@ export default function ServicesPage() {
                       {service.price && ` · $${service.price.toLocaleString()} ${service.currency || "USD"}`}
                     </p>
                   </div>
+                  <Badge variant={cfg.variant} className="text-sm shrink-0 px-3 py-1">{cfg.label}</Badge>
                 </div>
 
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm text-navy-400">{t("step", { current: service.current_step, total: service.total_steps })}</span>
-                    <span className="text-sm font-bold text-gold">{pct}%</span>
-                  </div>
-                  <div className="h-2 bg-navy-700 rounded-full">
-                    <div className="h-2 bg-gradient-to-r from-gold-dark to-gold rounded-full transition-all" style={{ width: `${pct}%` }} />
-                  </div>
-                </div>
-
-                <div className="flex flex-col gap-2">
-                  {steps.map((stepNum) => {
-                    const done = stepNum < service.current_step;
-                    const current = stepNum === service.current_step;
-                    const Icon = done ? CheckCircle2 : current ? Clock : Circle;
-                    return (
-                      <div key={stepNum} className="flex items-center gap-3">
-                        <Icon size={16} className={`shrink-0 ${done ? "text-emerald-400" : current ? "text-gold" : "text-navy-600"}`} />
-                        <span className={`text-sm flex-1 ${done ? "text-navy-400" : current ? "text-foreground font-medium" : "text-navy-600"}`}>
-                          Step {stepNum}
-                        </span>
+                {/* Progress dots + bar */}
+                {service.total_steps > 0 && (
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-center gap-1.5">
+                      {Array.from({ length: service.total_steps }, (_, i) => {
+                        const done = i + 1 < service.current_step;
+                        const active = i + 1 === service.current_step;
+                        return (
+                          <div
+                            key={i}
+                            className={`rounded-full transition-all ${
+                              done || isComplete
+                                ? "bg-emerald-400 h-2"
+                                : active
+                                ? "bg-gold h-2"
+                                : "bg-navy-600 h-2"
+                            }`}
+                            style={{ width: `${100 / service.total_steps}%`, maxWidth: 40, minWidth: 8 }}
+                          />
+                        );
+                      })}
+                      <span className="ml-2 text-xs font-semibold text-gold shrink-0">{pct}%</span>
+                    </div>
+                    {!isComplete && (
+                      <p className="text-xs text-navy-400">
+                        {service.current_step}/{service.total_steps}
+                      </p>
+                    )}
+                    {isComplete && (
+                      <div className="flex items-center gap-1.5 text-xs text-emerald-400">
+                        <CheckCircle2 size={13} />
+                        <span>{cfg.label}</span>
                       </div>
-                    );
-                  })}
-                </div>
+                    )}
+                  </div>
+                )}
 
                 {service.notes && (
                   <div className="p-3.5 rounded-xl bg-amber-500/5 border border-amber-500/15 text-xs text-amber-400/80 leading-relaxed">
@@ -325,7 +337,7 @@ export default function ServicesPage() {
 
                 {relatedForms.length > 0 && (
                   <div className="border-t border-navy-700 pt-4">
-                    <p className="text-xs font-semibold text-navy-400 mb-2 uppercase tracking-wider">Required Forms</p>
+                    <p className="text-xs font-semibold text-navy-400 mb-2 uppercase tracking-wider">{t("requiredForms")}</p>
                     <div className="flex flex-col gap-2">
                       {relatedForms.map(f => {
                         const fs = FORM_STATUS[f.status] || { label: f.status, variant: "default" as const };
@@ -339,7 +351,7 @@ export default function ServicesPage() {
                               <Badge variant={fs.variant} className="text-[10px]">{fs.label}</Badge>
                               {(f.status === "pending" || f.status === "needs_update") && (
                                 <button onClick={() => openForm(f.id)} className={`flex items-center gap-1 text-xs ${f.status === "needs_update" ? "text-red-400 hover:text-red-300" : "text-gold hover:text-gold-light"}`}>
-                                  {f.status === "needs_update" ? "Cập nhật" : "Fill"} <ChevronRight size={12} />
+                                  {f.status === "needs_update" ? t("updateForm") : t("fillForm")} <ChevronRight size={12} />
                                 </button>
                               )}
                             </div>

@@ -261,7 +261,27 @@
       "nextAction": "Hành động tiếp theo:",
       "attachedDocuments": "Tài liệu đính kèm",
       "noServicesTitle": "Chưa có dịch vụ nào",
-      "contactUs": "Liên hệ Gloyce"
+      "contactUs": "Liên hệ Gloyce",
+      "myServices": "Dịch vụ của tôi",
+      "formsToFill": "Biểu mẫu cần điền",
+      "requiredForms": "Biểu mẫu yêu cầu",
+      "fillForm": "Điền biểu mẫu",
+      "updateForm": "Cập nhật",
+      "saveDraft": "Lưu nháp",
+      "submitForm": "Nộp biểu mẫu",
+      "submittedSuccess": "Đã nộp biểu mẫu thành công!",
+      "closeForm": "← Đóng",
+      "adminFeedback": "Phản hồi từ Gloyce:",
+      "govFeedback": "Yêu cầu từ cơ quan chính phủ:",
+      "formStatus": {
+        "pending": "Chờ điền",
+        "draft": "Bản nháp",
+        "submitted": "Đã nộp — Chờ duyệt",
+        "approved": "Đã duyệt — Chuẩn bị nộp",
+        "gov_submitted": "Đã nộp chính phủ",
+        "needs_update": "Cần bổ sung",
+        "completed": "Hoàn thành"
+      }
     },
     "documents": {
       "title": "Tài liệu",

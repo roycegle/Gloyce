@@ -261,7 +261,27 @@
       "nextAction": "Next action:",
       "attachedDocuments": "Attached documents",
       "noServicesTitle": "No active services yet",
-      "contactUs": "Contact Gloyce"
+      "contactUs": "Contact Gloyce",
+      "myServices": "My Services",
+      "formsToFill": "Forms to Fill",
+      "requiredForms": "Required forms",
+      "fillForm": "Fill out",
+      "updateForm": "Update",
+      "saveDraft": "Save draft",
+      "submitForm": "Submit form",
+      "submittedSuccess": "Form submitted successfully!",
+      "closeForm": "← Close",
+      "adminFeedback": "Feedback from Gloyce:",
+      "govFeedback": "Government request:",
+      "formStatus": {
+        "pending": "Pending",
+        "draft": "Draft saved",
+        "submitted": "Submitted — Awaiting Review",
+        "approved": "Approved — Filing Soon",
+        "gov_submitted": "Filed with Government",
+        "needs_update": "Update Required",
+        "completed": "Complete"
+      }
     },
     "documents": {
       "title": "Documents",

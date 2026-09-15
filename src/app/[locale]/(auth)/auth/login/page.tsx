@@ -43,7 +43,17 @@ export default function LoginPage() {
       if (role === "admin") {
         router.push("/admin");
       } else {
-        router.push(callbackUrl);
+        // Use preferred locale from cookie/localStorage, fall back to URL locale
+        const preferredLocale =
+          document.cookie.match(/NEXT_LOCALE=([^;]+)/)?.[1] ||
+          localStorage.getItem("gloyce_locale") ||
+          locale;
+        const validLocales = ["en", "vi", "zh", "es", "id"];
+        const safeLocale = validLocales.includes(preferredLocale) ? preferredLocale : locale;
+        const target = callbackUrl.startsWith(`/${locale}/`)
+          ? callbackUrl.replace(`/${locale}/`, `/${safeLocale}/`)
+          : `/${safeLocale}/dashboard`;
+        router.push(target);
       }
     }
   };

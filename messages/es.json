@@ -258,7 +258,29 @@
       },
       "step": "Paso {current} de {total}",
       "nextAction": "Próxima acción:",
-      "attachedDocuments": "Documentos adjuntos"
+      "attachedDocuments": "Documentos adjuntos",
+      "myServices": "Mis servicios",
+      "formsToFill": "Formularios a llenar",
+      "requiredForms": "Formularios requeridos",
+      "fillForm": "Rellenar",
+      "updateForm": "Actualizar",
+      "saveDraft": "Guardar borrador",
+      "submitForm": "Enviar formulario",
+      "submittedSuccess": "¡Formulario enviado con éxito!",
+      "closeForm": "← Cerrar",
+      "adminFeedback": "Comentarios de Gloyce:",
+      "govFeedback": "Requisito del gobierno:",
+      "noServicesTitle": "Sin servicios activos",
+      "contactUs": "Contactar Gloyce",
+      "formStatus": {
+        "pending": "Pendiente",
+        "draft": "Borrador",
+        "submitted": "Enviado — En revisión",
+        "approved": "Aprobado — Por presentar",
+        "gov_submitted": "Presentado al gobierno",
+        "needs_update": "Requiere actualización",
+        "completed": "Completado"
+      }
     },
     "documents": {
       "title": "Documentos",

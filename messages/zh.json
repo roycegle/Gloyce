@@ -258,7 +258,29 @@
       },
       "step": "步骤 {current} / {total}",
       "nextAction": "下一步操作：",
-      "attachedDocuments": "相关文件"
+      "attachedDocuments": "相关文件",
+      "myServices": "我的服务",
+      "formsToFill": "待填写表单",
+      "requiredForms": "所需表单",
+      "fillForm": "填写",
+      "updateForm": "更新",
+      "saveDraft": "保存草稿",
+      "submitForm": "提交表单",
+      "submittedSuccess": "表单提交成功！",
+      "closeForm": "← 关闭",
+      "adminFeedback": "Gloyce 反馈：",
+      "govFeedback": "政府要求：",
+      "noServicesTitle": "暂无活跃服务",
+      "contactUs": "联系 Gloyce",
+      "formStatus": {
+        "pending": "待填写",
+        "draft": "草稿",
+        "submitted": "已提交 — 等待审核",
+        "approved": "已批准 — 即将申报",
+        "gov_submitted": "已提交政府",
+        "needs_update": "需要更新",
+        "completed": "已完成"
+      }
     },
     "documents": {
       "title": "文件",

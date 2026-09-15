@@ -41,6 +41,9 @@ export function LanguageToggle({
 
   const switchLocale = (code: string) => {
     setOpen(false);
+    // Persist preference across sessions via cookie + localStorage
+    document.cookie = `NEXT_LOCALE=${code}; max-age=31536000; path=/; SameSite=Lax`;
+    localStorage.setItem("gloyce_locale", code);
     router.replace(pathname, { locale: code });
   };
 

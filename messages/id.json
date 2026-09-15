@@ -258,7 +258,29 @@
       },
       "step": "Langkah {current} dari {total}",
       "nextAction": "Tindakan berikutnya:",
-      "attachedDocuments": "Dokumen terlampir"
+      "attachedDocuments": "Dokumen terlampir",
+      "myServices": "Layanan Saya",
+      "formsToFill": "Formulir untuk diisi",
+      "requiredForms": "Formulir diperlukan",
+      "fillForm": "Isi formulir",
+      "updateForm": "Perbarui",
+      "saveDraft": "Simpan draf",
+      "submitForm": "Kirim formulir",
+      "submittedSuccess": "Formulir berhasil dikirim!",
+      "closeForm": "← Tutup",
+      "adminFeedback": "Masukan dari Gloyce:",
+      "govFeedback": "Permintaan pemerintah:",
+      "noServicesTitle": "Belum ada layanan aktif",
+      "contactUs": "Hubungi Gloyce",
+      "formStatus": {
+        "pending": "Menunggu diisi",
+        "draft": "Draf",
+        "submitted": "Terkirim — Menunggu review",
+        "approved": "Disetujui — Segera diajukan",
+        "gov_submitted": "Diajukan ke pemerintah",
+        "needs_update": "Perlu diperbarui",
+        "completed": "Selesai"
+      }
     },
     "documents": {
       "title": "Dokumen",
