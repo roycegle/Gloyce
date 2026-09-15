@@ -234,7 +234,8 @@
       "documents": "Documentos",
       "requests": "Requests",
       "billing": "Facturación",
-      "settings": "Configuración"
+      "settings": "Configuración",
+      "companies": "Mis Empresas"
     },
     "overview": {
       "title": "Resumen de tu cuenta hoy",
@@ -385,6 +386,56 @@
       "save": "Guardar cambios",
       "saved": "¡Guardado con éxito!",
       "subtitle": "Gestione la información de su cuenta y preferencias."
+    },
+    "companies": {
+      "subtitle": "Gestione todas sus empresas y servicios en un solo lugar.",
+      "myCompanies": "Mis Empresas",
+      "noCompaniesTitle": "Sin empresas todavía",
+      "noCompaniesDesc": "Comience registrando su primera empresa con Gloyce.",
+      "addCompany": "Registrar empresa",
+      "step": "Paso {current} de {total}",
+      "viewDetails": "Ver detalles",
+      "actionNeeded": "Acción requerida",
+      "inProgress": "En proceso",
+      "done": "Completado",
+      "tabs": {
+        "status": "Estado",
+        "forms": "Formularios",
+        "documents": "Documentos"
+      },
+      "status": {
+        "active": "Activo",
+        "pending": "Pendiente",
+        "action_required": "Acción requerida",
+        "complete": "Completo",
+        "completed": "Completado",
+        "in_progress": "En progreso"
+      },
+      "formStatus": {
+        "pending": "Por rellenar",
+        "draft": "Borrador",
+        "submitted": "Enviado",
+        "approved": "Aprobado",
+        "gov_submitted": "Enviado al gobierno",
+        "needs_update": "Actualización requerida",
+        "completed": "Completado"
+      },
+      "noForms": "No hay formularios asignados aún.",
+      "noDocuments": "Sin documentos aún. Gloyce los subirá a medida que avance el servicio.",
+      "fillForm": "Rellenar formulario",
+      "updateForm": "Actualizar",
+      "saveDraft": "Guardar borrador",
+      "submitForm": "Enviar",
+      "submittedSuccess": "Enviado con éxito",
+      "closeForm": "Cerrar",
+      "adminFeedback": "Comentarios de Gloyce",
+      "govFeedback": "Comentarios del gobierno",
+      "requiredForms": "Formularios requeridos",
+      "paymentSummary": "Pago",
+      "paid": "Pagado",
+      "pending_payment": "Pendiente",
+      "view": "Ver",
+      "backToCompanies": "Volver a Mis Empresas"
     }
   },
   "common": {

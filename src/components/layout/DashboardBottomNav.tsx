@@ -5,21 +5,14 @@ import { usePathname, Link } from "@/i18n/routing";
 import { signOut, useSession } from "next-auth/react";
 import { LanguageToggle } from "./LanguageToggle";
 import {
-  LayoutDashboard,
   Briefcase,
-  FileText,
-  ClipboardList,
   CreditCard,
   Settings,
   LogOut,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { href: "/dashboard" as const, icon: LayoutDashboard, key: "overview", badge: 0 },
-  { href: "/dashboard/services" as const, icon: Briefcase, key: "services", badge: 0 },
-  { href: "/dashboard/requests" as const, icon: ClipboardList, key: "requests", badge: 0 },
-  { href: "/dashboard/documents" as const, icon: FileText, key: "documents", badge: 0 },
+  { href: "/dashboard" as const, icon: Briefcase, key: "companies", badge: 0 },
   { href: "/dashboard/billing" as const, icon: CreditCard, key: "billing", badge: 0 },
   { href: "/dashboard/settings" as const, icon: Settings, key: "settings", badge: 0 },
 ];
@@ -47,7 +40,7 @@ export function DashboardBottomNav() {
         <div className="flex flex-1">
           {NAV_ITEMS.map(({ href, icon: Icon, key, badge }) => {
             const isActive =
-              pathname === href ||
+              (href === "/dashboard" && (pathname === "/dashboard" || pathname.startsWith("/dashboard/companies"))) ||
               (href !== "/dashboard" && pathname.startsWith(href));
 
             return (

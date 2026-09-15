@@ -234,7 +234,8 @@
       "requests": "Requests",
       "documents": "Documents",
       "billing": "Billing",
-      "settings": "Settings"
+      "settings": "Settings",
+      "companies": "My Companies"
     },
     "overview": {
       "title": "Overview",
@@ -387,6 +388,56 @@
       "save": "Save Changes",
       "saved": "Saved successfully!",
       "subtitle": "Manage your account information and preferences."
+    },
+    "companies": {
+      "subtitle": "Manage all your companies and services in one place.",
+      "myCompanies": "My Companies",
+      "noCompaniesTitle": "No companies yet",
+      "noCompaniesDesc": "Get started by registering your first company with Gloyce.",
+      "addCompany": "Register a company",
+      "step": "Step {current} of {total}",
+      "viewDetails": "View details",
+      "actionNeeded": "Action needed",
+      "inProgress": "In progress",
+      "done": "Done",
+      "tabs": {
+        "status": "Status",
+        "forms": "Forms",
+        "documents": "Documents"
+      },
+      "status": {
+        "active": "Active",
+        "pending": "Pending",
+        "action_required": "Action required",
+        "complete": "Complete",
+        "completed": "Completed",
+        "in_progress": "In progress"
+      },
+      "formStatus": {
+        "pending": "To fill",
+        "draft": "Draft",
+        "submitted": "Submitted",
+        "approved": "Approved",
+        "gov_submitted": "Gov. submitted",
+        "needs_update": "Update required",
+        "completed": "Completed"
+      },
+      "noForms": "No forms assigned yet.",
+      "noDocuments": "No documents yet. Gloyce will upload them as your service progresses.",
+      "fillForm": "Fill form",
+      "updateForm": "Update",
+      "saveDraft": "Save draft",
+      "submitForm": "Submit",
+      "submittedSuccess": "Submitted successfully",
+      "closeForm": "Close",
+      "adminFeedback": "Feedback from Gloyce",
+      "govFeedback": "Government feedback",
+      "requiredForms": "Required forms",
+      "paymentSummary": "Payment",
+      "paid": "Paid",
+      "pending_payment": "Pending",
+      "view": "View",
+      "backToCompanies": "Back to My Companies"
     }
   },
   "common": {

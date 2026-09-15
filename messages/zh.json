@@ -234,7 +234,8 @@
       "documents": "文件",
       "requests": "Requests",
       "billing": "账单",
-      "settings": "设置"
+      "settings": "设置",
+      "companies": "我的公司"
     },
     "overview": {
       "title": "今日账户概览",
@@ -385,6 +386,56 @@
       "save": "保存更改",
       "saved": "保存成功！",
       "subtitle": "管理您的账户信息和偏好设置。"
+    },
+    "companies": {
+      "subtitle": "在一处管理您的所有公司和服务。",
+      "myCompanies": "我的公司",
+      "noCompaniesTitle": "暂无公司",
+      "noCompaniesDesc": "立即开始，通过 Gloyce 注册您的第一家公司。",
+      "addCompany": "注册公司",
+      "step": "第 {current} / {total} 步",
+      "viewDetails": "查看详情",
+      "actionNeeded": "需要处理",
+      "inProgress": "处理中",
+      "done": "已完成",
+      "tabs": {
+        "status": "状态",
+        "forms": "表单",
+        "documents": "文件"
+      },
+      "status": {
+        "active": "进行中",
+        "pending": "待处理",
+        "action_required": "需要操作",
+        "complete": "已完成",
+        "completed": "已完成",
+        "in_progress": "进行中"
+      },
+      "formStatus": {
+        "pending": "待填写",
+        "draft": "草稿",
+        "submitted": "已提交",
+        "approved": "已批准",
+        "gov_submitted": "已提交政府",
+        "needs_update": "需要更新",
+        "completed": "已完成"
+      },
+      "noForms": "暂无表单。",
+      "noDocuments": "暂无文件。Gloyce 将随服务进展上传文件。",
+      "fillForm": "填写表单",
+      "updateForm": "更新",
+      "saveDraft": "保存草稿",
+      "submitForm": "提交",
+      "submittedSuccess": "提交成功",
+      "closeForm": "关闭",
+      "adminFeedback": "Gloyce 的反馈",
+      "govFeedback": "政府反馈",
+      "requiredForms": "必填表单",
+      "paymentSummary": "付款",
+      "paid": "已付款",
+      "pending_payment": "待付款",
+      "view": "查看",
+      "backToCompanies": "返回公司列表"
     }
   },
   "common": {

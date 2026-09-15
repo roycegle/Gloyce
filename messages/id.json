@@ -234,7 +234,8 @@
       "documents": "Dokumen",
       "requests": "Requests",
       "billing": "Tagihan",
-      "settings": "Pengaturan"
+      "settings": "Pengaturan",
+      "companies": "Perusahaan Saya"
     },
     "overview": {
       "title": "Ikhtisar akun Anda hari ini",
@@ -385,6 +386,56 @@
       "save": "Simpan Perubahan",
       "saved": "Berhasil disimpan!",
       "subtitle": "Kelola informasi akun dan preferensi Anda."
+    },
+    "companies": {
+      "subtitle": "Kelola semua perusahaan dan layanan Anda di satu tempat.",
+      "myCompanies": "Perusahaan Saya",
+      "noCompaniesTitle": "Belum ada perusahaan",
+      "noCompaniesDesc": "Mulai dengan mendaftarkan perusahaan pertama Anda di Gloyce.",
+      "addCompany": "Daftarkan perusahaan",
+      "step": "Langkah {current} dari {total}",
+      "viewDetails": "Lihat detail",
+      "actionNeeded": "Perlu tindakan",
+      "inProgress": "Sedang diproses",
+      "done": "Selesai",
+      "tabs": {
+        "status": "Status",
+        "forms": "Formulir",
+        "documents": "Dokumen"
+      },
+      "status": {
+        "active": "Aktif",
+        "pending": "Tertunda",
+        "action_required": "Tindakan diperlukan",
+        "complete": "Selesai",
+        "completed": "Selesai",
+        "in_progress": "Sedang berlangsung"
+      },
+      "formStatus": {
+        "pending": "Perlu diisi",
+        "draft": "Draf",
+        "submitted": "Telah dikirim",
+        "approved": "Disetujui",
+        "gov_submitted": "Dikirim ke pemerintah",
+        "needs_update": "Perlu diperbarui",
+        "completed": "Selesai"
+      },
+      "noForms": "Belum ada formulir yang ditugaskan.",
+      "noDocuments": "Belum ada dokumen. Gloyce akan mengunggahnya seiring perkembangan layanan.",
+      "fillForm": "Isi formulir",
+      "updateForm": "Perbarui",
+      "saveDraft": "Simpan draf",
+      "submitForm": "Kirim",
+      "submittedSuccess": "Berhasil dikirim",
+      "closeForm": "Tutup",
+      "adminFeedback": "Masukan dari Gloyce",
+      "govFeedback": "Masukan dari pemerintah",
+      "requiredForms": "Formulir yang diperlukan",
+      "paymentSummary": "Pembayaran",
+      "paid": "Dibayar",
+      "pending_payment": "Tertunda",
+      "view": "Lihat",
+      "backToCompanies": "Kembali ke Perusahaan Saya"
     }
   },
   "common": {

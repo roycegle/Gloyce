@@ -234,7 +234,8 @@
       "requests": "Yêu cầu",
       "documents": "Tài liệu",
       "billing": "Thanh toán",
-      "settings": "Cài đặt"
+      "settings": "Cài đặt",
+      "companies": "Công ty của tôi"
     },
     "overview": {
       "title": "Tổng quan",
@@ -387,6 +388,56 @@
       "save": "Lưu thay đổi",
       "saved": "Đã lưu thành công!",
       "subtitle": "Quản lý thông tin tài khoản và tùy chọn của bạn."
+    },
+    "companies": {
+      "subtitle": "Quản lý tất cả công ty và dịch vụ của bạn tại một nơi.",
+      "myCompanies": "Công ty của tôi",
+      "noCompaniesTitle": "Chưa có công ty nào",
+      "noCompaniesDesc": "Bắt đầu bằng cách đăng ký công ty đầu tiên của bạn với Gloyce.",
+      "addCompany": "Đăng ký công ty",
+      "step": "Bước {current} / {total}",
+      "viewDetails": "Xem chi tiết",
+      "actionNeeded": "Cần xử lý",
+      "inProgress": "Đang xử lý",
+      "done": "Hoàn thành",
+      "tabs": {
+        "status": "Trạng thái",
+        "forms": "Biểu mẫu",
+        "documents": "Tài liệu"
+      },
+      "status": {
+        "active": "Đang hoạt động",
+        "pending": "Đang xử lý",
+        "action_required": "Cần xử lý",
+        "complete": "Hoàn thành",
+        "completed": "Hoàn thành",
+        "in_progress": "Đang thực hiện"
+      },
+      "formStatus": {
+        "pending": "Chờ điền",
+        "draft": "Bản nháp",
+        "submitted": "Đã nộp",
+        "approved": "Đã duyệt",
+        "gov_submitted": "Đã nộp cơ quan",
+        "needs_update": "Cần bổ sung",
+        "completed": "Hoàn thành"
+      },
+      "noForms": "Chưa có biểu mẫu nào.",
+      "noDocuments": "Chưa có tài liệu. Gloyce sẽ tải lên khi dịch vụ tiến triển.",
+      "fillForm": "Điền biểu mẫu",
+      "updateForm": "Cập nhật",
+      "saveDraft": "Lưu nháp",
+      "submitForm": "Nộp hồ sơ",
+      "submittedSuccess": "Nộp thành công",
+      "closeForm": "Đóng",
+      "adminFeedback": "Phản hồi từ Gloyce",
+      "govFeedback": "Phản hồi từ cơ quan",
+      "requiredForms": "Biểu mẫu cần điền",
+      "paymentSummary": "Thanh toán",
+      "paid": "Đã thanh toán",
+      "pending_payment": "Chờ thanh toán",
+      "view": "Xem",
+      "backToCompanies": "Về danh sách công ty"
     }
   },
   "common": {
