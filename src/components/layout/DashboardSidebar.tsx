@@ -15,7 +15,6 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 
 export function DashboardSidebar() {
   const t = useTranslations("dashboard.nav");
@@ -99,17 +98,7 @@ export function DashboardSidebar() {
             >
               <Icon className="shrink-0" size={18} />
               {!collapsed && (
-                <>
-                  <span className="flex-1">{item.label}</span>
-                  {item.badge && (
-                    <Badge variant="gold" className="text-[10px] px-1.5 py-0">
-                      {item.badge}
-                    </Badge>
-                  )}
-                </>
-              )}
-              {collapsed && item.badge && (
-                <span className="absolute top-1 right-1 w-2 h-2 bg-gold rounded-full" />
+                <span className="flex-1">{item.label}</span>
               )}
             </Link>
           );
