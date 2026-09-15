@@ -7,7 +7,6 @@ import { Badge } from "@/components/ui/badge";
 import {
   Briefcase,
   FileText,
-  MessageSquare,
   CreditCard,
   ChevronRight,
   AlertCircle,
@@ -34,11 +33,6 @@ interface Invoice {
   due_date?: string;
 }
 
-interface Message {
-  id: string;
-  read: boolean;
-}
-
 function formatDate(iso: string, locale: string) {
   return new Date(iso).toLocaleDateString(locale, { day: "2-digit", month: "2-digit", year: "numeric" });
 }
@@ -51,12 +45,10 @@ export default function DashboardOverviewPage() {
   const userName = session?.user?.name?.split(" ")[0] ?? "";
 
   const [services, setServices] = useState<Service[]>([]);
-  const [messages, setMessages] = useState<Message[]>([]);
   const [invoices, setInvoices] = useState<Invoice[]>([]);
 
   useEffect(() => {
     fetch("/api/dashboard/services").then(r => r.json()).then(d => setServices(Array.isArray(d) ? d : []));
-    fetch("/api/dashboard/messages").then(r => r.json()).then(d => setMessages(Array.isArray(d) ? d : []));
     fetch("/api/dashboard/invoices").then(r => r.json()).then(d => setInvoices(Array.isArray(d) ? d : []));
   }, []);
 
@@ -68,7 +60,6 @@ export default function DashboardOverviewPage() {
     completed: { label: ts("status.complete"), variant: "default" as const },
   };
 
-  const unreadCount = messages.filter(m => !m.read).length;
   const pendingInvoices = invoices.filter(i => i.status === "pending");
   const nextDue = pendingInvoices.sort((a, b) => new Date(a.due_date || "").getTime() - new Date(b.due_date || "").getTime())[0];
   const activeServices = services.filter(s => s.status === "active" || s.status === "pending").length;
@@ -76,7 +67,6 @@ export default function DashboardOverviewPage() {
   const STAT_CARDS = [
     { label: t("activeServices"), value: String(activeServices), icon: Briefcase, color: "text-gold", bg: "bg-gold/10 border-gold/20" },
     { label: t("pendingDocuments"), value: "—", icon: FileText, color: "text-amber-400", bg: "bg-amber-500/10 border-amber-500/20" },
-    { label: t("unreadMessages"), value: String(unreadCount), icon: MessageSquare, color: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20" },
     {
       label: t("nextBilling"),
       value: nextDue ? `$${nextDue.amount.toLocaleString()}` : "—",

@@ -3,9 +3,7 @@
 import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { CreditCard, RefreshCw, CheckCircle } from "lucide-react";
-import { Link } from "@/i18n/routing";
+import { CreditCard, CheckCircle } from "lucide-react";
 import { toast } from "sonner";
 
 interface Invoice {
@@ -171,16 +169,6 @@ export default function BillingPage() {
         </div>
       </div>
 
-      <div className="p-4 rounded-xl bg-navy-800 border border-navy-700 flex items-center gap-3">
-        <div className="w-9 h-9 rounded-lg bg-navy-700 flex items-center justify-center shrink-0">
-          <RefreshCw size={15} className="text-navy-400" />
-        </div>
-        <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-foreground">Questions about your invoice?</p>
-          <p className="text-xs text-navy-500 mt-0.5">Contact the Gloyce team for assistance.</p>
-        </div>
-        <Link href="/contact"><Button variant="secondary" size="sm">Contact</Button></Link>
-      </div>
     </div>
   );
 }
